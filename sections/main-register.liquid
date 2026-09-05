@@ -1,0 +1,131 @@
+{% comment %}
+  Create an account.
+
+  The password rule is stated up front and tied to the field with
+  `aria-describedby` rather than appearing only after a failed attempt. Telling
+  someone the constraint before they hit it is cheaper than telling them after.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-account' %}
+
+<div class="account-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="account-page__narrow">
+      <div class="account-page__panel">
+        <h1 class="account-page__title">{{ 'customers.register.title' | t }}</h1>
+
+        {% form 'create_customer', class: 'account-form', novalidate: 'novalidate' %}
+          {%- if form.errors -%}
+            <div class="form-error-summary" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="field">
+            <label class="field__label" for="RegisterFirstName">
+              {{- 'customers.register.first_name' | t -}}
+            </label>
+            <input
+              class="field__input"
+              id="RegisterFirstName"
+              type="text"
+              name="customer[first_name]"
+              value="{{ form.first_name }}"
+              autocomplete="given-name"
+            >
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="RegisterLastName">
+              {{- 'customers.register.last_name' | t -}}
+            </label>
+            <input
+              class="field__input"
+              id="RegisterLastName"
+              type="text"
+              name="customer[last_name]"
+              value="{{ form.last_name }}"
+              autocomplete="family-name"
+            >
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="RegisterEmail">{{ 'customers.register.email' | t }}</label>
+            <input
+              class="field__input"
+              id="RegisterEmail"
+              type="email"
+              name="customer[email]"
+              value="{{ form.email }}"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              required
+              {% if form.errors.messages.email %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="RegisterPassword">
+              {{- 'customers.register.password' | t -}}
+            </label>
+            <input
+              class="field__input"
+              id="RegisterPassword"
+              type="password"
+              name="customer[password]"
+              autocomplete="new-password"
+              required
+              aria-describedby="RegisterPasswordHelp"
+              {% if form.errors.messages.password %}aria-invalid="true"{% endif %}
+            >
+            <p class="account-page__help" id="RegisterPasswordHelp">
+              {{ 'customers.register.password_help' | t }}
+            </p>
+          </div>
+
+          <label class="account-page__check" for="RegisterMarketing">
+            <input
+              type="checkbox"
+              id="RegisterMarketing"
+              name="customer[accepts_marketing]"
+              value="true"
+            >
+            <span>{{ 'customers.register.marketing' | t }}</span>
+          </label>
+
+          <button class="button button--primary" type="submit">
+            {{- 'customers.register.submit' | t -}}
+          </button>
+
+          <p class="account-page__body">
+            {{ 'customers.register.has_account' | t }}
+            <a class="link-inline" href="{{ routes.account_login_url }}">
+              {{- 'customers.login.title' | t -}}
+            </a>
+          </p>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:general.register",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/register"]
+  }
+}
+{% endschema %}

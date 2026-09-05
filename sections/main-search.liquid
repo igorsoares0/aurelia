@@ -1,0 +1,351 @@
+{% comment %}
+  The search results page.
+
+  The heading is a `role="status"` so the outcome of a search is announced --
+  finding nothing is a result, and a customer who cannot see the page needs to
+  be told that as clearly as a customer who can.
+
+  Results are mixed: products, articles and pages, distinguished by
+  `object_type` rather than assumed to be products.
+
+  Filtering is required here as well as on a collection, and it is the same
+  sidebar-to-bottom-sheet arrangement, sharing the same snippet and the same
+  script.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-facets' %}
+
+{% liquid
+  assign per_page = section.settings.results_per_page
+  assign columns = section.settings.columns
+%}
+
+<aurelia-facets
+  class="search-page color-{{ section.settings.color_scheme }} full-width"
+  data-section-id="{{ section.id }}"
+>
+  <div class="band" data-facets-root>
+    <div class="search-page__inner">
+      <form class="search-page__form" action="{{ routes.search_url }}" method="get" role="search">
+        <div class="field search-page__field">
+          <label class="field__label" for="SearchPageInput">{{ 'search.label' | t }}</label>
+          <input
+            class="field__input"
+            id="SearchPageInput"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'search.placeholder' | t }}"
+            autocomplete="off"
+          >
+        </div>
+        <input type="hidden" name="options[prefix]" value="last">
+        <button class="button button--secondary" type="submit">{{ 'search.submit' | t }}</button>
+      </form>
+
+      {%- unless search.performed -%}
+        {%- comment -%}
+          Every template needs exactly one h1. Before a search is run there are
+          no results to name, so the page names itself.
+        {%- endcomment -%}
+        <h1 class="search-page__heading">{{ 'search.title' | t }}</h1>
+      {%- endunless -%}
+
+      {%- if search.performed -%}
+        <h1 class="search-page__heading" role="status">
+          {%- if search.results_count == 0 -%}
+            {{ 'search.no_results_html' | t: terms: search.terms }}
+          {%- elsif search.results_count == 1 -%}
+            {{ 'search.results_for_one_html' | t: terms: search.terms }}
+          {%- else -%}
+            {{ 'search.results_for_html' | t: count: search.results_count, terms: search.terms }}
+          {%- endif -%}
+        </h1>
+
+        {%- if search.results_count == 0 -%}
+          <div class="search-page__empty">
+            <p class="search-page__empty-body">{{ 'search.no_results_body' | t }}</p>
+            <div class="search-page__empty-actions">
+              <a class="button button--primary" href="{{ routes.all_products_collection_url }}">
+                {{- 'cart.continue_shopping' | t -}}
+              </a>
+              {%- if section.settings.empty_link != blank -%}
+                <a class="button button--secondary" href="{{ section.settings.empty_link }}">
+                  {{- section.settings.empty_link_label | escape -}}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- else -%}
+          {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+            <div class="collection__bar">
+              <button
+                class="button button--secondary collection__bar-button"
+                type="button"
+                data-overlay-open="SearchFilterSheet"
+                aria-expanded="false"
+                aria-controls="SearchFilterSheet"
+              >
+                {{ 'collections.filters' | t }}
+              </button>
+            </div>
+          {%- endif -%}
+
+          <div class="search-page__layout">
+            {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+              <div class="collection__sidebar-home" data-facets-home>
+                <div class="collection__sidebar collection__sidebar--sticky" data-facets-panel>
+                  {% render 'facets',
+                    results: search,
+                    id: 'SearchFacets',
+                    show_sort: section.settings.enable_sorting,
+                    show_filters: section.settings.enable_filtering
+                  %}
+                </div>
+              </div>
+            {%- endif -%}
+
+            <div class="search-page__main">
+              {% render 'active-facets', results: search %}
+
+          {%- paginate search.results by per_page -%}
+            <ul class="search-page__grid" id="SearchResults" style="--columns: {{ columns }};">
+              {%- for item in search.results -%}
+                <li>
+                  {%- case item.object_type -%}
+                    {%- when 'product' -%}
+                      {% render 'product-card',
+                        product: item,
+                        image_height: section.settings.image_height,
+                        sizes: '(min-width: 990px) 30vw, 45vw',
+                        heading_size: 'card__title--sm'
+                      %}
+
+                    {%- when 'article' -%}
+                      {% render 'article-card', article: item, image_height: section.settings.image_height %}
+
+                    {%- else -%}
+                      <div class="search-page__page-result">
+                        <p class="eyebrow eyebrow--quiet">{{ 'search.pages' | t }}</p>
+                        <h2 class="search-page__page-title">
+                          <a href="{{ item.url }}">{{ item.title | escape }}</a>
+                        </h2>
+                      </div>
+                  {%- endcase -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {% render 'pagination', paginate: paginate, label: 'Search pages', anchor: '#SearchResults' %}
+          {%- endpaginate -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <aurelia-overlay id="SearchFilterSheet" class="overlay overlay--bottom collection__sheet">
+    <button class="overlay__scrim" type="button" data-overlay-close>
+      <span class="visually-hidden">{{ 'general.close' | t }}</span>
+    </button>
+    <div class="overlay__sheet" role="dialog" aria-modal="true" aria-labelledby="SearchFilterSheetTitle">
+      <div class="collection__sheet-head">
+        <h2 class="eyebrow eyebrow--quiet" id="SearchFilterSheetTitle">{{ 'collections.filters' | t }}</h2>
+        <button class="collection__sheet-close" type="button" data-overlay-close>
+          <span class="visually-hidden">{{ 'general.close' | t }}</span>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="collection__sheet-body" data-facets-slot></div>
+    </div>
+  </aurelia-overlay>
+</aurelia-facets>
+
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+{% stylesheet %}
+  .search-page {
+    display: block;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .search-page__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-11) var(--space-24);
+  }
+
+  .search-page__form {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    max-width: 34rem;
+  }
+
+  .search-page__field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .search-page__heading {
+    font-size: var(--text-display-lg);
+    line-height: 1.12;
+  }
+
+  .search-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    max-width: 38ch;
+  }
+
+  .search-page__empty-body {
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+
+  .search-page__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .search-page__layout {
+    display: grid;
+    grid-template-columns: 238px minmax(0, 1fr);
+    gap: var(--space-13);
+    align-items: start;
+  }
+
+  .search-page__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+  }
+
+  .search-page__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-13) var(--space-9);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .search-page__page-result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .search-page__page-title {
+    font-size: var(--text-title);
+    line-height: var(--leading-title);
+  }
+
+  .search-page__page-title a {
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .search-page__layout {
+    display: grid;
+    grid-template-columns: 238px minmax(0, 1fr);
+    gap: var(--space-13);
+    align-items: start;
+  }
+
+  .search-page__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+  }
+
+  .search-page__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8) var(--space-4);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.search_results",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "t:labels.results_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "t:general.filtering"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "t:labels.enable_filtering",
+      "info": "t:info.enable_filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "t:labels.enable_sorting",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 320
+    },
+    {
+      "type": "text",
+      "id": "empty_link_label",
+      "label": "t:labels.button_label",
+      "default": "Ask for a commission"
+    },
+    {
+      "type": "url",
+      "id": "empty_link",
+      "label": "t:labels.button_link"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["search"]
+  }
+}
+{% endschema %}

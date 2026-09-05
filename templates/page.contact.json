@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": { "color_scheme": "ground", "layout": "page--plain" }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Write to us",
+        "intro": "<p>A person reads every message. We reply within two working days.</p>"
+      }
+    }
+  },
+  "order": ["main", "form"]
+}

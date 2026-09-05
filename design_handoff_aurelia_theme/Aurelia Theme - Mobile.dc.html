@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#e9e5dd;font-family:'Work Sans',system-ui,sans-serif}
+a{color:#7A5E30}
+a:hover{color:#16130F}
+*:focus-visible{outline:2px solid #16130F;outline-offset:3px}
+label:focus-within>span{outline:2px solid #16130F;outline-offset:3px}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08)}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.dv-tid{font:500 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#16130F;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:500 13px/1.2 'Work Sans',sans-serif;color:#16130F;letter-spacing:.02em}
+.dv-opts{display:flex;flex-wrap:nowrap;gap:32px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px}
+.dv-oid{font:500 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#16130F;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:9px;max-width:390px;font:400 11.5px/1.35 'Work Sans',sans-serif;color:rgba(22,19,15,.62)}
+.dv-card{width:390px;background:#F5F2EC;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden}
+.dv-opt:target .dv-oid{background:#7A5E30;color:#fff}
+.dv-next{margin:24px 0 0;font:12.5px/1.6 'Work Sans',sans-serif;color:rgba(22,19,15,.55)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t12">
+<div class="dv-thd"><a class="dv-tid" href="#t12">12</a><span class="dv-tname">The last mobile states — filter sheet and search overlay</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="12a">
+<div class="dv-olabel"><a class="dv-oid" href="#12a">12a</a>Filter sheet — modal from the bottom, result count live, apply pinned</div>
+<div class="dv-card" data-screen-label="Filter sheet · mobile" style="position:relative;height:780px">
+<div aria-hidden="true" style="position:absolute;inset:0;background:#F5F2EC;padding:20px;overflow:hidden">
+<p style="margin:0 0 20px;text-align:center;font:400 18px/1 'Playfair Display',serif;letter-spacing:.3em;color:#16130F">AURELIA</p>
+<h2 style="margin:0 0 18px;font:400 38px/1.1 'Playfair Display',serif;color:#16130F">Rings</h2>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px"><div style="height:212px;background:#EDE8DF"></div><div style="height:212px;background:#EDE8DF"></div></div>
+</div>
+<div aria-hidden="true" style="position:absolute;inset:0;background:rgba(22,19,15,.44)"></div>
+<div role="dialog" aria-modal="true" aria-labelledby="12a-t" style="position:absolute;left:0;right:0;bottom:0;max-height:88%;display:flex;flex-direction:column;background:#F5F2EC;box-shadow:0 -18px 44px rgba(22,19,15,.24)">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(22,19,15,.14)">
+<h2 id="12a-t" style="margin:0;font:500 12.5px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#16130F">Filter &amp; sort</h2>
+<button type="button" aria-label="Close filters" style="min-width:44px;min-height:44px;border:0;background:none;font:400 22px/1 'Work Sans',sans-serif;color:#16130F;cursor:pointer">×</button>
+</div>
+<div style="flex:1;overflow-y:auto;padding:4px 20px 20px">
+<div style="padding:18px 0 0">
+<label for="12a-sort" style="display:block;margin-bottom:10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Sort</label>
+<select id="12a-sort" style="width:100%;min-height:48px;padding:0 12px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:400 15px 'Work Sans',sans-serif;color:#16130F">
+<option>Chapter order</option><option>Price, low to high</option><option>Price, high to low</option><option>Newest</option>
+</select>
+</div>
+<fieldset style="border:0;border-top:1px solid rgba(22,19,15,.16);margin:22px 0 0;padding:18px 0 0">
+<legend style="padding:0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Material</legend>
+<div style="display:flex;flex-direction:column;margin-top:8px">
+<label style="display:flex;align-items:center;gap:12px;min-height:52px;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;cursor:pointer;border-bottom:1px solid rgba(22,19,15,.1)"><input type="checkbox" checked style="width:20px;height:20px;accent-color:#16130F">18k recycled gold <span style="color:#5C554C">(4)</span></label>
+<label style="display:flex;align-items:center;gap:12px;min-height:52px;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;cursor:pointer;border-bottom:1px solid rgba(22,19,15,.1)"><input type="checkbox" style="width:20px;height:20px;accent-color:#16130F">Silver 950 <span style="color:#5C554C">(2)</span></label>
+<label style="display:flex;align-items:center;gap:12px;min-height:52px;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;cursor:pointer;border-bottom:1px solid rgba(22,19,15,.1)"><input type="checkbox" style="width:20px;height:20px;accent-color:#16130F">With stones <span style="color:#5C554C">(3)</span></label>
+</div>
+</fieldset>
+<fieldset style="border:0;border-top:1px solid rgba(22,19,15,.16);margin:22px 0 0;padding:18px 0 0">
+<legend style="padding:0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Availability</legend>
+<div style="display:flex;flex-direction:column;margin-top:8px">
+<label style="display:flex;align-items:center;gap:12px;min-height:52px;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;cursor:pointer;border-bottom:1px solid rgba(22,19,15,.1)"><input type="checkbox" style="width:20px;height:20px;accent-color:#16130F">Ready to ship <span style="color:#5C554C">(3)</span></label>
+<label style="display:flex;align-items:center;gap:12px;min-height:52px;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;cursor:pointer;border-bottom:1px solid rgba(22,19,15,.1)"><input type="checkbox" style="width:20px;height:20px;accent-color:#16130F">Made to order <span style="color:#5C554C">(3)</span></label>
+</div>
+</fieldset>
+</div>
+<div style="border-top:1px solid rgba(22,19,15,.16);padding:14px 20px 18px;display:flex;align-items:center;gap:12px">
+<button type="button" style="min-height:52px;padding:0 20px;border:1px solid rgba(22,19,15,.35);background:none;font:500 12px 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F;cursor:pointer">Clear</button>
+<button type="button" aria-describedby="12a-count" style="flex:1;min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer">Show 4 pieces</button>
+</div>
+<p id="12a-count" role="status" style="margin:0;padding:0 20px 14px;font:400 13px/1.5 'Work Sans',sans-serif;color:#5C554C">4 of 6 pieces match</p>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="12b">
+<div class="dv-olabel"><a class="dv-oid" href="#12b">12b</a>Search — full-screen, keyboard up, results as you type</div>
+<div class="dv-card" data-screen-label="Search · mobile" style="position:relative;height:780px;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(22,19,15,.14)">
+<form role="search" style="flex:1;display:flex;align-items:center;gap:10px">
+<label for="12b-q" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Search the store</label>
+<input id="12b-q" type="search" value="signet" autocomplete="off" aria-describedby="12b-count" style="flex:1;min-width:0;min-height:48px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:400 16px 'Work Sans',sans-serif;color:#16130F">
+</form>
+<button type="button" style="min-height:48px;padding:0 6px;border:0;background:none;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Cancel</button>
+</div>
+<div style="flex:1;overflow-y:auto">
+<p id="12b-count" aria-live="polite" style="margin:0;padding:14px 20px 10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">3 pieces for “signet”</p>
+<ul style="list-style:none;margin:0;padding:0 20px">
+<li style="border-bottom:1px solid rgba(22,19,15,.12)"><a href="#11b" style="display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;text-decoration:none;color:inherit">
+<span style="position:relative;display:block;width:72px;height:86px;background:#EDE8DF;overflow:hidden"><image-slot id="ms-r1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span>
+<span><span style="display:block;font:400 19px/1.25 'Playfair Display',serif;color:#16130F">The Signet</span><span style="display:block;margin-top:4px;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">18k recycled gold</span></span>
+<span style="font:500 14px/1 'Work Sans',sans-serif;color:#16130F;white-space:nowrap">R$&nbsp;4.280</span>
+</a></li>
+<li style="border-bottom:1px solid rgba(22,19,15,.12)"><a href="#11b" style="display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;text-decoration:none;color:inherit">
+<span style="position:relative;display:block;width:72px;height:86px;background:#EDE8DF;overflow:hidden"><image-slot id="ms-r2" shape="rect" placeholder="Piece" aria-label="Signet Petit"></image-slot></span>
+<span><span style="display:block;font:400 19px/1.25 'Playfair Display',serif;color:#16130F">Signet Petit</span><span style="display:block;margin-top:4px;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">Smaller oval face</span></span>
+<span style="font:500 14px/1 'Work Sans',sans-serif;color:#16130F;white-space:nowrap">R$&nbsp;3.140</span>
+</a></li>
+<li style="border-bottom:1px solid rgba(22,19,15,.12)"><a href="#11b" style="display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;text-decoration:none;color:inherit">
+<span style="position:relative;display:block;width:72px;height:86px;background:#EDE8DF;overflow:hidden"><image-slot id="ms-r3" shape="rect" placeholder="Piece" aria-label="Signet in silver"></image-slot></span>
+<span><span style="display:block;font:400 19px/1.25 'Playfair Display',serif;color:#16130F">Signet, Silver</span><span style="display:block;margin-top:4px;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">Silver 950</span></span>
+<span style="font:500 14px/1 'Work Sans',sans-serif;color:#16130F;white-space:nowrap">R$&nbsp;1.480</span>
+</a></li>
+</ul>
+<section aria-labelledby="12b-j" style="padding:20px 20px 0">
+<h2 id="12b-j" style="margin:0 0 8px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">From the notebook</h2>
+<a href="#11d" style="min-height:48px;display:flex;align-items:center;font:400 16px/1.5 'Work Sans',sans-serif;color:#16130F;text-decoration:none;border-bottom:1px solid rgba(22,19,15,.12)">Why we engrave by hand →</a>
+</section>
+<section aria-labelledby="12b-s" style="padding:20px 20px 24px">
+<h2 id="12b-s" style="margin:0 0 6px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Suggestions</h2>
+<ul style="list-style:none;margin:0;padding:0">
+<li><a href="#12b" style="min-height:48px;display:flex;align-items:center;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;text-decoration:none">signet, engraved</a></li>
+<li><a href="#12b" style="min-height:48px;display:flex;align-items:center;font:400 15.5px 'Work Sans',sans-serif;color:#16130F;text-decoration:none">how to size a signet</a></li>
+</ul>
+</section>
+</div>
+<div aria-hidden="true" style="border-top:1px solid rgba(22,19,15,.2);background:#D6D1C8;height:210px;display:flex;align-items:center;justify-content:center;font:400 13px 'Work Sans',sans-serif;color:#5C554C">System keyboard</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "now the desktop states — paginated collection, empty filter result, PDP gallery with video" · "the style guide"</p>
+</section>
+
+<section class="dv-turn" id="t11">
+<div class="dv-thd"><a class="dv-tid" href="#t11">11</a><span class="dv-tname">The rest of the theme at 390pt — collection, PDP, cart, journal, account</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="11a">
+<div class="dv-olabel"><a class="dv-oid" href="#11a">11a</a>Collection — filters behind a sticky bar, 2-up grid, count announced</div>
+<div class="dv-card" data-screen-label="Collection · mobile">
+<header style="border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px">
+<button type="button" aria-label="Open menu" aria-expanded="false" style="min-width:44px;min-height:44px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0">
+<span aria-hidden="true" style="display:block;width:22px;height:1px;background:#16130F"></span>
+<span aria-hidden="true" style="display:block;width:22px;height:1px;background:#16130F"></span>
+</button>
+<a href="#11a" aria-label="Aurelia — home" style="font:400 18px/1 'Playfair Display',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em;min-height:44px;display:inline-flex;align-items:center">AURELIA</a>
+<button type="button" aria-label="Bag, empty" style="min-width:44px;min-height:44px;border:0;background:none;font:500 12px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">(0)</button>
+</div>
+</header>
+<main>
+<div style="padding:16px 20px 0">
+<nav aria-label="Breadcrumb"><ol style="list-style:none;margin:0;padding:0;display:flex;gap:8px;font:400 13px/1 'Work Sans',sans-serif;color:#5C554C"><li><a href="#11a" style="color:#5C554C">Home</a></li><li aria-hidden="true">/</li><li><span aria-current="page" style="color:#16130F">Rings</span></li></ol></nav>
+<p style="margin:18px 0 12px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">Chapter IV · Autumn</p>
+<h1 style="margin:0;font:400 40px/1.1 'Playfair Display',serif;color:#16130F">Rings</h1>
+<p style="margin:14px 0 20px;font:400 15px/1.75 'Work Sans',sans-serif;color:#463F38;text-wrap:pretty">Cast one at a time in recycled 18k, numbered on the inner band.</p>
+</div>
+<div style="position:sticky;top:0;z-index:2;display:flex;gap:10px;padding:12px 20px;background:#F5F2EC;border-top:1px solid rgba(22,19,15,.14);border-bottom:1px solid rgba(22,19,15,.14)">
+<button type="button" aria-expanded="false" style="flex:1;min-height:44px;border:1px solid rgba(22,19,15,.3);background:none;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Filter <span style="color:#7A5E30">(1)</span></button>
+<button type="button" aria-expanded="false" style="flex:1;min-height:44px;border:1px solid rgba(22,19,15,.3);background:none;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Sort</button>
+</div>
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 20px 0">
+<span style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px 0 12px;background:#EFEBE2;font:400 13px 'Work Sans',sans-serif;color:#16130F">18k gold <button type="button" aria-label="Remove filter: 18k gold" style="min-width:44px;min-height:44px;margin:0 -12px 0 -6px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#5C554C;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center">×</button></span>
+<p role="status" style="margin:0;font:400 13px/1 'Work Sans',sans-serif;color:#5C554C">4 of 6 pieces</p>
+</div>
+<ul style="list-style:none;margin:0;padding:20px 20px 40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px">
+<sc-for list="{{ four }}" as="p" hint-placeholder-count="4">
+<li><a href="#11b" style="text-decoration:none;color:inherit;display:block">
+<span style="position:relative;display:block;width:100%;height:212px;background:#EDE8DF;overflow:hidden"><image-slot id="{{ p.slotColl }}" shape="rect" placeholder="Piece" aria-label="{{ p.name }}"></image-slot></span>
+<span style="display:block;margin-top:11px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7A5E30">{{ p.no }}</span>
+<span style="display:block;margin-top:6px;font:400 18px/1.25 'Playfair Display',serif;color:#16130F">{{ p.name }}</span>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:500 13px/1 'Work Sans',sans-serif;color:#16130F">{{ p.price }}</span></sc-if>
+</a></li>
+</sc-for>
+</ul>
+</main>
+</div>
+</div>
+
+<div class="dv-opt" id="11b">
+<div class="dv-olabel"><a class="dv-oid" href="#11b">11b</a>PDP — swipe gallery with counter, specs as disclosures, sticky buy bar</div>
+<div class="dv-card" data-screen-label="Product · mobile" style="position:relative">
+<header style="border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px">
+<a href="#11a" aria-label="Back to Rings" style="min-width:44px;min-height:44px;display:inline-flex;align-items:center;font:500 12px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;text-decoration:none">← Rings</a>
+<a href="#11b" aria-label="Aurelia — home" style="font:400 18px/1 'Playfair Display',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em;min-height:44px;display:inline-flex;align-items:center">AURELIA</a>
+<button type="button" aria-label="Bag, empty" style="min-width:44px;min-height:44px;border:0;background:none;font:500 12px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">(0)</button>
+</div>
+</header>
+<main style="padding-bottom:92px">
+<div style="position:relative">
+<ul tabindex="0" aria-label="Product photographs, horizontally scrollable" style="list-style:none;margin:0;padding:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory">
+<li style="flex:none;width:390px;scroll-snap-align:start"><span style="position:relative;display:block;width:390px;height:430px;background:#EDE8DF"><image-slot id="m-pdp1" shape="rect" placeholder="Product — on the hand" aria-label="The Signet worn on a hand"></image-slot></span></li>
+<li style="flex:none;width:390px;scroll-snap-align:start"><span style="position:relative;display:block;width:390px;height:430px;background:#EDE8DF"><image-slot id="m-pdp2" shape="rect" placeholder="Detail — engraving macro" aria-label="Macro of the engraved band"></image-slot></span></li>
+<li style="flex:none;width:390px;scroll-snap-align:start"><span style="position:relative;display:block;width:390px;height:430px;background:#EDE8DF"><image-slot id="m-pdp3" shape="rect" placeholder="Detail — on stone" aria-label="The ring photographed on stone"></image-slot></span></li>
+</ul>
+<p aria-live="polite" style="position:absolute;right:14px;bottom:14px;margin:0;padding:6px 12px;background:rgba(22,19,15,.82);color:#F5F2EC;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.1em">1 / 3</p>
+</div>
+<div style="padding:24px 20px 0">
+<p style="margin:0 0 10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">No. 01 · Chapter IV</p>
+<h1 style="margin:0;font:400 38px/1.1 'Playfair Display',serif;color:#16130F">The Signet</h1>
+<p style="margin:12px 0 0;font:500 18px/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;4.280</p>
+<p style="margin:6px 0 0;font:400 13.5px/1.6 'Work Sans',sans-serif;color:#5C554C">or 6× R$ 713 interest-free</p>
+<p style="margin:18px 0 0;font:400 15.5px/1.8 'Work Sans',sans-serif;color:#463F38;text-wrap:pretty">A heavy oval face on a tapered band, engraved by hand with your initials or nothing at all.</p>
+</div>
+<form style="padding:26px 20px 0;display:flex;flex-direction:column;gap:24px">
+<fieldset style="border:0;margin:0;padding:0">
+<legend style="padding:0 0 12px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Metal — yellow gold</legend>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<label style="cursor:pointer;position:relative"><input type="radio" name="mb-metal" checked style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1.5px solid #16130F;font:400 14px 'Work Sans',sans-serif;color:#16130F;white-space:nowrap"><span aria-hidden="true" style="width:16px;height:16px;border-radius:50%;background:#C9A44C;border:1px solid rgba(22,19,15,.35)"></span>Yellow</span></label>
+<label style="cursor:pointer;position:relative"><input type="radio" name="mb-metal" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1px solid rgba(22,19,15,.3);font:400 14px 'Work Sans',sans-serif;color:#16130F;white-space:nowrap"><span aria-hidden="true" style="width:16px;height:16px;border-radius:50%;background:#E3C6BC;border:1px solid rgba(22,19,15,.35)"></span>Rose</span></label>
+<label style="cursor:pointer;position:relative"><input type="radio" name="mb-metal" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1px solid rgba(22,19,15,.3);font:400 14px 'Work Sans',sans-serif;color:#16130F;white-space:nowrap"><span aria-hidden="true" style="width:16px;height:16px;border-radius:50%;background:#D9D9D4;border:1px solid rgba(22,19,15,.35)"></span>Silver</span></label>
+</div>
+</fieldset>
+<fieldset style="border:0;margin:0;padding:0">
+<legend style="padding:0 0 12px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Size — 14</legend>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<label style="cursor:pointer;position:relative"><input type="radio" name="mb-size" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:48px;border:1px solid rgba(22,19,15,.3);font:400 15px 'Work Sans',sans-serif;color:#16130F">12</span></label>
+<label style="cursor:pointer;position:relative"><input type="radio" name="mb-size" checked style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:48px;border:1.5px solid #16130F;background:#16130F;color:#F5F2EC;font:400 15px 'Work Sans',sans-serif">14</span></label>
+<label style="cursor:pointer;position:relative"><input type="radio" name="mb-size" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:48px;border:1px solid rgba(22,19,15,.3);font:400 15px 'Work Sans',sans-serif;color:#16130F">16</span></label>
+<label style="cursor:not-allowed;position:relative"><input type="radio" name="mb-size" disabled style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:48px;border:1px dashed rgba(22,19,15,.28);color:#6E6659;font:400 15px 'Work Sans',sans-serif">18</span></label>
+</div>
+<p style="margin:11px 0 0;font:400 13.5px/1.65 'Work Sans',sans-serif;color:#5C554C">Size 18 is out in yellow. Unsure? <a href="#11b">Free brass sizer</a> — resizing is free for life.</p>
+</fieldset>
+<div>
+<label for="mb-eng" style="display:block;margin-bottom:10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Engraving <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional, 3 characters)</span></label>
+<input id="mb-eng" type="text" maxlength="3" placeholder="M.A." aria-describedby="mb-eng-help" style="width:140px;min-height:48px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:400 15px 'Work Sans',sans-serif;color:#16130F">
+<p id="mb-eng-help" style="margin:10px 0 0;font:400 13.5px/1.65 'Work Sans',sans-serif;color:#5C554C">Engraved pieces ship in 10 days and can still be returned.</p>
+</div>
+</form>
+<div style="padding:26px 20px 20px">
+<details open style="border-top:1px solid rgba(22,19,15,.18)"><summary style="cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:14px;font:400 18px/1.35 'Playfair Display',serif;color:#16130F">Specification<span aria-hidden="true" style="font:400 19px 'Work Sans',sans-serif;color:#7A5E30">−</span></summary>
+<dl style="margin:0;padding:0 0 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;font:400 14.5px/1.65 'Work Sans',sans-serif;color:#16130F">
+<dt style="color:#5C554C">Material</dt><dd style="margin:0">18k recycled gold, 9.4g</dd>
+<dt style="color:#5C554C">Face</dt><dd style="margin:0">13 × 11mm oval, brushed</dd>
+<dt style="color:#5C554C">Made in</dt><dd style="margin:0">Belo Horizonte, by Túlio</dd>
+</dl>
+</details>
+<details style="border-top:1px solid rgba(22,19,15,.18)"><summary style="cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:14px;font:400 18px/1.35 'Playfair Display',serif;color:#16130F">Shipping &amp; returns<span aria-hidden="true" style="font:400 19px 'Work Sans',sans-serif;color:#7A5E30">+</span></summary><p style="margin:0;padding:0 0 18px;font:400 14.5px/1.75 'Work Sans',sans-serif;color:#463F38">Insured and included worldwide. Thirty days to return, engraved or not.</p></details>
+<details style="border-top:1px solid rgba(22,19,15,.18);border-bottom:1px solid rgba(22,19,15,.18)"><summary style="cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:14px;font:400 18px/1.35 'Playfair Display',serif;color:#16130F">Care<span aria-hidden="true" style="font:400 19px 'Work Sans',sans-serif;color:#7A5E30">+</span></summary><p style="margin:0;padding:0 0 18px;font:400 14.5px/1.75 'Work Sans',sans-serif;color:#463F38">Warm water and a soft cloth. Polishing and resizing are free, for life.</p></details>
+</div>
+<section aria-labelledby="mb-rel" style="padding:8px 20px 32px">
+<h2 id="mb-rel" style="margin:0 0 16px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Worn with</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+<li><a href="#11b" style="text-decoration:none;color:inherit"><span style="position:relative;display:block;width:100%;height:180px;background:#EDE8DF;overflow:hidden"><image-slot id="m-rel1" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:10px;font:400 17px/1.25 'Playfair Display',serif;color:#16130F">Cadena Fina</span><span style="display:block;margin-top:4px;font:500 13px/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;2.940</span></a></li>
+<li><a href="#11b" style="text-decoration:none;color:inherit"><span style="position:relative;display:block;width:100%;height:180px;background:#EDE8DF;overflow:hidden"><image-slot id="m-rel2" shape="rect" placeholder="Piece" aria-label="Linha Band"></image-slot></span><span style="display:block;margin-top:10px;font:400 17px/1.25 'Playfair Display',serif;color:#16130F">Linha Band</span><span style="display:block;margin-top:4px;font:500 13px/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;1.960</span></a></li>
+</ul>
+</section>
+</main>
+<div style="position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;padding:14px 20px 16px;background:#F5F2EC;border-top:1px solid rgba(22,19,15,.16);box-shadow:0 -8px 24px rgba(22,19,15,.09)">
+<div style="min-width:0">
+<p style="margin:0;font:400 13px/1.3 'Work Sans',sans-serif;color:#5C554C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Size 14 · yellow</p>
+<p style="margin:2px 0 0;font:500 16px/1.2 'Work Sans',sans-serif;color:#16130F">R$&nbsp;4.280</p>
+</div>
+<button type="button" style="flex:1;min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer">Add to bag</button>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="11c">
+<div class="dv-olabel"><a class="dv-oid" href="#11c">11c</a>Cart — full-screen sheet, summary pinned, checkout always in thumb reach</div>
+<div class="dv-card" data-screen-label="Cart · mobile" style="position:relative;height:780px;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(22,19,15,.14)">
+<h1 style="margin:0;font:500 12.5px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#16130F">Your bag — 2</h1>
+<button type="button" aria-label="Close bag" style="min-width:44px;min-height:44px;border:0;background:none;font:400 22px/1 'Work Sans',sans-serif;color:#16130F;cursor:pointer">×</button>
+</div>
+<div style="flex:1;overflow-y:auto;padding:0 20px">
+<ul style="list-style:none;margin:0;padding:0">
+<li style="display:grid;grid-template-columns:84px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid rgba(22,19,15,.12)">
+<span style="position:relative;display:block;width:84px;height:100px;background:#EDE8DF;overflow:hidden"><image-slot id="m-cart1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span>
+<span style="min-width:0">
+<span style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><span style="font:400 19px/1.25 'Playfair Display',serif;color:#16130F">The Signet</span><span style="font:500 14px/1.4 'Work Sans',sans-serif;color:#16130F;white-space:nowrap">R$&nbsp;4.280</span></span>
+<span style="display:block;margin-top:5px;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">Size 14 · engraved “M.A.”</span>
+<span style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px">
+<span style="display:inline-flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity of The Signet" style="min-width:44px;min-height:44px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:30px;text-align:center;font:400 14px 'Work Sans',sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity of The Signet" style="min-width:44px;min-height:44px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+<button type="button" style="min-height:44px;border:0;background:none;padding:0;font:400 13px 'Work Sans',sans-serif;color:#5C554C;text-decoration:underline;cursor:pointer">Remove</button>
+</span>
+</span>
+</li>
+<li style="display:grid;grid-template-columns:84px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid rgba(22,19,15,.12)">
+<span style="position:relative;display:block;width:84px;height:100px;background:#EDE8DF;overflow:hidden"><image-slot id="m-cart2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span>
+<span style="min-width:0">
+<span style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><span style="font:400 19px/1.25 'Playfair Display',serif;color:#16130F">Cadena Fina</span><span style="font:500 14px/1.4 'Work Sans',sans-serif;color:#16130F;white-space:nowrap">R$&nbsp;2.940</span></span>
+<span style="display:block;margin-top:5px;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">45cm · ready to ship</span>
+<span style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px">
+<span style="display:inline-flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity of Cadena Fina" style="min-width:44px;min-height:44px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:30px;text-align:center;font:400 14px 'Work Sans',sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity of Cadena Fina" style="min-width:44px;min-height:44px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+<button type="button" style="min-height:44px;border:0;background:none;padding:0;font:400 13px 'Work Sans',sans-serif;color:#5C554C;text-decoration:underline;cursor:pointer">Remove</button>
+</span>
+</span>
+</li>
+</ul>
+<details style="margin:18px 0 24px;border-top:1px solid rgba(22,19,15,.14);border-bottom:1px solid rgba(22,19,15,.14)">
+<summary style="cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:space-between;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F">Gift note &amp; order note<span aria-hidden="true" style="font:400 19px 'Work Sans',sans-serif;color:#7A5E30">+</span></summary>
+<div style="padding:0 0 18px">
+<label for="mc-note" style="display:block;margin-bottom:9px;font:400 13.5px/1 'Work Sans',sans-serif;color:#463F38">Written by hand on our card.</label>
+<textarea id="mc-note" rows="3" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:400 14.5px/1.6 'Work Sans',sans-serif;color:#16130F;resize:vertical"></textarea>
+</div>
+</details>
+</div>
+<div style="border-top:1px solid rgba(22,19,15,.16);padding:16px 20px 20px;background:#F5F2EC">
+<div style="display:flex;justify-content:space-between;font:400 14px/1.8 'Work Sans',sans-serif;color:#463F38"><span>Subtotal</span><span>R$&nbsp;7.220</span></div>
+<div style="display:flex;justify-content:space-between;font:400 14px/1.8 'Work Sans',sans-serif;color:#463F38;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.12)"><span>Insured shipping</span><span>Included</span></div>
+<div style="display:flex;justify-content:space-between;padding:12px 0 14px;font:500 17px/1.3 'Work Sans',sans-serif;color:#16130F"><span>Total</span><span>R$&nbsp;7.220</span></div>
+<button type="button" style="width:100%;min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer">Checkout</button>
+<p style="margin:12px 0 0;text-align:center;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">Free resizing for life · 30-day returns</p>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="11d">
+<div class="dv-olabel"><a class="dv-oid" href="#11d">11d</a>Article — measure held at 38ch, topics scroll, share pinned to the end</div>
+<div class="dv-card" data-screen-label="Article · mobile">
+<header style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(22,19,15,.12)">
+<a href="#11d" aria-label="Back to the notebook" style="min-width:44px;min-height:44px;display:inline-flex;align-items:center;font:500 12px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;text-decoration:none">← Journal</a>
+<a href="#11d" aria-label="Aurelia — home" style="font:400 18px/1 'Playfair Display',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em;min-height:44px;display:inline-flex;align-items:center">AURELIA</a>
+<button type="button" aria-label="Bag, empty" style="min-width:44px;min-height:44px;border:0;background:none;font:500 12px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">(0)</button>
+</header>
+<main>
+<article>
+<div style="padding:28px 20px 0">
+<p style="margin:0 0 14px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">Making · 6 min read</p>
+<h1 style="margin:0;font:400 34px/1.16 'Playfair Display',serif;color:#16130F;text-wrap:pretty">Why we engrave by hand, and why it takes ten days</h1>
+<p style="margin:16px 0 0;font:400 13.5px/1.6 'Work Sans',sans-serif;color:#5C554C"><time datetime="2026-08-19">19 August 2026</time> · Túlio Menezes</p>
+</div>
+<figure style="margin:24px 0 0">
+<div style="position:relative;width:100%;height:300px;background:#EDE8DF"><image-slot id="m-arhero" shape="rect" placeholder="Article hero" aria-label="A graver cutting a letter into gold"></image-slot></div>
+<figcaption style="margin:10px 20px 0;font:400 13px/1.6 'Work Sans',sans-serif;color:#5C554C">Fig. 01 — A bright cut, 0.4mm wide, made in one pass.</figcaption>
+</figure>
+<div style="padding:26px 20px 0;max-width:38ch;margin:0 auto">
+<p style="margin:0 0 20px;font:400 17px/1.85 'Work Sans',sans-serif;color:#2C2823;text-wrap:pretty"><span style="float:left;font:400 50px/.84 'Playfair Display',serif;color:#16130F;margin:5px 12px 0 0">A</span> machine cuts identical letters, at identical depth, with a matte floor. It is fast and correct, and it is why most engraving looks like a label rather than part of the ring.</p>
+<p style="margin:0 0 20px;font:400 16px/1.85 'Work Sans',sans-serif;color:#2C2823;text-wrap:pretty">A hand graver pushes metal aside instead of removing it. The wall of the cut stays mirror-bright, so the letter flashes as your hand turns and then disappears.</p>
+<blockquote style="margin:28px 0;padding:20px 0;border-top:1px solid rgba(22,19,15,.2);border-bottom:1px solid rgba(22,19,15,.2)"><p style="margin:0;font:400 24px/1.4 'Playfair Display',serif;color:#16130F;text-wrap:pretty">“You are not cutting the letter. You are cutting the light that will sit inside it.”</p></blockquote>
+<h2 style="margin:26px 0 12px;font:400 26px/1.25 'Playfair Display',serif;color:#16130F">The ten days, accounted for</h2>
+<p style="margin:0 0 20px;font:400 16px/1.85 'Work Sans',sans-serif;color:#2C2823;text-wrap:pretty">Three days to cast, clean and pre-polish. One to lay out the letters and get your approval by photo. One to cut. Two to re-finish the face. Three in the queue, because there is one bench.</p>
+</div>
+<div style="padding:8px 20px 28px">
+<a href="#11b" style="width:100%;box-sizing:border-box;min-height:52px;display:inline-flex;align-items:center;justify-content:center;background:#16130F;color:#F5F2EC;text-decoration:none;font:500 12px 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase">Shop The Signet</a>
+</div>
+</article>
+<nav aria-label="More articles" style="border-top:1px solid rgba(22,19,15,.14);padding:22px 20px 34px;display:flex;flex-direction:column;gap:16px">
+<a href="#11d" style="text-decoration:none;color:inherit"><span style="display:block;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#5C554C">Previous</span><span style="display:block;margin-top:7px;font:400 20px/1.3 'Playfair Display',serif;color:#16130F">Where recycled gold actually comes from</span></a>
+<a href="#11d" style="text-decoration:none;color:inherit;padding-top:16px;border-top:1px solid rgba(22,19,15,.12)"><span style="display:block;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#5C554C">Next</span><span style="display:block;margin-top:7px;font:400 20px/1.3 'Playfair Display',serif;color:#16130F">Let it scratch: a short defence of patina</span></a>
+</nav>
+</main>
+</div>
+</div>
+
+<div class="dv-opt" id="11e">
+<div class="dv-olabel"><a class="dv-oid" href="#11e">11e</a>Account — nav as a scroll rail, orders as cards instead of a table</div>
+<div class="dv-card" data-screen-label="Account · mobile">
+<header style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(22,19,15,.12)">
+<button type="button" aria-label="Open menu" aria-expanded="false" style="min-width:44px;min-height:44px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0">
+<span aria-hidden="true" style="display:block;width:22px;height:1px;background:#16130F"></span>
+<span aria-hidden="true" style="display:block;width:22px;height:1px;background:#16130F"></span>
+</button>
+<a href="#11e" aria-label="Aurelia — home" style="font:400 18px/1 'Playfair Display',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em;min-height:44px;display:inline-flex;align-items:center">AURELIA</a>
+<button type="button" aria-label="Bag, empty" style="min-width:44px;min-height:44px;border:0;background:none;font:500 12px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">(0)</button>
+</header>
+<main>
+<div style="padding:24px 20px 16px">
+<h1 style="margin:0;font:400 34px/1.1 'Playfair Display',serif;color:#16130F">Marina Aurélio</h1>
+<p style="margin:10px 0 0;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C">Client since 2019 · 4 pieces owned · <a href="#11e">Sign out</a></p>
+</div>
+<nav aria-label="Account" style="border-top:1px solid rgba(22,19,15,.14);border-bottom:1px solid rgba(22,19,15,.14)">
+<ul tabindex="0" aria-label="Account sections, horizontally scrollable" style="list-style:none;margin:0;padding:0 20px;display:flex;gap:22px;overflow-x:auto">
+<li><a href="#11e" aria-current="page" style="min-height:48px;display:inline-flex;align-items:center;font:500 13px 'Work Sans',sans-serif;letter-spacing:.06em;color:#16130F;text-decoration:none;border-bottom:2px solid #16130F;white-space:nowrap">Orders</a></li>
+<li><a href="#11e" style="min-height:48px;display:inline-flex;align-items:center;font:400 13px 'Work Sans',sans-serif;letter-spacing:.06em;color:#463F38;text-decoration:none;white-space:nowrap">Your pieces</a></li>
+<li><a href="#11e" style="min-height:48px;display:inline-flex;align-items:center;font:400 13px 'Work Sans',sans-serif;letter-spacing:.06em;color:#463F38;text-decoration:none;white-space:nowrap">Care &amp; repair</a></li>
+<li><a href="#11e" style="min-height:48px;display:inline-flex;align-items:center;font:400 13px 'Work Sans',sans-serif;letter-spacing:.06em;color:#463F38;text-decoration:none;white-space:nowrap">Addresses</a></li>
+<li><a href="#11e" style="min-height:48px;display:inline-flex;align-items:center;font:400 13px 'Work Sans',sans-serif;letter-spacing:.06em;color:#463F38;text-decoration:none;white-space:nowrap">Details</a></li>
+</ul>
+</nav>
+<section aria-labelledby="me-ord" style="padding:24px 20px 8px">
+<h2 id="me-ord" style="margin:0 0 14px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Orders</h2>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+<li style="border:1px solid rgba(22,19,15,.16);padding:16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+<a href="#11e" style="font:500 16px/1.3 'Work Sans',sans-serif;color:#16130F;text-decoration:none;min-height:44px;display:inline-flex;align-items:center">#AU-2261</a>
+<span style="font:500 14.5px/1.3 'Work Sans',sans-serif;color:#16130F">R$&nbsp;4.280</span>
+</div>
+<p style="margin:8px 0 0;font:400 13.5px/1.6 'Work Sans',sans-serif;color:#5C554C"><time datetime="2026-08-22">22 Aug 2026</time> · The Signet</p>
+<p style="margin:10px 0 0"><span style="display:inline-block;padding:5px 10px;background:#E4E9E1;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#2E4028">In the workshop</span></p>
+</li>
+<li style="border:1px solid rgba(22,19,15,.16);padding:16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+<a href="#11e" style="font:500 16px/1.3 'Work Sans',sans-serif;color:#16130F;text-decoration:none;min-height:44px;display:inline-flex;align-items:center">#AU-1988</a>
+<span style="font:500 14.5px/1.3 'Work Sans',sans-serif;color:#16130F">R$&nbsp;2.940</span>
+</div>
+<p style="margin:8px 0 0;font:400 13.5px/1.6 'Work Sans',sans-serif;color:#5C554C"><time datetime="2025-12-04">4 Dec 2025</time> · Cadena Fina</p>
+<p style="margin:10px 0 0"><span style="display:inline-block;padding:5px 10px;background:#EDE8DF;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#463F38">Delivered</span></p>
+</li>
+</ul>
+</section>
+<section aria-labelledby="me-pcs" style="padding:24px 20px 36px;margin-top:14px;border-top:1px solid rgba(22,19,15,.14)">
+<h2 id="me-pcs" style="margin:0 0 14px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Your pieces — care record</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+<li style="border:1px solid rgba(22,19,15,.16);padding:14px">
+<span style="position:relative;display:block;width:100%;height:150px;background:#EDE8DF;overflow:hidden"><image-slot id="m-own1" shape="rect" placeholder="Owned piece" aria-label="Your Signet ring"></image-slot></span>
+<span style="display:block;margin-top:11px;font:400 18px/1.2 'Playfair Display',serif;color:#16130F">The Signet</span>
+<span style="display:block;margin-top:5px;font:400 12.5px/1.6 'Work Sans',sans-serif;color:#5C554C">No. 01 / 24 · size 14<br>Polished Mar 2026</span>
+<button type="button" style="margin-top:12px;width:100%;min-height:44px;border:1px solid rgba(22,19,15,.35);background:none;font:500 12px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Book care</button>
+</li>
+<li style="border:1px solid rgba(22,19,15,.16);padding:14px">
+<span style="position:relative;display:block;width:100%;height:150px;background:#EDE8DF;overflow:hidden"><image-slot id="m-own2" shape="rect" placeholder="Owned piece" aria-label="Your Cadena Fina"></image-slot></span>
+<span style="display:block;margin-top:11px;font:400 18px/1.2 'Playfair Display',serif;color:#16130F">Cadena Fina</span>
+<span style="display:block;margin-top:5px;font:400 12.5px/1.6 'Work Sans',sans-serif;color:#5C554C">No. 02 / 40 · 45cm<br>Clasp checked Jan 2026</span>
+<button type="button" style="margin-top:12px;width:100%;min-height:44px;border:1px solid rgba(22,19,15,.35);background:none;font:500 12px 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Book care</button>
+</li>
+</ul>
+</section>
+</main>
+</div>
+</div>
+
+</div>
+<p class="dv-next">What changes at 390: filters move behind a sticky Filter/Sort bar with removable chips, the PDP gallery becomes a snap carousel with a live counter and the buy panel condenses into a pinned bar, cart summary pins to the bottom, article measure is capped at 38ch, and the account table becomes cards with a scrolling section rail. Try next: "add the mobile filter sheet, open" · "design the mobile search overlay" · "now the style guide"</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showPrices&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const four = [
+      { no: "No. 01", name: "The Signet", price: "R$ 4.280", slotColl: "mc-p1" },
+      { no: "No. 02", name: "Cadena Fina", price: "R$ 2.940", slotColl: "mc-p2" },
+      { no: "No. 04", name: "Órbita Cuff", price: "R$ 6.150", slotColl: "mc-p3" },
+      { no: "No. 06", name: "Linha Band", price: "R$ 1.960", slotColl: "mc-p4" }
+    ];
+    return { four, showPrices: this.props.showPrices ?? true };
+  }
+}
+
+</script>
+</body>
+</html>

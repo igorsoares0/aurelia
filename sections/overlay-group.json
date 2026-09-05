@@ -1,0 +1,15 @@
+{
+  "name": "t:general.overlays",
+  "type": "aside",
+  "sections": {
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": { "color_scheme": "ground", "show_gift_note": true }
+    },
+    "search-overlay": {
+      "type": "search-overlay",
+      "settings": { "color_scheme": "ground" }
+    }
+  },
+  "order": ["cart-drawer", "search-overlay"]
+}

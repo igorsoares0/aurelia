@@ -1,0 +1,515 @@
+{% comment %}
+  The product page: media on the left, a sticky buy panel on the right.
+
+  Every element of the panel is a block, so a merchant can reorder or remove
+  any of them and add app blocks between them. That is a Theme Store
+  requirement and it is also simply how this page should work.
+
+  The two media columns have no gap. The hairlines between the panels are the
+  gutter -- rules do the work that cards and shadows do in other themes.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign quantity_id = 'Quantity-' | append: section.id
+  assign engraving_id = 'Engraving-' | append: section.id
+  assign engraving_help_id = engraving_id | append: '-help'
+%}
+
+<aurelia-variants
+  class="product-root"
+  data-section-id="{{ section.id }}"
+  data-product-url="{{ product.url }}"
+>
+<div class="product color-{{ section.settings.color_scheme }}" data-product-root>
+  <div class="product__media">
+    {% render 'product-media-gallery',
+      product: product,
+      variant: variant,
+      hero_height: section.settings.hero_height,
+      detail_height: section.settings.detail_height,
+      section_id: section.id
+    %}
+  </div>
+
+  <div class="product__panel{% if section.settings.sticky_panel %} product__panel--sticky{% endif %}">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'breadcrumb' -%}
+          <div {{ block.shopify_attributes }}>
+            {% render 'breadcrumbs' %}
+          </div>
+
+        {%- when 'eyebrow' -%}
+          {%- liquid
+            assign piece_number = product.metafields.custom.piece_number.value
+            assign piece_total = product.metafields.custom.piece_total.value
+            if piece_number != blank and piece_total != blank
+              assign eyebrow_text = 'products.piece_number_of_html' | t: number: piece_number, total: piece_total
+            elsif piece_number != blank
+              assign eyebrow_text = 'products.piece_number_html' | t: number: piece_number
+            else
+              assign eyebrow_text = block.settings.text
+            endif
+          -%}
+          {%- if eyebrow_text != blank -%}
+            <p class="eyebrow eyebrow--wide" {{ block.shopify_attributes }}>{{ eyebrow_text }}</p>
+          {%- endif -%}
+
+        {%- when 'title' -%}
+          <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
+
+        {%- when 'price' -%}
+          <div class="product__price" {{ block.shopify_attributes }}>
+            {% render 'price', product: product, variant: variant, show_unit_price: true %}
+            {%- if block.settings.show_instalments -%}
+              {%- comment -%}
+                `payment_terms` needs a form object, and the buy form lives in the
+                buy-buttons snippet. This sibling form renders the banner only --
+                it has no submit and posts nothing.
+              {%- endcomment -%}
+              {% form 'product', product, class: 'product__instalments' %}
+                {{ form | payment_terms }}
+              {% endform %}
+            {%- endif -%}
+            <p class="product__tax">
+              {%- if cart.taxes_included -%}
+                {{ 'cart.taxes_included' | t }}
+              {%- else -%}
+                {{ 'cart.taxes_at_checkout' | t }}
+              {%- endif -%}
+            </p>
+          </div>
+
+        {%- when 'description' -%}
+          {%- if product.description != blank -%}
+            <div class="product__description rte" {{ block.shopify_attributes }}>
+              {{ product.description }}
+            </div>
+          {%- endif -%}
+
+        {%- when 'variant_picker' -%}
+          <div {{ block.shopify_attributes }}>
+            {% render 'variant-picker',
+              product: product,
+              variant: variant,
+              section_id: section.id,
+              form_id: form_id
+            %}
+          </div>
+
+        {%- when 'engraving' -%}
+          {%- if variant.available -%}
+            <div class="field product__engraving" {{ block.shopify_attributes }}>
+              <label class="field__label" for="{{ engraving_id }}">
+                {{ 'products.engraving' | t }}
+                <span class="product__engraving-qualifier">
+                  ({{ 'general.optional' | t | downcase }})
+                </span>
+              </label>
+              <input
+                class="field__input product__engraving-input"
+                id="{{ engraving_id }}"
+                type="text"
+                name="properties[{{ 'products.engraving' | t }}]"
+                maxlength="{{ block.settings.max_characters }}"
+                form="{{ form_id }}"
+                aria-describedby="{{ engraving_help_id }}"
+              >
+              <p class="product__engraving-help" id="{{ engraving_help_id }}">
+                {{ 'products.engraving_help' | t: count: block.settings.max_characters }}
+              </p>
+            </div>
+          {%- endif -%}
+
+        {%- when 'quantity' -%}
+          {%- if variant.available -%}
+            <div class="field product__quantity" {{ block.shopify_attributes }}>
+              <label class="field__label" for="{{ quantity_id }}">{{ 'products.quantity' | t }}</label>
+              {% render 'quantity-selector',
+                id: quantity_id,
+                value: 1,
+                name: 'quantity',
+                title: product.title,
+                min: 1,
+                form: form_id
+              %}
+            </div>
+          {%- endif -%}
+
+        {%- when 'buy_buttons' -%}
+          <div {{ block.shopify_attributes }}>
+            {% render 'buy-buttons',
+              product: product,
+              variant: variant,
+              form_id: form_id,
+              show_dynamic: block.settings.show_dynamic_checkout,
+              lead_time: block.settings.lead_time,
+              reassurance: block.settings.reassurance,
+              commission_url: block.settings.commission_url
+            %}
+          </div>
+
+        {%- when 'pickup' -%}
+          <div {{ block.shopify_attributes }}>
+            {% render 'pickup-availability', variant: variant %}
+          </div>
+
+        {%- when 'spec_list' -%}
+          <div {{ block.shopify_attributes }}>
+            {% render 'spec-ledger',
+              product: product,
+              variant: variant,
+              label_material: block.settings.label_material,
+              label_face: block.settings.label_face,
+              label_origin: block.settings.label_origin,
+              label_care: block.settings.label_care,
+              summary_label: block.settings.summary_label
+            %}
+          </div>
+
+        {%- when 'custom_liquid' -%}
+          <div {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+
+        {%- when '@app' -%}
+          {% render block %}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% comment %}
+  Only the id and the option values -- enough to resolve a selection to a
+  variant id before asking the server to re-render. The full variant payload is
+  large and nothing here needs it.
+{% endcomment %}
+<script type="application/json" data-variant-data>
+  [
+    {%- for product_variant in product.variants -%}
+      {%- unless forloop.first -%},{%- endunless -%}
+      {"id":{{ product_variant.id }},"options":{{ product_variant.options | json }}}
+    {%- endfor -%}
+  ]
+</script>
+</aurelia-variants>
+
+<script src="{{ 'product.js' | asset_url }}" defer="defer"></script>
+
+{% comment %}
+  Rich product snippets. Required for the Theme Store, and the only place in the
+  theme that emits structured data.
+{% endcomment %}
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% stylesheet %}
+  .product-root {
+    display: block;
+  }
+
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .product__media {
+    min-width: 0;
+    border-inline-end: 1px solid var(--hairline-section);
+  }
+
+  .product__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+    padding: var(--space-13) var(--space-11) var(--space-16);
+  }
+
+  .product__panel--sticky {
+    align-self: start;
+    position: sticky;
+    top: 0;
+  }
+
+  .product__title {
+    font-size: var(--text-display-xl);
+    line-height: var(--leading-display);
+  }
+
+  .product__price {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-title-sm);
+  }
+
+  .product__instalments,
+  .product__tax {
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  .product__description {
+    font-size: var(--text-detail);
+    line-height: 1.8;
+  }
+
+  .product__engraving-input {
+    max-width: 11.25rem;
+  }
+
+  /* The qualifier is a sentence inside an uppercase label, so it opts out. */
+  .product__engraving-qualifier {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--color-secondary);
+  }
+
+  .product__engraving-help {
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .product__quantity {
+    align-items: flex-start;
+  }
+
+  @media screen and (max-width: 989px) {
+    .product {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .product__media {
+      border-inline-end: 0;
+    }
+
+    .product__panel,
+    .product__panel--sticky {
+      position: static;
+      padding: var(--space-6) var(--page-margin) var(--space-11);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.product_information",
+  "tag": "section",
+  "class": "shopify-section--product",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "t:labels.hero_height",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "detail_height",
+      "label": "t:labels.detail_height",
+      "min": 240,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "default": 420
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_panel",
+      "label": "t:labels.sticky_info",
+      "default": true
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "breadcrumb",
+      "name": "t:general.breadcrumb",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "eyebrow",
+      "name": "t:labels.eyebrow",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text",
+          "info": "t:info.eyebrow",
+          "default": "Chapter one"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "t:general.heading",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "price",
+      "name": "t:general.price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_instalments",
+          "label": "t:labels.show_instalments",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "t:general.description",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "variant_picker",
+      "name": "t:general.variant_picker",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "engraving",
+      "name": "t:general.engraving",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:info.engraving"
+        },
+        {
+          "type": "range",
+          "id": "max_characters",
+          "label": "t:labels.engraving_max",
+          "min": 1,
+          "max": 40,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "quantity",
+      "name": "t:labels.quantity",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:general.buy_buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "t:labels.show_dynamic_checkout",
+          "info": "t:info.show_dynamic_checkout",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "lead_time",
+          "label": "t:labels.lead_time_text",
+          "info": "t:info.lead_time",
+          "default": "Made to order in 21 days, then shipped."
+        },
+        {
+          "type": "text",
+          "id": "reassurance",
+          "label": "t:labels.reassurance",
+          "default": "Free shipping and free resizing, for life."
+        },
+        {
+          "type": "url",
+          "id": "commission_url",
+          "label": "t:labels.commission_link"
+        }
+      ]
+    },
+    {
+      "type": "pickup",
+      "name": "t:general.pickup",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "spec_list",
+      "name": "t:general.spec_row",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:info.spec_metafield"
+        },
+        {
+          "type": "text",
+          "id": "summary_label",
+          "label": "t:labels.heading",
+          "default": "Specification"
+        },
+        {
+          "type": "text",
+          "id": "label_material",
+          "label": "t:labels.spec_material",
+          "default": "Material"
+        },
+        {
+          "type": "text",
+          "id": "label_face",
+          "label": "t:labels.spec_face",
+          "default": "Face"
+        },
+        {
+          "type": "text",
+          "id": "label_origin",
+          "label": "t:labels.spec_origin",
+          "default": "Made in"
+        },
+        {
+          "type": "text",
+          "id": "label_care",
+          "label": "t:labels.spec_care",
+          "default": "Care"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "t:general.custom_liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "t:labels.custom_liquid",
+          "info": "t:info.custom_liquid"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

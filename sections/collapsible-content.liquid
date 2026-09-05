@@ -1,0 +1,266 @@
+{% comment %}
+  Disclosures, in two layouts: stacked, for care and shipping on a product page,
+  and with a sidebar, for the questions block on the home page.
+
+  Native `<details>` and `<summary>`. No JavaScript, no ARIA of our own -- the
+  element already announces its expanded state, and a hand-built accordion
+  would only be a worse version of it. The glyph is a text character swapped by
+  CSS, so nothing reflows when a row opens.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign layout = section.settings.layout
+  assign has_aside = false
+  if layout == 'disclosures--sidebar'
+    assign has_aside = true
+  endif
+%}
+
+<div class="disclosures {{ layout }} color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="disclosures__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      {%- if has_aside -%}
+        <div class="disclosures__aside">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="disclosures__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.intro != blank -%}
+            <div class="disclosures__intro rte">{{ section.settings.intro }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <a class="button button--secondary" href="{{ section.settings.button_link }}">
+              {{- section.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- elsif section.settings.heading != blank -%}
+        <h2 class="eyebrow eyebrow--quiet">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <div class="disclosures__list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign is_open = false
+            if forloop.first and section.settings.open_first
+              assign is_open = true
+            endif
+          -%}
+          <details
+            class="disclosure"
+            {% if is_open %}open{% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary class="disclosure__summary">
+              <span>{{ block.settings.heading | escape }}</span>
+              <span class="disclosure__glyph" aria-hidden="true"></span>
+            </summary>
+            <div class="disclosure__body rte">
+              {%- if block.settings.page != blank -%}
+                {{ block.settings.page.content }}
+              {%- else -%}
+                {{ block.settings.text }}
+              {%- endif -%}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .disclosures {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .disclosures__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .disclosures--sidebar .disclosures__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .disclosures__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .disclosures__heading {
+    font-size: var(--text-display-sm);
+    line-height: 1.12;
+  }
+
+  .disclosures__intro {
+    font-size: var(--text-body);
+    line-height: 1.75;
+  }
+
+  .disclosure {
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .disclosure:last-child {
+    border-block-end: 1px solid var(--hairline-group);
+  }
+
+  .disclosure__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    /* 56px, comfortably over the touch-target floor. */
+    min-height: 3.5rem;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-title-sm);
+    line-height: 1.3;
+    color: var(--color-heading);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .disclosure__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .disclosure__summary:hover {
+    color: var(--color-accent);
+  }
+
+  /* Drawn by CSS rather than swapped in the markup, so the row never reflows. */
+  .disclosure__glyph {
+    flex: 0 0 auto;
+    color: var(--color-accent);
+    font-family: var(--font-body--family);
+    font-size: var(--text-title-sm);
+    line-height: 1;
+  }
+
+  .disclosure__glyph::before {
+    content: '+';
+  }
+
+  .disclosure[open] .disclosure__glyph::before {
+    content: '\2212';
+  }
+
+  .disclosure__body {
+    padding-block-end: var(--space-6);
+    max-width: 52ch;
+    font-size: var(--text-body);
+    line-height: 1.75;
+  }
+
+  @media screen and (max-width: 989px) {
+    .disclosures--sidebar .disclosures__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collapsible_content",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:labels.layout",
+      "options": [
+        { "value": "disclosures--stacked", "label": "t:options.disclosure_layout.stacked" },
+        { "value": "disclosures--sidebar", "label": "t:options.disclosure_layout.sidebar" }
+      ],
+      "default": "disclosures--stacked"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Questions"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:labels.intro",
+      "default": "<p>What we are asked most often. Anything else, write to us and a person answers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "t:labels.open_first",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "t:general.question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:labels.heading",
+          "default": "How long does a piece take?"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "<p>Twenty-one days from order to shipping. Resizing adds three.</p>"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:labels.page",
+          "info": "t:info.disclosure_page"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.collapsible_content",
+      "settings": { "layout": "disclosures--stacked", "heading": "Care and shipping" },
+      "blocks": [{ "type": "row" }, { "type": "row" }, { "type": "row" }]
+    },
+    {
+      "name": "t:general.preset_questions",
+      "category": "t:general.cat_content",
+      "settings": { "layout": "disclosures--sidebar", "heading": "Questions" },
+      "blocks": [{ "type": "row" }, { "type": "row" }, { "type": "row" }, { "type": "row" }]
+    }
+  ]
+}
+{% endschema %}

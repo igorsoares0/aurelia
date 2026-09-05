@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    {% comment %}
+      The `js` class gates the scroll reveal. Setting it here rather than on load
+      means content never flashes in, and content stays visible if this script
+      never runs.
+    {% endcomment %}
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+
+    {% # Design tokens. Must come before any other stylesheet. %}
+    {% render 'css-variables' %}
+
+    {% comment %}
+      Font preloading:
+      1. Preconnect to the font CDN for a faster connection
+      2. Preload only the two base variants actually used above the fold
+      3. Every other variant loads on demand through @font-face
+    {% endcomment %}
+    {%- unless settings.type_heading_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_heading_font.system? -%}
+      {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- endunless -%}
+    {%- unless settings.type_body_font.system? -%}
+      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- endunless -%}
+
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {% render 'meta-tags' %}
+
+    <script src="{{ 'reveal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'overlay.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="color-ground template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+    {% sections 'overlay-group' %}
+
+    {% comment %}
+      Two live regions, one polite and one assertive, shared by every script.
+      A confirmation should not interrupt; a blocking failure should.
+    {% endcomment %}
+    <p class="visually-hidden" id="CartStatus" role="status" aria-live="polite"></p>
+    <p class="visually-hidden" id="CartAlert" role="alert" aria-live="assertive"></p>
+
+    <script>
+      window.Aurelia = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }},
+          cartUpdate: {{ routes.cart_update_url | json }},
+          predictiveSearch: {{ routes.predictive_search_url | json }}
+        },
+        strings: {
+          addedToBag: {{ 'products.added_to_bag' | t | json }},
+          addToBagError: {{ 'products.add_to_bag_error' | t | json }},
+          quantityUpdated: {{ 'cart.quantity_updated' | t | json }},
+          resultsCount: {{ 'search.results_count' | t: count: '[count]' | json }},
+          mediaPosition: {{ 'products.media_position' | t: index: '[index]', total: '[total]' | json }}
+        },
+        cartType: {{ settings.cart_type | json }},
+        moneyFormat: {{ shop.money_format | json }}
+      };
+    </script>
+  </body>
+</html>

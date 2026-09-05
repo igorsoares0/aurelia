@@ -1,0 +1,136 @@
+{% comment %}
+  The head of a collection page: breadcrumb, chapter eyebrow, the one `h1`, and
+  a short intro held to a narrow measure so it reads as a caption rather than a
+  paragraph of body copy.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="collection-banner color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="collection-banner__inner">
+      {%- if section.settings.show_breadcrumb -%}
+        {% render 'breadcrumbs', class: 'collection-banner__breadcrumbs' %}
+      {%- endif -%}
+
+      {%- if section.settings.show_image and collection.image -%}
+        {% render 'image',
+          image: collection.image,
+          alt: collection.title,
+          height: section.settings.image_height,
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: 'collection-banner__image'
+        %}
+      {%- endif -%}
+
+      <div class="collection-banner__text">
+        <div class="collection-banner__lead">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="eyebrow eyebrow--wide">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          <h1 class="collection-banner__title">{{ collection.title | escape }}</h1>
+        </div>
+
+        {%- if collection.description != blank -%}
+          <div class="collection-banner__description rte">{{ collection.description }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .collection-banner {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .collection-banner__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-block: var(--space-5) var(--space-5);
+  }
+
+  .collection-banner__text {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    align-items: end;
+    gap: var(--space-11);
+    padding-block-end: var(--space-5);
+    border-block-end: 1px solid var(--hairline-section);
+  }
+
+  .collection-banner__lead {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .collection-banner__title {
+    font-size: var(--text-display-2xl);
+    line-height: 1.06;
+  }
+
+  .collection-banner__description {
+    font-size: var(--text-body);
+    line-height: 1.75;
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection-banner__text {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+      align-items: start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collection_banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "t:labels.show_breadcrumb",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Chapter one"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:labels.show_collection_image",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 200,
+      "max": 640,
+      "step": 20,
+      "unit": "px",
+      "default": 400
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,377 @@
+{
+  "sections": {
+    "banner": {
+      "type": "image-banner",
+      "settings": {
+        "color_scheme": "ground",
+        "height": 780,
+        "image_alt": "The Signet in 18k recycled gold, worn on a hand",
+        "caption_left": "Fig. 01 — The Signet, 18k recycled gold, photographed in Belo Horizonte",
+        "caption_right": "Autumn chapter"
+      }
+    },
+    "statement": {
+      "type": "rich-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Chapter one"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "<p>Twelve pieces a year.<em>Each one kept forever.</em></p>"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Made at the bench in Belo Horizonte, in 18k recycled gold. Twenty-one days from order to shipping, and free resizing for life.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "alignment": "center"
+      }
+    },
+    "press": {
+      "type": "logo-list",
+      "blocks": {
+        "l1": {
+          "type": "logo",
+          "settings": {
+            "name": "Vogue Brasil"
+          }
+        },
+        "l2": {
+          "type": "logo",
+          "settings": {
+            "name": "Wallpaper"
+          }
+        },
+        "l3": {
+          "type": "logo",
+          "settings": {
+            "name": "Monocle"
+          }
+        },
+        "l4": {
+          "type": "logo",
+          "settings": {
+            "name": "Casa Vogue"
+          }
+        },
+        "l5": {
+          "type": "logo",
+          "settings": {
+            "name": "Elle"
+          }
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Written about",
+        "quote": "Twelve pieces a year, made by four people, and a waiting list either way.",
+        "cite": "Vogue Brasil",
+        "cite_date": "March 2026",
+        "logo_height": 44
+      }
+    },
+    "chapter": {
+      "type": "featured-collection",
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "The autumn chapter",
+        "link_label": "View all",
+        "products_count": 4,
+        "columns": 4,
+        "image_height": 340
+      }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "blocks": {
+        "p1": {
+          "type": "plate",
+          "settings": {
+            "width": "medium",
+            "caption_left": "Plate 01",
+            "caption_right": "Belo Horizonte"
+          }
+        },
+        "p2": {
+          "type": "plate",
+          "settings": {
+            "width": "small",
+            "caption_left": "Plate 02",
+            "caption_right": "The Signet"
+          }
+        },
+        "p3": {
+          "type": "plate",
+          "settings": {
+            "width": "large",
+            "caption_left": "Plate 03",
+            "caption_right": "Linha Band"
+          }
+        },
+        "p4": {
+          "type": "plate",
+          "settings": {
+            "width": "small",
+            "caption_left": "Plate 04",
+            "caption_right": "Sal Pendant"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "eyebrow": "Worn",
+        "heading": "The autumn lookbook",
+        "hint": "Drag, or use the arrow keys",
+        "plate_height": 640,
+        "button_label": "See the whole chapter"
+      }
+    },
+    "atelier": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "The atelier"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "Everything is made here, by four people."
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The gold is recycled and refined in São Paulo. The stones are bought from two cutters we have used for eleven years. Nothing is cast off site.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "How a piece is made"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "image_position": "left",
+        "image_height": 520,
+        "image_alt": "Hands and tools at the bench"
+      }
+    },
+    "kept": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "quote": "I have worn it every day for two years. It has been polished twice and resized once, both free.",
+            "name": "Marina A.",
+            "piece": "The Signet",
+            "year": "2024"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "quote": "Twenty-one days, and they wrote twice while it was being made. I knew exactly where it was.",
+            "name": "Júlia R.",
+            "piece": "Linha Band",
+            "year": "2025"
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "quote": "It is 9.4 grams and I can feel every one of them. That is the whole point.",
+            "name": "Pedro V.",
+            "piece": "Sal Pendant",
+            "year": "2025"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Kept",
+        "columns": 4
+      }
+    },
+    "journal": {
+      "type": "featured-blog",
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "From the journal",
+        "posts_count": 3,
+        "show_thumbnail": true,
+        "show_read_time": true
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How long does a piece take?",
+            "text": "<p>Twenty-one days from order to shipping. Resizing adds three.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Can a piece be resized later?",
+            "text": "<p>Free for life, up to three sizes either way. Post it back and we return it insured.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Where does the gold come from?",
+            "text": "<p>Recycled and refined in São Paulo. We can show the refiner's certificate for any piece.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "What happens when a chapter closes?",
+            "text": "<p>It is not made again. Archive pieces occasionally return, and those are final sale.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--sidebar",
+        "heading": "Questions",
+        "intro": "<p>What we are asked most often. Anything else, write to us and a person answers.</p>",
+        "open_first": true
+      }
+    },
+    "ugc": {
+      "type": "ugc-gallery",
+      "blocks": {
+        "f1": {
+          "type": "figure",
+          "settings": {
+            "span": "3",
+            "offset": "0",
+            "height": 420,
+            "handle": "@marina.a",
+            "piece": "The Signet"
+          }
+        },
+        "f2": {
+          "type": "figure",
+          "settings": {
+            "span": "2",
+            "offset": "64",
+            "height": 250,
+            "handle": "@juliar",
+            "piece": "Linha Band"
+          }
+        },
+        "f3": {
+          "type": "figure",
+          "settings": {
+            "span": "3",
+            "offset": "0",
+            "height": 330,
+            "handle": "@pedro.v",
+            "piece": "Sal Pendant"
+          }
+        },
+        "f4": {
+          "type": "figure",
+          "settings": {
+            "span": "2",
+            "offset": "96",
+            "height": 230,
+            "handle": "@ana.costa",
+            "piece": "The Signet"
+          }
+        },
+        "f5": {
+          "type": "figure",
+          "settings": {
+            "span": "2",
+            "offset": "28",
+            "height": 300,
+            "handle": "@t.moraes",
+            "piece": "Linha Band"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Worn by you",
+        "permission": "Tag @aurelia and we ask before we post.",
+        "link_label": "Follow"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "statement",
+    "press",
+    "chapter",
+    "lookbook",
+    "atelier",
+    "kept",
+    "journal",
+    "questions",
+    "ugc"
+  ]
+}

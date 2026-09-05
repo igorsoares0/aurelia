@@ -1,0 +1,262 @@
+{% doc %}
+  Renders Search & Discovery filters and the sort control.
+
+  One form serves both layouts. On a wide screen it is a sticky sidebar; below
+  990px the same fieldsets are moved into a bottom sheet and the page grows a
+  sticky Filter and Sort bar. Restructured, not scaled.
+
+  It is a real `<form>` with a real submit button, so filtering works with
+  JavaScript switched off. `facets.js` then submits on change and hides the
+  button, the same progressive pattern the localization form uses.
+
+  Each group is a `<fieldset>` with a `<legend>`, counts sit inside the label
+  text rather than beside it, and the result count is a `role="status"` so it is
+  announced when the grid changes.
+
+  @param {object} results - The `collection` or `search` object. The two expose
+    their result count under different names, which is handled below.
+  @param {string} id - Unique prefix for field ids
+  @param {boolean} [show_sort] - Render the sort control
+  @param {boolean} [show_filters] - Render the filter groups
+
+  @example
+  {% render 'facets', results: collection, id: 'CollectionFacets', show_sort: true, show_filters: true %}
+{% enddoc %}
+
+{% liquid
+  assign active_count = 0
+  for filter in results.filters
+    assign active_count = active_count | plus: filter.active_values.size
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign active_count = active_count | plus: 1
+      endif
+    endif
+  endfor
+
+  assign sort_by = results.sort_by | default: results.default_sort_by
+
+  comment
+    A collection counts with `products_count` and knows its unfiltered size; a
+    search counts with `results_count` and does not. One snippet serves both.
+  endcomment
+  assign shown = results.products_count | default: results.results_count
+  assign total = results.all_products_count
+%}
+
+<form class="facets" id="{{ id }}-form" data-facets-form>
+  {%- comment -%}
+    Carry the query through on the search page so filtering does not drop it.
+  {%- endcomment -%}
+  {%- if results.terms -%}
+    <input type="hidden" name="q" value="{{ results.terms | escape }}">
+    <input type="hidden" name="options[prefix]" value="last">
+  {%- endif -%}
+
+  {%- if show_sort and results.sort_options.size > 0 -%}
+    <div class="field facets__sort">
+      <label class="field__label" for="{{ id }}-sort">{{ 'collections.sort_by' | t }}</label>
+      <select class="field__select" id="{{ id }}-sort" name="sort_by" data-facets-input>
+        {%- for option in results.sort_options -%}
+          <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>
+            {{ option.name }}
+          </option>
+        {%- endfor -%}
+      </select>
+    </div>
+  {%- endif -%}
+
+  {%- if show_filters -%}
+    {%- for filter in results.filters -%}
+      <fieldset class="facet">
+        <legend class="facet__legend eyebrow eyebrow--quiet">{{ filter.label }}</legend>
+
+        {%- case filter.type -%}
+          {%- when 'price_range' -%}
+            <div class="facet__price">
+              <div class="field">
+                <label class="field__label facet__price-label" for="{{ id }}-{{ forloop.index }}-min">
+                  {{- 'collections.price_from' | t -}}
+                </label>
+                <input
+                  class="field__input"
+                  id="{{ id }}-{{ forloop.index }}-min"
+                  type="number"
+                  inputmode="numeric"
+                  name="{{ filter.min_value.param_name }}"
+                  value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                  min="0"
+                  max="{{ filter.range_max | divided_by: 100 }}"
+                  placeholder="0"
+                  data-facets-input
+                >
+              </div>
+              <div class="field">
+                <label class="field__label facet__price-label" for="{{ id }}-{{ forloop.index }}-max">
+                  {{- 'collections.price_to' | t -}}
+                </label>
+                <input
+                  class="field__input"
+                  id="{{ id }}-{{ forloop.index }}-max"
+                  type="number"
+                  inputmode="numeric"
+                  name="{{ filter.max_value.param_name }}"
+                  value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                  min="0"
+                  max="{{ filter.range_max | divided_by: 100 }}"
+                  placeholder="{{ filter.range_max | divided_by: 100 }}"
+                  data-facets-input
+                >
+              </div>
+            </div>
+
+          {%- else -%}
+            <div class="facet__values">
+              {%- for value in filter.values -%}
+                {%- assign value_id = id | append: '-' | append: filter.param_name | append: '-' | append: forloop.index -%}
+                <label class="facet__value{% if value.count == 0 and value.active == false %} facet__value--out{% endif %}" for="{{ value_id }}">
+                  <input
+                    type="checkbox"
+                    id="{{ value_id }}"
+                    name="{{ value.param_name }}"
+                    value="{{ value.value }}"
+                    data-facets-input
+                    {% if value.active %}checked{% endif %}
+                    {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                  >
+                  <span class="facet__value-name">{{ value.label }}</span>
+                  <span class="facet__value-count">({{ value.count }})</span>
+                </label>
+              {%- endfor -%}
+            </div>
+        {%- endcase -%}
+      </fieldset>
+    {%- endfor -%}
+  {%- endif -%}
+
+  <p class="facets__count" role="status">
+    {%- if active_count > 0 and total -%}
+      {{ 'collections.filtered_count_html' | t: count: shown, total: total }}
+    {%- elsif shown == 1 -%}
+      {{ 'collections.results_count_one' | t }}
+    {%- else -%}
+      {{ 'collections.results_count' | t: count: shown }}
+    {%- endif -%}
+  </p>
+
+  <div class="facets__actions">
+    <button class="button button--secondary facets__submit" type="submit">
+      {{- 'collections.filter' | t -}}
+    </button>
+    {%- if active_count > 0 -%}
+      <a class="link-tap facets__clear" href="{{ results.url | default: request.path }}">
+        {{- 'collections.clear_all' | t -}}
+      </a>
+    {%- endif -%}
+  </div>
+</form>
+
+{% stylesheet %}
+  .facets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .facet {
+    border: 0;
+    border-block-start: 1px solid var(--hairline-group);
+    padding: var(--space-5) 0 0;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .facet__legend {
+    padding: 0 0 var(--space-3);
+  }
+
+  .facet__values {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .facet__value {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--tap-target);
+    font-size: var(--text-detail);
+    cursor: pointer;
+  }
+
+  .facet__value input {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    accent-color: var(--color-heading);
+  }
+
+  .facet__value-name {
+    min-width: 0;
+  }
+
+  .facet__value-count {
+    color: var(--color-secondary);
+  }
+
+  .facet__value--out {
+    color: var(--color-secondary);
+    cursor: not-allowed;
+  }
+
+  .facet__price {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .facet__price .field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .facet__price-label {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: var(--text-caption);
+  }
+
+  .facets__count {
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--hairline-group);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    line-height: 1.6;
+  }
+
+  .facets__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  /* Hidden only once facets.js is submitting on change. */
+  .facets--auto .facets__submit {
+    display: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    .facet__value {
+      /* Bigger rows on a phone, and a rule between them. */
+      min-height: 3.25rem;
+      font-size: var(--text-body-md);
+      border-block-end: 1px solid var(--hairline-row);
+    }
+
+    .facet__value input {
+      width: 20px;
+      height: 20px;
+    }
+  }
+{% endstylesheet %}

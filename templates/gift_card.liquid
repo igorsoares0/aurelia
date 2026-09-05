@@ -1,0 +1,230 @@
+{% layout none %}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_card.title' | t }} &ndash; {{ shop.name }}</title>
+
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+
+    {% render 'css-variables' %}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {% comment %}
+      Shopify's own QR generator, served from Shopify. The Theme Store requires
+      scripts to be Shopify-hosted, and this is the sanctioned way to draw the
+      code -- there is no Liquid filter that renders one.
+    {% endcomment %}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer="defer"></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="color-ground template-gift-card">
+    <main class="gift-card" id="MainContent">
+      <p class="gift-card__wordmark">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name, class: 'gift-card__logo' }}
+        {%- else -%}
+          {{ shop.name }}
+        {%- endif -%}
+      </p>
+
+      <h1 class="visually-hidden">{{ 'gift_card.title' | t }}</h1>
+
+      <div class="gift-card__card">
+        <div class="gift-card__balance">
+          <p class="eyebrow eyebrow--quiet">{{ 'gift_card.balance' | t }}</p>
+          <p class="gift-card__amount">{{ gift_card.balance | money }}</p>
+          {%- if gift_card.balance != gift_card.initial_value -%}
+            <p class="gift-card__initial">
+              {{ 'gift_card.initial_value_html' | t: value: gift_card.initial_value | money }}
+            </p>
+          {%- endif -%}
+          {%- if gift_card.expired -%}
+            <p class="badge badge--sold-out">{{ 'gift_card.expired' | t }}</p>
+          {%- elsif gift_card.expires_on -%}
+            <p class="gift-card__expiry">
+              {{ 'gift_card.expires_on_html' | t: date: gift_card.expires_on | date: format: 'date' }}
+            </p>
+          {%- endif -%}
+        </div>
+
+        <div class="gift-card__code-panel">
+          <div class="gift-card__code-text">
+            <p class="eyebrow eyebrow--quiet" id="GiftCardCodeLabel">{{ 'gift_card.code' | t }}</p>
+            <p class="gift-card__code" aria-labelledby="GiftCardCodeLabel">
+              {{ gift_card.code | format_code }}
+            </p>
+            <p class="gift-card__hint">{{ 'gift_card.use_at_checkout' | t }}</p>
+          </div>
+
+          {% comment %}
+            132px, comfortably over the 120px Theme Store floor, so the code
+            stays scannable once the card is printed.
+          {% endcomment %}
+          <div class="gift-card__qr" id="GiftCardQr" role="img" aria-label="{{ 'gift_card.qr_label' | t }}"></div>
+        </div>
+      </div>
+
+      <div class="gift-card__actions">
+        <a class="button button--primary" href="{{ shop.url }}">{{ 'gift_card.spend_now' | t }}</a>
+        <button class="button button--secondary" type="button" data-gift-card-print>
+          {{- 'gift_card.print' | t -}}
+        </button>
+        {%- if gift_card.pass_url -%}
+          <a class="gift-card__wallet" href="{{ gift_card.pass_url }}">
+            <img
+              src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+              alt="{{ 'gift_card.add_to_apple_wallet' | t }}"
+              width="120"
+              height="40"
+              loading="lazy"
+            >
+          </a>
+        {%- endif -%}
+      </div>
+    </main>
+
+    <script>
+      // The QR library is deferred, so it is not defined until the document has
+      // finished parsing. Waiting for that is what keeps the script from
+      // blocking the parser.
+      document.addEventListener('DOMContentLoaded', () => {
+        const target = document.getElementById('GiftCardQr');
+        if (target && typeof QRCode === 'function') {
+          new QRCode(target, { text: {{ gift_card.qr_identifier | json }}, width: 132, height: 132 });
+        }
+
+        const print = document.querySelector('[data-gift-card-print]');
+        if (print) print.addEventListener('click', () => window.print());
+      });
+    </script>
+
+    <style>
+      .gift-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-8);
+        max-width: 38.75rem;
+        margin: 0 auto;
+        padding: var(--space-11) var(--page-margin) var(--space-16);
+        text-align: center;
+      }
+
+      .gift-card__wordmark {
+        font-family: var(--font-heading--family);
+        font-weight: var(--font-heading--weight);
+        font-size: var(--text-title-lg);
+        letter-spacing: 0.3em;
+        text-indent: 0.3em;
+        text-transform: uppercase;
+        color: var(--color-heading);
+      }
+
+      .gift-card__logo {
+        max-width: 12rem;
+        height: auto;
+      }
+
+      .gift-card__card {
+        width: 100%;
+        border: 1px solid var(--hairline-group);
+      }
+
+      .gift-card__balance {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-8) var(--space-8) var(--space-6);
+        /* The only dashed rule outside the variant states. */
+        border-block-end: 1px dashed var(--hairline-strong);
+      }
+
+      .gift-card__amount {
+        font-family: var(--font-heading--family);
+        font-weight: var(--font-heading--weight);
+        font-size: var(--text-display-lg);
+        line-height: 1;
+        color: var(--color-heading);
+      }
+
+      .gift-card__initial,
+      .gift-card__expiry,
+      .gift-card__hint {
+        font-size: var(--text-caption);
+        color: var(--color-secondary);
+      }
+
+      .gift-card__code-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 132px;
+        gap: var(--space-6);
+        align-items: center;
+        padding: var(--space-6) var(--space-8) var(--space-8);
+        text-align: start;
+      }
+
+      .gift-card__code-text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .gift-card__code {
+        font-family: var(--font-heading--family);
+        font-weight: var(--font-heading--weight);
+        font-size: var(--text-title-lg);
+        line-height: 1.3;
+        letter-spacing: 0.08em;
+        color: var(--color-heading);
+      }
+
+      .gift-card__qr {
+        display: flex;
+        padding: var(--space-1);
+        border: 1px solid var(--hairline-control);
+        background-color: #ffffff;
+      }
+
+      .gift-card__qr img,
+      .gift-card__qr canvas {
+        width: 132px;
+        height: 132px;
+      }
+
+      .gift-card__wallet {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--control-height-secondary);
+      }
+
+      .gift-card__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-3);
+      }
+
+      @media screen and (max-width: 749px) {
+        .gift-card__code-panel {
+          grid-template-columns: minmax(0, 1fr);
+          justify-items: start;
+        }
+      }
+
+      @media print {
+        .gift-card__actions {
+          display: none;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Assistant:wght@400;500;600&family=Prata&family=Karla:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#e9e5dd;font-family:'Work Sans',system-ui,sans-serif}
+a{color:#7A5E30}
+a:hover{color:#16130F}
+*:focus-visible{outline:2px solid #16130F;outline-offset:3px}
+label:focus-within>span{outline:2px solid #16130F;outline-offset:3px}
+.pt{padding:44px 48px 40px;border-bottom:1px solid rgba(0,0,0,.08)}
+.pt-hd{display:flex;align-items:baseline;gap:10px;margin:0 0 10px}
+.pt-id{font:500 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#16130F;color:#fff;border-radius:4px;text-decoration:none}
+.pt-nm{font:500 13px/1.2 'Work Sans',sans-serif;color:#16130F;letter-spacing:.02em}
+.pt-intro{margin:0 0 24px;max-width:88ch;font:400 13px/1.7 'Work Sans',sans-serif;color:rgba(22,19,15,.62)}
+.pt-row{display:flex;flex-wrap:nowrap;gap:30px;align-items:flex-start}
+.pt-opt{flex:none;display:flex;flex-direction:column;gap:10px}
+.pt-oid{font:500 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#16130F;border-radius:5px;text-decoration:none}
+.pt-lbl{display:flex;align-items:baseline;gap:9px;max-width:600px;font:400 11.5px/1.35 'Work Sans',sans-serif;color:rgba(22,19,15,.62)}
+.pt-card{width:600px;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden}
+.pt-opt:target .pt-oid{background:#7A5E30;color:#fff}
+.pt-next{margin:24px 0 0;font:12.5px/1.6 'Work Sans',sans-serif;color:rgba(22,19,15,.55)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<section class="pt" id="t16">
+<div class="pt-hd"><a class="pt-id" href="#t16">16</a><span class="pt-nm">Three preset styles — one theme, three sets of setting values</span></div>
+<p class="pt-intro">Same sections, same markup, same accessibility contract. What differs is only what a preset can carry: the two <code style="background:rgba(0,0,0,.07);padding:1px 4px">font_picker</code> values, the colour settings, and a handful of layout flags. Each card shows the identical slice of the storefront — header, hero, statement, product grid, dark band — plus the exact settings that produce it. Every accent below clears 4.5:1 on its own ground.</p>
+<div class="pt-row">
+
+<div class="pt-opt" id="16a">
+<div class="pt-lbl"><a class="pt-oid" href="#16a">16a</a>Chapter — the default. Playfair Display + Work Sans, off-white, 3-up grid.</div>
+<div class="pt-card" data-screen-label="Preset · Chapter" style="background:#F5F2EC;font-family:'Work Sans',sans-serif">
+<header style="border-bottom:1px solid rgba(22,19,15,.14);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;padding:16px 24px">
+<nav aria-label="Collections" style="display:flex;gap:16px">
+<a href="#16a" style="min-height:44px;display:inline-flex;align-items:center;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;white-space:nowrap">Jewellery</a>
+<a href="#16a" style="min-height:44px;display:inline-flex;align-items:center;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;white-space:nowrap">Journal</a>
+</nav>
+<a href="#16a" aria-label="Aurelia — home" style="min-height:44px;display:inline-flex;align-items:center;font:400 19px/1 'Playfair Display',serif;letter-spacing:.32em;color:#16130F;text-decoration:none;text-indent:.32em">AURELIA</a>
+<span style="display:flex;justify-content:flex-end"><button type="button" style="min-height:44px;background:none;border:0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer;white-space:nowrap">Bag&nbsp;(0)</button></span>
+</header>
+<figure style="margin:0">
+<div style="position:relative;width:100%;height:300px;background:#EDE8DF"><image-slot id="pr-a-hero" shape="rect" placeholder="Hero" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<figcaption style="padding:10px 24px 0;font:400 12.5px/1.5 'Work Sans',sans-serif;color:#5C554C">Fig. 01 — The Signet, 18k recycled gold</figcaption>
+</figure>
+<section style="padding:44px 24px 40px;text-align:center">
+<p style="margin:0 0 18px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.26em;text-transform:uppercase;color:#7A5E30">Chapter One</p>
+<h1 style="margin:0;font:400 42px/1.1 'Playfair Display',serif;color:#16130F;text-wrap:pretty">Twelve pieces a year.<br><em style="font-style:italic">Each one kept forever.</em></h1>
+<p style="margin:18px auto 0;max-width:38ch;font:400 15px/1.75 'Work Sans',sans-serif;color:#463F38;text-wrap:pretty">Cast by hand, set by hand, finished in our own workshop.</p>
+</section>
+<ul style="list-style:none;margin:0;padding:0 24px 36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+<li><span style="position:relative;display:block;width:100%;height:170px;background:#EDE8DF;overflow:hidden"><image-slot id="pr-a-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7A5E30">No. 01</span><span style="display:block;margin-top:5px;font:400 17px/1.25 'Playfair Display',serif;color:#16130F">The Signet</span><span style="display:block;margin-top:4px;font:500 12.5px/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;4.280</span></li>
+<li><span style="position:relative;display:block;width:100%;height:170px;background:#EDE8DF;overflow:hidden"><image-slot id="pr-a-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7A5E30">No. 02</span><span style="display:block;margin-top:5px;font:400 17px/1.25 'Playfair Display',serif;color:#16130F">Cadena Fina</span><span style="display:block;margin-top:4px;font:500 12.5px/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;2.940</span></li>
+<li><span style="position:relative;display:block;width:100%;height:170px;background:#EDE8DF;overflow:hidden"><image-slot id="pr-a-p3" shape="rect" placeholder="Piece" aria-label="Vespera Drops"></image-slot></span><span style="display:block;margin-top:10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7A5E30">No. 03</span><span style="display:block;margin-top:5px;font:400 17px/1.25 'Playfair Display',serif;color:#16130F">Vespera Drops</span><span style="display:block;margin-top:4px;font:500 12.5px/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;3.510</span></li>
+</ul>
+<section style="background:#16130F;color:#F5F2EC;padding:34px 24px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center">
+<div>
+<p style="margin:0 0 12px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#C9A96A">From the atelier</p>
+<h2 style="margin:0;font:400 26px/1.22 'Playfair Display',serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<a href="#16a" style="min-height:44px;display:inline-flex;align-items:center;margin-top:16px;padding:0 20px;border:1px solid #C9A96A;color:#F5F2EC;text-decoration:none;font:500 12px 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap">Read the notebook</a>
+</div>
+<div style="position:relative;width:100%;height:170px"><image-slot id="pr-a-at" shape="rect" placeholder="Atelier" aria-label="Hands at the workbench"></image-slot></div>
+</section>
+<div style="padding:22px 24px 26px;border-top:1px solid rgba(22,19,15,.14)">
+<h2 style="margin:0 0 14px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Preset values</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;font:400 13.5px/1.6 'Work Sans',sans-serif;color:#463F38">
+<dt style="color:#5C554C">type_heading</dt><dd style="margin:0;color:#16130F">Playfair Display</dd>
+<dt style="color:#5C554C">type_body</dt><dd style="margin:0;color:#16130F">Work Sans</dd>
+<dt style="color:#5C554C">colours</dt><dd style="margin:0;color:#16130F">#F5F2EC · #16130F · #7A5E30 · #C9A96A</dd>
+<dt style="color:#5C554C">grid</dt><dd style="margin:0">3 columns, hero 640px, centred masthead</dd>
+<dt style="color:#5C554C">flags</dt><dd style="margin:0">numbering on · prices on · cart drawer · reveal on</dd>
+<dt style="color:#5C554C">suits</dt><dd style="margin:0">A curated catalogue of 10–30 pieces, one chapter at a time</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div class="pt-opt" id="16b">
+<div class="pt-lbl"><a class="pt-oid" href="#16b">16b</a>Ledger — EB Garamond + Assistant, warmer paper, 2-up grid, left-aligned masthead.</div>
+<div class="pt-card" data-screen-label="Preset · Ledger" style="background:#F3EEE5;font-family:Assistant,sans-serif">
+<header style="border-bottom:1px solid rgba(25,21,16,.16);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px">
+<a href="#16b" aria-label="Aurelia — home" style="min-height:44px;display:inline-flex;align-items:center;font:400 20px/1 'EB Garamond',serif;letter-spacing:.28em;color:#191510;text-decoration:none;text-indent:.28em">AURELIA</a>
+<nav aria-label="Collections" style="display:flex;gap:16px;align-items:center">
+<a href="#16b" style="min-height:44px;display:inline-flex;align-items:center;font:600 12px/1 Assistant,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#191510;text-decoration:none;white-space:nowrap">Jewellery</a>
+<a href="#16b" style="min-height:44px;display:inline-flex;align-items:center;font:600 12px/1 Assistant,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#191510;text-decoration:none;white-space:nowrap">Journal</a>
+<button type="button" style="min-height:44px;background:none;border:0;font:600 12px/1 Assistant,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#191510;cursor:pointer;white-space:nowrap">Bag&nbsp;(0)</button>
+</nav>
+</header>
+<figure style="margin:0">
+<div style="position:relative;width:100%;height:300px;background:#E9E2D6"><image-slot id="pr-b-hero" shape="rect" placeholder="Hero" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<figcaption style="padding:10px 24px 0;font:400 13px/1.5 Assistant,sans-serif;color:#5A5245">Fig. 01 — The Signet, 18k recycled gold</figcaption>
+</figure>
+<section style="padding:44px 24px 40px">
+<p style="margin:0 0 18px;font:600 12px/1 Assistant,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#6E5A2E">Chapter One</p>
+<h1 style="margin:0;font:400 46px/1.06 'EB Garamond',serif;color:#191510;text-wrap:pretty">Twelve pieces a year.<br><em style="font-style:italic">Each one kept forever.</em></h1>
+<p style="margin:18px 0 0;max-width:42ch;font:400 16px/1.7 Assistant,sans-serif;color:#453E33;text-wrap:pretty">Cast by hand, set by hand, finished in our own workshop.</p>
+</section>
+<ul style="list-style:none;margin:0;padding:0 24px 36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+<li><span style="position:relative;display:block;width:100%;height:230px;background:#E9E2D6;overflow:hidden"><image-slot id="pr-b-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:11px;font:600 12px/1 Assistant,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6E5A2E">No. 01</span><span style="display:block;margin-top:5px;font:400 21px/1.22 'EB Garamond',serif;color:#191510">The Signet</span><span style="display:block;margin-top:4px;font:600 13px/1 Assistant,sans-serif;color:#191510">R$&nbsp;4.280</span></li>
+<li><span style="position:relative;display:block;width:100%;height:230px;background:#E9E2D6;overflow:hidden"><image-slot id="pr-b-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:11px;font:600 12px/1 Assistant,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6E5A2E">No. 02</span><span style="display:block;margin-top:5px;font:400 21px/1.22 'EB Garamond',serif;color:#191510">Cadena Fina</span><span style="display:block;margin-top:4px;font:600 13px/1 Assistant,sans-serif;color:#191510">R$&nbsp;2.940</span></li>
+</ul>
+<section style="background:#191510;color:#F3EEE5;padding:34px 24px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center">
+<div>
+<p style="margin:0 0 12px;font:600 12px/1 Assistant,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#CBAE79">From the atelier</p>
+<h2 style="margin:0;font:400 29px/1.2 'EB Garamond',serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<a href="#16b" style="min-height:44px;display:inline-flex;align-items:center;margin-top:16px;padding:0 20px;border:1px solid #CBAE79;color:#F3EEE5;text-decoration:none;font:600 12px Assistant,sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap">Read the notebook</a>
+</div>
+<div style="position:relative;width:100%;height:170px"><image-slot id="pr-b-at" shape="rect" placeholder="Atelier" aria-label="Hands at the workbench"></image-slot></div>
+</section>
+<div style="padding:22px 24px 26px;border-top:1px solid rgba(25,21,16,.16)">
+<h2 style="margin:0 0 14px;font:600 12px/1 Assistant,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5A5245">Preset values</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;font:400 14px/1.6 Assistant,sans-serif;color:#453E33">
+<dt style="color:#5A5245">type_heading</dt><dd style="margin:0;color:#191510">EB Garamond</dd>
+<dt style="color:#5A5245">type_body</dt><dd style="margin:0;color:#191510">Assistant, one step larger — low x-height serif needs it</dd>
+<dt style="color:#5A5245">colours</dt><dd style="margin:0;color:#191510">#F3EEE5 · #191510 · #6E5A2E · #CBAE79</dd>
+<dt style="color:#5A5245">grid</dt><dd style="margin:0">2 columns, hero 640px, left masthead, left-aligned statement</dd>
+<dt style="color:#5A5245">flags</dt><dd style="margin:0">numbering on · prices on · cart drawer · reveal on</dd>
+<dt style="color:#5A5245">suits</dt><dd style="margin:0">Fewer, larger pieces — commissions and one-of-a-kind work</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div class="pt-opt" id="16c">
+<div class="pt-lbl"><a class="pt-oid" href="#16c">16c</a>Plate — Prata + Karla, cooler paper, full-bleed hero with type over it, 4-up grid.</div>
+<div class="pt-card" data-screen-label="Preset · Plate" style="background:#F7F5F1;font-family:Karla,sans-serif">
+<header style="background:#14120F;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;padding:14px 24px">
+<nav aria-label="Collections" style="display:flex;gap:16px">
+<a href="#16c" style="min-height:44px;display:inline-flex;align-items:center;font:500 12px/1 Karla,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#F7F5F1;text-decoration:none;white-space:nowrap">Jewellery</a>
+<a href="#16c" style="min-height:44px;display:inline-flex;align-items:center;font:500 12px/1 Karla,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#F7F5F1;text-decoration:none;white-space:nowrap">Journal</a>
+</nav>
+<a href="#16c" aria-label="Aurelia — home" style="min-height:44px;display:inline-flex;align-items:center;font:400 17px/1 Prata,serif;letter-spacing:.32em;color:#F7F5F1;text-decoration:none;text-indent:.32em">AURELIA</a>
+<span style="display:flex;justify-content:flex-end"><button type="button" style="min-height:44px;background:none;border:0;font:500 12px/1 Karla,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#F7F5F1;cursor:pointer;white-space:nowrap">Bag&nbsp;(0)</button></span>
+</header>
+<section style="position:relative;height:380px;background:#14120F">
+<div style="position:absolute;inset:0"><image-slot id="pr-c-hero" shape="rect" placeholder="Full-bleed hero" aria-label="Editorial hero photograph"></image-slot></div>
+<div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,7,5,.8) 0%,rgba(8,7,5,.42) 52%,rgba(8,7,5,0) 82%);pointer-events:none"></div>
+<div style="position:absolute;left:24px;bottom:28px;max-width:552px">
+<p style="margin:0 0 14px;font:500 12px/1 Karla,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#E0CBA8">Autumn Chapter</p>
+<h1 style="margin:0;max-width:13em;font:400 42px/1.08 Prata,serif;color:#FBFAF8;text-wrap:pretty">Twelve pieces a year.</h1>
+</div>
+</section>
+<section style="padding:36px 24px 32px">
+<p style="margin:0 0 14px;font:500 12px/1 Karla,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A4A3A">Chapter One</p>
+<p style="margin:0;max-width:44ch;font:400 15.5px/1.75 Karla,sans-serif;color:#443E36;text-wrap:pretty">Cast by hand, set by hand, finished in our own workshop. Nothing is restocked. <a href="#16c" style="color:#7A4A3A">See the chapter</a>.</p>
+</section>
+<ul style="list-style:none;margin:0;padding:0 24px 36px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
+<li><span style="position:relative;display:block;width:100%;height:150px;background:#EBE7E0;overflow:hidden"><image-slot id="pr-c-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:9px;font:400 15px/1.3 Prata,serif;color:#14120F">The Signet</span><span style="display:block;margin-top:4px;font:500 12.5px/1 Karla,sans-serif;color:#14120F">R$&nbsp;4.280</span></li>
+<li><span style="position:relative;display:block;width:100%;height:150px;background:#EBE7E0;overflow:hidden"><image-slot id="pr-c-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:9px;font:400 15px/1.3 Prata,serif;color:#14120F">Cadena Fina</span><span style="display:block;margin-top:4px;font:500 12.5px/1 Karla,sans-serif;color:#14120F">R$&nbsp;2.940</span></li>
+<li><span style="position:relative;display:block;width:100%;height:150px;background:#EBE7E0;overflow:hidden"><image-slot id="pr-c-p3" shape="rect" placeholder="Piece" aria-label="Vespera Drops"></image-slot></span><span style="display:block;margin-top:9px;font:400 15px/1.3 Prata,serif;color:#14120F">Vespera Drops</span><span style="display:block;margin-top:4px;font:500 12.5px/1 Karla,sans-serif;color:#14120F">R$&nbsp;3.510</span></li>
+<li><span style="position:relative;display:block;width:100%;height:150px;background:#EBE7E0;overflow:hidden"><image-slot id="pr-c-p4" shape="rect" placeholder="Piece" aria-label="Órbita Cuff"></image-slot></span><span style="display:block;margin-top:9px;font:400 15px/1.3 Prata,serif;color:#14120F">Órbita Cuff</span><span style="display:block;margin-top:4px;font:500 12.5px/1 Karla,sans-serif;color:#14120F">R$&nbsp;6.150</span></li>
+</ul>
+<section style="background:#14120F;color:#F7F5F1;padding:34px 24px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center">
+<div>
+<p style="margin:0 0 12px;font:500 12px/1 Karla,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#E0CBA8">From the atelier</p>
+<h2 style="margin:0;font:400 24px/1.3 Prata,serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<a href="#16c" style="min-height:44px;display:inline-flex;align-items:center;margin-top:16px;padding:0 20px;border:1px solid #E0CBA8;color:#F7F5F1;text-decoration:none;font:500 12px Karla,sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap">Read the notebook</a>
+</div>
+<div style="position:relative;width:100%;height:170px"><image-slot id="pr-c-at" shape="rect" placeholder="Atelier" aria-label="Hands at the workbench"></image-slot></div>
+</section>
+<div style="padding:22px 24px 26px;border-top:1px solid rgba(20,18,15,.16)">
+<h2 style="margin:0 0 14px;font:500 12px/1 Karla,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5A544B">Preset values</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;font:400 13.5px/1.6 Karla,sans-serif;color:#443E36">
+<dt style="color:#5A544B">type_heading</dt><dd style="margin:0;color:#14120F">Prata — single weight, so size carries hierarchy</dd>
+<dt style="color:#5A544B">type_body</dt><dd style="margin:0;color:#14120F">Karla</dd>
+<dt style="color:#5A544B">colours</dt><dd style="margin:0;color:#14120F">#F7F5F1 · #14120F · #7A4A3A · #E0CBA8</dd>
+<dt style="color:#5A544B">grid</dt><dd style="margin:0">4 columns, hero full-bleed with overlay, dark header</dd>
+<dt style="color:#5A544B">flags</dt><dd style="margin:0">numbering <strong style="font-weight:500">off</strong> · prices on · cart drawer · reveal on</dd>
+<dt style="color:#5A544B">suits</dt><dd style="margin:0">A larger catalogue with strong campaign photography</dd>
+</dl>
+</div>
+</div>
+</div>
+
+</div>
+<p class="pt-next">A preset can only carry settings — never new markup. If a direction needs different HTML it is a section variant, not a preset. Try next: "fold these three into the handoff doc as presets.json" · "review the whole set against the Shopify submission checklist"</p>
+</section>
+
+</x-dc>
+</body>
+</html>

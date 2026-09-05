@@ -1,0 +1,157 @@
+{
+  "current": {
+    "type_heading_font": "playfair_display_n4",
+    "type_body_font": "work_sans_n4",
+    "type_base_size": 16,
+    "max_page_width": 1440,
+    "min_page_margin": 44,
+    "logo_width": 140,
+    "product_card_image_ratio": "media--portrait",
+    "product_card_price": true,
+    "product_card_spec": true,
+    "piece_numbering": true,
+    "product_card_swatches": true,
+    "cart_type": "drawer",
+    "cart_show_note": true,
+    "cart_show_vendor": false,
+    "motion_reveal": true,
+    "predictive_search_enabled": true,
+    "predictive_search_show_price": true,
+    "predictive_search_show_articles": true,
+    "color_schemes": {
+      "ground": {
+        "settings": {
+          "background": "#F5F2EC",
+          "text": "#463F38",
+          "heading": "#16130F",
+          "accent": "#7A5E30",
+          "button": "#16130F",
+          "button_label": "#F5F2EC"
+        }
+      },
+      "ink": {
+        "settings": {
+          "background": "#16130F",
+          "text": "#D8D2C6",
+          "heading": "#F5F2EC",
+          "accent": "#C9A96A",
+          "button": "#F5F2EC",
+          "button_label": "#16130F"
+        }
+      }
+    }
+  },
+  "presets": {
+    "Aurelia": {
+      "type_heading_font": "playfair_display_n4",
+      "type_body_font": "work_sans_n4",
+      "type_base_size": 16,
+      "max_page_width": 1440,
+      "min_page_margin": 44,
+      "product_card_image_ratio": "media--portrait",
+      "product_card_price": true,
+      "product_card_spec": true,
+      "piece_numbering": true,
+      "product_card_swatches": true,
+      "cart_type": "drawer",
+      "cart_show_note": true,
+      "motion_reveal": true,
+      "color_schemes": {
+        "ground": {
+          "settings": {
+            "background": "#F5F2EC",
+            "text": "#463F38",
+            "heading": "#16130F",
+            "accent": "#7A5E30",
+            "button": "#16130F",
+            "button_label": "#F5F2EC"
+          }
+        },
+        "ink": {
+          "settings": {
+            "background": "#16130F",
+            "text": "#D8D2C6",
+            "heading": "#F5F2EC",
+            "accent": "#C9A96A",
+            "button": "#F5F2EC",
+            "button_label": "#16130F"
+          }
+        }
+      }
+    },
+    "Ledger": {
+      "type_heading_font": "ebgaramond_n4",
+      "type_body_font": "assistant_n4",
+      "type_base_size": 17,
+      "max_page_width": 1360,
+      "min_page_margin": 44,
+      "product_card_image_ratio": "media--tall",
+      "product_card_price": true,
+      "product_card_spec": true,
+      "piece_numbering": true,
+      "product_card_swatches": true,
+      "cart_type": "drawer",
+      "cart_show_note": true,
+      "motion_reveal": true,
+      "color_schemes": {
+        "ground": {
+          "settings": {
+            "background": "#F3EEE5",
+            "text": "#463F38",
+            "heading": "#191510",
+            "accent": "#6E5A2E",
+            "button": "#191510",
+            "button_label": "#F3EEE5"
+          }
+        },
+        "ink": {
+          "settings": {
+            "background": "#191510",
+            "text": "#D8D2C6",
+            "heading": "#F3EEE5",
+            "accent": "#CBAE79",
+            "button": "#F3EEE5",
+            "button_label": "#191510"
+          }
+        }
+      }
+    },
+    "Plate": {
+      "type_heading_font": "bodoni_moda_n4",
+      "type_body_font": "karla_n4",
+      "type_base_size": 16,
+      "max_page_width": 1560,
+      "min_page_margin": 44,
+      "product_card_image_ratio": "media--portrait",
+      "product_card_price": true,
+      "product_card_spec": true,
+      "piece_numbering": false,
+      "product_card_swatches": true,
+      "cart_type": "drawer",
+      "cart_show_note": true,
+      "motion_reveal": true,
+      "color_schemes": {
+        "ground": {
+          "settings": {
+            "background": "#F7F5F1",
+            "text": "#463F38",
+            "heading": "#14120F",
+            "accent": "#7A4A3A",
+            "button": "#14120F",
+            "button_label": "#F7F5F1"
+          }
+        },
+        "ink": {
+          "settings": {
+            "background": "#14120F",
+            "text": "#D8D2C6",
+            "heading": "#F7F5F1",
+            "accent": "#E0CBA8",
+            "button": "#F7F5F1",
+            "button_label": "#14120F"
+          }
+        }
+      }
+    }
+  }
+}

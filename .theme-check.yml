@@ -1,0 +1,56 @@
+# Theme Store submission runs a stricter bar than `recommended`. These are the
+# checks whose failures a reviewer would find by hand anyway.
+extends: theme-check:recommended
+
+MissingTemplate:
+  enabled: true
+
+TranslationKeyExists:
+  enabled: true
+
+MatchingTranslations:
+  enabled: true
+
+ValidSchemaTranslations:
+  enabled: true
+
+ImgLazyLoading:
+  enabled: true
+
+ImgWidthAndHeight:
+  enabled: true
+
+ParserBlockingScript:
+  enabled: true
+
+ContentForHeaderModification:
+  enabled: true
+
+CdnPreconnect:
+  enabled: true
+
+RemoteAsset:
+  enabled: true
+
+AssetSizeCSS:
+  enabled: true
+  threshold_in_bytes: 100000
+
+AssetSizeJavaScript:
+  enabled: true
+  threshold_in_bytes: 40000
+
+DeprecatedFilter:
+  enabled: true
+
+DeprecatedTag:
+  enabled: true
+
+ValidHTMLTranslation:
+  enabled: true
+
+UnusedAssign:
+  enabled: true
+
+UnusedSnippet:
+  enabled: true

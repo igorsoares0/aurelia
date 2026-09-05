@@ -1,0 +1,107 @@
+{% doc %}
+  Renders the email signup form.
+
+  The label is real and visible -- the placeholder is an example of the format,
+  never the label itself. Success and failure are announced through the same
+  live region so a customer using a screen reader learns the outcome without
+  having to hunt for it.
+
+  @param {string} id - Unique id for the input, so the label's `for` matches
+  @param {string} [label] - Overrides the default label
+  @param {string} [placeholder] - Example value shown inside the field
+  @param {string} [note] - Small print under the field
+  @param {string} [button_label] - Overrides the default button label
+  @param {string} [class] - Extra classes for the wrapper
+
+  @example
+  {% render 'newsletter-form', id: 'FooterNewsletter', note: 'About six letters a year.' %}
+{% enddoc %}
+
+{% liquid
+  assign form_class = 'newsletter ' | append: class
+
+  if label == blank
+    assign label = 'newsletter.label' | t
+  endif
+  if placeholder == blank
+    assign placeholder = 'newsletter.placeholder' | t
+  endif
+  if button_label == blank
+    assign button_label = 'newsletter.submit' | t
+  endif
+%}
+
+{% form 'customer', class: form_class %}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+
+  <label class="field__label newsletter__label" for="{{ id }}">{{ label }}</label>
+
+  <div class="newsletter__row">
+    <input
+      class="field__input newsletter__input"
+      id="{{ id }}"
+      type="email"
+      name="contact[email]"
+      value="{{ form.email }}"
+      autocomplete="email"
+      autocapitalize="off"
+      spellcheck="false"
+      placeholder="{{ placeholder }}"
+      required
+      {% if form.errors %}
+        aria-invalid="true"
+        aria-describedby="{{ id }}-error"
+      {% endif %}
+    >
+    <button class="button button--secondary newsletter__submit" type="submit">
+      {{- button_label -}}
+    </button>
+  </div>
+
+  {%- if form.errors -%}
+    <p class="field__error" id="{{ id }}-error" role="alert">
+      <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+      {{ form.errors.messages.email }}
+    </p>
+  {%- elsif form.posted_successfully? -%}
+    <p class="newsletter__success" role="status">{{ 'newsletter.success' | t }}</p>
+  {%- endif -%}
+
+  {%- if note != blank -%}
+    <p class="newsletter__note">{{ note }}</p>
+  {%- endif -%}
+{% endform %}
+
+{% stylesheet %}
+  .newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 25rem;
+  }
+
+  .newsletter__row {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .newsletter__input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .newsletter__submit {
+    flex: 0 0 auto;
+  }
+
+  .newsletter__note,
+  .newsletter__success {
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .newsletter__success {
+    color: var(--color-heading);
+  }
+{% endstylesheet %}

@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "blocks": {
+        "gift": {
+          "type": "service",
+          "settings": { "label": "Gift box and hand-written card", "note": "included" }
+        },
+        "sizing": {
+          "type": "service",
+          "settings": { "label": "Resize before shipping", "note": "free, adds 3 days" }
+        }
+      },
+      "block_order": ["gift", "sizing"],
+      "settings": {
+        "color_scheme": "ground",
+        "empty_body": "Nothing kept yet. The current chapter is twelve pieces.",
+        "empty_link_label": "Read the journal"
+      }
+    }
+  },
+  "order": ["main"]
+}

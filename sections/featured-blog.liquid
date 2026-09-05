@@ -1,0 +1,258 @@
+{% comment %}
+  The journal, as full-width rows rather than cards.
+
+  A row gives the headline room to be a headline. Three cards would shrink each
+  one to a fragment, and the journal is the part of the site that is meant to be
+  read.
+
+  Each row is one link covering the whole row, so there is one tab stop per
+  article and no duplicate accessible names.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign target = section.settings.blog
+  assign count = section.settings.posts_count
+%}
+
+<div class="journal color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="journal__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      <div class="journal__head">
+        <h2 class="journal__heading">{{ section.settings.heading | escape }}</h2>
+        {%- if target.url != blank -%}
+          <a class="journal__all" href="{{ target.url }}">
+            {{- 'blog.all_articles' | t -}}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      <ul class="journal__list">
+        {%- for article in target.articles limit: count -%}
+          {%- liquid
+            assign topic = article.tags.first
+            assign words = article.content | strip_html | split: ' ' | size
+            assign minutes = words | divided_by: 220
+            if minutes < 1
+              assign minutes = 1
+            endif
+            assign row_alt = article.image.alt | default: article.title
+          -%}
+          <li class="journal__row">
+            <a class="journal__link" href="{{ article.url }}">
+              <span class="journal__topic">{{ topic }}</span>
+
+              {%- if section.settings.show_thumbnail -%}
+                <span class="journal__thumb">
+                  {% render 'image',
+                    image: article.image,
+                    alt: row_alt,
+                    ratio: 'media--wide',
+                    sizes: '120px',
+                    placeholder: 'blog-apparel-1'
+                  %}
+                </span>
+              {%- endif -%}
+
+              <span class="journal__title">{{ article.title | escape }}</span>
+
+              <span class="journal__meta">
+                <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                  {{- article.published_at | date: format: 'date' -}}
+                </time>
+                {%- if section.settings.show_read_time -%}
+                  <span aria-hidden="true"> &middot; </span>
+                  {{ 'blog.read_time_html' | t: minutes: minutes }}
+                {%- endif -%}
+              </span>
+            </a>
+          </li>
+        {%- else -%}
+          <li class="journal__row">
+            <p class="journal__empty">{{ 'blog.empty' | t }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .journal {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .journal__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .journal__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-block-end: var(--space-5);
+    border-block-end: 1px solid var(--hairline-section);
+  }
+
+  .journal__heading {
+    font-size: var(--text-display-sm);
+    line-height: 1.12;
+  }
+
+  .journal__all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .journal__list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .journal__row {
+    border-block-end: 1px solid var(--hairline-row);
+  }
+
+  .journal__link {
+    display: grid;
+    grid-template-columns: 150px 120px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-5) var(--space-1);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color var(--motion-hover) ease;
+  }
+
+  .journal__link:hover {
+    background-color: var(--color-tint);
+  }
+
+  .journal__topic {
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-accent);
+  }
+
+  .journal__thumb {
+    display: block;
+    width: 120px;
+  }
+
+  .journal__title {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-title-xl);
+    line-height: 1.28;
+    color: var(--color-heading);
+    min-width: 0;
+  }
+
+  .journal__meta {
+    font-size: var(--text-detail);
+    white-space: nowrap;
+    color: var(--color-secondary);
+  }
+
+  .journal__empty {
+    padding-block: var(--space-5);
+    font-size: var(--text-detail);
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 989px) {
+    .journal__link {
+      grid-template-columns: 96px minmax(0, 1fr);
+      grid-template-areas:
+        'topic topic'
+        'thumb title'
+        'thumb meta';
+      gap: var(--space-2) var(--space-4);
+      align-items: start;
+    }
+
+    .journal__topic {
+      grid-area: topic;
+    }
+
+    .journal__thumb {
+      grid-area: thumb;
+      width: 96px;
+    }
+
+    .journal__title {
+      grid-area: title;
+      font-size: var(--text-title);
+    }
+
+    .journal__meta {
+      grid-area: meta;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.journal",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "From the journal" },
+    { "type": "blog", "id": "blog", "label": "t:labels.blog" },
+    {
+      "type": "range",
+      "id": "posts_count",
+      "label": "t:labels.posts",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnail",
+      "label": "t:labels.show_thumbnail",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_time",
+      "label": "t:labels.show_read_time",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_blog_articles",
+      "category": "t:general.cat_content"
+    }
+  ]
+}
+{% endschema %}

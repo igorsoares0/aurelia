@@ -1,0 +1,225 @@
+{% doc %}
+  Renders the product media: a hero, then the remaining pieces two up.
+
+  On a narrow screen the same list becomes a snap carousel with a live position
+  counter, because a stacked column of 430px images is a very long scroll on a
+  phone. It is the same DOM either way -- restructured by CSS, not duplicated.
+
+  Media type is always named, never left to an icon. A badge reads "Video, 24
+  seconds" and the thumbnail's accessible name says the same thing, so a
+  customer knows what they are about to open before they open it.
+
+  When a variant carries its own image, that image leads. Showing the variant's
+  photograph when the variant is selected is a Theme Store requirement, and the
+  gallery would otherwise keep showing the first media of the product no matter
+  what the customer chose.
+
+  Video and 3D are deferred: the poster renders, and the real player is only
+  created when someone presses play. Nothing autoplays and nothing has sound --
+  a self-starting video on a jewellery page is an interruption, and it costs
+  Lighthouse points besides.
+
+  @param {object} product - The product whose media to render
+  @param {object} [variant] - The selected variant, so its image leads
+  @param {number} [hero_height] - Height of the first item in px
+  @param {number} [detail_height] - Height of each following item in px
+  @param {string} [section_id] - Namespaces the element ids
+
+  @example
+  {% render 'product-media-gallery', product: product, variant: variant, hero_height: 760 %}
+{% enddoc %}
+
+{% liquid
+  assign hero = hero_height | default: 760
+  assign detail = detail_height | default: 420
+  assign prefix = section_id | default: 'ProductGallery'
+  assign counter_id = prefix | append: '-counter'
+
+  assign media_list = product.media
+  assign hero_media = variant.featured_media | default: media_list.first
+%}
+
+<aurelia-gallery
+  class="gallery"
+  style="--hero-height: {{ hero }}px; --detail-height: {{ detail }}px;"
+  data-gallery
+>
+  {%- if media_list.size == 0 -%}
+    <div class="media media--fixed gallery__item" style="--media-height: {{ hero }}px;">
+      {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+    </div>
+  {%- else -%}
+    <ul
+      class="gallery__list"
+      tabindex="0"
+      aria-label="{{ 'products.media_gallery' | t }}"
+      data-gallery-list
+    >
+      {%- comment -%} The selected variant's image leads. {%- endcomment -%}
+      {%- for media in media_list -%}
+        {%- if media.id != hero_media.id -%}
+          {%- continue -%}
+        {%- endif -%}
+        {% render 'product-media-item', media: media, product: product, is_hero: true, height: hero %}
+      {%- endfor -%}
+
+      {%- for media in media_list -%}
+        {%- if media.id == hero_media.id -%}
+          {%- continue -%}
+        {%- endif -%}
+        {% render 'product-media-item', media: media, product: product, is_hero: false, height: detail %}
+      {%- endfor -%}
+    </ul>
+
+    <p class="gallery__counter" id="{{ counter_id }}" aria-live="polite" data-gallery-counter>
+      {{- 'products.media_position' | t: index: 1, total: media_list.size -}}
+    </p>
+
+    {%- if media_list.size > 1 -%}
+      <p class="gallery__hint">{{ 'accessibility.rail_hint' | t }}</p>
+    {%- endif -%}
+
+    {%- assign has_video = media_list | where: 'media_type', 'video' -%}
+    {%- if has_video.size > 0 -%}
+      <p class="gallery__policy">{{ 'products.video_policy' | t }}</p>
+    {%- endif -%}
+  {%- endif -%}
+</aurelia-gallery>
+
+{% stylesheet %}
+  .gallery {
+    display: block;
+    position: relative;
+  }
+
+  .gallery__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* No gap. The hairlines between panels are the gutter. */
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .gallery__item {
+    position: relative;
+    min-width: 0;
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .gallery__item:nth-child(even) {
+    border-inline-start: 1px solid var(--hairline-section);
+  }
+
+  .gallery__item--hero {
+    grid-column: 1 / -1;
+    border-block-start: 0;
+  }
+
+  .gallery__figure {
+    margin: 0;
+    height: 100%;
+  }
+
+  .gallery__media {
+    height: var(--detail-height);
+  }
+
+  .gallery__item--hero .gallery__media {
+    height: var(--hero-height);
+  }
+
+  .gallery__badge {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--color-heading);
+    color: var(--color-background);
+    font-size: var(--text-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Bottom-left, not centred: a centred play button covers the piece. */
+  .gallery__play {
+    position: absolute;
+    left: var(--space-4);
+    bottom: var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4.5rem;
+    min-height: 4.5rem;
+    background-color: var(--color-heading);
+    color: var(--color-background);
+    border: 1px solid var(--color-background);
+    font-size: var(--text-title-sm);
+  }
+
+  .gallery__caption {
+    padding: var(--space-3) var(--space-4) 0;
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  .gallery__counter {
+    display: none;
+  }
+
+  .gallery__hint,
+  .gallery__policy {
+    padding: var(--space-3) var(--space-4) 0;
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .gallery__hint {
+    display: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    /* Restructured, not scaled: the column becomes a snap carousel. */
+    .gallery__list {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .gallery__list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery__item,
+    .gallery__item--hero {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      border: 0;
+    }
+
+    .gallery__media,
+    .gallery__item--hero .gallery__media {
+      height: min(var(--detail-height), 110vw);
+    }
+
+    .gallery__counter {
+      position: absolute;
+      right: var(--space-4);
+      top: calc(min(var(--detail-height), 110vw) - 3rem);
+      display: block;
+      padding: var(--space-1) var(--space-3);
+      background-color: var(--color-heading);
+      color: var(--color-background);
+      font-size: var(--text-label);
+      letter-spacing: 0.1em;
+    }
+
+    .gallery__hint {
+      display: block;
+    }
+  }
+{% endstylesheet %}

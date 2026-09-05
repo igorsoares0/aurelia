@@ -1,0 +1,212 @@
+{% doc %}
+  Renders the buy area: the lead-time callout, the product form, the button and
+  the accelerated checkout buttons -- or, when the piece is sold out, a waitlist
+  and a route to a commission.
+
+  The `{% form 'product' %}` block lives here rather than around the whole panel
+  for two reasons. `payment_button` needs the form object and `{% render %}` has
+  isolated scope, so the filter has to be called inside the same file as the
+  form tag. And the sold-out branch is itself a form, which cannot be nested
+  inside another one.
+
+  Controls that sit elsewhere in the panel -- quantity, engraving -- are wired
+  back to this form with `form="{{ form_id }}"`.
+
+  When a piece is sold out there is no dead button. A disabled "Add to bag"
+  looks like it should work and does not; the customer gets a one-piece waitlist
+  with its own label instead. Sold-out option values stay visible and dashed,
+  which the variant picker handles.
+
+  The lead-time callout sits *above* the button. A customer should learn that a
+  piece takes twenty-one days before they commit, not after.
+
+  @param {object} product - The product being shown
+  @param {object} variant - The currently selected variant
+  @param {string} form_id - Id to give the product form
+  @param {boolean} [show_dynamic] - Render the accelerated checkout buttons
+  @param {string} [lead_time] - Lead-time text, shown as a callout above the button
+  @param {string} [reassurance] - Small print under the button
+  @param {string} [commission_url] - Where "Commission something similar" points
+
+  @example
+  {% render 'buy-buttons', product: product, variant: variant, form_id: 'ProductForm', show_dynamic: true %}
+{% enddoc %}
+
+{% liquid
+  assign sold_out = true
+  if variant and variant.available
+    assign sold_out = false
+  endif
+
+  assign button_label = 'products.add_to_bag' | t
+  if sold_out == false
+    assign price_text = variant.price | money
+    assign button_label = 'products.add_to_bag_price_html' | t: price: price_text
+  endif
+
+  assign waitlist_id = 'Waitlist-' | append: product.id
+  assign waitlist_error_id = waitlist_id | append: '-error'
+  assign waitlist_body = 'Waitlist request: ' | append: product.title | append: ' / ' | append: variant.title
+%}
+
+<div class="buy">
+  {%- comment -%}
+    Polite, not assertive: a cart failure after the fact is reported, not
+    announced over whatever the customer is doing.
+  {%- endcomment -%}
+  <div class="buy__error" data-form-error role="status" hidden></div>
+
+  {%- if sold_out -%}
+    <div class="buy__waitlist">
+      <p class="badge badge--sold-out">{{ 'products.sold_out' | t }}</p>
+
+      {% form 'contact', class: 'buy__waitlist-form' %}
+        <input type="hidden" name="contact[body]" value="{{ waitlist_body | escape }}">
+        <input type="hidden" name="contact[tags]" value="waitlist">
+
+        <label class="field__label" for="{{ waitlist_id }}">{{ 'products.waitlist_heading' | t }}</label>
+
+        <div class="buy__waitlist-row">
+          <input
+            class="field__input buy__waitlist-input"
+            id="{{ waitlist_id }}"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="{{ 'newsletter.placeholder' | t }}"
+            required
+            {% if form.errors %}
+              aria-invalid="true"
+              aria-describedby="{{ waitlist_error_id }}"
+            {% endif %}
+          >
+          <button class="button button--secondary" type="submit">
+            {{- 'products.waitlist_submit' | t -}}
+          </button>
+        </div>
+
+        {%- if form.errors -%}
+          <p class="field__error" id="{{ waitlist_error_id }}" role="alert">
+            <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+            {{ form.errors.messages.email }}
+          </p>
+        {%- elsif form.posted_successfully? -%}
+          <p class="buy__note" role="status">{{ 'newsletter.success' | t }}</p>
+        {%- endif -%}
+
+        <p class="buy__note">{{ 'products.waitlist_note' | t }}</p>
+      {% endform %}
+
+      {%- if commission_url != blank -%}
+        <a class="button button--secondary button--full" href="{{ commission_url }}">
+          {{- 'products.commission' | t -}}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    {%- if lead_time != blank -%}
+      <div class="buy__lead-time">
+        <p class="eyebrow">{{ 'products.lead_time' | t }}</p>
+        <p class="buy__lead-time-body">{{ lead_time }}</p>
+      </div>
+    {%- endif -%}
+
+    {% form 'product', product, id: form_id, class: 'buy__form', novalidate: 'novalidate' %}
+      <input type="hidden" name="id" value="{{ variant.id }}" data-variant-id>
+
+      <button class="button button--primary button--full buy__submit" type="submit" name="add">
+        {{- button_label -}}
+      </button>
+
+      {%- if show_dynamic -%}
+        <div class="buy__dynamic">{{ form | payment_button }}</div>
+      {%- endif -%}
+    {% endform %}
+  {%- endif -%}
+
+  {%- if reassurance != blank -%}
+    <p class="buy__note">{{ reassurance }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .buy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .buy__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  /* Above the button, on purpose. */
+  .buy__lead-time {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background-color: var(--color-tint);
+    border-inline-start: 3px solid var(--color-accent);
+  }
+
+  .buy__lead-time-body {
+    font-size: var(--text-detail);
+    line-height: 1.65;
+  }
+
+  .buy__waitlist {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+
+  .buy__waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .buy__waitlist-row {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .buy__waitlist-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .buy__note {
+    font-size: var(--text-caption);
+    line-height: 1.7;
+    color: var(--color-secondary);
+  }
+
+  .buy__error[hidden] {
+    display: none;
+  }
+
+  .buy__error {
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-tint);
+    border-inline-start: 3px solid var(--color-secondary);
+    font-size: var(--text-detail);
+  }
+
+  .buy__submit.is-pending {
+    opacity: 0.7;
+  }
+
+  .buy__dynamic {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+{% endstylesheet %}

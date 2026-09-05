@@ -1,0 +1,185 @@
+{% comment %}
+  Saved addresses, and the form to add or edit one.
+
+  Every field carries the right `autocomplete` token. That is not decoration:
+  it is what lets a browser or password manager fill an address in one gesture,
+  and it is the single highest-value accessibility win on a form like this.
+
+  The default address is marked with a heavier rule *and* the word "Default", so
+  it is not distinguished by weight alone.
+
+  The country and province selects are wired together by Shopify's own
+  `country_option_tags`, so choosing a country updates its provinces.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-account' %}
+
+<div class="account-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="account-page__inner">
+      <div class="account-page__head">
+        <h1 class="account-page__name">{{ 'customers.addresses.title' | t }}</h1>
+      </div>
+
+      <div class="account-page__layout">
+        {% render 'account-nav', current: 'addresses' %}
+
+        <div class="account-page__main">
+          {%- if customer.addresses.size > 0 -%}
+            <ul class="addresses">
+              {%- for address in customer.addresses -%}
+                <li class="address{% if address == customer.default_address %} address--default{% endif %}">
+                  {%- if address == customer.default_address -%}
+                    <p class="eyebrow">{{ 'customers.addresses.default' | t }}</p>
+                  {%- endif -%}
+
+                  <address class="address__body">{{ address | format_address }}</address>
+
+                  <div class="address__actions">
+                    <a class="link-tap link-inline" href="#EditAddress-{{ address.id }}">
+                      {{- 'customers.addresses.edit' | t -}}
+                    </a>
+
+                    {% form 'customer_address', address, class: 'address__delete' %}
+                      <input type="hidden" name="_method" value="delete">
+                      <button class="link-tap address__delete-button" type="submit">
+                        {{- 'customers.addresses.delete' | t -}}
+                      </button>
+                    {% endform %}
+                  </div>
+
+                  <div class="address__form" id="EditAddress-{{ address.id }}">
+                    {% form 'customer_address', address, class: 'account-form address-form' %}
+                      {% render 'address-fields', address: address, prefix: address.id %}
+                      <div class="account-page__actions">
+                        <button class="button button--primary" type="submit">
+                          {{- 'customers.addresses.save' | t -}}
+                        </button>
+                        <a class="button button--secondary" href="#Addresses">
+                          {{- 'customers.addresses.cancel' | t -}}
+                        </a>
+                      </div>
+                    {% endform %}
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <p class="account-page__body">{{ 'customers.addresses.none' | t }}</p>
+          {%- endif -%}
+
+          <section class="account-page__new" id="Addresses" aria-labelledby="NewAddress">
+            <h2 class="eyebrow eyebrow--quiet" id="NewAddress">
+              {{- 'customers.addresses.add' | t -}}
+            </h2>
+
+            {% form 'customer_address', customer.new_address, class: 'account-form address-form' %}
+              {% render 'address-fields', prefix: 'new' %}
+              <div class="account-page__actions">
+                <button class="button button--primary" type="submit">
+                  {{- 'customers.addresses.save' | t -}}
+                </button>
+              </div>
+            {% endform %}
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .addresses {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .address {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--hairline-group);
+  }
+
+  /* Heavier rule and the word, never the rule alone. */
+  .address--default {
+    border: 1.5px solid var(--color-heading);
+  }
+
+  .address__body {
+    font-style: normal;
+    font-size: var(--text-detail);
+    line-height: 1.75;
+  }
+
+  .address__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .address__delete-button {
+    font-size: var(--text-detail);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    color: var(--color-secondary);
+  }
+
+  /* Revealed by its own fragment link, so editing works without JavaScript. */
+  .address__form {
+    display: none;
+    width: 100%;
+  }
+
+  .address__form:target {
+    display: block;
+  }
+
+  .address-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    padding-block-start: var(--space-5);
+  }
+
+  .address-form__wide {
+    grid-column: span 2;
+  }
+
+  @media screen and (max-width: 749px) {
+    .addresses,
+    .address-form {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .address-form__wide {
+      grid-column: span 1;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.addresses",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/addresses"]
+  }
+}
+{% endschema %}

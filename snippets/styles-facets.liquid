@@ -1,0 +1,71 @@
+{% doc %}
+  Styles shared by the collection grid and the search results page.
+
+  This snippet renders nothing. Shopify subsets `{% stylesheet %}` CSS to the
+  files in a page's render tree, so styles shared by sections that never render
+  together have to be pulled in by something each of them renders. Keeping them
+  in `critical.css` instead would ship them to every page in the theme.
+
+  @example
+  {% render 'styles-facets' %}
+{% enddoc %}
+
+{% stylesheet %}
+.collection__sidebar--sticky {
+position: sticky;
+top: var(--space-5);
+}
+
+.collection__bar {
+display: none;
+}
+
+.collection__sheet-head {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: var(--space-4);
+padding: var(--space-4) var(--space-5);
+border-block-end: 1px solid var(--hairline-section);
+}
+
+.collection__sheet-close {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+min-width: var(--tap-target);
+min-height: var(--tap-target);
+font-size: var(--text-title-sm);
+color: var(--color-heading);
+}
+
+.collection__sheet-body {
+flex: 1;
+overflow-y: auto;
+padding: var(--space-4) var(--space-5) var(--space-6);
+}
+
+@media screen and (max-width: 989px) {
+
+.collection__bar {
+  display: flex;
+  gap: var(--space-3);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding-block: var(--space-3);
+  background-color: var(--color-background);
+  border-block: 1px solid var(--hairline-section);
+}
+
+.collection__bar-button {
+  flex: 1;
+}
+}
+
+@media screen and (min-width: 990px) {
+.collection__sheet {
+  display: none;
+}
+}
+{% endstylesheet %}

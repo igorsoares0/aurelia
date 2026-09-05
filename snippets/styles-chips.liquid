@@ -1,0 +1,54 @@
+{% doc %}
+  Styles shared by applied filters on collection and search, and topic filters on the journal and an article.
+
+  This snippet renders nothing. Shopify subsets `{% stylesheet %}` CSS to the
+  files in a page's render tree, so styles shared by sections that never render
+  together have to be pulled in by something each of them renders. Keeping them
+  in `critical.css` instead would ship them to every page in the theme.
+
+  @example
+  {% render 'styles-chips' %}
+{% enddoc %}
+
+{% stylesheet %}
+.chip {
+display: inline-flex;
+align-items: center;
+gap: var(--space-2);
+min-height: var(--tap-target);
+padding-inline: var(--space-3) var(--space-4);
+background-color: var(--color-tint);
+font-size: var(--text-caption);
+color: var(--color-heading);
+}
+
+.chip__label {
+white-space: nowrap;
+}
+
+.chip__remove:hover {
+color: var(--color-heading);
+}
+
+.chip--link {
+min-height: var(--tap-target);
+padding-inline: var(--space-4);
+background-color: transparent;
+border: 1px solid var(--hairline-control);
+font-size: var(--text-label);
+font-weight: var(--font-body--weight-medium);
+letter-spacing: 0.12em;
+text-transform: uppercase;
+text-decoration: none;
+}
+
+.chip--link:hover {
+border-color: var(--color-heading);
+}
+
+.chip--current {
+background-color: var(--color-heading);
+color: var(--color-background);
+border-color: var(--color-heading);
+}
+{% endstylesheet %}

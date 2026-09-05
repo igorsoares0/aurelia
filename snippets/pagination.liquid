@@ -1,0 +1,142 @@
+{% doc %}
+  Renders pagination.
+
+  Two details that are easy to get wrong and matter here. An inert "Previous" is
+  a `<span>`, not a disabled `<a>` -- a disabled link is still in the tab order
+  in some browsers and reads as a link that does nothing. And the current
+  position is stated off screen as a sentence, because "1" carrying
+  `aria-current` tells a screen reader user which page they are on but not how
+  many there are.
+
+  Every page target is 44px square.
+
+  @param {object} paginate - The paginate object from a `{% paginate %}` block
+  @param {string} [label] - Accessible name for the nav
+  @param {string} [anchor] - Fragment appended to each link, to return to the grid
+
+  @example
+  {% paginate collection.products by 12 %}
+    ...
+    {% render 'pagination', paginate: paginate, anchor: '#ProductGrid' %}
+  {% endpaginate %}
+{% enddoc %}
+
+{%- liquid
+  assign ellipsis = '&hellip;' | escape_once
+-%}
+
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="{{ label | default: 'Pagination' }}">
+    {%- if paginate.previous -%}
+      <a class="pagination__edge" href="{{ paginate.previous.url }}{{ anchor }}" rel="prev">
+        <span aria-hidden="true">&larr;</span>
+        {{ 'general.previous' | t }}
+      </a>
+    {%- else -%}
+      <span class="pagination__edge pagination__edge--inert">
+        <span aria-hidden="true">&larr; {{ 'general.previous' | t }}</span>
+        <span class="visually-hidden">
+          {{- 'accessibility.current_page' | t: page: paginate.current_page, total: paginate.pages -}}
+        </span>
+      </span>
+    {%- endif -%}
+
+    <ul class="pagination__pages">
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a class="pagination__page" href="{{ part.url }}{{ anchor }}">{{ part.title }}</a>
+          {%- elsif part.title == ellipsis or part.title == '…' -%}
+            <span class="pagination__ellipsis" aria-hidden="true">{{ part.title }}</span>
+          {%- else -%}
+            <span class="pagination__page pagination__page--current" aria-current="page">
+              {{- part.title -}}
+            </span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if paginate.next -%}
+      <a class="pagination__edge pagination__edge--next" href="{{ paginate.next.url }}{{ anchor }}" rel="next">
+        {{ 'general.next' | t }}
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    {%- else -%}
+      <span class="pagination__edge pagination__edge--inert">
+        <span aria-hidden="true">{{ 'general.next' | t }} &rarr;</span>
+        <span class="visually-hidden">
+          {{- 'accessibility.current_page' | t: page: paginate.current_page, total: paginate.pages -}}
+        </span>
+      </span>
+    {%- endif -%}
+  </nav>
+{%- endif -%}
+
+{% stylesheet %}
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-block-start: var(--space-6);
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .pagination__pages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pagination__page,
+  .pagination__edge,
+  .pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--color-heading);
+  }
+
+  .pagination__page:hover {
+    background-color: var(--color-tint);
+  }
+
+  .pagination__page--current {
+    background-color: var(--color-heading);
+    color: var(--color-background);
+  }
+
+  .pagination__edge {
+    gap: var(--space-2);
+    padding-inline: var(--space-5);
+    border: 1px solid var(--hairline-control);
+  }
+
+  .pagination__edge:hover {
+    border-color: var(--color-heading);
+  }
+
+  /* Inert, not disabled: a span cannot be focused or followed. */
+  .pagination__edge--inert {
+    border-color: var(--hairline-group);
+    color: var(--color-secondary);
+  }
+
+  .pagination__ellipsis {
+    min-width: 1.75rem;
+    color: var(--color-secondary);
+  }
+{% endstylesheet %}

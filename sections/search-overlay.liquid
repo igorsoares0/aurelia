@@ -1,0 +1,224 @@
+{% comment %}
+  The search overlay: a dialog that drops from the top of the page.
+
+  The input is a real `<input type="search">` inside a real `role="search"` form
+  that posts to the search page, so pressing Enter works and the overlay
+  degrades to an ordinary search when JavaScript does not run. Predictive
+  results are painted into the results region below it and the count is
+  announced politely, never assertively -- a customer typing does not want to be
+  interrupted after every keystroke.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<aurelia-overlay id="SearchOverlay" class="overlay overlay--top search-overlay color-{{ section.settings.color_scheme }}">
+  <button class="overlay__scrim" type="button" data-overlay-close>
+    <span class="visually-hidden">{{ 'general.close' | t }}</span>
+  </button>
+
+  <div class="overlay__sheet" role="dialog" aria-modal="true" aria-label="{{ 'search.title' | t }}">
+    <aurelia-predictive-search
+      data-enabled="{{ settings.predictive_search_enabled }}"
+      data-limit="{{ section.settings.results_count }}"
+    >
+      <form class="search-overlay__form" action="{{ routes.search_url }}" method="get" role="search">
+        <label class="field__label search-overlay__label" for="SearchOverlayInput">
+          {{- 'search.label' | t -}}
+        </label>
+
+        <input
+          class="search-overlay__input"
+          id="SearchOverlayInput"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'search.placeholder' | t }}"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-describedby="SearchOverlayCount"
+          data-overlay-focus
+          data-predictive-input
+        >
+        <input type="hidden" name="options[prefix]" value="last">
+
+        <button class="search-overlay__submit" type="submit">
+          <span class="visually-hidden">{{ 'search.submit' | t }}</span>
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+
+        <button class="search-overlay__close" type="button" data-overlay-close>
+          <span class="visually-hidden">{{ 'accessibility.close_search' | t }}</span>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </form>
+
+      <div class="search-overlay__results">
+        <div class="search-overlay__aside">
+          {%- if section.settings.suggestions != blank -%}
+            <h2 class="eyebrow eyebrow--quiet">{{ 'search.suggestions' | t }}</h2>
+            <ul class="search-overlay__suggestions">
+              {%- assign suggestions = section.settings.suggestions | split: ',' -%}
+              {%- for suggestion in suggestions -%}
+                {%- assign term = suggestion | strip -%}
+                <li>
+                  <a
+                    class="search-overlay__suggestion"
+                    href="{{ routes.search_url }}?q={{ term | url_encode }}"
+                  >
+                    {{- term -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        <div class="search-overlay__main">
+          <p class="eyebrow eyebrow--quiet" id="SearchOverlayCount" aria-live="polite" data-predictive-count></p>
+          <div id="SearchOverlayResults" data-predictive-results></div>
+        </div>
+      </div>
+    </aurelia-predictive-search>
+  </div>
+</aurelia-overlay>
+
+{% stylesheet %}
+  .search-overlay .overlay__sheet {
+    max-height: 90svh;
+    overflow-y: auto;
+  }
+
+  .search-overlay__form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-6) var(--page-margin) var(--space-5);
+    border-block-end: 1px solid var(--hairline-row);
+  }
+
+  .search-overlay__label {
+    flex: 0 0 auto;
+  }
+
+  .search-overlay__input {
+    flex: 1;
+    min-width: 0;
+    min-height: var(--control-height-primary);
+    padding: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-display-xs);
+    line-height: 1.2;
+    color: var(--color-heading);
+    background: none;
+    border: 0;
+    border-block-end: 1px solid var(--hairline-strong);
+  }
+
+  .search-overlay__input::placeholder {
+    color: var(--color-secondary);
+    opacity: 1;
+  }
+
+  .search-overlay__submit,
+  .search-overlay__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+    font-size: var(--text-title-sm);
+    color: var(--color-heading);
+  }
+
+  .search-overlay__results {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: var(--space-11);
+    padding: var(--space-6) var(--page-margin) var(--space-8);
+  }
+
+  .search-overlay__aside,
+  .search-overlay__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .search-overlay__suggestions {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .search-overlay__suggestion {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-size: var(--text-detail);
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .search-overlay__form {
+      gap: var(--space-3);
+    }
+
+    .search-overlay__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .search-overlay__input {
+      /* 16px keeps iOS from zooming the page when the field takes focus. */
+      font-size: max(1rem, var(--text-title-lg));
+    }
+
+    .search-overlay__results {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.search",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "text",
+      "id": "suggestions",
+      "label": "t:labels.suggestions",
+      "info": "t:info.suggestions",
+      "default": "Signet, Wedding bands, Made to order, Care and repair"
+    },
+    {
+      "type": "range",
+      "id": "results_count",
+      "label": "t:labels.results",
+      "min": 3,
+      "max": 9,
+      "step": 3,
+      "default": 6
+    }
+  ],
+  "enabled_on": {
+    "groups": ["aside"]
+  }
+}
+{% endschema %}

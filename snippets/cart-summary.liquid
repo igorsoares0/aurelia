@@ -1,0 +1,64 @@
+{% doc %}
+  Renders the money rows at the foot of the bag: discounts, subtotal, shipping,
+  then the total, and the checkout button.
+
+  Must sit inside the cart `<form>` so the checkout button submits it. Tax
+  wording follows `cart.taxes_included`, which is a Theme Store requirement
+  rather than a stylistic choice -- a customer has to be able to tell whether
+  the number they are looking at includes tax.
+
+  @param {boolean} [show_checkout] - Render the checkout button. Default true.
+  @param {boolean} [show_dynamic] - Render the accelerated checkout buttons
+  @param {string} [class] - Extra classes for the wrapper
+
+  @example
+  {% render 'cart-summary', show_dynamic: true %}
+{% enddoc %}
+
+{% render 'styles-cart-summary' %}
+
+<div class="cart-summary {{ class }}">
+  {%- if cart.cart_level_discount_applications.size > 0 -%}
+    <ul class="cart-summary__discounts">
+      {%- for discount in cart.cart_level_discount_applications -%}
+        <li class="cart-summary__row cart-summary__row--discount">
+          <span>{{ discount.title }}</span>
+          <span>&minus;{{ discount.total_allocated_amount | money }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <div class="cart-summary__row">
+    <span>{{ 'cart.subtotal' | t }}</span>
+    <span>{{ cart.total_price | money }}</span>
+  </div>
+
+  <div class="cart-summary__row cart-summary__row--quiet">
+    <span>{{ 'cart.shipping' | t }}</span>
+    <span>{{ 'cart.shipping_at_checkout' | t }}</span>
+  </div>
+
+  <div class="cart-summary__row cart-summary__row--total">
+    <span>{{ 'cart.total' | t }}</span>
+    <span>{{ cart.total_price | money_with_currency }}</span>
+  </div>
+
+  <p class="cart-summary__tax">
+    {%- if cart.taxes_included -%}
+      {{ 'cart.taxes_included' | t }}
+    {%- else -%}
+      {{ 'cart.taxes_at_checkout' | t }}
+    {%- endif -%}
+  </p>
+
+  {%- if show_checkout != false -%}
+    <button class="button button--primary button--full" type="submit" name="checkout">
+      {{- 'cart.checkout' | t -}}
+    </button>
+  {%- endif -%}
+
+  {%- if show_dynamic and additional_checkout_buttons -%}
+    <div class="cart-summary__dynamic">{{ content_for_additional_checkout_buttons }}</div>
+  {%- endif -%}
+</div>

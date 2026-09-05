@@ -1,0 +1,26 @@
+{
+  "name": "t:general.footer",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": {
+          "type": "menu",
+          "settings": { "heading": "Shop", "menu": "footer" }
+        },
+        "house": {
+          "type": "menu",
+          "settings": { "heading": "House", "menu": "footer" }
+        }
+      },
+      "block_order": ["shop", "house"],
+      "settings": {
+        "color_scheme": "ground",
+        "show_newsletter": true,
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": ["footer"]
+}

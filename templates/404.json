@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "This piece has been kept.",
+        "body": "The page you asked for is not here. It may have moved, or the chapter may have closed."
+      }
+    }
+  },
+  "order": ["main"]
+}

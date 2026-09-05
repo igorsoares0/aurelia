@@ -1,0 +1,171 @@
+{% comment %}
+  Quotes, on the ink ground, continuing from the atelier band above.
+
+  No avatars. A stock headshot beside a quote makes the quote look bought; the
+  attribution -- a name, a piece, a year -- is more specific and more credible
+  than a face.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="quotes color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="quotes__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      {%- if section.settings.heading != blank -%}
+        <h2 class="eyebrow eyebrow--wide quotes__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <ul class="quotes__grid" style="--columns: {{ section.settings.columns }};">
+        {%- for block in section.blocks -%}
+          <li class="quote" {{ block.shopify_attributes }}>
+            <figure class="quote__figure">
+              <blockquote class="quote__text">
+                <p>{{ block.settings.quote | escape }}</p>
+              </blockquote>
+              <figcaption class="quote__attribution">
+                <span class="quote__name">{{ block.settings.name | escape }}</span>
+                {%- if block.settings.piece != blank -%}
+                  {{ block.settings.piece | escape }}
+                {%- endif -%}
+                {%- if block.settings.year != blank -%}
+                  <span aria-hidden="true"> &middot; </span>{{ block.settings.year | escape }}
+                {%- endif -%}
+              </figcaption>
+            </figure>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .quotes {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .quotes__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-11);
+  }
+
+  .quotes__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-11);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .quote {
+    padding-block-start: var(--space-6);
+    border-block-start: 1px solid var(--hairline-strong);
+    min-width: 0;
+  }
+
+  .quote__figure {
+    margin: 0;
+  }
+
+  .quote__text {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-title-lg);
+    line-height: 1.38;
+    color: var(--color-heading);
+  }
+
+  .quote__attribution {
+    margin-block-start: var(--space-5);
+    padding-block-start: var(--space-4);
+    border-block-start: 1px solid var(--hairline-quiet);
+    font-size: var(--text-detail);
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+
+  .quote__name {
+    display: block;
+    color: var(--color-heading);
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Restructured: a swipe rail rather than three narrow columns. */
+    .quotes__grid {
+      display: flex;
+      gap: var(--space-6);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .quotes__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .quote {
+      flex: 0 0 80%;
+      scroll-snap-align: start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.testimonials",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ink"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Kept"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "t:general.quote",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "t:labels.quote",
+          "default": "I have worn it every day for two years. It has been polished twice and resized once, both free."
+        },
+        { "type": "text", "id": "name", "label": "t:labels.name", "default": "Marina A." },
+        { "type": "text", "id": "piece", "label": "t:labels.piece", "default": "The Signet" },
+        { "type": "text", "id": "year", "label": "t:labels.year", "default": "2024" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_quotes",
+      "category": "t:general.cat_content",
+      "blocks": [{ "type": "quote" }, { "type": "quote" }, { "type": "quote" }]
+    }
+  ]
+}
+{% endschema %}

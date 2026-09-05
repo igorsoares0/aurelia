@@ -1,0 +1,199 @@
+{% comment %}
+  Press: one pull quote with an attribution, and a row of publication marks.
+
+  The quote comes first and the logos sit under a rule beneath it, because a
+  sentence someone wrote is worth more than five grey wordmarks -- the logos
+  are the evidence, not the claim.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="press color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="press__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      {%- if section.settings.heading != blank -%}
+        <h2 class="eyebrow eyebrow--quiet press__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.quote != blank -%}
+        <figure class="press__figure">
+          <blockquote class="press__quote">
+            <p>{{ section.settings.quote | escape }}</p>
+          </blockquote>
+          {%- if section.settings.cite != blank -%}
+            <figcaption class="press__cite">
+              <cite class="press__cite-name">{{ section.settings.cite | escape }}</cite>
+              {%- if section.settings.cite_date != blank -%}
+                <span aria-hidden="true"> &middot; </span>{{ section.settings.cite_date | escape }}
+              {%- endif -%}
+            </figcaption>
+          {%- endif -%}
+        </figure>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="press__logos" style="--columns: {{ section.blocks.size }}; --logo-height: {{ section.settings.logo_height }}px;">
+          {%- for block in section.blocks -%}
+            <li class="press__logo" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 400
+                  | image_tag: widths: '100, 200, 300, 400', sizes: '160px', alt: block.settings.name, loading: 'lazy'
+                }}
+              {%- else -%}
+                <span class="press__logo-name">{{ block.settings.name | escape }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .press {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .press__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-11);
+  }
+
+  .press__figure {
+    margin: 0;
+    max-width: 56.25rem;
+  }
+
+  .press__quote {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-display-sm);
+    line-height: 1.24;
+    color: var(--color-heading);
+  }
+
+  .press__cite {
+    margin-block-start: var(--space-5);
+    font-size: var(--text-detail);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .press__cite-name {
+    font-style: normal;
+    color: var(--color-heading);
+  }
+
+  .press__logos {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    align-items: center;
+    gap: var(--space-8);
+    padding-block-start: var(--space-8);
+    margin: 0;
+    border-block-start: 1px solid var(--hairline-section);
+    list-style: none;
+  }
+
+  .press__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    height: var(--logo-height);
+  }
+
+  .press__logo img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .press__logo-name {
+    font-size: var(--text-detail);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Five marks do not fit; three is the honest number on a phone. */
+    .press__logos {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+
+    .press__logo:nth-child(n + 4) {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.press",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Written about" },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "t:labels.quote",
+      "default": "Twelve pieces a year, made by four people, and a waiting list either way."
+    },
+    { "type": "text", "id": "cite", "label": "t:labels.cite", "default": "Vogue Brasil" },
+    { "type": "text", "id": "cite_date", "label": "t:labels.date", "default": "March 2026" },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "t:labels.logo_height",
+      "min": 24,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "default": 44
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:general.logo_list",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:labels.name",
+          "info": "t:info.logo_name",
+          "default": "Publication"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_logo_list",
+      "category": "t:general.cat_content",
+      "blocks": [
+        { "type": "logo" }, { "type": "logo" }, { "type": "logo" },
+        { "type": "logo" }, { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

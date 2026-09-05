@@ -1,0 +1,99 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb": { "type": "breadcrumb", "settings": {} },
+        "eyebrow": { "type": "eyebrow", "settings": { "text": "Chapter one" } },
+        "title": { "type": "title", "settings": {} },
+        "price": { "type": "price", "settings": { "show_instalments": true } },
+        "description": { "type": "description", "settings": {} },
+        "variant_picker": { "type": "variant_picker", "settings": {} },
+        "quantity": { "type": "quantity", "settings": {} },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "lead_time": "Made to order in 21 days, then shipped.",
+            "reassurance": "Free shipping and free resizing, for life."
+          }
+        },
+        "pickup": { "type": "pickup", "settings": {} },
+        "spec_list": { "type": "spec_list", "settings": { "summary_label": "Specification" } }
+      },
+      "block_order": [
+        "breadcrumb",
+        "eyebrow",
+        "title",
+        "price",
+        "description",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "pickup",
+        "spec_list"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "hero_height": 760,
+        "detail_height": 420,
+        "sticky_panel": true
+      }
+    },
+    "complementary": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "complementary",
+        "heading": "Worn with",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    },
+    "care": {
+      "type": "collapsible-content",
+      "blocks": {
+        "making": {
+          "type": "row",
+          "settings": {
+            "heading": "How long does a piece take?",
+            "text": "<p>Twenty-one days from order to shipping. Resizing adds three.</p>"
+          }
+        },
+        "sizing": {
+          "type": "row",
+          "settings": {
+            "heading": "Sizing and resizing",
+            "text": "<p>Resizing is free for life, up to three sizes either way.</p>"
+          }
+        },
+        "shipping": {
+          "type": "row",
+          "settings": {
+            "heading": "Shipping and returns",
+            "text": "<p>Insured shipping worldwide. Thirty days to return an unworn piece. Engraved pieces are final sale.</p>"
+          }
+        }
+      },
+      "block_order": ["making", "sizing", "shipping"],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Care and shipping",
+        "intro": "",
+        "open_first": false
+      }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    }
+  },
+  "order": ["main", "complementary", "care", "related"]
+}

@@ -1,0 +1,90 @@
+{% comment %}
+  Activate an invited account, or decline the invitation.
+
+  Both actions are real submit buttons on the same form -- declining is not a
+  link that quietly does nothing.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-account' %}
+
+<div class="account-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="account-page__narrow">
+      <div class="account-page__panel">
+        <p class="eyebrow eyebrow--wide">{{ 'customers.activate.eyebrow' | t }}</p>
+        <h1 class="account-page__title">{{ 'customers.activate.title' | t }}</h1>
+
+        {% form 'activate_customer_password', class: 'account-form', novalidate: 'novalidate' %}
+          {%- if form.errors -%}
+            <div class="form-error-summary" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="field">
+            <label class="field__label" for="ActivatePassword">
+              {{- 'customers.activate.password' | t -}}
+            </label>
+            <input
+              class="field__input"
+              id="ActivatePassword"
+              type="password"
+              name="customer[password]"
+              autocomplete="new-password"
+              required
+              aria-describedby="ActivatePasswordHelp"
+              {% if form.errors %}aria-invalid="true"{% endif %}
+            >
+            <p class="account-page__help" id="ActivatePasswordHelp">
+              {{ 'customers.register.password_help' | t }}
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="ActivatePasswordConfirm">
+              {{- 'customers.activate.password_confirm' | t -}}
+            </label>
+            <input
+              class="field__input"
+              id="ActivatePasswordConfirm"
+              type="password"
+              name="customer[password_confirmation]"
+              autocomplete="new-password"
+              required
+              {% if form.errors %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="account-page__actions">
+            <button class="button button--primary account-page__primary" type="submit">
+              {{- 'customers.activate.submit' | t -}}
+            </button>
+            <button class="button button--secondary" type="submit" name="decline">
+              {{- 'customers.activate.decline' | t -}}
+            </button>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:general.activate_account",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/activate_account"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,301 @@
+{% comment %}
+  The account overview: orders, then the care record.
+
+  The orders table uses `scope="row"` on the order number, which is what lets a
+  screen reader say "Order 1024, Total, R$ 4,280" instead of reading a bare
+  currency figure with no context.
+
+  The care record reads a piece metafield off each ordered product. Where no
+  such metafield exists the card simply shows the piece, so the section is
+  useful on a store that has not set any of it up.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-account' %}
+
+<div class="account-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="account-page__inner">
+      <div class="account-page__head">
+        <h1 class="account-page__name">{{ customer.first_name | default: customer.email }}</h1>
+        <p class="account-page__email">{{ customer.email }}</p>
+      </div>
+
+      <div class="account-page__layout">
+        {% render 'account-nav', current: 'orders' %}
+
+        <div class="account-page__main">
+          <section aria-labelledby="AccountOrders">
+            <h2 class="eyebrow eyebrow--quiet" id="AccountOrders">
+              {{- 'customers.account.orders' | t -}}
+            </h2>
+
+            {%- paginate customer.orders by 12 -%}
+              {%- if customer.orders.size == 0 -%}
+                <p class="account-page__body">{{ 'customers.account.no_orders' | t }}</p>
+              {%- else -%}
+                <table class="orders">
+                  <caption class="visually-hidden">{{ 'customers.account.orders' | t }}</caption>
+                  <thead>
+                    <tr class="orders__head-row">
+                      <th class="orders__th" scope="col">{{ 'customers.account.order_number' | t }}</th>
+                      <th class="orders__th" scope="col">{{ 'customers.account.order_date' | t }}</th>
+                      <th class="orders__th" scope="col">{{ 'customers.account.order_status' | t }}</th>
+                      <th class="orders__th orders__th--end" scope="col">
+                        {{- 'customers.account.order_total' | t -}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%- for order in customer.orders -%}
+                      <tr class="orders__row">
+                        <th class="orders__cell" scope="row">
+                          <a class="orders__link" href="{{ order.customer_url }}">
+                            {{- order.name -}}
+                            <span class="visually-hidden">
+                              {{- 'customers.account.view_order' | t: name: order.name -}}
+                            </span>
+                          </a>
+                        </th>
+                        <td class="orders__cell">
+                          <time datetime="{{ order.created_at | date: '%Y-%m-%d' }}">
+                            {{- order.created_at | date: format: 'date' -}}
+                          </time>
+                        </td>
+                        <td class="orders__cell">
+                          {%- liquid
+                            assign pill_class = 'badge'
+                            if order.fulfillment_status_label == 'Fulfilled'
+                              assign pill_class = 'badge'
+                            else
+                              assign pill_class = 'badge badge--progress'
+                            endif
+                          -%}
+                          <span class="{{ pill_class }}">{{ order.fulfillment_status_label }}</span>
+                        </td>
+                        <td class="orders__cell orders__cell--end">{{ order.total_net_amount | money }}</td>
+                      </tr>
+                    {%- endfor -%}
+                  </tbody>
+                </table>
+
+                {% render 'pagination', paginate: paginate, label: 'Order pages' %}
+              {%- endif -%}
+            {%- endpaginate -%}
+          </section>
+
+          {%- if section.settings.show_care_record and customer.orders.size > 0 -%}
+            <section class="account-page__pieces" aria-labelledby="AccountPieces">
+              <h2 class="eyebrow eyebrow--quiet" id="AccountPieces">
+                {{- 'customers.account.your_pieces' | t -}}
+              </h2>
+
+              <ul class="pieces" style="--columns: {{ section.settings.care_columns }};">
+                {%- assign shown = 0 -%}
+                {%- for order in customer.orders limit: 5 -%}
+                  {%- for line in order.line_items -%}
+                    {%- if shown >= section.settings.care_columns -%}
+                      {%- break -%}
+                    {%- endif -%}
+                    {%- liquid
+                      assign piece_alt = line.image.alt | default: line.title
+                      assign piece_number = line.product.metafields.custom.piece_number.value
+                      assign shown = shown | plus: 1
+                    -%}
+                    <li class="piece">
+                      {% render 'image',
+                        image: line.image,
+                        alt: piece_alt,
+                        height: 180,
+                        sizes: '(min-width: 750px) 25vw, 45vw',
+                        placeholder: 'product-1'
+                      %}
+                      <div class="piece__body">
+                        <h3 class="piece__title">{{ line.title | escape }}</h3>
+                        <p class="piece__meta">
+                          {%- if piece_number != blank -%}
+                            {{ 'products.piece_number_html' | t: number: piece_number }}
+                            <span aria-hidden="true"> &middot; </span>
+                          {%- endif -%}
+                          <time datetime="{{ order.created_at | date: '%Y-%m-%d' }}">
+                            {{- order.created_at | date: format: 'date' -}}
+                          </time>
+                        </p>
+                        {%- if section.settings.care_link != blank -%}
+                          <a class="button button--secondary button--full" href="{{ section.settings.care_link }}">
+                            {{- 'customers.account.book_care' | t -}}
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    </li>
+                  {%- endfor -%}
+                {%- endfor -%}
+              </ul>
+            </section>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+
+  .orders {
+    margin-block-start: var(--space-4);
+  }
+
+  .orders__head-row {
+    border-block-end: 1.5px solid var(--color-heading);
+  }
+
+  .orders__th {
+    padding-block-end: var(--space-3);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-align: start;
+    color: var(--color-heading);
+  }
+
+  .orders__th--end,
+  .orders__cell--end {
+    text-align: end;
+  }
+
+  .orders__row {
+    border-block-end: 1px solid var(--hairline-row);
+  }
+
+  .orders__cell {
+    padding-block: var(--space-4);
+    font-size: var(--text-detail);
+    font-weight: 400;
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .orders__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    color: var(--color-heading);
+  }
+
+  .account-page__pieces {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-block-start: var(--space-8);
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .pieces {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-6);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .piece {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    border: 1px solid var(--hairline-group);
+  }
+
+  .piece__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .piece__title {
+    font-size: var(--text-title-sm);
+    line-height: 1.2;
+  }
+
+  .piece__meta {
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 989px) {
+
+    .pieces {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+  }
+@media screen and (max-width: 989px) {
+
+/* Restructured: the orders table becomes a stack of cards. */
+.orders,
+.orders tbody,
+.orders tr,
+.orders th,
+.orders td {
+  display: block;
+}
+
+.orders thead {
+  display: none;
+}
+
+.orders__row {
+  padding: var(--space-4);
+  margin-block-start: var(--space-3);
+  border: 1px solid var(--hairline-group);
+}
+
+.orders__cell,
+.orders__cell--end {
+  padding-block: var(--space-1);
+  text-align: start;
+}
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.account",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_care_record",
+      "label": "t:labels.show_care_record",
+      "info": "t:info.care_record",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "care_columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "url",
+      "id": "care_link",
+      "label": "t:labels.care_link"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/account"]
+  }
+}
+{% endschema %}

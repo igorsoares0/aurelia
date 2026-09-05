@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="./doc-page.js"></script>
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{margin:0}
+a{color:#7A5E30}
+a:hover{color:#16130F}
+table{break-inside:auto}
+tr{break-inside:avoid}
+.callout{break-inside:avoid;orphans:3;widows:3}
+</style>
+</helmet>
+<doc-page margin="0.8in">
+<h1 style="margin:0 0 6px;font:400 40px/1.12 'Playfair Display',serif;color:#16130F">Aurelia — theme handoff</h1>
+<p style="margin:0 0 26px;font:500 12px/1.5 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">Section &amp; block map · settings · accessibility contract · September 2026</p>
+
+<p style="margin:0 0 16px;font:400 15px/1.65 'Work Sans',sans-serif;color:#2C2823">This document is what turns the design files into an Online Store 2.0 theme. It lists every template, the sections each one is built from, the blocks inside those sections, and the settings each exposes to the merchant. Where a decision is still open, it says so rather than inventing an answer.</p>
+
+<div class="callout" style="margin:0 0 26px;padding:16px 18px;background:#F2EFE8;border-left:3px solid #7A5E30">
+<p style="margin:0 0 8px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Design files</p>
+<p style="margin:0;font:400 14px/1.7 'Work Sans',sans-serif;color:#2C2823"><strong style="font-weight:500">Storefront</strong> — home, collection, product, PDP variant states, mobile. <strong style="font-weight:500">Commerce &amp; Content</strong> — cart page and drawer, search, journal, accounts, utility pages, gift card, password. <strong style="font-weight:500">Explorations</strong> — the three original home directions and the type-pair comparison, kept for reference.</p>
+</div>
+
+<h2 style="margin:34px 0 12px;font:400 27px/1.25 'Playfair Display',serif;color:#16130F">1 · Global theme settings</h2>
+<p style="margin:0 0 14px;font:400 15px/1.65 'Work Sans',sans-serif;color:#2C2823">All of this lives in <code style="font:400 14px 'Work Sans',monospace;background:#EFEBE2;padding:1px 5px">settings_schema.json</code>. Two <code style="font:400 14px 'Work Sans',monospace;background:#EFEBE2;padding:1px 5px">font_picker</code> settings drive the entire type system; there are no per-section font settings.</p>
+<table style="width:100%;border-collapse:collapse;margin:0 0 20px">
+<thead>
+<tr>
+<th scope="col" style="text-align:left;padding:8px 10px 8px 0;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Setting</th>
+<th scope="col" style="text-align:left;padding:8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Type</th>
+<th scope="col" style="text-align:left;padding:8px 0 8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Default / note</th>
+</tr>
+</thead>
+<tbody style="font:400 14px/1.6 'Work Sans',sans-serif;color:#2C2823">
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">type_heading</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">font_picker</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">A high-contrast serif. Confirm the handle in the current library before committing.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">type_body</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">font_picker</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">A neutral grotesk with a 400 and 500 weight. Never render body copy at 300.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">type_base_size</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">range</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">15–18px, default 16. The whole scale is <code style="font:400 13px 'Work Sans',monospace">rem</code> off this.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">color_background</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">color</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">#F5F2EC off-white</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">color_ink</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">color</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">#16130F — also the dark section background</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">color_accent</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">color</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">#7A5E30 on light. Validate any merchant override at 4.5:1 and warn in the editor.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">color_accent_on_dark</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">color</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">#C9A96A — the light accent used inside dark sections</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">layout_max_width</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">range</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">1280–1600px, default 1440</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">cart_type</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">select</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">drawer (default) · page · both. Both designs exist.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">product_card_price</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">checkbox</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Show prices on cards. Off suits by-request catalogues.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">motion_reveal</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">checkbox</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Scroll reveal. Always suppressed under <code style="font:400 13px 'Work Sans',monospace">prefers-reduced-motion</code>, regardless.</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">piece_numbering</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">checkbox</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">The "No. 01" eyebrows, read from a metafield</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:34px 0 12px;font:400 27px/1.25 'Playfair Display',serif;color:#16130F">2 · Templates, sections and blocks</h2>
+<p style="margin:0 0 14px;font:400 15px/1.65 'Work Sans',sans-serif;color:#2C2823">Every template is JSON. Header, footer, announcement bar, cart drawer and search overlay are app-independent sections living in the layout, not in the templates.</p>
+
+<h3 style="margin:24px 0 8px;font:400 20px/1.3 'Playfair Display',serif;color:#16130F">index.json — home</h3>
+<table style="width:100%;border-collapse:collapse;margin:0 0 16px">
+<thead>
+<tr>
+<th scope="col" style="text-align:left;padding:8px 10px 8px 0;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Section</th>
+<th scope="col" style="text-align:left;padding:8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Blocks</th>
+<th scope="col" style="text-align:left;padding:8px 0 8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Settings</th>
+</tr>
+</thead>
+<tbody style="font:400 14px/1.6 'Work Sans',sans-serif;color:#2C2823">
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Image banner</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">—</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">image (focal point), height, caption text, caption right text, overlay on/off</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Rich text</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">eyebrow, heading, text, button</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">alignment, max width, top/bottom padding</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Featured collection</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">—</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">collection, count (3/6), columns (2–4), heading, "view all" link, show numbering</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Image with text</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">eyebrow, heading, text, button</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">image, image side, colour scheme (light/dark), image height</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Multicolumn</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">column (heading + text)</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">heading, columns, rule on/off — the "House services" row</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Newsletter</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">heading, text</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">colour scheme, placement (footer or standalone)</td></tr>
+</tbody>
+</table>
+
+<h3 style="margin:24px 0 8px;font:400 20px/1.3 'Playfair Display',serif;color:#16130F">product.json</h3>
+<table style="width:100%;border-collapse:collapse;margin:0 0 16px">
+<thead>
+<tr>
+<th scope="col" style="text-align:left;padding:8px 10px 8px 0;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Section</th>
+<th scope="col" style="text-align:left;padding:8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Blocks</th>
+<th scope="col" style="text-align:left;padding:8px 0 8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Settings</th>
+</tr>
+</thead>
+<tbody style="font:400 14px/1.6 'Work Sans',sans-serif;color:#2C2823">
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Product information</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">breadcrumb, eyebrow, title, price, description, variant picker, engraving (text field), quantity, buy buttons, pickup availability, spec list, app block slot</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">media layout (stacked / two-up), sticky info column, swatch source metafield, enable engraving</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Complementary products</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">—</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">heading ("Worn with"), count, source (Search &amp; Discovery app)</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Collapsible content</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">row (heading + text or page)</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Care, sizing, shipping — for merchants who prefer accordions to the spec ledger</td></tr>
+</tbody>
+</table>
+<p style="margin:0 0 16px;font:400 14px/1.7 'Work Sans',sans-serif;color:#2C2823">The variant picker must handle all four states designed in <em>Storefront</em>: swatch + name combinations, unavailable-for-combination (dashed, explained in text), sold out with waitlist, sale with a worded discount, and made-to-order with lead time. Availability is per combination, not per option.</p>
+
+<h3 style="margin:24px 0 8px;font:400 20px/1.3 'Playfair Display',serif;color:#16130F">Remaining templates</h3>
+<table style="width:100%;border-collapse:collapse;margin:0 0 16px">
+<thead>
+<tr>
+<th scope="col" style="text-align:left;padding:8px 10px 8px 0;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Template</th>
+<th scope="col" style="text-align:left;padding:8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Sections</th>
+<th scope="col" style="text-align:left;padding:8px 0 8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Notes</th>
+</tr>
+</thead>
+<tbody style="font:400 14px/1.6 'Work Sans',sans-serif;color:#2C2823">
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">collection.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Collection banner, Product grid with filtering</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Filters from Search &amp; Discovery; sidebar layout; counts announced in a live region</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">list-collections.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Collection list</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">2-up, count per collection</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">cart.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Cart items, Cart footer, Empty cart</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Real table markup; line-item properties for engraving; order note; house-services line items</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">search.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Search results, No results</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Predictive overlay lives in the header section; results include articles and pages</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">blog.json / article.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Blog posts, Featured article, Article content, Article navigation</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Topic filters are tags; drop cap on the first paragraph is a section setting</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">page.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Page content, Page with sidebar nav</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Two presets — plain, and the anchored-index variant used by Care &amp; repair</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">customers/*</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">login, register, reset, activate, account, order, addresses</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">"Your pieces" care record reads order line items plus a piece metafield</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">gift_card.liquid</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">—</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Not a JSON template. QR from Shopify; print stylesheet; Apple Wallet button</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">password.liquid</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">—</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Newsletter is primary; password entry inside a disclosure</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">404.json</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Not found</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">Image + two routes out</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:34px 0 12px;font:400 27px/1.25 'Playfair Display',serif;color:#16130F">3 · Type scale</h2>
+<p style="margin:0 0 14px;font:400 15px/1.65 'Work Sans',sans-serif;color:#2C2823">Sizes are <code style="font:400 14px 'Work Sans',monospace;background:#EFEBE2;padding:1px 5px">rem</code>, derived from <code style="font:400 14px 'Work Sans',monospace;background:#EFEBE2;padding:1px 5px">type_base_size</code>. The mock files carry px equivalents at a 16px base; the theme must not hard-code px.</p>
+<table style="width:100%;border-collapse:collapse;margin:0 0 20px">
+<thead>
+<tr>
+<th scope="col" style="text-align:left;padding:8px 10px 8px 0;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Role</th>
+<th scope="col" style="text-align:left;padding:8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Family / weight</th>
+<th scope="col" style="text-align:left;padding:8px 0 8px 10px;border-bottom:1.5px solid #16130F;font:500 12px/1.4 'Work Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5C554C">Size</th>
+</tr>
+</thead>
+<tbody style="font:400 14px/1.6 'Work Sans',sans-serif;color:#2C2823">
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Display / h1</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">heading 400</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">4.5rem desktop → 2.375rem mobile, line-height 1.06–1.12</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Section h2</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">heading 400</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">2.5rem, line-height 1.2</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Product title h3</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">heading 400</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">1.375rem, line-height 1.25</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Body</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">body 400</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">1.0625rem lead, 0.9375rem default, line-height 1.7</td></tr>
+<tr><td style="padding:9px 10px 9px 0;border-bottom:1px solid rgba(22,19,15,.14)">Label / eyebrow</td><td style="padding:9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">body 500</td><td style="padding:9px 0 9px 10px;border-bottom:1px solid rgba(22,19,15,.14)">0.75rem, 0.18–0.26em tracking, uppercase. Never smaller.</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:34px 0 12px;font:400 27px/1.25 'Playfair Display',serif;color:#16130F">4 · Accessibility contract</h2>
+<p style="margin:0 0 14px;font:400 15px/1.65 'Work Sans',sans-serif;color:#2C2823">These are not preferences. Each one is implemented in the design files and each one is checkable in review.</p>
+<ol style="margin:0 0 20px;padding-left:22px;font:400 15px/1.8 'Work Sans',sans-serif;color:#2C2823">
+<li>Contrast: body and label text meets 4.5:1 on both the off-white and the dark scheme. The accent is #7A5E30 on light, #C9A96A on dark. A merchant colour override must be validated, not trusted.</li>
+<li>Focus: every interactive element shows a visible ring. Custom radio pickers hide the input, so the ring is drawn on the visible label child — losing that rule silently fails the primary buy control.</li>
+<li>Touch targets: 44px minimum on every control, including the quantity steppers and the disclosure summary.</li>
+<li>Variant availability is never communicated by colour alone: unavailable combinations are dashed <em>and</em> explained in text; sale is worded as well as coloured.</li>
+<li>Forms: real labels, error text tied by <code style="font:400 14px 'Work Sans',monospace">aria-describedby</code>, <code style="font:400 14px 'Work Sans',monospace">aria-invalid</code> on the failing control, and a <code style="font:400 14px 'Work Sans',monospace">role="alert"</code> summary. Never a placeholder as the only label.</li>
+<li>Live regions: filter counts, quantity changes, predictive-search counts and add-to-bag results are announced politely.</li>
+<li>Landmarks and headings: one h1 per template, no skipped levels, every nav carries an accessible name, skip link first in the tab order.</li>
+<li>Motion: scroll reveal is opacity and small translation only, and is fully disabled under <code style="font:400 14px 'Work Sans',monospace">prefers-reduced-motion</code>.</li>
+<li>Zoom and reflow: layouts hold at 200% zoom and 320px width — hence the <code style="font:400 14px 'Work Sans',monospace">rem</code> scale and the <code style="font:400 14px 'Work Sans',monospace">minmax(0,1fr)</code> grid tracks.</li>
+</ol>
+
+<h2 style="margin:34px 0 12px;font:400 27px/1.25 'Playfair Display',serif;color:#16130F">5 · Still open</h2>
+<ol style="margin:0 0 20px;padding-left:22px;font:400 15px/1.8 'Work Sans',sans-serif;color:#2C2823">
+<li><strong style="font-weight:500">Font handles.</strong> The mocks load Playfair Display and Work Sans from a font CDN because that is what the design tool can render. The theme must use <code style="font:400 14px 'Work Sans',monospace">font_picker</code>, and the chosen defaults must be verified against the live library.</li>
+<li><strong style="font-weight:500">Preset styles.</strong> Two more presets are expected on a premium listing. The two alternate type pairs and the two alternate home directions in <em>Explorations</em> are the intended source.</li>
+<li><strong style="font-weight:500">Metafields.</strong> Piece number, maker name, gram weight, material provenance and care history are all designed but not yet defined as metafield definitions.</li>
+<li><strong style="font-weight:500">Not yet designed.</strong> Order detail, addresses, register/reset/activate, stockists, and any localisation-specific layout (currency selector, RTL).</li>
+<li><strong style="font-weight:500">Performance budget.</strong> No framework, no jQuery, section JS deferred, images through <code style="font:400 14px 'Work Sans',monospace">image_url</code> with width descriptors. Lighthouse has to clear the store threshold on a real device, not a laptop.</li>
+</ol>
+</doc-page>
+
+</x-dc>
+</body>
+</html>

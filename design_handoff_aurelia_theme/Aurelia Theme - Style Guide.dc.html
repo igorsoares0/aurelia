@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#e9e5dd;font-family:'Work Sans',system-ui,sans-serif}
+a{color:#7A5E30}
+a:hover{color:#16130F}
+*:focus-visible{outline:2px solid #16130F;outline-offset:3px}
+label:focus-within>span{outline:2px solid #16130F;outline-offset:3px}
+.sg{padding:44px 48px 40px;border-bottom:1px solid rgba(0,0,0,.08)}
+.sg-hd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.sg-id{font:500 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#16130F;color:#fff;border-radius:4px;text-decoration:none}
+.sg-nm{font:500 13px/1.2 'Work Sans',sans-serif;color:#16130F;letter-spacing:.02em}
+.sg-row{display:flex;flex-wrap:nowrap;gap:32px;align-items:flex-start}
+.sg-opt{flex:none;display:flex;flex-direction:column;gap:10px}
+.sg-oid{font:500 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#16130F;border-radius:5px;text-decoration:none}
+.sg-lbl{display:flex;align-items:baseline;gap:9px;max-width:620px;font:400 11.5px/1.35 'Work Sans',sans-serif;color:rgba(22,19,15,.62)}
+.sg-card{background:#F5F2EC;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden}
+.sg-opt:target .sg-oid{background:#7A5E30;color:#fff}
+.sg-next{margin:24px 0 0;font:12.5px/1.6 'Work Sans',sans-serif;color:rgba(22,19,15,.55)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<section class="sg" id="t14">
+<div class="sg-hd"><a class="sg-id" href="#t14">14</a><span class="sg-nm">Style guide — the source of truth for anything designed after this</span></div>
+<div class="sg-row">
+
+<div class="sg-opt" id="14a">
+<div class="sg-lbl"><a class="sg-oid" href="#14a">14a</a>Controls — every state of every interactive element. Copy from here, not from a screen.</div>
+<div class="sg-card" style="width:900px;padding:36px 34px 40px">
+
+<h2 style="margin:0 0 22px;font:400 30px/1.2 'Playfair Display',serif;color:#16130F">Controls</h2>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Buttons — 52px primary, 48px secondary, 44px minimum. Labels never wrap: nowrap + padding, never a fixed width</h3>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;margin-bottom:10px">
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">primary</span><button type="button" style="min-height:52px;padding:0 30px;border:0;background:#16130F;color:#F5F2EC;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;cursor:pointer" style-hover="background:#7A5E30">Add to bag</button></span>
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">hover</span><button type="button" style="min-height:52px;padding:0 30px;border:0;background:#7A5E30;color:#F5F2EC;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;cursor:pointer">Add to bag</button></span>
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">focus</span><button type="button" style="min-height:52px;padding:0 30px;border:0;background:#16130F;color:#F5F2EC;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;cursor:pointer;outline:2px solid #16130F;outline-offset:3px">Add to bag</button></span>
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">disabled</span><button type="button" disabled style="min-height:52px;padding:0 30px;border:0;background:#CFC9BE;color:#6E6659;font:500 12.5px 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;cursor:not-allowed">Add to bag</button></span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;margin-bottom:10px">
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">secondary</span><button type="button" style="min-height:48px;padding:0 26px;border:1px solid rgba(22,19,15,.35);background:none;color:#16130F;font:500 12px 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;cursor:pointer" style-hover="border-color:#16130F">Book a fitting</button></span>
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">on dark</span><span style="padding:10px;background:#16130F"><button type="button" style="min-height:48px;padding:0 26px;border:1px solid #C9A96A;background:none;color:#F5F2EC;font:500 12px 'Work Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;cursor:pointer" style-hover="background:#C9A96A;color:#16130F">Read the notebook</button></span></span>
+<span style="display:flex;flex-direction:column;gap:7px"><span style="font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">quiet / text</span><button type="button" style="min-height:44px;padding:0;border:0;background:none;font:400 13px 'Work Sans',sans-serif;color:#5C554C;text-decoration:underline;cursor:pointer" style-hover="color:#16130F">Remove</button></span>
+</div>
+<p style="margin:0 0 30px;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C;max-width:70ch">Never more than one filled button in a view. Uppercase labels always carry .16–.18em tracking — without it the weight reads as shouting. Disabled is a real <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">disabled</code> attribute, not a faded div.</p>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Fields</h3>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:12px">
+<div>
+<label for="sg-f1" style="display:block;margin-bottom:9px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Default</label>
+<input id="sg-f1" type="text" placeholder="you@email.com" style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:400 15px 'Work Sans',sans-serif;color:#16130F">
+</div>
+<div>
+<label for="sg-f2" style="display:block;margin-bottom:9px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#5C554C">Focus</label>
+<input id="sg-f2" type="text" value="marina@exemplo.com" style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:400 15px 'Work Sans',sans-serif;color:#16130F;outline:2px solid #16130F;outline-offset:3px">
+</div>
+<div>
+<label for="sg-f3" style="display:block;margin-bottom:9px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#6E2416">Error</label>
+<input id="sg-f3" type="text" value="marina@" aria-invalid="true" aria-describedby="sg-f3-e" style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border:1.5px solid #8C2F1D;background:#F5F2EC;font:400 15px 'Work Sans',sans-serif;color:#16130F">
+<p id="sg-f3-e" style="margin:9px 0 0;font:400 13px/1.6 'Work Sans',sans-serif;color:#6E2416">That address is missing its domain.</p>
+</div>
+</div>
+<p style="margin:0 0 30px;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C;max-width:70ch">A placeholder is an example, never a label. Error text sits under the field, tied by <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">aria-describedby</code>, and says what to do — not "invalid input".</p>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Option pickers — the hidden input pattern</h3>
+<div style="display:flex;flex-wrap:wrap;gap:26px;margin-bottom:12px">
+<fieldset style="border:0;margin:0;padding:0">
+<legend style="padding:0 0 10px;font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">size · selected, default, unavailable</legend>
+<div style="display:flex;gap:8px">
+<label style="cursor:pointer;position:relative"><input type="radio" name="sg-s" checked style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1.5px solid #16130F;background:#16130F;color:#F5F2EC;font:400 14px 'Work Sans',sans-serif">14</span></label>
+<label style="cursor:pointer;position:relative"><input type="radio" name="sg-s" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px solid rgba(22,19,15,.3);font:400 14px 'Work Sans',sans-serif;color:#16130F">16</span></label>
+<label style="cursor:not-allowed;position:relative"><input type="radio" name="sg-s" disabled style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px dashed rgba(22,19,15,.28);color:#6E6659;font:400 14px 'Work Sans',sans-serif">18</span></label>
+</div>
+</fieldset>
+<fieldset style="border:0;margin:0;padding:0">
+<legend style="padding:0 0 10px;font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">metal · swatch plus name, always</legend>
+<div style="display:flex;gap:8px">
+<label style="cursor:pointer;position:relative"><input type="radio" name="sg-m" checked style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1.5px solid #16130F;font:400 14px 'Work Sans',sans-serif;color:#16130F;white-space:nowrap"><span aria-hidden="true" style="width:16px;height:16px;border-radius:50%;background:#C9A44C;border:1px solid rgba(22,19,15,.35)"></span>Yellow</span></label>
+<label style="cursor:pointer;position:relative"><input type="radio" name="sg-m" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1px solid rgba(22,19,15,.3);font:400 14px 'Work Sans',sans-serif;color:#16130F;white-space:nowrap"><span aria-hidden="true" style="width:16px;height:16px;border-radius:50%;background:#D9D9D4;border:1px solid rgba(22,19,15,.35)"></span>Silver</span></label>
+</div>
+</fieldset>
+<div>
+<p style="margin:0 0 10px;font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">quantity · 44px per side</p>
+<span style="display:inline-flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity" style="min-width:44px;min-height:44px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:32px;text-align:center;font:400 14px 'Work Sans',sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity" style="min-width:44px;min-height:44px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+</div>
+<div>
+<p style="margin:0 0 10px;font:400 12px/1 'Work Sans',sans-serif;color:#5C554C">filter chip · removable</p>
+<span style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px 0 12px;background:#EFEBE2;font:400 13px 'Work Sans',sans-serif;color:#16130F">18k gold <button type="button" aria-label="Remove filter: 18k gold" style="min-width:44px;min-height:44px;margin:0 -10px 0 -4px;border:0;background:none;font:400 16px 'Work Sans',sans-serif;color:#5C554C;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center">×</button></span>
+</div>
+</div>
+<p style="margin:0 0 30px;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C;max-width:70ch"><strong style="font-weight:500;color:#16130F">The one rule that breaks silently:</strong> these pickers hide the real input, so the focus ring must be drawn on the visible child — <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">label:focus-within &gt; span</code>. Lose that rule and the primary buy control becomes invisible to keyboard users. Unavailable is dashed <em>and</em> explained in text; colour alone never carries meaning.</p>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Badges &amp; messages</h3>
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px">
+<span style="display:inline-block;padding:5px 10px;background:#EDE8DF;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#463F38">Sold out</span>
+<span style="display:inline-block;padding:5px 10px;background:#F0E7E2;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#6E2416">Save 20%</span>
+<span style="display:inline-block;padding:5px 10px;background:#E4E9E1;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#2E4028">In the workshop</span>
+<span style="display:inline-block;padding:5px 10px;background:#EFEBE2;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#463F38">Made to order</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+<div role="alert" style="padding:14px 16px;border-left:3px solid #8C2F1D;background:#F0E7E2">
+<p style="margin:0;font:500 13.5px/1.6 'Work Sans',sans-serif;color:#6E2416">Choose a size before adding this to your bag.</p>
+</div>
+<div role="status" style="padding:14px 16px;border-left:3px solid #5C554C;background:#EFEBE2">
+<p style="margin:0;font:400 13.5px/1.65 'Work Sans',sans-serif;color:#463F38">Only one of this size is left, and it's already in your bag.</p>
+</div>
+</div>
+<p style="margin:14px 0 0;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C;max-width:70ch">Blocking failures are <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">role="alert"</code>; everything else is <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">role="status"</code>. Filter counts, quantity changes and search counts are all polite live regions.</p>
+</div>
+</div>
+
+<div class="sg-opt" id="14b">
+<div class="sg-lbl"><a class="sg-oid" href="#14b">14b</a>Colour, hairlines and spacing — the numbers the mocks are built from</div>
+<div class="sg-card" style="width:660px;padding:36px 34px 40px">
+<h2 style="margin:0 0 22px;font:400 30px/1.2 'Playfair Display',serif;color:#16130F">Surfaces &amp; space</h2>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Palette</h3>
+<ul style="list-style:none;margin:0 0 12px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#F5F2EC;border:1px solid rgba(22,19,15,.2);flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#F5F2EC</span>Ground — every light surface</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#EDE8DF;border:1px solid rgba(22,19,15,.2);flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#EDE8DF</span>Image well, before the photo loads</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#EFEBE2;border:1px solid rgba(22,19,15,.2);flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#EFEBE2</span>Chip, row hover, quiet callout</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#16130F;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#16130F</span>Ink, and the dark section ground</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#463F38;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#463F38</span>Body copy · 8.0:1</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#5C554C;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#5C554C</span>Secondary &amp; labels · 5.6:1</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#7A5E30;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#7A5E30</span>Accent on light · 5.4:1</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#C9A96A;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#C9A96A</span>Accent on dark only</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#8C2F1D;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#8C2F1D</span>Error rule · text uses #6E2416</span></li>
+<li style="display:flex;align-items:center;gap:12px"><span aria-hidden="true" style="width:44px;height:44px;background:#2E4028;flex:none"></span><span style="font:400 13px/1.5 'Work Sans',sans-serif;color:#463F38"><span style="display:block;font-weight:500;color:#16130F">#2E4028</span>In-progress badge text</span></li>
+</ul>
+<p style="margin:0 0 28px;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C">Two grounds per page, no more: the off-white and the ink. Never tint body text with alpha to make it quieter — pick the next colour down this list.</p>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Hairlines — the whole visual language</h3>
+<div style="display:flex;flex-direction:column;gap:0;margin-bottom:12px">
+<div style="padding:12px 0;border-bottom:1px solid rgba(22,19,15,.1)"><p style="margin:0;font:400 13.5px/1.5 'Work Sans',sans-serif;color:#463F38"><code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">.10</code> — between rows in a list</p></div>
+<div style="padding:12px 0;border-bottom:1px solid rgba(22,19,15,.14)"><p style="margin:0;font:400 13.5px/1.5 'Work Sans',sans-serif;color:#463F38"><code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">.14</code> — between sections, and header/footer edges</p></div>
+<div style="padding:12px 0;border-bottom:1px solid rgba(22,19,15,.18)"><p style="margin:0;font:400 13.5px/1.5 'Work Sans',sans-serif;color:#463F38"><code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">.18</code> — under a heading that labels a group; box outlines</p></div>
+<div style="padding:12px 0;border-bottom:1px solid rgba(22,19,15,.3)"><p style="margin:0;font:400 13.5px/1.5 'Work Sans',sans-serif;color:#463F38"><code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">.30</code> — field and control borders</p></div>
+<div style="padding:12px 0;border-bottom:1.5px solid #16130F"><p style="margin:0;font:400 13.5px/1.5 'Work Sans',sans-serif;color:#463F38"><code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">1.5px ink</code> — selected, and table header rules</p></div>
+</div>
+<p style="margin:0 0 28px;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C">Rules do the work that shadows and cards do elsewhere. One shadow exists in the whole theme — under a sheet or drawer that floats above the page. No rounded corners anywhere except the metal swatch dot.</p>
+
+<h3 style="margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Spacing — 4px base, and where each step belongs</h3>
+<dl style="margin:0 0 12px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 20px;font:400 13.5px/1.6 'Work Sans',sans-serif;color:#463F38">
+<dt style="font-weight:500;color:#16130F">4 · 8</dt><dd style="margin:0">Inside a control; label to its field</dd>
+<dt style="font-weight:500;color:#16130F">12 · 16</dt><dd style="margin:0">Between sibling controls; grid gap on mobile</dd>
+<dt style="font-weight:500;color:#16130F">20 · 24</dt><dd style="margin:0">Mobile page gutter; card padding</dd>
+<dt style="font-weight:500;color:#16130F">36</dt><dd style="margin:0">Product grid gap, desktop</dd>
+<dt style="font-weight:500;color:#16130F">44</dt><dd style="margin:0">Desktop page gutter — and the touch-target floor</dd>
+<dt style="font-weight:500;color:#16130F">80 · 96</dt><dd style="margin:0">Between home sections</dd>
+<dt style="font-weight:500;color:#16130F">110</dt><dd style="margin:0">Around a statement that stands alone</dd>
+</dl>
+<p style="margin:0;font:400 13.5px/1.7 'Work Sans',sans-serif;color:#5C554C">Sibling groups are laid out with flex or grid and a <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">gap</code> — never per-element margins. In Liquid these become <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">rem</code> off the base size.</p>
+</div>
+</div>
+
+<div class="sg-opt" id="14c">
+<div class="sg-lbl"><a class="sg-oid" href="#14c">14c</a>Photography and copy — the two things the merchant executes without us</div>
+<div class="sg-card" style="width:780px;padding:36px 34px 40px">
+<h2 style="margin:0 0 22px;font:400 30px/1.2 'Playfair Display',serif;color:#16130F">Art direction &amp; voice</h2>
+
+<h3 style="margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Four kinds of photograph, and nothing else</h3>
+<ul style="list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px">
+<li>
+<span style="position:relative;display:block;width:100%;height:200px;background:#EDE8DF"><image-slot id="sg-ph1" shape="rect" placeholder="Worn — figure, natural light" aria-label="Example: a worn shot"></image-slot></span>
+<p style="margin:10px 0 0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7A5E30">Worn</p>
+<p style="margin:6px 0 0;font:400 13px/1.6 'Work Sans',sans-serif;color:#463F38">3:4. A body, cropped. Daylight, one source. Hero and lookbook only.</p>
+</li>
+<li>
+<span style="position:relative;display:block;width:100%;height:200px;background:#EDE8DF"><image-slot id="sg-ph2" shape="rect" placeholder="Object — on stone, top light" aria-label="Example: an object shot"></image-slot></span>
+<p style="margin:10px 0 0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7A5E30">Object</p>
+<p style="margin:6px 0 0;font:400 13px/1.6 'Work Sans',sans-serif;color:#463F38">3:4. Stone or paper ground in the off-white family. The piece fills 60% of frame.</p>
+</li>
+<li>
+<span style="position:relative;display:block;width:100%;height:200px;background:#EDE8DF"><image-slot id="sg-ph3" shape="rect" placeholder="Macro — engraving, grain" aria-label="Example: a macro shot"></image-slot></span>
+<p style="margin:10px 0 0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7A5E30">Macro</p>
+<p style="margin:6px 0 0;font:400 13px/1.6 'Work Sans',sans-serif;color:#463F38">1:1 or 3:4. Close enough to see tool marks. Proves the making claim.</p>
+</li>
+<li>
+<span style="position:relative;display:block;width:100%;height:200px;background:#EDE8DF"><image-slot id="sg-ph4" shape="rect" placeholder="Bench — hands working" aria-label="Example: a bench shot"></image-slot></span>
+<p style="margin:10px 0 0;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7A5E30">Bench</p>
+<p style="margin:6px 0 0;font:400 13px/1.6 'Work Sans',sans-serif;color:#463F38">4:5 or wide. Hands and tools, warm light. Only in dark sections.</p>
+</li>
+</ul>
+<p style="margin:0 0 28px;font:400 13.5px/1.75 'Work Sans',sans-serif;color:#463F38;max-width:74ch"><strong style="font-weight:500;color:#16130F">Never:</strong> pure white or black backgrounds, cut-outs floating on nothing, ring boxes, rose petals, gift ribbon, sparkle overlays, or two pieces competing in one frame. Every photograph is either a body, an object on a real surface, a detail, or the workshop. Every image on the site has a caption or an alt that says what it is — "Fig. 01 — The Signet, 18k recycled gold", not "jewellery".</p>
+
+<h3 style="margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Voice</h3>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-bottom:14px">
+<div>
+<p style="margin:0 0 10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#2E4028">Write this</p>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font:400 14.5px/1.6 'Work Sans',sans-serif;color:#16130F">
+<li style="padding-left:14px;border-left:2px solid #2E4028">Ready to ship in 3 days</li>
+<li style="padding-left:14px;border-left:2px solid #2E4028">Twelve pieces a year. Each one kept forever.</li>
+<li style="padding-left:14px;border-left:2px solid #2E4028">Size 18 is unavailable in brushed yellow</li>
+<li style="padding-left:14px;border-left:2px solid #2E4028">Resizing is free for life, up to three sizes</li>
+<li style="padding-left:14px;border-left:2px solid #2E4028">Shop the chapter</li>
+</ul>
+</div>
+<div>
+<p style="margin:0 0 10px;font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6E2416">Not this</p>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font:400 14.5px/1.6 'Work Sans',sans-serif;color:#5C554C">
+<li style="padding-left:14px;border-left:2px solid #8C2F1D">Fast shipping!!</li>
+<li style="padding-left:14px;border-left:2px solid #8C2F1D">Timeless elegance for the modern woman</li>
+<li style="padding-left:14px;border-left:2px solid #8C2F1D">Out of stock</li>
+<li style="padding-left:14px;border-left:2px solid #8C2F1D">Lifetime warranty*</li>
+<li style="padding-left:14px;border-left:2px solid #8C2F1D">SHOP NOW</li>
+</ul>
+</div>
+</div>
+<dl style="margin:0 0 28px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 20px;font:400 13.5px/1.65 'Work Sans',sans-serif;color:#463F38">
+<dt style="font-weight:500;color:#16130F">Specific</dt><dd style="margin:0">Three days, 9.4g, size 14, by Túlio. Numbers instead of adjectives.</dd>
+<dt style="font-weight:500;color:#16130F">Plain</dt><dd style="margin:0">Sentence case. One exclamation mark in the whole store is one too many.</dd>
+<dt style="font-weight:500;color:#16130F">Honest</dt><dd style="margin:0">Say the constraint out loud: it takes twenty-one days, archive pieces are final sale.</dd>
+<dt style="font-weight:500;color:#16130F">Unhurried</dt><dd style="margin:0">No countdowns, no "only 2 left" pressure, no fake scarcity. Scarcity here is real; state it flatly.</dd>
+<dt style="font-weight:500;color:#16130F">Labels</dt><dd style="margin:0">Uppercase eyebrows are nouns — Chapter One, Materials, House services. Never verbs.</dd>
+</dl>
+
+<h3 style="margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid rgba(22,19,15,.18);font:500 12px/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Motion</h3>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px 20px;font:400 13.5px/1.65 'Work Sans',sans-serif;color:#463F38">
+<dt style="font-weight:500;color:#16130F">Scroll reveal</dt><dd style="margin:0">Opacity 0→1 with a 20px rise, 900ms, <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">cubic-bezier(.2,.7,.2,1)</code>. Once per element, never on replay.</dd>
+<dt style="font-weight:500;color:#16130F">Hover</dt><dd style="margin:0">Colour and border only, 150–200ms. Nothing scales, lifts, or rotates.</dd>
+<dt style="font-weight:500;color:#16130F">Sheets</dt><dd style="margin:0">Slide from the edge they belong to, 260ms ease-out. Focus moves in; Escape closes.</dd>
+<dt style="font-weight:500;color:#16130F">Never</dt><dd style="margin:0">Parallax, carousel autoplay, counting numbers, letter-by-letter type-in, video that starts itself.</dd>
+<dt style="font-weight:500;color:#16130F">Always</dt><dd style="margin:0">All of it off under <code style="font:400 13px 'Work Sans',monospace;background:#EFEBE2;padding:1px 4px">prefers-reduced-motion</code>, and forced visible before print or when the tab hides.</dd>
+</dl>
+</div>
+</div>
+
+</div>
+<p class="sg-next">This is the reference for anything designed after today — controls come from <a class="sg-oid" href="#14a">14a</a>, numbers from <a class="sg-oid" href="#14b">14b</a>, photography and words from <a class="sg-oid" href="#14c">14c</a>. Try next: "order detail and addresses" · "resolve the two alternate presets" · "add these rules to the handoff document"</p>
+</section>
+
+</x-dc>
+</body>
+</html>

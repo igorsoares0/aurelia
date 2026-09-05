@@ -1,0 +1,106 @@
+{% doc %}
+  Renders local pickup availability for the selected variant.
+
+  Shopify supplies `variant.store_availabilities` only when the store has local
+  pickup configured, so this renders nothing at all on most stores rather than
+  rendering an empty heading. The list is stated in words -- which store, and
+  how soon -- never as a colored dot.
+
+  @param {object} variant - The selected variant
+
+  @example
+  {% render 'pickup-availability', variant: variant %}
+{% enddoc %}
+
+{%- if variant.available and variant.store_availabilities.size > 0 -%}
+  {%- assign pickup_locations = variant.store_availabilities | where: 'available' -%}
+
+  <div class="pickup">
+    {%- if pickup_locations.size > 0 -%}
+      {%- assign first_location = pickup_locations.first -%}
+      <p class="pickup__status">
+        {{ 'products.pickup_available_html' | t: location: first_location.location.name }}
+      </p>
+      <p class="pickup__detail">{{ first_location.pick_up_time }}</p>
+    {%- else -%}
+      <p class="pickup__status pickup__status--out">
+        {{ 'products.pickup_unavailable_html' | t: location: variant.store_availabilities.first.location.name }}
+      </p>
+    {%- endif -%}
+
+    {%- if variant.store_availabilities.size > 1 -%}
+      <details class="pickup__more">
+        <summary class="pickup__summary">{{ 'products.pickup_check_availability' | t }}</summary>
+        <ul class="pickup__list">
+          {%- for availability in variant.store_availabilities -%}
+            <li class="pickup__item">
+              <p class="pickup__name">{{ availability.location.name }}</p>
+              <p class="pickup__detail">
+                {%- if availability.available -%}
+                  {{ availability.pick_up_time }}
+                {%- else -%}
+                  {{ 'products.pickup_unavailable_html' | t: location: availability.location.name }}
+                {%- endif -%}
+              </p>
+              {%- if availability.location.address != blank -%}
+                <address class="pickup__address">{{ availability.location.address | format_address }}</address>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </details>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .pickup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block: var(--space-4);
+    border-block-start: 1px solid var(--hairline-row);
+  }
+
+  .pickup__status {
+    font-size: var(--text-detail);
+    color: var(--color-heading);
+  }
+
+  .pickup__status--out {
+    color: var(--color-secondary);
+  }
+
+  .pickup__detail,
+  .pickup__address {
+    font-size: var(--text-caption);
+    font-style: normal;
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .pickup__summary {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-size: var(--text-caption);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+    color: var(--color-accent);
+  }
+
+  .pickup__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pickup__name {
+    font-size: var(--text-detail);
+    color: var(--color-heading);
+  }
+{% endstylesheet %}

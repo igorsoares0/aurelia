@@ -1,0 +1,282 @@
+{% comment %}
+  The journal index: tag chips, a lead article, then a grid.
+
+  Topic filters are tags, and the current one is a link carrying
+  `aria-current="page"` as well as a filled ground -- a chip that is only
+  darker is a chip that is only visible to people who can see the difference.
+
+  Chips are 44px, not the 40px the mock drew. The touch-target floor is a floor.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-chips' %}
+
+{% liquid
+  assign per_page = section.settings.posts_per_page
+  assign columns = section.settings.columns
+  assign lead = blog.articles.first
+%}
+
+<div class="blog-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="blog-page__inner">
+      <div class="blog-page__head">
+        <h1 class="blog-page__title">{{ blog.title | escape }}</h1>
+        {%- if section.settings.intro != blank -%}
+          <div class="blog-page__intro rte">{{ section.settings.intro }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_topics and blog.all_tags.size > 0 -%}
+        <nav class="chips blog-page__topics" aria-label="{{ 'blog.topics' | t }}">
+          <a
+            class="chip chip--link{% if current_tags.size == 0 %} chip--current{% endif %}"
+            href="{{ blog.url }}"
+            {% if current_tags.size == 0 %}aria-current="page"{% endif %}
+          >
+            {{- 'blog.all_topics' | t -}}
+          </a>
+          {%- for tag in blog.all_tags -%}
+            <a
+              class="chip chip--link{% if current_tags contains tag %} chip--current{% endif %}"
+              href="{{ blog.url }}/tagged/{{ tag | handleize }}"
+              {% if current_tags contains tag %}aria-current="page"{% endif %}
+            >
+              {{- tag -}}
+            </a>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+
+      {%- paginate blog.articles by per_page -%}
+        {%- if blog.articles.size == 0 -%}
+          <p class="blog-page__empty">{{ 'blog.empty' | t }}</p>
+        {%- else -%}
+          {%- if section.settings.show_lead and paginate.current_page == 1 and current_tags.size == 0 -%}
+            {%- assign lead_alt = lead.image.alt | default: lead.title -%}
+            {%- assign lead_words = lead.content | strip_html | split: ' ' | size -%}
+            {%- assign lead_minutes = lead_words | divided_by: 220 -%}
+            {%- if lead_minutes < 1 -%}
+              {%- assign lead_minutes = 1 -%}
+            {%- endif -%}
+            <article class="lead-article">
+              {% render 'image',
+                image: lead.image,
+                alt: lead_alt,
+                height: 430,
+                sizes: '(min-width: 990px) 55vw, 100vw',
+                loading: 'eager',
+                fetchpriority: 'high',
+                placeholder: 'blog-apparel-1'
+              %}
+
+              <div class="lead-article__text">
+                <p class="eyebrow">
+                  {{- lead.tags.first -}}
+                  {%- if section.settings.show_read_time -%}
+                    <span aria-hidden="true"> &middot; </span>
+                    {{ 'blog.read_time_html' | t: minutes: lead_minutes }}
+                  {%- endif -%}
+                </p>
+                <h2 class="lead-article__title">
+                  <a href="{{ lead.url }}">{{ lead.title | escape }}</a>
+                </h2>
+                <p class="lead-article__excerpt">
+                  {{- lead.excerpt_or_content | strip_html | truncatewords: 44 -}}
+                </p>
+                <p class="lead-article__meta">
+                  <time datetime="{{ lead.published_at | date: '%Y-%m-%d' }}">
+                    {{- lead.published_at | date: format: 'date' -}}
+                  </time>
+                  {%- if section.settings.show_author and lead.author != blank -%}
+                    <span aria-hidden="true"> &middot; </span>{{ lead.author }}
+                  {%- endif -%}
+                </p>
+              </div>
+            </article>
+          {%- endif -%}
+
+          <ul class="blog-page__grid" id="Articles" style="--columns: {{ columns }};">
+            {%- for article in blog.articles -%}
+              {%- if section.settings.show_lead and paginate.current_page == 1 and current_tags.size == 0 and forloop.first -%}
+                {%- continue -%}
+              {%- endif -%}
+              <li>
+                {% render 'article-card',
+                  article: article,
+                  image_height: section.settings.image_height,
+                  sizes: '(min-width: 990px) 30vw, 90vw',
+                  show_excerpt: section.settings.show_excerpt,
+                  show_date: section.settings.show_date,
+                  show_read_time: section.settings.show_read_time
+                %}
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {% render 'pagination', paginate: paginate, label: 'Journal pages', anchor: '#Articles' %}
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blog-page {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .blog-page__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-11) var(--space-24);
+  }
+
+  .blog-page__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+    align-items: end;
+    gap: var(--space-11);
+    padding-block-end: var(--space-5);
+    border-block-end: 1px solid var(--hairline-section);
+  }
+
+  .blog-page__title {
+    font-size: var(--text-display-2xl);
+    line-height: 1.05;
+  }
+
+  .blog-page__intro {
+    font-size: var(--text-body);
+    line-height: 1.75;
+  }
+
+  .lead-article {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-11);
+    padding-block-end: var(--space-11);
+    border-block-end: 1px solid var(--hairline-section);
+  }
+
+  .lead-article__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .lead-article__title {
+    font-size: var(--text-display-sm);
+    line-height: 1.14;
+  }
+
+  .lead-article__title a {
+    text-decoration: none;
+  }
+
+  .lead-article__excerpt {
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+
+  .lead-article__meta {
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  .blog-page__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-11) var(--space-9);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .blog-page__empty {
+    font-size: var(--text-body);
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 989px) {
+    .blog-page__head,
+    .lead-article {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-5);
+      align-items: start;
+    }
+
+    .blog-page__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8) var(--space-4);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.blog",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:labels.intro",
+      "default": "<p>Notes from the bench: materials, chapters, and how a piece is made.</p>"
+    },
+    { "type": "checkbox", "id": "show_topics", "label": "t:labels.show_topics", "default": true },
+    { "type": "checkbox", "id": "show_lead", "label": "t:labels.show_lead", "default": true },
+    {
+      "type": "range",
+      "id": "posts_per_page",
+      "label": "t:labels.posts_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 180,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 250
+    },
+    { "type": "checkbox", "id": "show_excerpt", "label": "t:labels.show_excerpt", "default": true },
+    { "type": "checkbox", "id": "show_date", "label": "t:labels.show_date", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "t:labels.show_author", "default": true },
+    {
+      "type": "checkbox",
+      "id": "show_read_time",
+      "label": "t:labels.show_read_time",
+      "default": true
+    }
+  ],
+  "enabled_on": {
+    "templates": ["blog"]
+  }
+}
+{% endschema %}

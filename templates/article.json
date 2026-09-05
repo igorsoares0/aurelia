@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "color_scheme": "ground",
+        "show_hero": true,
+        "drop_cap": true,
+        "show_author": true,
+        "show_read_time": true,
+        "show_tags": true,
+        "show_navigation": true
+      }
+    }
+  },
+  "order": ["main"]
+}

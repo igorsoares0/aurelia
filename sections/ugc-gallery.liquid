@@ -1,0 +1,257 @@
+{% comment %}
+  Customer photographs, in a staggered mosaic.
+
+  Every figure carries its own column span, height and vertical offset, so the
+  row reads as a wall of prints rather than a grid. Each track is
+  `minmax(0, 1fr)` and each cell clears its overflow, which is what keeps the
+  mosaic from forcing a horizontal scrollbar at 200% zoom.
+
+  The permission line is a real setting and shown by default. Reposting a
+  customer's photograph without asking is not a feature.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="ugc color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="ugc__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      <div class="ugc__head">
+        <div class="ugc__head-text">
+          <h2 class="ugc__heading">{{ section.settings.heading | escape }}</h2>
+          {%- if section.settings.permission != blank -%}
+            <p class="ugc__permission">{{ section.settings.permission | escape }}</p>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.link != blank -%}
+          <a class="ugc__follow" href="{{ section.settings.link }}">
+            {{- section.settings.link_label | escape -}}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      <ul class="ugc__grid">
+        {%- for block in section.blocks -%}
+          <li
+            class="ugc__figure"
+            style="--span: {{ block.settings.span }}; --offset: {{ block.settings.offset }}px; --height: {{ block.settings.height }}px;"
+            {{ block.shopify_attributes }}
+          >
+            <figure class="ugc__frame">
+              {% render 'image',
+                image: block.settings.image,
+                alt: block.settings.image_alt,
+                ratio: 'media--natural',
+                sizes: '(min-width: 750px) 25vw, 45vw',
+                placeholder: 'lifestyle-1',
+                class: 'ugc__media'
+              %}
+              {%- if block.settings.handle != blank or block.settings.piece != blank -%}
+                <figcaption class="ugc__caption">
+                  {{- block.settings.handle | escape -}}
+                  {%- if block.settings.piece != blank -%}
+                    <span aria-hidden="true"> &middot; </span>{{ block.settings.piece | escape }}
+                  {%- endif -%}
+                </figcaption>
+              {%- endif -%}
+            </figure>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ugc {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .ugc__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .ugc__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-block-end: var(--space-5);
+    border-block-end: 1px solid var(--hairline-section);
+  }
+
+  .ugc__head-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .ugc__heading {
+    font-size: var(--text-display-sm);
+    line-height: 1.12;
+  }
+
+  .ugc__permission {
+    font-size: var(--text-detail);
+    color: var(--color-secondary);
+  }
+
+  .ugc__follow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ugc__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--space-5);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .ugc__figure {
+    grid-column: span var(--span);
+    margin-block-start: var(--offset);
+    /* The 200%-zoom guard: a mosaic cell must be allowed to shrink. */
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .ugc__frame {
+    margin: 0;
+  }
+
+  .ugc__media {
+    height: var(--height);
+  }
+
+  .ugc__caption {
+    padding-block-start: var(--space-2);
+    font-size: var(--text-caption);
+    line-height: 1.5;
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Restructured: an even two-up, with the offsets and heights dropped. */
+    .ugc__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .ugc__figure {
+      grid-column: span 1;
+      margin-block-start: 0;
+    }
+
+    .ugc__media {
+      height: 240px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.ugc",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Worn by you" },
+    {
+      "type": "text",
+      "id": "permission",
+      "label": "t:labels.permission_line",
+      "info": "t:info.permission_line",
+      "default": "Tag @aurelia and we ask before we post."
+    },
+    { "type": "text", "id": "link_label", "label": "t:labels.link_label", "default": "Follow" },
+    { "type": "url", "id": "link", "label": "t:labels.link" }
+  ],
+  "blocks": [
+    {
+      "type": "figure",
+      "name": "t:general.figure",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "t:labels.image_alt",
+          "info": "t:info.image_alt"
+        },
+        {
+          "type": "select",
+          "id": "span",
+          "label": "t:labels.width",
+          "options": [
+            { "value": "2", "label": "t:options.size.small" },
+            { "value": "3", "label": "t:options.size.large" }
+          ],
+          "default": "3"
+        },
+        {
+          "type": "select",
+          "id": "offset",
+          "label": "t:labels.vertical_offset",
+          "options": [
+            { "value": "0", "label": "t:options.vertical_offset.none" },
+            { "value": "28", "label": "t:options.vertical_offset.small" },
+            { "value": "64", "label": "t:options.vertical_offset.medium" },
+            { "value": "96", "label": "t:options.vertical_offset.large" }
+          ],
+          "default": "0"
+        },
+        {
+          "type": "range",
+          "id": "height",
+          "label": "t:labels.image_height",
+          "min": 180,
+          "max": 480,
+          "step": 10,
+          "unit": "px",
+          "default": 330
+        },
+        { "type": "text", "id": "handle", "label": "t:labels.handle", "default": "@customer" },
+        { "type": "text", "id": "piece", "label": "t:labels.piece", "default": "The Signet" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_customer_photos",
+      "category": "t:general.cat_media",
+      "blocks": [
+        { "type": "figure", "settings": { "span": "3", "offset": "0", "height": 420 } },
+        { "type": "figure", "settings": { "span": "2", "offset": "64", "height": 250 } },
+        { "type": "figure", "settings": { "span": "3", "offset": "0", "height": 330 } },
+        { "type": "figure", "settings": { "span": "2", "offset": "96", "height": 230 } },
+        { "type": "figure", "settings": { "span": "2", "offset": "28", "height": 300 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

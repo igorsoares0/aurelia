@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "color_scheme": "ground",
+        "show_breadcrumb": true,
+        "eyebrow": "Chapter one",
+        "show_image": false
+      }
+    },
+    "grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "color_scheme": "ground",
+        "products_per_page": 12,
+        "columns": 3,
+        "image_height": 388,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "sticky_sidebar": true,
+        "empty_heading": "Nothing matches both filters.",
+        "empty_body": "<p>It is the pair that empties the shelf. Clear one of them, or ask us to make the piece you had in mind.</p>",
+        "empty_link_label": "Ask for a commission"
+      }
+    }
+  },
+  "order": ["banner", "grid"]
+}

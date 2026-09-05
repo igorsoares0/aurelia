@@ -1,0 +1,120 @@
+{% doc %}
+  Styles shared by the cart page and the order detail page, which both render a line-item table.
+
+  This snippet renders nothing. Shopify subsets `{% stylesheet %}` CSS to the
+  files in a page's render tree, so styles shared by sections that never render
+  together have to be pulled in by something each of them renders. Keeping them
+  in `critical.css` instead would ship them to every page in the theme.
+
+  @example
+  {% render 'styles-cart-table' %}
+{% enddoc %}
+
+{% stylesheet %}
+.cart-table__head-row {
+border-block-end: 1.5px solid var(--color-heading);
+}
+
+.cart-table__th {
+padding-block-end: var(--space-3);
+font-size: var(--text-label);
+font-weight: var(--font-body--weight-medium);
+letter-spacing: var(--tracking-label);
+text-transform: uppercase;
+text-align: start;
+color: var(--color-heading);
+}
+
+.cart-table__th--end,
+.cart-table__cell--end {
+text-align: end;
+}
+
+.cart-table__row {
+border-block-end: 1px solid var(--hairline-row);
+}
+
+.cart-table__cell {
+padding-block: var(--space-6);
+vertical-align: top;
+font-size: var(--text-detail);
+}
+
+.cart-table__piece {
+display: grid;
+grid-template-columns: 104px minmax(0, 1fr);
+gap: var(--space-5);
+align-items: start;
+}
+
+.cart-table__detail {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: var(--space-1);
+min-width: 0;
+}
+
+.cart-table__title {
+font-size: var(--text-title);
+line-height: 1.2;
+}
+
+.cart-table__title a {
+text-decoration: none;
+}
+
+.cart-table__meta,
+.cart-table__discounts {
+font-size: var(--text-caption);
+line-height: 1.7;
+color: var(--color-secondary);
+}
+
+.cart-table__discounts {
+padding-inline-start: var(--space-4);
+margin: 0;
+color: var(--color-accent);
+}
+
+.cart-table__was {
+margin-inline-end: var(--space-2);
+color: var(--color-secondary);
+}
+
+.cart-table__remove {
+display: inline-flex;
+align-items: center;
+min-height: var(--tap-target);
+font-size: var(--text-caption);
+text-decoration: underline;
+text-underline-offset: 0.25em;
+color: var(--color-secondary);
+}
+
+.cart-table__remove:hover {
+color: var(--color-heading);
+}
+
+@media screen and (max-width: 989px) {
+.cart-table__piece {
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.cart-table__cell {
+  padding-block: var(--space-5);
+}
+}
+@media screen and (max-width: 989px) {
+
+  .cart-table__piece {
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .cart-table__cell {
+    padding-block: var(--space-5);
+  }
+}
+{% endstylesheet %}

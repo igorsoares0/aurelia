@@ -1,0 +1,154 @@
+{% comment %}
+  Sign in, with the password-recovery form on the same page.
+
+  Recovery deliberately does not reveal whether an email has an account, and it
+  says so rather than leaving the customer wondering. Confirming an address
+  exists is an account-enumeration hole; saying nothing at all is confusing.
+  Saying "if that email has an account" is neither.
+
+  A failed sign-in is announced through `role="alert"` and the failing field
+  carries `aria-invalid` plus an `aria-describedby` message that says what to do.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-account' %}
+
+<div class="account-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="account-page__narrow">
+      <div id="RecoverPassword" class="account-page__panel">
+        <h2 class="account-page__title">{{ 'customers.recover.title' | t }}</h2>
+        <p class="account-page__body">{{ 'customers.recover.body' | t }}</p>
+
+        {% form 'recover_customer_password', class: 'account-form' %}
+          {%- if form.posted_successfully? -%}
+            <div class="callout" role="status">{{ 'customers.recover.sent' | t }}</div>
+          {%- endif -%}
+
+          <div class="field">
+            <label class="field__label" for="RecoverEmail">{{ 'customers.recover.email' | t }}</label>
+            <input
+              class="field__input"
+              id="RecoverEmail"
+              type="email"
+              name="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              required
+            >
+          </div>
+
+          <button class="button button--primary" type="submit">{{ 'customers.recover.submit' | t }}</button>
+          <a class="link-inline" href="#LoginForm">{{ 'customers.recover.cancel' | t }}</a>
+        {% endform %}
+      </div>
+
+      <div id="LoginForm" class="account-page__panel">
+        <h1 class="account-page__title">{{ 'customers.login.title' | t }}</h1>
+
+        {% form 'customer_login', class: 'account-form', novalidate: 'novalidate' %}
+          {%- if form.errors -%}
+            <div class="form-error-summary" role="alert">
+              <p>{{ 'customers.login.error_heading' | t }}</p>
+              <p>{{ 'customers.login.error_body' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          <div class="field">
+            <label class="field__label" for="LoginEmail">{{ 'customers.login.email' | t }}</label>
+            <input
+              class="field__input"
+              id="LoginEmail"
+              type="email"
+              name="customer[email]"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              required
+              {% if form.errors %}aria-invalid="true" aria-describedby="LoginError"{% endif %}
+            >
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="LoginPassword">{{ 'customers.login.password' | t }}</label>
+            <input
+              class="field__input"
+              id="LoginPassword"
+              type="password"
+              name="customer[password]"
+              autocomplete="current-password"
+              required
+              {% if form.errors %}aria-invalid="true" aria-describedby="LoginError"{% endif %}
+            >
+            {%- if form.errors -%}
+              <p class="field__error" id="LoginError">
+                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                {{ form.errors.messages.form }}
+              </p>
+            {%- endif -%}
+          </div>
+
+          <button class="button button--primary" type="submit">{{ 'customers.login.submit' | t }}</button>
+
+          <div class="account-page__links">
+            <a class="link-tap link-inline" href="#RecoverPassword">
+              {{- 'customers.login.forgot_password' | t -}}
+            </a>
+            <a class="link-tap link-inline" href="{{ routes.account_register_url }}">
+              {{- 'customers.login.create_account' | t -}}
+            </a>
+          </div>
+        {% endform %}
+
+        {%- if shop.customer_accounts_optional -%}
+          <div class="account-page__guest">
+            <h2 class="eyebrow eyebrow--quiet">{{ 'customers.login.guest_title' | t }}</h2>
+            <p class="account-page__body">{{ 'customers.login.guest_body' | t }}</p>
+            {% form 'guest_login' %}
+              <button class="button button--secondary" type="submit">
+                {{- 'customers.login.guest_submit' | t -}}
+              </button>
+            {% endform %}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+
+  /* The recovery panel is revealed by its own fragment link, so it works with
+     no JavaScript at all -- no toggle, no hidden state to get out of sync. */
+  #RecoverPassword {
+    display: none;
+  }
+
+  #RecoverPassword:target {
+    display: flex;
+  }
+
+  #RecoverPassword:target ~ #LoginForm {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.login",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/login"]
+  }
+}
+{% endschema %}

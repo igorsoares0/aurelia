@@ -1,0 +1,86 @@
+{% comment %}
+  One line of text above the masthead.
+
+  Deliberately a single message rather than a rotating set: a bar that cycles on
+  a timer is a carousel that autoplays, and the theme does not do that. A
+  merchant with two things to say should choose the more important one.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{%- if section.settings.text != blank -%}
+  <div class="announcement color-{{ section.settings.color_scheme }} full-width">
+    {%- if section.settings.link != blank -%}
+      <a class="announcement__text announcement__text--link" href="{{ section.settings.link }}">
+        {{- section.settings.text | escape -}}
+      </a>
+    {%- else -%}
+      <p class="announcement__text">{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .announcement {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .announcement__text {
+    display: block;
+    padding: var(--space-2) var(--page-margin);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    line-height: 1.4;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-align: center;
+    color: inherit;
+  }
+
+  .announcement__text--link {
+    min-height: var(--tap-target);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcement__text--link:hover {
+    color: var(--color-accent);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.announcement_bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "Free shipping and free resizing, worldwide"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:labels.link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ink"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "presets": [
+    {
+      "name": "t:general.announcement_bar"
+    }
+  ]
+}
+{% endschema %}

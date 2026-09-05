@@ -1,0 +1,95 @@
+{% doc %}
+  Renders one item of the product media gallery.
+
+  Factored out so the gallery can render the selected variant's image first and
+  then the rest, without writing the item markup twice. Called only by
+  `product-media-gallery`.
+
+  Media type is named in the badge and in the accessible name -- "Video, 24
+  seconds" -- never left to an icon. Video and 3D are deferred into a
+  `<template>` and only built when someone presses play.
+
+  @param {object} media - The product media to render
+  @param {object} product - The product, for the fallback alt text
+  @param {boolean} is_hero - Render at hero size and span the full width
+  @param {number} height - Item height in px
+
+  @example
+  {% render 'product-media-item', media: media, product: product, is_hero: true, height: 760 %}
+{% enddoc %}
+
+{% liquid
+  assign media_title = media.alt | default: product.title
+
+  case media.media_type
+    when 'video'
+      assign seconds = media.duration | divided_by: 1000 | round
+      assign media_name = 'products.media_video_html' | t: duration: seconds, title: media_title
+      assign badge = 'products.badge_video' | t: duration: seconds
+    when 'external_video'
+      assign media_name = 'products.media_external_video' | t: title: media_title
+      assign badge = 'products.badge_external_video' | t
+    when 'model'
+      assign media_name = 'products.media_model' | t: title: media_title
+      assign badge = 'products.badge_model' | t
+    else
+      assign media_name = 'products.media_photograph' | t: title: media_title
+      assign badge = blank
+  endcase
+
+  assign is_playable = false
+  unless media.media_type == 'image'
+    assign is_playable = true
+  endunless
+
+  assign media_loading = 'lazy'
+  if is_hero
+    assign media_loading = 'eager'
+  endif
+
+  assign play_label = 'products.play_video' | t: title: media_name
+%}
+
+<li
+  class="gallery__item{% if is_hero %} gallery__item--hero{% endif %}"
+  data-media-id="{{ media.id }}"
+  data-media-type="{{ media.media_type }}"
+>
+  <figure class="gallery__figure">
+    {% render 'image',
+      image: media.preview_image,
+      alt: media_name,
+      height: height,
+      sizes: '(min-width: 990px) 60vw, 100vw',
+      loading: media_loading,
+      placeholder: 'product-1',
+      class: 'gallery__media'
+    %}
+
+    {%- if is_playable -%}
+      <p class="gallery__badge" aria-hidden="true">{{ badge }}</p>
+
+      <button class="gallery__play" type="button" data-gallery-play aria-label="{{ play_label | escape }}">
+        <span aria-hidden="true">&#9654;</span>
+      </button>
+
+      {% comment %}
+        The real player is built only when someone presses play.
+      {% endcomment %}
+      <template data-gallery-template>
+        {%- case media.media_type -%}
+          {%- when 'video' -%}
+            {{ media | video_tag: image_size: '1200x', autoplay: false, loop: false, controls: true, muted: true }}
+          {%- when 'external_video' -%}
+            {{ media | external_video_tag }}
+          {%- when 'model' -%}
+            {{ media | model_viewer_tag: image_size: '1200x' }}
+        {%- endcase -%}
+      </template>
+    {%- endif -%}
+
+    {%- if media.alt != blank -%}
+      <figcaption class="gallery__caption">{{ media.alt | escape }}</figcaption>
+    {%- endif -%}
+  </figure>
+</li>

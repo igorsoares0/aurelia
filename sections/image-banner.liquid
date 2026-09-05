@@ -1,0 +1,137 @@
+{% comment %}
+  A full-width photograph with a magazine caption row beneath it.
+
+  The caption is the point. Two lines under a hairline -- the piece and its
+  material on the left, the chapter on the right -- turn a hero image into a
+  plate in a catalogue. Without it this is just a big picture.
+
+  The image is `eager` with `fetchpriority="high"` because on the home page it
+  is the LCP element, and the caption row is not revealed on scroll because it
+  sits above the fold.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="banner color-{{ section.settings.color_scheme }} full-width">
+  <figure class="banner__figure">
+    {% render 'image',
+      image: section.settings.image,
+      alt: section.settings.image_alt,
+      height: section.settings.height,
+      sizes: '100vw',
+      loading: 'eager',
+      fetchpriority: 'high',
+      placeholder: 'lifestyle-1',
+      class: 'banner__media'
+    %}
+
+    {%- if section.settings.caption_left != blank or section.settings.caption_right != blank -%}
+      <figcaption class="banner__caption">
+        <span class="banner__caption-text">{{ section.settings.caption_left | escape }}</span>
+        <span class="banner__caption-text">{{ section.settings.caption_right | escape }}</span>
+      </figcaption>
+    {%- endif -%}
+  </figure>
+</div>
+
+{% stylesheet %}
+  .banner {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .banner__figure {
+    margin: 0;
+  }
+
+  .banner__media {
+    width: 100%;
+  }
+
+  .banner__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-9);
+    margin-block-start: var(--space-4);
+    padding: var(--space-4) var(--page-margin) 0;
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .banner__caption-text {
+    font-size: var(--text-caption);
+    font-weight: var(--font-body--weight-medium);
+    line-height: 1.5;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 749px) {
+    .banner__caption {
+      gap: var(--space-2);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.image_banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "t:labels.image_alt",
+      "info": "t:info.image_alt",
+      "default": "The Signet in 18k recycled gold, worn on a hand"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "t:labels.image_height",
+      "min": 320,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 660
+    },
+    {
+      "type": "header",
+      "content": "t:general.caption"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:info.caption_row"
+    },
+    {
+      "type": "text",
+      "id": "caption_left",
+      "label": "t:labels.caption_left",
+      "default": "Fig. 01 — The Signet, 18k recycled gold, photographed in Belo Horizonte"
+    },
+    {
+      "type": "text",
+      "id": "caption_right",
+      "label": "t:labels.caption_right",
+      "default": "Autumn chapter"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.image_banner",
+      "category": "t:general.cat_media"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,165 @@
+{% comment %}
+  Product recommendations, in either intent: "related" for the usual row, or
+  "complementary" for the pieces a merchant has paired in Search & Discovery.
+
+  One section serves both because they differ only in the intent parameter and
+  the heading. Two near-identical sections would be two places to fix a bug.
+
+  The row is fetched after first paint through the recommendations endpoint,
+  which is what Shopify's own guidance asks for: the recommendations are
+  generated per shopper and would otherwise hold up the product page.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign intent = section.settings.intent
+  assign limit = section.settings.products_count
+%}
+
+<aurelia-recommendations
+  class="recommendations color-{{ section.settings.color_scheme }} full-width"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ limit }}&intent={{ intent }}"
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <div class="band recommendations__band">
+      <div class="recommendations__inner">
+        <h2 class="eyebrow eyebrow--quiet recommendations__heading">
+          {{- section.settings.heading | escape -}}
+        </h2>
+
+        <ul class="recommendations__grid" style="--columns: {{ section.settings.columns }};">
+          {%- for recommended in recommendations.products -%}
+            <li>
+              {% render 'product-card',
+                product: recommended,
+                image_height: section.settings.image_height,
+                sizes: '(min-width: 990px) 25vw, 45vw',
+                heading_size: 'card__title--sm'
+              %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+</aurelia-recommendations>
+
+{% stylesheet %}
+  .recommendations {
+    display: block;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .recommendations__band:not(:empty) {
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .recommendations__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-16) var(--space-20);
+  }
+
+  .recommendations__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-9);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .recommendations__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-6) var(--space-4);
+    }
+
+    .recommendations__inner {
+      padding-block: var(--space-11);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.recommendations",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "t:labels.recommendation_intent",
+      "info": "t:info.recommendation_intent",
+      "options": [
+        { "value": "related", "label": "t:options.intent.related" },
+        { "value": "complementary", "label": "t:options.intent.complementary" }
+      ],
+      "default": "related"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "label": "t:labels.products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 320
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "presets": [
+    {
+      "name": "t:general.recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like"
+      }
+    },
+    {
+      "name": "t:general.complementary_products",
+      "settings": {
+        "intent": "complementary",
+        "heading": "Worn with",
+        "products_count": 3
+      }
+    }
+  ]
+}
+{% endschema %}

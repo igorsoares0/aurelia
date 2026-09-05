@@ -1,0 +1,433 @@
+{% comment %}
+  The cart page: a real table beside a sticky summary.
+
+  A cart is tabular data, so it is a `<table>` with a `<caption>` and `scope` on
+  every header cell, not a grid of divs. That is what lets a screen reader
+  announce "Quantity, The Signet, 1" instead of reading three unrelated numbers
+  in a row.
+
+  House services are cart attributes rather than hidden line items. A theme
+  should not invent products in a merchant's catalog to model a checkbox.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-cart-table' %}
+{% render 'styles-chips' %}
+
+<div class="cart-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="cart-page__inner" data-cart-section="{{ section.id }}">
+      {%- if cart.item_count == 0 -%}
+        <div class="cart-page__empty">
+          <h1 class="cart-page__empty-heading">{{ 'cart.empty_heading' | t }}</h1>
+          <p class="cart-page__empty-body">{{ section.settings.empty_body }}</p>
+          <div class="cart-page__empty-actions">
+            <a class="button button--primary" href="{{ routes.all_products_collection_url }}">
+              {{- 'cart.continue_shopping' | t -}}
+            </a>
+            {%- if section.settings.empty_link != blank -%}
+              <a class="button button--secondary" href="{{ section.settings.empty_link }}">
+                {{- section.settings.empty_link_label | escape -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if section.settings.empty_collection != blank -%}
+          <section class="cart-page__most-kept" aria-labelledby="MostKept">
+            <h2 class="eyebrow eyebrow--quiet" id="MostKept">{{ 'cart.most_kept' | t }}</h2>
+            <ul class="cart-page__most-kept-grid">
+              {%- for product in section.settings.empty_collection.products limit: 2 -%}
+                <li>
+                  {% render 'product-card',
+                    product: product,
+                    number: forloop.index,
+                    image_height: 190,
+                    sizes: '(min-width: 750px) 25vw, 45vw',
+                    heading_size: 'card__title--sm'
+                  %}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </section>
+        {%- endif -%}
+      {%- else -%}
+        <div class="cart-page__head">
+          <h1 class="cart-page__title">{{ 'cart.title' | t }}</h1>
+          <p class="cart-page__subtitle">
+            {%- if cart.item_count == 1 -%}
+              {{ 'cart.title_count_one' | t }}
+            {%- else -%}
+              {{ 'cart.title_count_html' | t: count: cart.item_count }}
+            {%- endif -%}
+          </p>
+        </div>
+
+        <form class="cart-page__layout" action="{{ routes.cart_url }}" method="post" novalidate>
+          <aurelia-cart-items class="cart-page__items">
+            <table class="cart-table">
+              <caption class="cart-table__caption">{{ 'cart.caption' | t }}</caption>
+              <thead>
+                <tr class="cart-table__head-row">
+                  <th class="cart-table__th" scope="col">{{ 'cart.piece' | t }}</th>
+                  <th class="cart-table__th" scope="col">{{ 'cart.quantity' | t }}</th>
+                  <th class="cart-table__th cart-table__th--end" scope="col">{{ 'cart.total' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for item in cart.items -%}
+                  {%- liquid
+                    assign line_alt = item.image.alt | default: item.product.title
+                    assign line_qty_id = 'CartQuantity-' | append: forloop.index
+                  -%}
+                  <tr class="cart-table__row">
+                    <td class="cart-table__cell">
+                      <div class="cart-table__piece">
+                        {% render 'image',
+                          image: item.image,
+                          alt: line_alt,
+                          ratio: 'media--tall',
+                          sizes: '104px',
+                          class: 'cart-table__media',
+                          placeholder: 'product-1'
+                        %}
+
+                        <div class="cart-table__detail">
+                          <h2 class="cart-table__title">
+                            <a href="{{ item.url }}">{{ item.product.title | escape }}</a>
+                          </h2>
+
+                          {%- unless item.product.has_only_default_variant -%}
+                            <p class="cart-table__meta">{{ item.variant.title }}</p>
+                          {%- endunless -%}
+
+                          {%- if settings.cart_show_vendor and item.product.vendor != blank -%}
+                            <p class="cart-table__meta">{{ item.product.vendor }}</p>
+                          {%- endif -%}
+
+                          {%- for property in item.properties -%}
+                            {%- liquid
+                              assign first_char = property.first | slice: 0
+                              if first_char == '_' or property.last == blank
+                                continue
+                              endif
+                            -%}
+                            <p class="cart-table__meta">{{ property.first }}: {{ property.last }}</p>
+                          {%- endfor -%}
+
+                          {%- if item.selling_plan_allocation -%}
+                            <p class="cart-table__meta">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                          {%- endif -%}
+
+                          {%- if item.unit_price_measurement -%}
+                            <p class="cart-table__meta">
+                              {{ item.unit_price | money }}
+                              <span aria-hidden="true">/</span>
+                              {{ item.unit_price_measurement.reference_unit }}
+                            </p>
+                          {%- endif -%}
+
+                          {%- if item.line_level_discount_allocations.size > 0 -%}
+                            <ul class="cart-table__discounts">
+                              {%- for allocation in item.line_level_discount_allocations -%}
+                                <li>
+                                  {{ allocation.discount_application.title }}
+                                  (&minus;{{ allocation.amount | money }})
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+
+                          <button class="cart-table__remove" type="button" data-cart-remove="{{ forloop.index }}">
+                            {{- 'cart.remove' | t -}}
+                            <span class="visually-hidden">
+                              {{- 'cart.remove_item' | t: title: item.product.title -}}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="cart-table__cell">
+                      {% render 'quantity-selector',
+                        id: line_qty_id,
+                        value: item.quantity,
+                        name: 'updates[]',
+                        title: item.product.title,
+                        line: forloop.index,
+                        min: 0
+                      %}
+                    </td>
+
+                    <td class="cart-table__cell cart-table__cell--end">
+                      {%- if item.original_line_price > item.final_line_price -%}
+                        <s class="cart-table__was">{{ item.original_line_price | money }}</s>
+                      {%- endif -%}
+                      {{ item.final_line_price | money }}
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+
+            {%- if section.blocks.size > 0 -%}
+              <fieldset class="cart-page__services">
+                <legend class="eyebrow eyebrow--quiet">{{ 'cart.house_services' | t }}</legend>
+                <div class="cart-page__services-list">
+                  {%- for block in section.blocks -%}
+                    {%- assign service_id = 'CartService-' | append: block.id -%}
+                    <label class="cart-page__service" for="{{ service_id }}" {{ block.shopify_attributes }}>
+                      <input
+                        type="checkbox"
+                        id="{{ service_id }}"
+                        name="attributes[{{ block.settings.label }}]"
+                        value="{{ block.settings.label }}"
+                        {% if cart.attributes[block.settings.label] != blank %}checked{% endif %}
+                      >
+                      <span>
+                        {{ block.settings.label }}
+                        {%- if block.settings.note != blank -%}
+                          <span class="cart-page__service-note">&mdash; {{ block.settings.note }}</span>
+                        {%- endif -%}
+                      </span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endif -%}
+
+            {%- if settings.cart_show_note -%}
+              <div class="field cart-page__note">
+                <label class="field__label" for="CartNote">{{ 'cart.note' | t }}</label>
+                <textarea
+                  class="field__textarea"
+                  id="CartNote"
+                  name="note"
+                  rows="3"
+                  placeholder="{{ 'cart.note_placeholder' | t }}"
+                >{{ cart.note }}</textarea>
+              </div>
+            {%- endif -%}
+          </aurelia-cart-items>
+
+          <aside class="cart-page__summary" aria-labelledby="CartSummary">
+            <h2 class="eyebrow eyebrow--quiet" id="CartSummary">{{ 'cart.total' | t }}</h2>
+            {% render 'cart-summary', show_dynamic: true %}
+          </aside>
+        </form>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .cart-page {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .cart-page__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-11) var(--space-20);
+  }
+
+  .cart-page__title {
+    font-size: var(--text-display-lg);
+    line-height: 1.08;
+  }
+
+  .cart-page__subtitle {
+    padding-block-start: var(--space-2);
+    font-size: var(--text-detail);
+    color: var(--color-secondary);
+  }
+
+  .cart-page__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 372px;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .cart-page__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    min-width: 0;
+  }
+
+  .cart-page__services {
+    border: 0;
+    border-block-start: 1px solid var(--hairline-section);
+    padding: var(--space-6) 0 0;
+    margin: 0;
+  }
+
+  .cart-page__services-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: 32.5rem;
+    padding-block-start: var(--space-3);
+  }
+
+  .cart-page__service {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-height: var(--tap-target);
+    padding-block: var(--space-2);
+    font-size: var(--text-detail);
+    cursor: pointer;
+  }
+
+  .cart-page__service input {
+    width: 16px;
+    height: 16px;
+    margin-block-start: 0.35em;
+    flex: 0 0 auto;
+    accent-color: var(--color-heading);
+  }
+
+  .cart-page__service-note {
+    color: var(--color-secondary);
+  }
+
+  .cart-page__note {
+    max-width: 32.5rem;
+  }
+
+  .cart-page__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    position: sticky;
+    top: var(--space-5);
+    padding: var(--space-8) var(--space-6);
+    border: 1px solid var(--hairline-group);
+  }
+
+  .cart-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    max-width: 38ch;
+  }
+
+  .cart-page__empty-heading {
+    font-size: var(--text-display-lg);
+    line-height: 1.1;
+  }
+
+  .cart-page__empty-body {
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+
+  .cart-page__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .cart-page__most-kept {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-block-start: var(--space-11);
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .cart-page__most-kept-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    max-width: 34rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    .cart-page__layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+
+    .cart-page__summary {
+      position: static;
+    }
+  }{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cart",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "header",
+      "content": "t:general.empty_state"
+    },
+    {
+      "type": "text",
+      "id": "empty_body",
+      "label": "t:labels.text",
+      "default": "Nothing kept yet. The current chapter is twelve pieces."
+    },
+    {
+      "type": "text",
+      "id": "empty_link_label",
+      "label": "t:labels.button_label",
+      "default": "Read the journal"
+    },
+    {
+      "type": "url",
+      "id": "empty_link",
+      "label": "t:labels.button_link"
+    },
+    {
+      "type": "collection",
+      "id": "empty_collection",
+      "label": "t:labels.most_kept",
+      "info": "t:info.most_kept"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "t:general.service",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:info.service"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:labels.label",
+          "default": "Gift box and hand-written card"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "t:labels.note",
+          "default": "included"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["cart"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+{% doc %}
+  Renders the applied filters as removable chips.
+
+  The chip is a link, not a button, because removing a filter is a navigation:
+  it changes the URL and the results. The remove control carries its own
+  accessible name -- "Remove filter: Silver 950" -- rather than a bare X, and it
+  uses negative margins so it reaches 44px without inflating the chip around it.
+
+  @param {object} results - The `collection` or `search` object
+  @param {string} [class] - Extra classes for the wrapper
+
+  @example
+  {% render 'active-facets', results: collection %}
+{% enddoc %}
+
+{% render 'styles-chips' %}
+
+{% liquid
+  assign has_active = false
+  for filter in results.filters
+    if filter.active_values.size > 0
+      assign has_active = true
+      break
+    endif
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign has_active = true
+        break
+      endif
+    endif
+  endfor
+%}
+
+{%- if has_active -%}
+  <div class="chips {{ class }}">
+    {%- for filter in results.filters -%}
+      {%- for value in filter.active_values -%}
+        <span class="chip">
+          <span class="chip__label">{{ value.label }}</span>
+          <a class="chip__remove" href="{{ value.url_to_remove }}">
+            <span class="visually-hidden">{{ 'collections.remove_filter' | t: name: value.label }}</span>
+            <span aria-hidden="true">&times;</span>
+          </a>
+        </span>
+      {%- endfor -%}
+
+      {%- if filter.type == 'price_range' -%}
+        {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+          <span class="chip">
+            <span class="chip__label">
+              {{- filter.min_value.value | money -}}
+              &ndash;
+              {{- filter.max_value.value | default: filter.range_max | money -}}
+            </span>
+            <a class="chip__remove" href="{{ filter.url_to_remove }}">
+              <span class="visually-hidden">{{ 'collections.remove_filter' | t: name: filter.label }}</span>
+              <span aria-hidden="true">&times;</span>
+            </a>
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

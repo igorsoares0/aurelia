@@ -1,0 +1,77 @@
+{% comment %}
+  A standalone email signup, for merchants who would rather it were a section
+  of its own than a corner of the footer.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="signup color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="signup__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      {%- if section.settings.heading != blank -%}
+        <h2 class="signup__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="signup__text rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {% render 'newsletter-form', id: 'SectionNewsletter', note: section.settings.note %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .signup {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .signup__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    max-width: 34rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .signup__heading {
+    font-size: var(--text-display-sm);
+    line-height: 1.15;
+  }
+
+  .signup__text {
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.newsletter",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "The journal" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<p>About six letters a year. Chapters, materials, and what the bench is making.</p>"
+    },
+    { "type": "text", "id": "note", "label": "t:labels.note", "default": "Leave whenever you like." }
+  ],
+  "presets": [
+    { "name": "t:general.preset_email_signup", "category": "t:general.cat_content" }
+  ]
+}
+{% endschema %}

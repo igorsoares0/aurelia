@@ -1,0 +1,96 @@
+{% doc %}
+  Renders a responsive image inside a ratio box, optionally wrapped in a link.
+
+  Every image in the theme goes through this snippet so that four things are
+  guaranteed in one place: width descriptors rather than a single large file,
+  the merchant's focal point honoured through `object-position`, a real `alt`
+  attribute, and a placeholder when no image has been chosen yet. The last one
+  matters for section presets, which must render something in the theme editor
+  before a merchant has uploaded anything.
+
+  Pass `height` for the fixed-height boxes the design uses (a 660px banner, a
+  420px card), or `ratio` for the aspect-ratio boxes. Passing neither gives the
+  image its natural ratio.
+
+  @param {image} [image] - The image to render. When empty, `placeholder` is drawn instead.
+  @param {string} [alt] - Overrides the image's own alt text. Prefer the image's alt where one exists.
+  @param {string} [class] - Extra classes for the wrapper
+  @param {string} [ratio] - A ratio class: media--portrait, media--square, media--tall, media--wide, media--natural
+  @param {number} [height] - Fixed height in px. Wins over `ratio`.
+  @param {string} [sizes] - The `sizes` attribute. Defaults to full viewport width.
+  @param {string} [widths] - Comma-separated width descriptors for the srcset
+  @param {number} [max_width] - The largest width to request. Defaults to the image's own width.
+  @param {string} [loading] - `lazy` (default) or `eager` for above-the-fold images
+  @param {string} [fetchpriority] - Set to `high` for the LCP image
+  @param {string} [placeholder] - A `placeholder_svg_tag` name, for example product-1 or collection-1
+  @param {string} [url] - Wraps the image in a link to this URL
+  @param {string} [url_label] - Accessible name for the link, when the image alt is not enough
+
+  @example
+  {% render 'image', image: product.featured_image, ratio: 'media--portrait' %}
+  {% render 'image',
+    image: section.settings.image,
+    height: 660,
+    loading: 'eager',
+    fetchpriority: 'high',
+    sizes: '100vw',
+    placeholder: 'lifestyle-1'
+  %}
+{% enddoc %}
+
+{% liquid
+  assign ratio_class = ratio | default: 'media--natural'
+  assign loading_attr = loading | default: 'lazy'
+  assign sizes_attr = sizes | default: '100vw'
+  assign widths_attr = widths | default: '200, 300, 400, 500, 600, 750, 900, 1100, 1400, 1700, 2000'
+  assign request_width = max_width | default: image.width | default: 2000
+
+  assign focal = '50% 50%'
+  if image.presentation.focal_point != blank
+    assign focal = image.presentation.focal_point
+  endif
+
+  assign image_alt = alt | default: image.alt
+
+  if url != blank
+    assign wrapper = 'a'
+  else
+    assign wrapper = 'div'
+  endif
+%}
+
+<{{ wrapper }}
+  class="media {{ ratio_class }}{% if height %} media--fixed{% endif %} {{ class }}"
+  style="--media-focal: {{ focal }};{% if height %} --media-height: {{ height }}px;{% endif %}"
+  {% if url != blank %}
+    href="{{ url }}"
+    {% if url_label != blank %}aria-label="{{ url_label | escape }}"{% endif %}
+  {% endif %}
+>
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: request_width
+      | image_tag:
+        widths: widths_attr,
+        sizes: sizes_attr,
+        loading: loading_attr,
+        fetchpriority: fetchpriority,
+        alt: image_alt,
+        class: 'media__image'
+    }}
+  {%- elsif placeholder != blank -%}
+    {{ placeholder | placeholder_svg_tag: 'media__placeholder' }}
+  {%- endif -%}
+</{{ wrapper }}>
+
+{% stylesheet %}
+  .media__image {
+    object-position: var(--media-focal, 50% 50%);
+  }
+
+  .media--fixed {
+    height: var(--media-height);
+    aspect-ratio: auto;
+  }
+{% endstylesheet %}

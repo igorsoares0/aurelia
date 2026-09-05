@@ -1,0 +1,438 @@
+{% comment %}
+  An article.
+
+  The body measure is set in px on desktop and in `ch` on mobile. That looks
+  inconsistent and is deliberate: the desktop measure is a column inside a
+  fixed layout, while the phone measure has to follow the text itself, and
+  `ch` is the right unit for body copy even though it is the wrong one for a
+  display headline.
+
+  The drop cap is a `::first-letter` rule rather than a wrapped span, so the
+  text stays one uninterrupted string for a screen reader and for copy-paste.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-chips' %}
+
+{% liquid
+  assign words = article.content | strip_html | split: ' ' | size
+  assign minutes = words | divided_by: 220
+  if minutes < 1
+    assign minutes = 1
+  endif
+  assign hero_alt = article.image.alt | default: article.title
+%}
+
+<div class="article color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <article class="article__inner">
+      <header class="article__head">
+        <p class="eyebrow eyebrow--wide">
+          {{- article.tags.first -}}
+          {%- if section.settings.show_read_time -%}
+            <span aria-hidden="true"> &middot; </span>
+            {{ 'blog.read_time_html' | t: minutes: minutes }}
+          {%- endif -%}
+        </p>
+
+        <h1 class="article__title">{{ article.title | escape }}</h1>
+
+        <p class="article__byline">
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            {{- article.published_at | date: format: 'date' -}}
+          </time>
+          {%- if section.settings.show_author and article.author != blank -%}
+            <span aria-hidden="true"> &middot; </span>{{ article.author }}
+          {%- endif -%}
+        </p>
+      </header>
+
+      {%- if section.settings.show_hero and article.image -%}
+        <figure class="article__hero">
+          {% render 'image',
+            image: article.image,
+            alt: hero_alt,
+            height: 470,
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high'
+          %}
+          {%- if article.image.alt != blank -%}
+            <figcaption class="article__hero-caption">{{ article.image.alt | escape }}</figcaption>
+          {%- endif -%}
+        </figure>
+      {%- endif -%}
+
+      <div class="article__body rte{% if section.settings.drop_cap %} article__body--drop-cap{% endif %}">
+        {{ article.content }}
+      </div>
+
+      {%- if section.settings.show_tags and article.tags.size > 0 -%}
+        <div class="article__tags">
+          <h2 class="eyebrow eyebrow--quiet">{{ 'blog.topics' | t }}</h2>
+          <div class="chips">
+            {%- for tag in article.tags -%}
+              <a class="chip chip--link" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_navigation -%}
+        {%- if blog.previous_article or blog.next_article -%}
+          <nav class="article__nav" aria-label="{{ 'blog.more_articles' | t }}">
+            <div class="article__nav-cell article__nav-cell--previous">
+              {%- if blog.previous_article -%}
+                <a class="article__nav-link" href="{{ blog.previous_article.url }}">
+                  <span class="eyebrow eyebrow--quiet">{{ 'general.previous' | t }}</span>
+                  <span class="article__nav-title">{{ blog.previous_article.title | escape }}</span>
+                </a>
+              {%- endif -%}
+            </div>
+            <div class="article__nav-cell article__nav-cell--next">
+              {%- if blog.next_article -%}
+                <a class="article__nav-link" href="{{ blog.next_article.url }}">
+                  <span class="eyebrow eyebrow--quiet">{{ 'general.next' | t }}</span>
+                  <span class="article__nav-title">{{ blog.next_article.title | escape }}</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </nav>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if blog.comments_enabled? -%}
+        <section class="article__comments" aria-labelledby="ArticleComments">
+          <h2 class="eyebrow eyebrow--quiet" id="ArticleComments">
+            {%- if article.comments_count == 1 -%}
+              {{ 'blog.article_comment_count_one' | t }}
+            {%- else -%}
+              {{ 'blog.article_comment_count' | t: count: article.comments_count }}
+            {%- endif -%}
+          </h2>
+
+          {%- paginate article.comments by 20 -%}
+            {%- if article.comments_count > 0 -%}
+              <ul class="comments">
+                {%- for comment in article.comments -%}
+                  <li class="comment">
+                    <div class="comment__body rte">{{ comment.content }}</div>
+                    <p class="comment__meta">
+                      {{ comment.author }}
+                      <span aria-hidden="true"> &middot; </span>
+                      <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">
+                        {{- comment.created_at | date: format: 'date' -}}
+                      </time>
+                    </p>
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              {% render 'pagination', paginate: paginate, label: 'Comment pages' %}
+            {%- endif -%}
+          {%- endpaginate -%}
+
+          {% form 'new_comment', article, class: 'comment-form' %}
+            {%- if form.posted_successfully? -%}
+              <p class="callout" role="status">
+                {%- if blog.moderated? -%}
+                  {{ 'blog.comment_success_moderated' | t }}
+                {%- else -%}
+                  {{ 'blog.comment_success' | t }}
+                {%- endif -%}
+              </p>
+            {%- elsif form.errors -%}
+              <div class="form-error-summary" role="alert">{{ form.errors | default_errors }}</div>
+            {%- endif -%}
+
+            <h3 class="comment-form__title">{{ 'blog.comment_form_title' | t }}</h3>
+
+            <div class="field">
+              <label class="field__label" for="CommentName">{{ 'blog.comment_form_name' | t }}</label>
+              <input
+                class="field__input"
+                id="CommentName"
+                type="text"
+                name="comment[author]"
+                value="{{ form.author }}"
+                autocomplete="name"
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="CommentEmail">{{ 'blog.comment_form_email' | t }}</label>
+              <input
+                class="field__input"
+                id="CommentEmail"
+                type="email"
+                name="comment[email]"
+                value="{{ form.email }}"
+                autocomplete="email"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+              >
+            </div>
+
+            <div class="field comment-form__wide">
+              <label class="field__label" for="CommentBody">{{ 'blog.comment_form_body' | t }}</label>
+              <textarea class="field__textarea" id="CommentBody" name="comment[body]" rows="5" required>
+                {{- form.body -}}
+              </textarea>
+            </div>
+
+            <div class="comment-form__wide">
+              <button class="button button--primary" type="submit">
+                {{- 'blog.comment_form_submit' | t -}}
+              </button>
+              {%- if blog.moderated? -%}
+                <p class="comment-form__note">{{ 'blog.comment_moderated' | t }}</p>
+              {%- endif -%}
+            </div>
+          {% endform %}
+        </section>
+      {%- endif -%}
+    </article>
+  </div>
+</div>
+
+{% stylesheet %}
+  .article {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .article__inner {
+    padding-block: var(--space-13) var(--space-20);
+  }
+
+  .article__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .article__title {
+    max-width: 18em;
+    font-size: var(--text-display-lg);
+    line-height: 1.12;
+  }
+
+  .article__byline {
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  .article__hero {
+    margin: var(--space-11) 0 0;
+  }
+
+  .article__hero-caption {
+    margin-block-start: var(--space-3);
+    padding-inline: var(--space-8);
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    color: var(--color-secondary);
+  }
+
+  .article__body {
+    padding-block-start: var(--space-11);
+    /* A fixed column inside a fixed layout. */
+    padding-inline: 152px;
+    font-size: var(--text-lead);
+    line-height: 1.85;
+  }
+
+  /* A rule rather than a wrapped span, so the paragraph stays one string for
+     assistive technology and for copy-paste. */
+  .article__body--drop-cap > p:first-of-type::first-letter {
+    float: left;
+    margin: 0.1em 0.25em 0 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: 3.4em;
+    line-height: 0.82;
+    color: var(--color-heading);
+  }
+
+  .article__body blockquote {
+    margin-block: var(--space-8);
+  }
+
+  .article__tags,
+  .article__comments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-block-start: var(--space-11);
+    padding-block-start: var(--space-6);
+    padding-inline: 152px;
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .article__nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+    margin-block-start: var(--space-9);
+    padding: var(--space-8) 152px 0;
+    border-block-start: 1px solid var(--hairline-section);
+  }
+
+  .article__nav-cell--previous {
+    padding-inline-end: var(--space-5);
+    border-inline-end: 1px solid var(--hairline-section);
+  }
+
+  .article__nav-cell--next {
+    text-align: end;
+  }
+
+  .article__nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-decoration: none;
+  }
+
+  .article__nav-cell--next .article__nav-link {
+    align-items: flex-end;
+  }
+
+  .article__nav-title {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-title);
+    line-height: 1.25;
+    color: var(--color-heading);
+  }
+
+  .comments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .comment {
+    padding-block-end: var(--space-5);
+    border-block-end: 1px solid var(--hairline-row);
+  }
+
+  .comment__meta {
+    padding-block-start: var(--space-2);
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  .comment-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    padding-block-start: var(--space-6);
+  }
+
+  .comment-form__title,
+  .comment-form__wide,
+  .comment-form .callout,
+  .comment-form .form-error-summary {
+    grid-column: span 2;
+  }
+
+  .comment-form__title {
+    font-size: var(--text-title-sm);
+  }
+
+  .comment-form__note {
+    padding-block-start: var(--space-2);
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 989px) {
+    .article__body,
+    .article__tags,
+    .article__comments,
+    .article__nav {
+      /* On a phone the measure follows the text rather than the layout. */
+      max-width: 38ch;
+      margin-inline: auto;
+      padding-inline: 0;
+    }
+
+    .article__title {
+      font-size: var(--text-display-md);
+    }
+
+    .article__nav {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+
+    .article__nav-cell--previous {
+      padding-inline-end: 0;
+      border-inline-end: 0;
+    }
+
+    .article__nav-cell--next {
+      padding-block-start: var(--space-4);
+      border-block-start: 1px solid var(--hairline-row);
+      text-align: start;
+    }
+
+    .article__nav-cell--next .article__nav-link {
+      align-items: flex-start;
+    }
+
+    .comment-form {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .comment-form__title,
+    .comment-form__wide,
+    .comment-form .callout,
+    .comment-form .form-error-summary {
+      grid-column: span 1;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.article",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "checkbox", "id": "show_hero", "label": "t:labels.show_hero", "default": true },
+    { "type": "checkbox", "id": "drop_cap", "label": "t:labels.drop_cap", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "t:labels.show_author", "default": true },
+    {
+      "type": "checkbox",
+      "id": "show_read_time",
+      "label": "t:labels.show_read_time",
+      "default": true
+    },
+    { "type": "checkbox", "id": "show_tags", "label": "t:labels.show_tags", "default": true },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "t:labels.show_navigation",
+      "default": true
+    }
+  ],
+  "enabled_on": {
+    "templates": ["article"]
+  }
+}
+{% endschema %}

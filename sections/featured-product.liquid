@@ -1,0 +1,307 @@
+{% comment %}
+  One piece, shown in full, on any template.
+
+  The Theme Store requires app blocks in the featured product section as well as
+  the main one, so this carries the same `@app` and custom Liquid blocks and the
+  same buy controls. It is the main product page reduced to a band, not a card.
+
+  Rich media works here too: a merchant can put the video or the 3D model on the
+  home page rather than only on the product page.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign featured = section.settings.product
+  assign variant = featured.selected_or_first_available_variant
+  assign form_id = 'FeaturedProductForm-' | append: section.id
+  assign quantity_id = 'FeaturedQuantity-' | append: section.id
+%}
+
+<div class="featured-product color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <aurelia-variants
+      class="featured-product__inner section-padding"
+      data-section-id="{{ section.id }}"
+      data-product-url="{{ featured.url }}"
+    >
+      {%- if featured == blank -%}
+        {%- comment -%}
+          A preset has to render something before a merchant picks a product.
+        {%- endcomment -%}
+        <div class="featured-product__layout" data-product-root>
+          <div class="media media--fixed" style="--media-height: {{ section.settings.image_height }}px;">
+            {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+          </div>
+          <div class="featured-product__panel">
+            <h2 class="featured-product__title">{{ 'onboarding.product_title' | t }}</h2>
+            <p class="featured-product__hint">{{ 'onboarding.pick_product' | t }}</p>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="featured-product__layout" data-product-root>
+          <div class="featured-product__media">
+            {% render 'product-media-gallery',
+              product: featured,
+              variant: variant,
+              hero_height: section.settings.image_height,
+              detail_height: section.settings.image_height,
+              section_id: section.id
+            %}
+          </div>
+
+          <div class="featured-product__panel">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'eyebrow' -%}
+                  {%- if block.settings.text != blank -%}
+                    <p class="eyebrow eyebrow--wide" {{ block.shopify_attributes }}>
+                      {{- block.settings.text | escape -}}
+                    </p>
+                  {%- endif -%}
+
+                {%- when 'title' -%}
+                  <h2 class="featured-product__title" {{ block.shopify_attributes }}>
+                    <a href="{{ featured.url }}">{{ featured.title | escape }}</a>
+                  </h2>
+
+                {%- when 'price' -%}
+                  <div {{ block.shopify_attributes }}>
+                    {% render 'price', product: featured, variant: variant, show_unit_price: true %}
+                  </div>
+
+                {%- when 'description' -%}
+                  {%- if featured.description != blank -%}
+                    <div class="featured-product__description rte" {{ block.shopify_attributes }}>
+                      {{ featured.description | strip_html | truncatewords: 44 }}
+                    </div>
+                  {%- endif -%}
+
+                {%- when 'variant_picker' -%}
+                  <div {{ block.shopify_attributes }}>
+                    {% render 'variant-picker',
+                      product: featured,
+                      variant: variant,
+                      section_id: section.id,
+                      form_id: form_id
+                    %}
+                  </div>
+
+                {%- when 'quantity' -%}
+                  {%- if variant.available -%}
+                    <div class="field" {{ block.shopify_attributes }}>
+                      <label class="field__label" for="{{ quantity_id }}">
+                        {{- 'products.quantity' | t -}}
+                      </label>
+                      {% render 'quantity-selector',
+                        id: quantity_id,
+                        value: 1,
+                        name: 'quantity',
+                        title: featured.title,
+                        min: 1,
+                        form: form_id
+                      %}
+                    </div>
+                  {%- endif -%}
+
+                {%- when 'buy_buttons' -%}
+                  <div {{ block.shopify_attributes }}>
+                    {% render 'buy-buttons',
+                      product: featured,
+                      variant: variant,
+                      form_id: form_id,
+                      show_dynamic: block.settings.show_dynamic_checkout,
+                      reassurance: block.settings.reassurance
+                    %}
+                  </div>
+
+                {%- when 'link' -%}
+                  <a class="link-tap link-inline" href="{{ featured.url }}" {{ block.shopify_attributes }}>
+                    {{- block.settings.label | escape -}}
+                  </a>
+
+                {%- when 'custom_liquid' -%}
+                  <div {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+
+                {%- when '@app' -%}
+                  {% render block %}
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <script type="application/json" data-variant-data>
+          [
+            {%- for product_variant in featured.variants -%}
+              {%- unless forloop.first -%},{%- endunless -%}
+              {"id":{{ product_variant.id }},"options":{{ product_variant.options | json }}}
+            {%- endfor -%}
+          ]
+        </script>
+      {%- endif -%}
+    </aurelia-variants>
+  </div>
+</div>
+
+<script src="{{ 'product.js' | asset_url }}" defer="defer"></script>
+
+{% stylesheet %}
+  .featured-product {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .featured-product__inner {
+    display: block;
+  }
+
+  .featured-product__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-16);
+  }
+
+  .featured-product__media {
+    min-width: 0;
+  }
+
+  .featured-product__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .featured-product__title {
+    font-size: var(--text-display-md);
+    line-height: 1.15;
+  }
+
+  .featured-product__title a {
+    text-decoration: none;
+  }
+
+  .featured-product__description {
+    font-size: var(--text-detail);
+    line-height: 1.8;
+  }
+
+  .featured-product__hint {
+    font-size: var(--text-detail);
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 989px) {
+    .featured-product__layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.featured_product",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:labels.product"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 300,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "eyebrow",
+      "name": "t:labels.eyebrow",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "t:labels.text", "default": "The piece" }
+      ]
+    },
+    { "type": "title", "name": "t:general.heading", "limit": 1, "settings": [] },
+    { "type": "price", "name": "t:general.price", "limit": 1, "settings": [] },
+    { "type": "description", "name": "t:general.description", "limit": 1, "settings": [] },
+    { "type": "variant_picker", "name": "t:general.variant_picker", "limit": 1, "settings": [] },
+    { "type": "quantity", "name": "t:labels.quantity", "limit": 1, "settings": [] },
+    {
+      "type": "buy_buttons",
+      "name": "t:general.buy_buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "t:labels.show_dynamic_checkout",
+          "info": "t:info.show_dynamic_checkout",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "reassurance",
+          "label": "t:labels.reassurance",
+          "default": "Free shipping and free resizing, for life."
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "t:labels.link",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:labels.link_label",
+          "default": "See the full piece"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "t:general.custom_liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "t:labels.custom_liquid",
+          "info": "t:info.custom_liquid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.featured_product",
+      "category": "t:general.cat_product",
+      "blocks": [
+        { "type": "eyebrow" },
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "description" },
+        { "type": "variant_picker" },
+        { "type": "buy_buttons" },
+        { "type": "link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

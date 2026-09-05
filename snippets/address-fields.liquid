@@ -1,0 +1,213 @@
+{% doc %}
+  Renders the fields of a customer address form.
+
+  Shared by the "add" and "edit" forms so the two can never drift apart. Must be
+  called inside a `{% form 'customer_address' %}` block.
+
+  Every field carries its correct `autocomplete` token, and the postcode says
+  what it does -- in many countries it fills the city and state, and a customer
+  who knows that types less.
+
+  @param {object} [address] - The address being edited. Omit for a new address.
+  @param {string} prefix - Unique id prefix, so several forms on one page do not collide.
+
+  @example
+  {% render 'address-fields', address: address, prefix: address.id %}
+{% enddoc %}
+
+<div class="field address-form__wide">
+  <label class="field__label" for="AddressFirstName-{{ prefix }}">
+    {{- 'customers.addresses.first_name' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressFirstName-{{ prefix }}"
+    type="text"
+    name="address[first_name]"
+    value="{{ address.first_name }}"
+    autocomplete="given-name"
+  >
+</div>
+
+<div class="field address-form__wide">
+  <label class="field__label" for="AddressLastName-{{ prefix }}">
+    {{- 'customers.addresses.last_name' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressLastName-{{ prefix }}"
+    type="text"
+    name="address[last_name]"
+    value="{{ address.last_name }}"
+    autocomplete="family-name"
+  >
+</div>
+
+<div class="field address-form__wide">
+  <label class="field__label" for="AddressCompany-{{ prefix }}">
+    {{- 'customers.addresses.company' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressCompany-{{ prefix }}"
+    type="text"
+    name="address[company]"
+    value="{{ address.company }}"
+    autocomplete="organization"
+  >
+</div>
+
+<div class="field address-form__wide">
+  <label class="field__label" for="AddressStreet-{{ prefix }}">
+    {{- 'customers.addresses.address1' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressStreet-{{ prefix }}"
+    type="text"
+    name="address[address1]"
+    value="{{ address.address1 }}"
+    autocomplete="address-line1"
+  >
+</div>
+
+<div class="field address-form__wide">
+  <label class="field__label" for="AddressStreet2-{{ prefix }}">
+    {{- 'customers.addresses.address2' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressStreet2-{{ prefix }}"
+    type="text"
+    name="address[address2]"
+    value="{{ address.address2 }}"
+    autocomplete="address-line2"
+  >
+</div>
+
+<div class="field">
+  <label class="field__label" for="AddressZip-{{ prefix }}">
+    {{- 'customers.addresses.zip' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressZip-{{ prefix }}"
+    type="text"
+    name="address[zip]"
+    value="{{ address.zip }}"
+    autocomplete="postal-code"
+    autocapitalize="characters"
+    aria-describedby="AddressZipHelp-{{ prefix }}"
+  >
+  <p class="account-page__help" id="AddressZipHelp-{{ prefix }}">
+    {{ 'customers.addresses.zip_help' | t }}
+  </p>
+</div>
+
+<div class="field">
+  <label class="field__label" for="AddressCity-{{ prefix }}">
+    {{- 'customers.addresses.city' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressCity-{{ prefix }}"
+    type="text"
+    name="address[city]"
+    value="{{ address.city }}"
+    autocomplete="address-level2"
+  >
+</div>
+
+<div class="field">
+  <label class="field__label" for="AddressCountry-{{ prefix }}">
+    {{- 'customers.addresses.country' | t -}}
+  </label>
+  <select
+    class="field__select"
+    id="AddressCountry-{{ prefix }}"
+    name="address[country]"
+    autocomplete="country"
+    data-address-country
+    data-province-target="AddressProvince-{{ prefix }}"
+    data-default="{{ address.country }}"
+  >
+    {{ all_country_option_tags }}
+  </select>
+</div>
+
+<div class="field" id="AddressProvinceWrapper-{{ prefix }}">
+  <label class="field__label" for="AddressProvince-{{ prefix }}">
+    {{- 'customers.addresses.province' | t -}}
+  </label>
+  <select
+    class="field__select"
+    id="AddressProvince-{{ prefix }}"
+    name="address[province]"
+    autocomplete="address-level1"
+    data-default="{{ address.province }}"
+  ></select>
+</div>
+
+<div class="field">
+  <label class="field__label" for="AddressPhone-{{ prefix }}">
+    {{- 'customers.addresses.phone' | t -}}
+  </label>
+  <input
+    class="field__input"
+    id="AddressPhone-{{ prefix }}"
+    type="tel"
+    name="address[phone]"
+    value="{{ address.phone }}"
+    autocomplete="tel"
+  >
+</div>
+
+<label class="account-page__check address-form__wide" for="AddressDefault-{{ prefix }}">
+  <input
+    type="checkbox"
+    id="AddressDefault-{{ prefix }}"
+    name="address[default]"
+    value="1"
+    {% if address.id == customer.default_address.id %}checked{% endif %}
+  >
+  <span>{{ 'customers.addresses.set_default' | t }}</span>
+</label>
+
+{% javascript %}
+  /**
+   * Fills the province select from the country's own province list, and hides
+   * it entirely for countries that have none -- an empty select labelled
+   * "State" is worse than no select at all.
+   */
+  function syncProvinces(country) {
+    const target = document.getElementById(country.dataset.provinceTarget);
+    if (!target) return;
+
+    const wrapper = target.closest('.field');
+    const selected = country.options[country.selectedIndex];
+    const provinces = JSON.parse(selected.getAttribute('data-provinces') || '[]');
+
+    target.innerHTML = '';
+
+    if (provinces.length === 0) {
+      if (wrapper) wrapper.hidden = true;
+      return;
+    }
+
+    if (wrapper) wrapper.hidden = false;
+
+    provinces.forEach((province) => {
+      const option = document.createElement('option');
+      option.value = province[0];
+      option.textContent = province[1];
+      if (province[0] === target.dataset.default) option.selected = true;
+      target.appendChild(option);
+    });
+  }
+
+  document.querySelectorAll('[data-address-country]').forEach((country) => {
+    if (country.dataset.default) country.value = country.dataset.default;
+    syncProvinces(country);
+    country.addEventListener('change', () => syncProvinces(country));
+  });
+{% endjavascript %}

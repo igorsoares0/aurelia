@@ -1,0 +1,246 @@
+{% doc %}
+  Renders the option pickers, one fieldset per option.
+
+  Availability is per combination, not per option. `value.variant` is the
+  variant formed by this option value plus everything else currently selected,
+  so a value is unavailable when that particular combination is unavailable --
+  which is the whole point. Shopify computes it; nothing here guesses.
+
+  An unavailable value is never signalled by color alone. It is dashed, it is
+  `disabled`, and the group carries a sentence in words underneath saying which
+  combination is out. A swatch always shows its name next to the dot for the
+  same reason.
+
+  The real `<input>` is hidden and a `<span>` is styled in its place, which is
+  why `critical.css` draws the focus ring on `label:focus-within > span`. Lose
+  that rule and the primary buy control becomes invisible to keyboard users.
+
+  The radios sit outside the product form and carry no `name` the cart cares
+  about; the selected variant reaches the form through the hidden `id` input
+  that `buy-buttons` renders. A `<noscript>` `<select name="id">` wired to the
+  form by `form=` takes over when scripts do not run.
+
+  @param {object} product - The product being shown
+  @param {object} variant - The currently selected variant
+  @param {string} section_id - Used to namespace radio group names
+  @param {string} form_id - Id of the product form these controls belong to
+
+  @example
+  {% render 'variant-picker', product: product, variant: current_variant, section_id: section.id, form_id: form_id %}
+{% enddoc %}
+
+{%- unless product.has_only_default_variant -%}
+  <div class="variant-picker" data-variant-picker data-url="{{ product.url }}" data-section="{{ section_id }}">
+    {%- for option in product.options_with_values -%}
+      {%- liquid
+        assign option_id = section_id | append: '-option-' | append: option.position
+        assign group_name = option_id | append: '-group'
+        assign help_id = option_id | append: '-help'
+
+        assign is_swatch = false
+        if option.values.first.swatch
+          assign is_swatch = true
+        endif
+
+        assign chosen = option.selected_value
+        if chosen != blank
+          assign legend_text = 'products.option_chosen_html' | t: option: option.name, value: chosen
+        else
+          assign legend_text = 'products.choose_option' | t: option: option.name
+        endif
+
+        assign unavailable_names = ''
+        for value in option.values
+          if value.variant == nil or value.variant.available == false
+            assign unavailable_names = unavailable_names | append: value.name | append: ', '
+          endif
+        endfor
+        assign unavailable_names = unavailable_names | remove_last: ', '
+      %}
+
+      <fieldset
+        class="option{% if is_swatch %} option--swatch{% endif %}"
+        {% if unavailable_names != blank %}aria-describedby="{{ help_id }}"{% endif %}
+      >
+        <legend class="option__legend eyebrow eyebrow--quiet">{{ legend_text }}</legend>
+
+        <div class="option__values">
+          {%- for value in option.values -%}
+            {%- liquid
+              assign value_id = option_id | append: '-' | append: forloop.index
+              assign is_available = false
+              if value.variant and value.variant.available
+                assign is_available = true
+              endif
+            -%}
+            <label class="option__value{% unless is_available %} option__value--out{% endunless %}" for="{{ value_id }}">
+              <input
+                class="visually-hidden option__input"
+                type="radio"
+                id="{{ value_id }}"
+                name="{{ group_name }}"
+                value="{{ value.name | escape }}"
+                data-option-position="{{ option.position }}"
+                {% if value.selected %}checked{% endif %}
+                {% unless is_available %}disabled{% endunless %}
+              >
+              <span class="option__chip">
+                {%- if is_swatch -%}
+                  <span
+                    class="option__swatch"
+                    aria-hidden="true"
+                    style="--swatch: {{ value.swatch.color }};{% if value.swatch.image %} --swatch-image: url({{ value.swatch.image | image_url: width: 40 }});{% endif %}"
+                  ></span>
+                {%- endif -%}
+                {{ value.name }}
+              </span>
+            </label>
+          {%- endfor -%}
+        </div>
+
+        {%- if unavailable_names != blank -%}
+          <p class="option__help" id="{{ help_id }}">
+            {{ 'products.dashed_explanation' | t }}
+          </p>
+        {%- endif -%}
+      </fieldset>
+    {%- endfor -%}
+
+    <noscript>
+      <div class="field option__fallback">
+        <label class="field__label" for="{{ section_id }}-variant-select">{{ 'products.specification' | t }}</label>
+        <select class="field__select" id="{{ section_id }}-variant-select" name="id" form="{{ form_id }}">
+          {%- for option_variant in product.variants -%}
+            <option
+              value="{{ option_variant.id }}"
+              {% if option_variant.id == variant.id %}selected{% endif %}
+              {% unless option_variant.available %}disabled{% endunless %}
+            >
+              {{ option_variant.title }}
+              {%- unless option_variant.available %} &ndash; {{ 'products.sold_out' | t }}{% endunless -%}
+              &ndash; {{ option_variant.price | money }}
+            </option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </noscript>
+  </div>
+{%- endunless -%}
+
+{% stylesheet %}
+  .variant-picker {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .option {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .option__legend {
+    padding: 0 0 var(--space-3);
+    /* A legend can be long once it restates the chosen value, so this one is
+       allowed to wrap where a control label is not. */
+    white-space: normal;
+  }
+
+  .option__values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .option__value {
+    cursor: pointer;
+  }
+
+  .option__chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-width: 3.25rem;
+    min-height: var(--tap-target);
+    padding-inline: var(--space-4);
+    font-size: var(--text-detail);
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--color-heading);
+    border: 1px solid var(--hairline-control);
+    transition: border-color var(--motion-hover) ease, background-color var(--motion-hover) ease,
+      color var(--motion-hover) ease;
+  }
+
+  .option__value:hover .option__chip {
+    border-color: var(--color-heading);
+  }
+
+  .option__input:checked + .option__chip {
+    border: 1.5px solid var(--color-heading);
+    background-color: var(--color-heading);
+    color: var(--color-background);
+  }
+
+  /* A swatch keeps its ground so the color stays readable, and is marked
+     selected by weight of rule rather than by inversion. */
+  .option--swatch .option__input:checked + .option__chip {
+    background-color: transparent;
+    color: var(--color-heading);
+  }
+
+  .option__swatch {
+    width: 16px;
+    height: 16px;
+    /* The only border-radius in the theme, alongside the card swatch. */
+    border-radius: 50%;
+    border: 1px solid var(--hairline-control);
+    background-color: var(--swatch, var(--color-well));
+    background-image: var(--swatch-image, none);
+    background-size: cover;
+    flex: 0 0 auto;
+  }
+
+  /* Unavailable: dashed and disabled, and explained in words below. */
+  .option__value--out .option__chip {
+    border-style: dashed;
+    border-color: var(--hairline-strong);
+    color: var(--color-secondary);
+    cursor: not-allowed;
+  }
+
+  .option__help {
+    padding-block-start: var(--space-3);
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .option__fallback {
+    padding-block-start: var(--space-3);
+  }
+
+  /* Validation */
+  .option--invalid .option__legend {
+    color: var(--color-error-text);
+  }
+
+  .option--invalid .option__chip {
+    border: 1.5px solid var(--color-error-rule);
+  }
+
+  .option--invalid .option__help {
+    color: var(--color-error-text);
+  }
+
+  @media screen and (max-width: 749px) {
+    .option__chip {
+      min-width: 3.5rem;
+      min-height: 3rem;
+      font-size: var(--text-body-md);
+    }
+  }
+{% endstylesheet %}

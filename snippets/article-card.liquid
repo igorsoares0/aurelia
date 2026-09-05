@@ -1,0 +1,92 @@
+{% doc %}
+  Renders a journal article card.
+
+  Same one-tab-stop construction as the product card: the heading carries the
+  only link and its `::after` covers the card.
+
+  Read time is computed from the article's own word count rather than stored,
+  so it is right without a merchant having to maintain it.
+
+  @param {object} article - The article to render
+  @param {number} [image_height] - Fixed image height in px
+  @param {string} [sizes] - The `sizes` attribute for the image
+  @param {boolean} [show_excerpt] - Render the excerpt
+  @param {boolean} [show_date] - Render the published date
+  @param {boolean} [show_read_time] - Render the estimated read time
+  @param {string} [heading_size] - `card__title--sm` for tighter grids
+
+  @example
+  {% render 'article-card', article: article, image_height: 250, show_excerpt: true %}
+{% enddoc %}
+
+{% liquid
+  assign topic = article.tags.first
+  assign words = article.content | strip_html | split: ' ' | size
+  assign minutes = words | divided_by: 220
+  if minutes < 1
+    assign minutes = 1
+  endif
+
+  assign card_sizes = sizes | default: '(min-width: 990px) 30vw, 90vw'
+  assign card_alt = article.image.alt | default: article.title
+%}
+
+<article class="card article-card">
+  {% render 'image',
+    image: article.image,
+    alt: card_alt,
+    height: image_height,
+    sizes: card_sizes,
+    placeholder: 'blog-apparel-1',
+    class: 'card__media'
+  %}
+
+  <div class="card__body">
+    {%- if topic != blank -%}
+      <p class="eyebrow article-card__topic">{{ topic }}</p>
+    {%- endif -%}
+
+    <h3 class="card__title {{ heading_size }}">
+      <a class="card__link" href="{{ article.url }}">{{ article.title | escape }}</a>
+    </h3>
+
+    {%- if show_excerpt and article.excerpt_or_content != blank -%}
+      <p class="article-card__excerpt">
+        {{- article.excerpt_or_content | strip_html | truncatewords: 28 -}}
+      </p>
+    {%- endif -%}
+
+    {%- if show_date or show_read_time -%}
+      <p class="article-card__meta">
+        {%- if show_date -%}
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            {{- article.published_at | date: format: 'date' -}}
+          </time>
+        {%- endif -%}
+        {%- if show_date and show_read_time -%}
+          <span aria-hidden="true"> &middot; </span>
+        {%- endif -%}
+        {%- if show_read_time -%}
+          {{ 'blog.read_time_html' | t: minutes: minutes }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+</article>
+
+{% stylesheet %}
+  .article-card__topic {
+    color: var(--color-accent);
+  }
+
+  .article-card__excerpt {
+    font-size: var(--text-detail);
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+
+  .article-card__meta {
+    font-size: var(--text-caption);
+    color: var(--color-secondary);
+  }
+{% endstylesheet %}

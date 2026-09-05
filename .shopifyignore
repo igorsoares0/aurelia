@@ -1,0 +1,16 @@
+# Files excluded from Shopify CLI operations (push, pull, dev).
+# A theme may only contain Shopify's own directories; anything else here is
+# project tooling that would be rejected or would sit uselessly in the store.
+
+# The design set. Reference material, not theme code.
+design_handoff_aurelia_theme/
+
+# Preset variants. Part of the Theme Store submission package, not of a live
+# theme -- pushing them would put invalid files in the store.
+listings/
+
+# The test-data seeder. Runs on your machine, not in the store.
+scripts/
+
+# Project documentation.
+*.md

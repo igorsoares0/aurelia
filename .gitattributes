@@ -1,0 +1,11 @@
+# Normalise everything to LF in the repository, and check it out as LF too.
+# Without this, a Windows clone rewrites every file to CRLF and the whole theme
+# shows as modified on the next status.
+* text=auto eol=lf
+
+# Shopify templates and section groups carry /* */ comment headers, so they are
+# JSONC rather than strict JSON.
+*.json linguist-language=jsonc
+
+# Design references, not source. Keeps them out of language stats and diffs.
+design_handoff_aurelia_theme/** linguist-documentation

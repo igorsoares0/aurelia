@@ -1,0 +1,96 @@
+{% doc %}
+  Renders a quantity stepper.
+
+  Both steppers and the number field are the full 44px. The mocks drew 36px and
+  40px in the bag, which is under the touch-target floor the rest of the theme
+  holds to; a stepper is a control like any other.
+
+  The value is announced politely when it changes, so a customer using a screen
+  reader hears the new quantity without having to go looking for it.
+
+  @param {string} id - Unique id for the input
+  @param {number} value - Current quantity
+  @param {string} name - Form field name, for example `quantity` or `updates[]`
+  @param {string} [title] - Product title, used in the button labels
+  @param {number} [line] - Cart line index, for the cart scripts
+  @param {number} [min] - Minimum value. 0 in the bag so a line can be removed, 1 on a product page.
+  @param {string} [form] - Id of the form this field belongs to
+
+  @example
+  {% render 'quantity-selector', id: 'Quantity', value: 1, name: 'quantity', min: 1 %}
+{% enddoc %}
+
+{% liquid
+  assign floor = min | default: 1
+  assign label = 'products.quantity' | t
+  if title != blank
+    assign down_label = 'products.decrease_quantity' | t: title: title
+    assign up_label = 'products.increase_quantity' | t: title: title
+  else
+    assign down_label = 'products.decrease_quantity' | t: title: label
+    assign up_label = 'products.increase_quantity' | t: title: label
+  endif
+%}
+
+<div class="quantity" data-quantity>
+  <button class="quantity__step" type="button" data-quantity-step="down" aria-label="{{ down_label | escape }}">
+    <span aria-hidden="true">&minus;</span>
+  </button>
+
+  <input
+    class="quantity__input"
+    id="{{ id }}"
+    type="number"
+    inputmode="numeric"
+    name="{{ name }}"
+    value="{{ value }}"
+    min="{{ floor }}"
+    step="1"
+    aria-label="{{ label }}"
+    data-quantity-input
+    {% if line %}data-line="{{ line }}"{% endif %}
+    {% if form %}form="{{ form }}"{% endif %}
+  >
+
+  <button class="quantity__step" type="button" data-quantity-step="up" aria-label="{{ up_label | escape }}">
+    <span aria-hidden="true">+</span>
+  </button>
+</div>
+
+{% stylesheet %}
+  .quantity {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--hairline-control);
+  }
+
+  .quantity__step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+    color: var(--color-heading);
+  }
+
+  .quantity__step:hover {
+    color: var(--color-accent);
+  }
+
+  .quantity__input {
+    width: var(--tap-target);
+    min-height: var(--tap-target);
+    padding: 0;
+    text-align: center;
+    background: none;
+    border: 0;
+    border-inline: 1px solid var(--hairline-row);
+    -moz-appearance: textfield;
+  }
+
+  .quantity__input::-webkit-outer-spin-button,
+  .quantity__input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+{% endstylesheet %}

@@ -1,0 +1,158 @@
+{% comment %}
+  The predictive search results, fetched and painted into the search overlay.
+
+  This section is never placed on a template. It is requested through the
+  Predictive Search API's section response, which is why it renders bare markup
+  with no wrapper of its own.
+
+  The list follows the listbox pattern: the results are `role="listbox"`, each
+  result is `role="option"`, and the count above them is the live region the
+  input points at with `aria-describedby`.
+
+  https://shopify.dev/docs/storefronts/themes/navigation-search/search/predictive-search
+{% endcomment %}
+
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign products = predictive_search.resources.products
+    assign articles = predictive_search.resources.articles
+    assign pages = predictive_search.resources.pages
+    assign total = products.size | plus: articles.size | plus: pages.size
+  -%}
+
+  <p class="visually-hidden" data-predictive-announce>
+    {%- if products.size == 1 -%}
+      {{ 'search.results_for_one_html' | t: terms: predictive_search.terms }}
+    {%- else -%}
+      {{ 'search.results_for_html' | t: count: products.size, terms: predictive_search.terms }}
+    {%- endif -%}
+  </p>
+
+  {%- if total == 0 -%}
+    <p class="predictive__empty">{{ 'search.no_results_html' | t: terms: predictive_search.terms }}</p>
+  {%- else -%}
+    {%- if products.size > 0 -%}
+      <h3 class="visually-hidden" id="PredictiveProducts">{{ 'search.pieces' | t }}</h3>
+      <ul class="predictive__grid" role="listbox" aria-labelledby="PredictiveProducts">
+        {%- for product in products -%}
+          {%- assign result_alt = product.featured_media.alt | default: product.title -%}
+          <li role="option">
+            <a class="predictive__product" href="{{ product.url }}">
+              {% render 'image',
+                image: product.featured_media.preview_image,
+                alt: result_alt,
+                ratio: 'media--portrait',
+                sizes: '(min-width: 750px) 200px, 40vw',
+                placeholder: 'product-1'
+              %}
+              <span class="predictive__title">{{ product.title | escape }}</span>
+              {%- if settings.predictive_search_show_price -%}
+                {% render 'price', product: product, show_from: true, class: 'predictive__price' %}
+              {%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if settings.predictive_search_show_articles and articles.size > 0 -%}
+      <h3 class="eyebrow eyebrow--quiet predictive__heading">{{ 'search.journal' | t }}</h3>
+      <ul class="predictive__list">
+        {%- for article in articles -%}
+          <li>
+            <a class="predictive__link" href="{{ article.url }}">{{ article.title | escape }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if pages.size > 0 -%}
+      <h3 class="eyebrow eyebrow--quiet predictive__heading">{{ 'search.pages' | t }}</h3>
+      <ul class="predictive__list">
+        {%- for page in pages -%}
+          <li>
+            <a class="predictive__link" href="{{ page.url }}">{{ page.title | escape }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <a
+      class="predictive__all"
+      href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}"
+    >
+      {{- 'search.all_results_html' | t: terms: predictive_search.terms -}}
+    </a>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .predictive__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .predictive__product {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-decoration: none;
+  }
+
+  .predictive__title {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-body-md);
+    line-height: 1.2;
+    color: var(--color-heading);
+  }
+
+  .predictive__heading {
+    padding-block-start: var(--space-5);
+  }
+
+  .predictive__list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .predictive__link,
+  .predictive__all {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-size: var(--text-detail);
+    text-decoration: none;
+  }
+
+  .predictive__all {
+    padding-block-start: var(--space-4);
+    color: var(--color-accent);
+  }
+
+  .predictive__empty {
+    font-size: var(--text-detail);
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 749px) {
+    .predictive__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.search_results",
+  "settings": []
+}
+{% endschema %}

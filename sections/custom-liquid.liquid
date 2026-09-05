@@ -1,0 +1,46 @@
+{% comment %}
+  A section for a merchant's own Liquid, or an app snippet.
+
+  Required by the Theme Store on every template that supports sections.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="custom-liquid color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="custom-liquid__inner section-padding">
+      {{ section.settings.custom_liquid }}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .custom-liquid {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.custom_liquid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "t:labels.custom_liquid",
+      "info": "t:info.custom_liquid"
+    }
+  ],
+  "presets": [
+    { "name": "t:general.custom_liquid", "category": "t:general.cat_content" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,100 @@
+{% doc %}
+  Renders a breadcrumb trail.
+
+  The separator is an `aria-hidden` slash so it is seen but never read, and the
+  final crumb is a `<span aria-current="page">` rather than a link to the page
+  you are already on.
+
+  Builds itself from the current template: a product inside a collection shows
+  that collection, an article shows its blog, and everything else shows one
+  level up from home.
+
+  @param {string} [class] - Extra classes for the nav
+
+  @example
+  {% render 'breadcrumbs' %}
+{% enddoc %}
+
+{%- unless request.page_type == 'index' -%}
+  <nav class="breadcrumbs {{ class }}" aria-label="{{ 'accessibility.breadcrumb' | t }}">
+    <ol class="breadcrumbs__list">
+      <li>
+        <a class="breadcrumbs__link" href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+      </li>
+
+      {%- case request.page_type -%}
+        {%- when 'product' -%}
+          {%- if collection.url != blank -%}
+            <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+            <li>
+              <a class="breadcrumbs__link" href="{{ collection.url }}">{{ collection.title }}</a>
+            </li>
+          {%- endif -%}
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <span class="breadcrumbs__current" aria-current="page">{{ product.title }}</span>
+          </li>
+
+        {%- when 'collection' -%}
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <span class="breadcrumbs__current" aria-current="page">{{ collection.title }}</span>
+          </li>
+
+        {%- when 'article' -%}
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <a class="breadcrumbs__link" href="{{ blog.url }}">{{ blog.title }}</a>
+          </li>
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <span class="breadcrumbs__current" aria-current="page">{{ article.title }}</span>
+          </li>
+
+        {%- when 'blog' -%}
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <span class="breadcrumbs__current" aria-current="page">{{ blog.title }}</span>
+          </li>
+
+        {%- when 'page' -%}
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <span class="breadcrumbs__current" aria-current="page">{{ page.title }}</span>
+          </li>
+
+        {%- else -%}
+          <li class="breadcrumbs__separator" aria-hidden="true">/</li>
+          <li>
+            <span class="breadcrumbs__current" aria-current="page">{{ page_title }}</span>
+          </li>
+      {%- endcase -%}
+    </ol>
+  </nav>
+{%- endunless -%}
+
+{% stylesheet %}
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    color: var(--color-secondary);
+  }
+
+  .breadcrumbs__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    text-decoration: none;
+  }
+
+  .breadcrumbs__current {
+    color: var(--color-heading);
+  }
+{% endstylesheet %}

@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Assistant:wght@400;500;600&family=Prata&family=Karla:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#e9e5dd;font-family:Jost,system-ui,sans-serif}
+a{color:#7A5E30}
+a:hover{color:#16130F}
+*:focus-visible{outline:2px solid #16130F;outline-offset:3px}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08)}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#16130F;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:500 13px/1.2 Jost,system-ui,sans-serif;color:#16130F;letter-spacing:.02em}
+.dv-opts{display:flex;flex-wrap:nowrap;gap:36px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#16130F;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:9px;font:400 11.5px/1.3 Jost,system-ui,sans-serif;color:rgba(22,19,15,.62)}
+.dv-card{width:1280px;background:#F5F2EC;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden}
+.dv-opt:target .dv-oid{background:#7A5E30;color:#fff}
+.dv-next{margin:24px 0 0;font:12.5px/1.6 Jost,system-ui,sans-serif;color:rgba(22,19,15,.55)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t4">
+<div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">Shopify-library type pairs on <a class="dv-oid" href="#1a">1a</a> — body at weight 400, rem scale, no external font CDN</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="4a">
+<div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>Playfair Display + Work Sans — the safe default, closest to what we drew</div>
+<div class="dv-card" data-screen-label="Type pair A" style="width:1080px;font-family:'Work Sans',system-ui,sans-serif">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:1.5rem;padding:1.5rem 2.5rem 1.25rem">
+<nav aria-label="Collections" style="display:flex;gap:1.5rem">
+<a href="#4a" style="font:400 .8125rem/1 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:.75rem 0">Jewellery</a>
+<a href="#4a" style="font:400 .8125rem/1 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:.75rem 0">Journal</a>
+</nav>
+<a href="#4a" aria-label="Aurelia — home" style="font:500 1.5rem/1 'Playfair Display',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+<div style="display:flex;gap:1.25rem;justify-content:flex-end"><button type="button" style="min-height:44px;background:none;border:0;font:400 .8125rem/1 'Work Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button></div>
+</header>
+<main>
+<figure style="margin:0">
+<div style="position:relative;width:100%;height:26rem;background:#EDE8DF"><image-slot id="fa-hero" shape="rect" placeholder="Hero" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<figcaption style="display:flex;justify-content:space-between;gap:2rem;padding:.875rem 2.5rem 0;font:400 .8125rem/1.5 'Work Sans',sans-serif;letter-spacing:.04em;color:#5C554C">
+<span>Fig. 01 — The Signet, 18k recycled gold</span><span>Autumn Chapter</span>
+</figcaption>
+</figure>
+<section style="padding:5rem 2.5rem 4.5rem;text-align:center;max-width:56rem;margin:0 auto">
+<p style="margin:0 0 1.75rem;font:500 .75rem/1 'Work Sans',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A5E30">Chapter One</p>
+<h1 style="margin:0;font:400 4.25rem/1.08 'Playfair Display',serif;color:#16130F;text-wrap:pretty">Twelve pieces a year.<br><em style="font-style:italic">Each one kept forever.</em></h1>
+<p style="margin:1.75rem auto 0;max-width:34rem;font:400 1.0625rem/1.7 'Work Sans',sans-serif;color:#463F38;text-wrap:pretty">We release a single chapter each season — cast by hand, set by hand, finished in our own workshop.</p>
+</section>
+<ul style="list-style:none;margin:0;padding:0 2.5rem 4rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem">
+<li><a href="#4a" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fa-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:.875rem;font:500 .75rem/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 01</span><span style="display:block;margin-top:.5rem;font:400 1.375rem/1.25 'Playfair Display',serif;color:#16130F">The Signet</span><span style="display:block;margin-top:.3125rem;font:400 .875rem/1.6 'Work Sans',sans-serif;color:#5C554C">18k recycled gold</span><span style="display:block;margin-top:.5rem;font:500 .875rem/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;4.280</span></a></li>
+<li><a href="#4a" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fa-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:.875rem;font:500 .75rem/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 02</span><span style="display:block;margin-top:.5rem;font:400 1.375rem/1.25 'Playfair Display',serif;color:#16130F">Cadena Fina</span><span style="display:block;margin-top:.3125rem;font:400 .875rem/1.6 'Work Sans',sans-serif;color:#5C554C">Hand-linked, 45cm</span><span style="display:block;margin-top:.5rem;font:500 .875rem/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;2.940</span></a></li>
+<li><a href="#4a" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fa-p3" shape="rect" placeholder="Piece" aria-label="Vespera Drops"></image-slot></span><span style="display:block;margin-top:.875rem;font:500 .75rem/1 'Work Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 03</span><span style="display:block;margin-top:.5rem;font:400 1.375rem/1.25 'Playfair Display',serif;color:#16130F">Vespera Drops</span><span style="display:block;margin-top:.3125rem;font:400 .875rem/1.6 'Work Sans',sans-serif;color:#5C554C">Baroque pearl, gold</span><span style="display:block;margin-top:.5rem;font:500 .875rem/1 'Work Sans',sans-serif;color:#16130F">R$&nbsp;3.510</span></a></li>
+</ul>
+<section style="background:#16130F;color:#F5F2EC;padding:3.5rem 2.5rem;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:3rem;align-items:center">
+<div>
+<h2 style="margin:0;font:400 2.5rem/1.2 'Playfair Display',serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<p style="margin:1.25rem 0 0;max-width:30rem;font:400 1rem/1.75 'Work Sans',sans-serif;color:#DCD6CA">Resized, re-polished and re-set free, for life.</p>
+</div>
+<div style="position:relative;width:100%;height:15rem"><image-slot id="fa-at" shape="rect" placeholder="Atelier" aria-label="Jeweller's hands at the workbench"></image-slot></div>
+</section>
+<div style="padding:2rem 2.5rem 2.5rem;border-top:1px solid rgba(22,19,15,.14)">
+<h2 style="margin:0 0 1rem;font:500 .75rem/1 'Work Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Type scale — driven by two font_picker settings</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem 1.5rem;font:400 .875rem/1.6 'Work Sans',sans-serif;color:#463F38">
+<dt style="color:#5C554C">Heading</dt><dd style="margin:0">Playfair Display 400 · 4.25 / 2.5 / 1.375rem</dd>
+<dt style="color:#5C554C">Body</dt><dd style="margin:0">Work Sans 400 · 1.0625 / 0.875rem · never 300</dd>
+<dt style="color:#5C554C">Label</dt><dd style="margin:0">Work Sans 500 · 0.75rem, .18–.24em tracking</dd>
+</dl>
+</div>
+</main>
+</div>
+</div>
+
+<div class="dv-opt" id="4b">
+<div class="dv-olabel"><a class="dv-oid" href="#4b">4b</a>EB Garamond + Assistant — bookish and warmer, reads as an old house</div>
+<div class="dv-card" data-screen-label="Type pair B" style="width:1080px;font-family:Assistant,system-ui,sans-serif">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:1.5rem;padding:1.5rem 2.5rem 1.25rem">
+<nav aria-label="Collections" style="display:flex;gap:1.5rem">
+<a href="#4b" style="font:400 .8125rem/1 Assistant,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:.75rem 0">Jewellery</a>
+<a href="#4b" style="font:400 .8125rem/1 Assistant,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:.75rem 0">Journal</a>
+</nav>
+<a href="#4b" aria-label="Aurelia — home" style="font:400 1.625rem/1 'EB Garamond',serif;letter-spacing:.32em;color:#16130F;text-decoration:none;text-indent:.32em">AURELIA</a>
+<div style="display:flex;gap:1.25rem;justify-content:flex-end"><button type="button" style="min-height:44px;background:none;border:0;font:400 .8125rem/1 Assistant,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button></div>
+</header>
+<main>
+<figure style="margin:0">
+<div style="position:relative;width:100%;height:26rem;background:#EDE8DF"><image-slot id="fb-hero" shape="rect" placeholder="Hero" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<figcaption style="display:flex;justify-content:space-between;gap:2rem;padding:.875rem 2.5rem 0;font:400 .875rem/1.5 Assistant,sans-serif;letter-spacing:.03em;color:#5C554C">
+<span>Fig. 01 — The Signet, 18k recycled gold</span><span>Autumn Chapter</span>
+</figcaption>
+</figure>
+<section style="padding:5rem 2.5rem 4.5rem;text-align:center;max-width:56rem;margin:0 auto">
+<p style="margin:0 0 1.75rem;font:600 .75rem/1 Assistant,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A5E30">Chapter One</p>
+<h1 style="margin:0;font:400 4.5rem/1.06 'EB Garamond',serif;color:#16130F;text-wrap:pretty">Twelve pieces a year.<br><em style="font-style:italic">Each one kept forever.</em></h1>
+<p style="margin:1.75rem auto 0;max-width:34rem;font:400 1.125rem/1.7 Assistant,sans-serif;color:#463F38;text-wrap:pretty">We release a single chapter each season — cast by hand, set by hand, finished in our own workshop.</p>
+</section>
+<ul style="list-style:none;margin:0;padding:0 2.5rem 4rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem">
+<li><a href="#4b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fb-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:.875rem;font:600 .75rem/1 Assistant,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 01</span><span style="display:block;margin-top:.5rem;font:400 1.5rem/1.22 'EB Garamond',serif;color:#16130F">The Signet</span><span style="display:block;margin-top:.3125rem;font:400 .9375rem/1.6 Assistant,sans-serif;color:#5C554C">18k recycled gold</span><span style="display:block;margin-top:.5rem;font:600 .9375rem/1 Assistant,sans-serif;color:#16130F">R$&nbsp;4.280</span></a></li>
+<li><a href="#4b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fb-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:.875rem;font:600 .75rem/1 Assistant,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 02</span><span style="display:block;margin-top:.5rem;font:400 1.5rem/1.22 'EB Garamond',serif;color:#16130F">Cadena Fina</span><span style="display:block;margin-top:.3125rem;font:400 .9375rem/1.6 Assistant,sans-serif;color:#5C554C">Hand-linked, 45cm</span><span style="display:block;margin-top:.5rem;font:600 .9375rem/1 Assistant,sans-serif;color:#16130F">R$&nbsp;2.940</span></a></li>
+<li><a href="#4b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fb-p3" shape="rect" placeholder="Piece" aria-label="Vespera Drops"></image-slot></span><span style="display:block;margin-top:.875rem;font:600 .75rem/1 Assistant,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 03</span><span style="display:block;margin-top:.5rem;font:400 1.5rem/1.22 'EB Garamond',serif;color:#16130F">Vespera Drops</span><span style="display:block;margin-top:.3125rem;font:400 .9375rem/1.6 Assistant,sans-serif;color:#5C554C">Baroque pearl, gold</span><span style="display:block;margin-top:.5rem;font:600 .9375rem/1 Assistant,sans-serif;color:#16130F">R$&nbsp;3.510</span></a></li>
+</ul>
+<section style="background:#16130F;color:#F5F2EC;padding:3.5rem 2.5rem;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:3rem;align-items:center">
+<div>
+<h2 style="margin:0;font:400 2.75rem/1.18 'EB Garamond',serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<p style="margin:1.25rem 0 0;max-width:30rem;font:400 1.0625rem/1.75 Assistant,sans-serif;color:#DCD6CA">Resized, re-polished and re-set free, for life.</p>
+</div>
+<div style="position:relative;width:100%;height:15rem"><image-slot id="fb-at" shape="rect" placeholder="Atelier" aria-label="Jeweller's hands at the workbench"></image-slot></div>
+</section>
+<div style="padding:2rem 2.5rem 2.5rem;border-top:1px solid rgba(22,19,15,.14)">
+<h2 style="margin:0 0 1rem;font:600 .75rem/1 Assistant,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Type scale — driven by two font_picker settings</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem 1.5rem;font:400 .9375rem/1.6 Assistant,sans-serif;color:#463F38">
+<dt style="color:#5C554C">Heading</dt><dd style="margin:0">EB Garamond 400 · 4.5 / 2.75 / 1.5rem</dd>
+<dt style="color:#5C554C">Body</dt><dd style="margin:0">Assistant 400 · 1.125 / 0.9375rem — larger, small x-height serif needs it</dd>
+<dt style="color:#5C554C">Label</dt><dd style="margin:0">Assistant 600 · 0.75rem, .18–.24em tracking</dd>
+</dl>
+</div>
+</main>
+</div>
+</div>
+
+<div class="dv-opt" id="4c">
+<div class="dv-olabel"><a class="dv-oid" href="#4c">4c</a>Prata + Karla — highest contrast, most fashion-magazine of the three</div>
+<div class="dv-card" data-screen-label="Type pair C" style="width:1080px;font-family:Karla,system-ui,sans-serif">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:1.5rem;padding:1.5rem 2.5rem 1.25rem">
+<nav aria-label="Collections" style="display:flex;gap:1.5rem">
+<a href="#4c" style="font:400 .8125rem/1 Karla,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:.75rem 0">Jewellery</a>
+<a href="#4c" style="font:400 .8125rem/1 Karla,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:.75rem 0">Journal</a>
+</nav>
+<a href="#4c" aria-label="Aurelia — home" style="font:400 1.375rem/1 Prata,serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:1.25rem;justify-content:flex-end"><button type="button" style="min-height:44px;background:none;border:0;font:400 .8125rem/1 Karla,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button></div>
+</header>
+<main>
+<figure style="margin:0">
+<div style="position:relative;width:100%;height:26rem;background:#EDE8DF"><image-slot id="fc-hero" shape="rect" placeholder="Hero" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<figcaption style="display:flex;justify-content:space-between;gap:2rem;padding:.875rem 2.5rem 0;font:400 .8125rem/1.5 Karla,sans-serif;letter-spacing:.04em;color:#5C554C">
+<span>Fig. 01 — The Signet, 18k recycled gold</span><span>Autumn Chapter</span>
+</figcaption>
+</figure>
+<section style="padding:5rem 2.5rem 4.5rem;text-align:center;max-width:56rem;margin:0 auto">
+<p style="margin:0 0 1.75rem;font:500 .75rem/1 Karla,sans-serif;letter-spacing:.26em;text-transform:uppercase;color:#7A5E30">Chapter One</p>
+<h1 style="margin:0;font:400 3.875rem/1.12 Prata,serif;color:#16130F;text-wrap:pretty">Twelve pieces a year.<br>Each one kept forever.</h1>
+<p style="margin:1.75rem auto 0;max-width:34rem;font:400 1.0625rem/1.75 Karla,sans-serif;color:#463F38;text-wrap:pretty">We release a single chapter each season — cast by hand, set by hand, finished in our own workshop.</p>
+</section>
+<ul style="list-style:none;margin:0;padding:0 2.5rem 4rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem">
+<li><a href="#4c" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fc-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:.875rem;font:500 .75rem/1 Karla,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 01</span><span style="display:block;margin-top:.5rem;font:400 1.25rem/1.3 Prata,serif;color:#16130F">The Signet</span><span style="display:block;margin-top:.375rem;font:400 .875rem/1.6 Karla,sans-serif;color:#5C554C">18k recycled gold</span><span style="display:block;margin-top:.5rem;font:500 .875rem/1 Karla,sans-serif;color:#16130F">R$&nbsp;4.280</span></a></li>
+<li><a href="#4c" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fc-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:.875rem;font:500 .75rem/1 Karla,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 02</span><span style="display:block;margin-top:.5rem;font:400 1.25rem/1.3 Prata,serif;color:#16130F">Cadena Fina</span><span style="display:block;margin-top:.375rem;font:400 .875rem/1.6 Karla,sans-serif;color:#5C554C">Hand-linked, 45cm</span><span style="display:block;margin-top:.5rem;font:500 .875rem/1 Karla,sans-serif;color:#16130F">R$&nbsp;2.940</span></a></li>
+<li><a href="#4c" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:19rem;background:#EDE8DF;overflow:hidden"><image-slot id="fc-p3" shape="rect" placeholder="Piece" aria-label="Vespera Drops"></image-slot></span><span style="display:block;margin-top:.875rem;font:500 .75rem/1 Karla,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7A5E30">No. 03</span><span style="display:block;margin-top:.5rem;font:400 1.25rem/1.3 Prata,serif;color:#16130F">Vespera Drops</span><span style="display:block;margin-top:.375rem;font:400 .875rem/1.6 Karla,sans-serif;color:#5C554C">Baroque pearl, gold</span><span style="display:block;margin-top:.5rem;font:500 .875rem/1 Karla,sans-serif;color:#16130F">R$&nbsp;3.510</span></a></li>
+</ul>
+<section style="background:#16130F;color:#F5F2EC;padding:3.5rem 2.5rem;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:3rem;align-items:center">
+<div>
+<h2 style="margin:0;font:400 2.25rem/1.28 Prata,serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<p style="margin:1.25rem 0 0;max-width:30rem;font:400 1rem/1.75 Karla,sans-serif;color:#DCD6CA">Resized, re-polished and re-set free, for life.</p>
+</div>
+<div style="position:relative;width:100%;height:15rem"><image-slot id="fc-at" shape="rect" placeholder="Atelier" aria-label="Jeweller's hands at the workbench"></image-slot></div>
+</section>
+<div style="padding:2rem 2.5rem 2.5rem;border-top:1px solid rgba(22,19,15,.14)">
+<h2 style="margin:0 0 1rem;font:500 .75rem/1 Karla,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5C554C">Type scale — driven by two font_picker settings</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem 1.5rem;font:400 .875rem/1.6 Karla,sans-serif;color:#463F38">
+<dt style="color:#5C554C">Heading</dt><dd style="margin:0">Prata 400 · 3.875 / 2.25 / 1.25rem — single weight, so sizes carry the hierarchy</dd>
+<dt style="color:#5C554C">Body</dt><dd style="margin:0">Karla 400 · 1.0625 / 0.875rem</dd>
+<dt style="color:#5C554C">Label</dt><dd style="margin:0">Karla 500 · 0.75rem, .18–.26em tracking</dd>
+</dl>
+</div>
+</main>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "adota <a class="dv-oid" href="#4a">4a</a> como default e aplica em todas as telas" · "<a class="dv-oid" href="#4c">4c</a> mas com o corpo do <a class="dv-oid" href="#4a">4a</a>" · "os três viram presets de estilo" · "mostra o settings_schema com os font_picker"</p>
+</section>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">The remaining Shopify templates — search, cart, blog, accounts, utility pages, empty states</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Search — predictive overlay, results page, and the no-results state</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" data-screen-label="Search overlay" style="position:relative;height:820px">
+<div aria-hidden="true" style="position:absolute;inset:0;background:#F5F2EC;padding:44px;overflow:hidden">
+<p style="margin:0 0 30px;font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-align:center">AURELIA</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px"><div style="height:340px;background:#EDE8DF"></div><div style="height:340px;background:#EDE8DF"></div><div style="height:340px;background:#EDE8DF"></div></div>
+</div>
+<div aria-hidden="true" style="position:absolute;inset:0;background:rgba(22,19,15,.38)"></div>
+<div role="dialog" aria-modal="true" aria-label="Search the store" style="position:absolute;top:0;left:0;right:0;background:#F5F2EC;border-bottom:1px solid rgba(22,19,15,.16);box-shadow:0 26px 60px rgba(22,19,15,.16)">
+<form role="search" style="display:flex;align-items:center;gap:18px;padding:26px 44px 22px;border-bottom:1px solid rgba(22,19,15,.12)">
+<label for="3a-q" style="font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157;white-space:nowrap">Search</label>
+<input id="3a-q" type="search" value="signet" aria-describedby="3a-count" autocomplete="off" style="flex:1;min-height:52px;padding:0;border:0;border-bottom:1px solid rgba(22,19,15,.28);background:none;font:400 34px/1.2 'Bodoni Moda',serif;color:#16130F">
+<button type="button" aria-label="Close search" style="min-width:44px;min-height:44px;border:0;background:none;font:300 22px/1 Jost,sans-serif;color:#16130F;cursor:pointer">×</button>
+</form>
+<div style="display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px;padding:26px 44px 34px">
+<div>
+<h2 style="margin:0 0 14px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Suggestions</h2>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<li><a href="#3a" style="display:block;padding:11px 0;font:300 14.5px/1 Jost,sans-serif;color:#16130F;text-decoration:none">signet ring</a></li>
+<li><a href="#3a" style="display:block;padding:11px 0;font:300 14.5px/1 Jost,sans-serif;color:#16130F;text-decoration:none">signet, engraved</a></li>
+<li><a href="#3a" style="display:block;padding:11px 0;font:300 14.5px/1 Jost,sans-serif;color:#16130F;text-decoration:none">how to size a signet</a></li>
+</ul>
+<h2 style="margin:24px 0 14px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Journal</h2>
+<a href="#3c" style="font:300 14px/1.6 Jost,sans-serif;color:#16130F;text-decoration:none">Why we engrave by hand →</a>
+</div>
+<div>
+<h2 id="3a-count" aria-live="polite" style="margin:0 0 18px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">3 pieces for “signet”</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px">
+<li><a href="#2b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:190px;background:#EDE8DF;overflow:hidden"><image-slot id="s-r1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:11px;font:400 18px/1.2 'Bodoni Moda',serif;color:#16130F">The Signet</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:400 13px/1 Jost,sans-serif;color:#16130F">R$&nbsp;4.280</span></sc-if></a></li>
+<li><a href="#2b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:190px;background:#EDE8DF;overflow:hidden"><image-slot id="s-r2" shape="rect" placeholder="Piece" aria-label="Signet, oval small"></image-slot></span><span style="display:block;margin-top:11px;font:400 18px/1.2 'Bodoni Moda',serif;color:#16130F">Signet Petit</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:400 13px/1 Jost,sans-serif;color:#16130F">R$&nbsp;3.140</span></sc-if></a></li>
+<li><a href="#2b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:190px;background:#EDE8DF;overflow:hidden"><image-slot id="s-r3" shape="rect" placeholder="Piece" aria-label="Signet in silver"></image-slot></span><span style="display:block;margin-top:11px;font:400 18px/1.2 'Bodoni Moda',serif;color:#16130F">Signet, Silver</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:400 13px/1 Jost,sans-serif;color:#16130F">R$&nbsp;1.480</span></sc-if></a></li>
+</ul>
+<a href="#3a" style="display:inline-block;margin-top:22px;font:400 12px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F;padding:12px 0">All results for “signet” →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="dv-card" data-screen-label="Search — no results" style="width:560px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 28px;text-align:center">
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+</header>
+<main style="padding:56px 40px 64px">
+<form role="search" style="display:flex;gap:12px;align-items:flex-end;margin-bottom:40px">
+<span style="flex:1">
+<label for="3a-q2" style="display:block;margin-bottom:9px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Search</label>
+<input id="3a-q2" type="search" value="platinum tiara" style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 15px Jost,sans-serif;color:#16130F">
+</span>
+<button type="button" style="min-height:48px;padding:0 24px;border:0;background:#16130F;color:#F5F2EC;font:400 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Search</button>
+</form>
+<h1 role="status" style="margin:0;font:400 34px/1.2 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">Nothing for “platinum tiara”.</h1>
+<p style="margin:16px 0 30px;font:300 15.5px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">We keep a catalogue of six pieces per chapter, so gaps are normal. Commissions are the usual answer.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a href="#2a" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Browse the chapter</a>
+<a href="#3e" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;border:1px solid rgba(22,19,15,.35);color:#16130F;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Ask for a commission</a>
+</div>
+</main>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Cart page — full ledger with services, plus the empty state</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" data-screen-label="Cart page">
+<header style="border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:26px 44px 22px">
+<nav aria-label="Collections" style="display:flex;gap:26px">
+<a href="#2a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0">Jewellery</a>
+<a href="#3c" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0">Journal</a>
+</nav>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:22px;justify-content:flex-end">
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Search</button>
+<a href="#3b" aria-current="page" style="min-height:44px;display:inline-flex;align-items:center;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;border-bottom:1px solid #16130F">Bag&nbsp;(2)</a>
+</div>
+</div>
+</header>
+<main style="padding:44px 44px 80px">
+<h1 style="margin:0 0 8px;font:400 52px/1.08 'Bodoni Moda',serif;color:#16130F">Your bag</h1>
+<p style="margin:0 0 34px;font:300 14.5px/1.7 Jost,sans-serif;color:#6A6157">Two pieces, held for 60 minutes.</p>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:56px;align-items:start">
+<div>
+<table style="width:100%;border-collapse:collapse;text-align:left">
+<caption style="text-align:left;padding-bottom:14px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Pieces in your bag</caption>
+<thead>
+<tr style="border-bottom:1px solid rgba(22,19,15,.2)">
+<th scope="col" style="padding:0 0 12px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157">Piece</th>
+<th scope="col" style="padding:0 0 12px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157">Quantity</th>
+<th scope="col" style="padding:0 0 12px;text-align:right;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(22,19,15,.12)">
+<td style="padding:24px 0">
+<div style="display:grid;grid-template-columns:104px minmax(0,1fr);gap:20px;align-items:start">
+<span style="position:relative;display:block;width:104px;height:124px;background:#EDE8DF;overflow:hidden"><image-slot id="cp-1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span>
+<span>
+<a href="#2b" style="font:400 23px/1.2 'Bodoni Moda',serif;color:#16130F;text-decoration:none">The Signet</a>
+<span style="display:block;margin-top:7px;font:300 13.5px/1.7 Jost,sans-serif;color:#6A6157">Size 14 · engraved “M.A.”<br>Ships in 10 days</span>
+<button type="button" style="margin-top:10px;border:0;background:none;padding:0;min-height:36px;font:300 13px Jost,sans-serif;color:#6A6157;text-decoration:underline;cursor:pointer">Remove</button>
+</span>
+</div>
+</td>
+<td style="padding:24px 0;vertical-align:top">
+<span style="display:inline-flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity of The Signet" style="min-width:40px;min-height:40px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:32px;text-align:center;font:400 14px Jost,sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity of The Signet" style="min-width:40px;min-height:40px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+</td>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><td style="padding:24px 0;text-align:right;vertical-align:top;font:400 15px/1.4 Jost,sans-serif;color:#16130F">R$&nbsp;4.280</td></sc-if>
+</tr>
+<tr style="border-bottom:1px solid rgba(22,19,15,.12)">
+<td style="padding:24px 0">
+<div style="display:grid;grid-template-columns:104px minmax(0,1fr);gap:20px;align-items:start">
+<span style="position:relative;display:block;width:104px;height:124px;background:#EDE8DF;overflow:hidden"><image-slot id="cp-2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span>
+<span>
+<a href="#2b" style="font:400 23px/1.2 'Bodoni Moda',serif;color:#16130F;text-decoration:none">Cadena Fina</a>
+<span style="display:block;margin-top:7px;font:300 13.5px/1.7 Jost,sans-serif;color:#6A6157">45cm<br>Ready to ship</span>
+<button type="button" style="margin-top:10px;border:0;background:none;padding:0;min-height:36px;font:300 13px Jost,sans-serif;color:#6A6157;text-decoration:underline;cursor:pointer">Remove</button>
+</span>
+</div>
+</td>
+<td style="padding:24px 0;vertical-align:top">
+<span style="display:inline-flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity of Cadena Fina" style="min-width:40px;min-height:40px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:32px;text-align:center;font:400 14px Jost,sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity of Cadena Fina" style="min-width:40px;min-height:40px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+</td>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><td style="padding:24px 0;text-align:right;vertical-align:top;font:400 15px/1.4 Jost,sans-serif;color:#16130F">R$&nbsp;2.940</td></sc-if>
+</tr>
+</tbody>
+</table>
+<fieldset style="border:0;border-top:1px solid rgba(22,19,15,.14);margin:34px 0 0;padding:26px 0 0">
+<legend style="padding:0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">House services</legend>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:12px;max-width:520px">
+<label style="display:flex;gap:12px;align-items:flex-start;padding:9px 0;font:300 14.5px/1.6 Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" checked style="margin-top:4px;width:16px;height:16px;accent-color:#16130F">Presentation box and hand-written card <span style="color:#6A6157">— included</span></label>
+<label style="display:flex;gap:12px;align-items:flex-start;padding:9px 0;font:300 14.5px/1.6 Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" style="margin-top:4px;width:16px;height:16px;accent-color:#16130F">Add a brass ring sizer to the parcel <span style="color:#6A6157">— free</span></label>
+</div>
+<div style="margin-top:20px;max-width:520px">
+<label for="3b-note" style="display:block;margin-bottom:9px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Order note</label>
+<textarea id="3b-note" rows="3" placeholder="Delivery instructions, a date to arrive by, anything else." style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px/1.6 Jost,sans-serif;color:#16130F;resize:vertical"></textarea>
+</div>
+</fieldset>
+</div>
+<aside aria-labelledby="3b-sum" style="border:1px solid rgba(22,19,15,.18);padding:28px 26px 30px;position:sticky;top:20px">
+<h2 id="3b-sum" style="margin:0 0 20px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Summary</h2>
+<div style="margin-bottom:20px">
+<label for="3b-disc" style="display:block;margin-bottom:9px;font:300 13.5px/1 Jost,sans-serif;color:#4A443C">Discount code</label>
+<div style="display:flex;gap:8px">
+<input id="3b-disc" type="text" style="flex:1;min-width:0;min-height:44px;padding:0 12px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px Jost,sans-serif;color:#16130F">
+<button type="button" style="min-height:44px;padding:0 18px;border:1px solid rgba(22,19,15,.35);background:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Apply</button>
+</div>
+</div>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;justify-content:space-between;font:300 14px/1.9 Jost,sans-serif;color:#4A443C"><span>Subtotal</span><span>R$&nbsp;7.220</span></div>
+<div style="display:flex;justify-content:space-between;font:300 14px/1.9 Jost,sans-serif;color:#4A443C"><span>Insured shipping</span><span>Included</span></div>
+<div style="display:flex;justify-content:space-between;font:300 14px/1.9 Jost,sans-serif;color:#4A443C;padding-bottom:12px;border-bottom:1px solid rgba(22,19,15,.14)"><span>Taxes</span><span>At checkout</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0 20px;font:400 18px/1.4 Jost,sans-serif;color:#16130F"><span>Total</span><span>R$&nbsp;7.220</span></div>
+</sc-if>
+<button type="button" style="width:100%;min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:400 12.5px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer" style-hover="background:#7A5E30">Checkout</button>
+<p style="margin:14px 0 0;font:300 12.5px/1.7 Jost,sans-serif;color:#6A6157">Free resizing for life · 30-day returns · Pay in 6× interest-free</p>
+</aside>
+</div>
+</main>
+</div>
+<div class="dv-card" data-screen-label="Cart — empty" style="width:560px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 28px;text-align:center">
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+</header>
+<main style="padding:64px 40px 70px">
+<h1 style="margin:0;font:400 42px/1.1 'Bodoni Moda',serif;color:#16130F">Your bag is empty.</h1>
+<p style="margin:18px 0 30px;font:300 15.5px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">Six pieces are open in the autumn chapter. If you already own something of ours, care and resizing live in your account.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a href="#2a" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Shop the chapter</a>
+<a href="#3d" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;border:1px solid rgba(22,19,15,.35);color:#16130F;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Your account</a>
+</div>
+<div style="margin-top:44px;padding-top:26px;border-top:1px solid rgba(22,19,15,.14)">
+<h2 style="margin:0 0 18px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Most kept</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+<li><a href="#2b" style="text-decoration:none;color:inherit"><span style="position:relative;display:block;width:100%;height:190px;background:#EDE8DF;overflow:hidden"><image-slot id="ce-1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:11px;font:400 18px/1.2 'Bodoni Moda',serif;color:#16130F">The Signet</span></a></li>
+<li><a href="#2b" style="text-decoration:none;color:inherit"><span style="position:relative;display:block;width:100%;height:190px;background:#EDE8DF;overflow:hidden"><image-slot id="ce-2" shape="rect" placeholder="Piece" aria-label="Linha Band"></image-slot></span><span style="display:block;margin-top:11px;font:400 18px/1.2 'Bodoni Moda',serif;color:#16130F">Linha Band</span></a></li>
+</ul>
+</div>
+</main>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3c">
+<div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>Journal — blog index with a lead article, and the article template</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" data-screen-label="Blog index">
+<header style="border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:26px 44px 22px">
+<nav aria-label="Collections" style="display:flex;gap:26px">
+<a href="#2a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0">Jewellery</a>
+<a href="#3c" aria-current="page" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0;border-bottom:1px solid #16130F">Journal</a>
+</nav>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:22px;justify-content:flex-end">
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Search</button>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button>
+</div>
+</div>
+</header>
+<main>
+<div style="padding:44px 44px 30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:48px;align-items:end;border-bottom:1px solid rgba(22,19,15,.14)">
+<h1 style="margin:0;font:400 64px/1.05 'Bodoni Moda',serif;color:#16130F">The Notebook</h1>
+<p style="margin:0 0 8px;font:300 15px/1.75 Jost,sans-serif;color:#4A443C;text-wrap:pretty">Notes from the bench on casting, stones, and why things are made the slow way.</p>
+</div>
+<nav aria-label="Journal topics" style="display:flex;gap:10px;flex-wrap:wrap;padding:20px 44px 0">
+<a href="#3c" aria-current="page" style="min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid #16130F;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase">All</a>
+<a href="#3c" style="min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid rgba(22,19,15,.3);color:#16130F;text-decoration:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase">Making</a>
+<a href="#3c" style="min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid rgba(22,19,15,.3);color:#16130F;text-decoration:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase">Materials</a>
+<a href="#3c" style="min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid rgba(22,19,15,.3);color:#16130F;text-decoration:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase">Care</a>
+</nav>
+<article style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:44px;align-items:center;padding:36px 44px 44px">
+<a href="#3c" style="display:block"><span style="position:relative;display:block;width:100%;height:430px;background:#EDE8DF;overflow:hidden"><image-slot id="bl-lead" shape="rect" placeholder="Lead article image — engraving in progress" aria-label="A jeweller engraving a signet by hand"></image-slot></span></a>
+<div>
+<p style="margin:0 0 14px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">Making · 6 min read</p>
+<h2 style="margin:0;font:400 40px/1.14 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty"><a href="#3c" style="color:#16130F;text-decoration:none">Why we engrave by hand, and why it takes ten days</a></h2>
+<p style="margin:18px 0 0;font:300 15.5px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">A machine cuts identical letters. A graver leaves a bright cut that catches light differently every few degrees — which is the entire point of an engraving you'll look at for forty years.</p>
+<p style="margin:18px 0 0;font:300 12.5px/1 Jost,sans-serif;color:#6A6157"><time datetime="2026-08-19">19 August 2026</time> · by Túlio Menezes</p>
+</div>
+</article>
+<ul style="list-style:none;margin:0;padding:8px 44px 84px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:44px 34px;border-top:1px solid rgba(22,19,15,.14)">
+<li style="padding-top:32px">
+<a href="#3c" style="display:block"><span style="position:relative;display:block;width:100%;height:250px;background:#EDE8DF;overflow:hidden"><image-slot id="bl-1" shape="rect" placeholder="Article image" aria-label="Gold grain being weighed"></image-slot></span></a>
+<p style="margin:14px 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">Materials</p>
+<h3 style="margin:0;font:400 25px/1.22 'Bodoni Moda',serif"><a href="#3c" style="color:#16130F;text-decoration:none">Where recycled gold actually comes from</a></h3>
+<p style="margin:10px 0 0;font:300 14px/1.7 Jost,sans-serif;color:#4A443C">Dental scrap, old chains, industrial offcuts — and the refinery invoice we keep for each batch.</p>
+<p style="margin:12px 0 0;font:300 12.5px/1 Jost,sans-serif;color:#6A6157"><time datetime="2026-07-28">28 July 2026</time></p>
+</li>
+<li style="padding-top:32px">
+<a href="#3c" style="display:block"><span style="position:relative;display:block;width:100%;height:250px;background:#EDE8DF;overflow:hidden"><image-slot id="bl-2" shape="rect" placeholder="Article image" aria-label="A ring being polished"></image-slot></span></a>
+<p style="margin:14px 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">Care</p>
+<h3 style="margin:0;font:400 25px/1.22 'Bodoni Moda',serif"><a href="#3c" style="color:#16130F;text-decoration:none">Let it scratch: a short defence of patina</a></h3>
+<p style="margin:10px 0 0;font:300 14px/1.7 Jost,sans-serif;color:#4A443C">Why we polish your pieces less than you'd expect, and what we do instead.</p>
+<p style="margin:12px 0 0;font:300 12.5px/1 Jost,sans-serif;color:#6A6157"><time datetime="2026-07-02">2 July 2026</time></p>
+</li>
+<li style="padding-top:32px">
+<a href="#3c" style="display:block"><span style="position:relative;display:block;width:100%;height:250px;background:#EDE8DF;overflow:hidden"><image-slot id="bl-3" shape="rect" placeholder="Article image" aria-label="Wax models on a casting tree"></image-slot></span></a>
+<p style="margin:14px 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">Making</p>
+<h3 style="margin:0;font:400 25px/1.22 'Bodoni Moda',serif"><a href="#3c" style="color:#16130F;text-decoration:none">Six weeks from wax to a finished chapter</a></h3>
+<p style="margin:10px 0 0;font:300 14px/1.7 Jost,sans-serif;color:#4A443C">The calendar of a season, from the first carved wax to the last inner-band number.</p>
+<p style="margin:12px 0 0;font:300 12.5px/1 Jost,sans-serif;color:#6A6157"><time datetime="2026-06-11">11 June 2026</time></p>
+</li>
+</ul>
+</main>
+</div>
+<div class="dv-card" data-screen-label="Article" style="width:860px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 32px;display:flex;align-items:center;justify-content:space-between">
+<a href="#3c" style="font:400 11.5px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F;text-decoration:none">← The Notebook</a>
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 11.5px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button>
+</header>
+<main>
+<article>
+<div style="padding:52px 92px 0;text-align:center">
+<p style="margin:0 0 18px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A5E30">Making · 6 min read</p>
+<h1 style="margin:0;font:400 50px/1.12 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">Why we engrave by hand, and why it takes ten days</h1>
+<p style="margin:20px 0 0;font:300 13px/1 Jost,sans-serif;color:#6A6157"><time datetime="2026-08-19">19 August 2026</time> · by Túlio Menezes, bench jeweller</p>
+</div>
+<figure style="margin:40px 0 0">
+<div style="position:relative;width:100%;height:470px;background:#EDE8DF"><image-slot id="ar-hero" shape="rect" placeholder="Article hero — graver cutting a letter" aria-label="A graver cutting a letter into a gold signet"></image-slot></div>
+<figcaption style="margin:12px 32px 0;font:300 12px/1.6 Jost,sans-serif;color:#6A6157">Fig. 01 — A bright cut, 0.4mm wide, made in one pass.</figcaption>
+</figure>
+<div style="padding:44px 152px 0">
+<p style="margin:0 0 22px;font:300 18px/1.85 Jost,sans-serif;color:#2C2823;text-wrap:pretty"><span style="float:left;font:400 62px/.82 'Bodoni Moda',serif;color:#16130F;margin:6px 14px 0 0">A</span> machine cuts identical letters, at identical depth, with a matte floor. It is fast and it is correct, and it is the reason most engraving looks like a label rather than part of the ring.</p>
+<p style="margin:0 0 22px;font:300 16.5px/1.85 Jost,sans-serif;color:#2C2823;text-wrap:pretty">A hand graver pushes metal aside instead of removing it. The wall of the cut stays mirror-bright, so the letter flashes as your hand turns and then disappears. That is what people mean when they say old jewellery looks alive.</p>
+<blockquote style="margin:34px 0;padding:24px 0;border-top:1px solid rgba(22,19,15,.2);border-bottom:1px solid rgba(22,19,15,.2)">
+<p style="margin:0;font:400 27px/1.4 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">“You are not cutting the letter. You are cutting the light that will sit inside it.”</p>
+</blockquote>
+<h2 style="margin:34px 0 14px;font:400 31px/1.22 'Bodoni Moda',serif;color:#16130F">The ten days, accounted for</h2>
+<p style="margin:0 0 22px;font:300 16.5px/1.85 Jost,sans-serif;color:#2C2823;text-wrap:pretty">Three days for the band to be cast, cleaned and pre-polished. One to lay out the letters in wax pencil and get your approval by photo. One to cut. Two to re-finish the face around the cut without softening its edges. Three in the queue, because there is one bench and one pair of hands.</p>
+<ol style="margin:0 0 26px;padding-left:22px;font:300 16.5px/1.9 Jost,sans-serif;color:#2C2823">
+<li>Up to three characters, in our house serif or your own handwriting.</li>
+<li>Engraved pieces can still be returned within 30 days.</li>
+<li>Re-cutting after a resize is free, forever.</li>
+</ol>
+<div style="margin:40px 0 0;padding:26px 0;border-top:1px solid rgba(22,19,15,.14);display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap">
+<p style="margin:0;font:300 14px/1.6 Jost,sans-serif;color:#6A6157">Filed under <a href="#3c">Making</a> · <a href="#3c">Engraving</a></p>
+<a href="#2b" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Shop The Signet</a>
+</div>
+</div>
+</article>
+<nav aria-label="More articles" style="border-top:1px solid rgba(22,19,15,.14);margin-top:36px;padding:34px 32px 56px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px">
+<a href="#3c" style="text-decoration:none;color:inherit;display:block;padding-right:20px;border-right:1px solid rgba(22,19,15,.14)">
+<span style="display:block;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#6A6157">Previous</span>
+<span style="display:block;margin-top:9px;font:400 23px/1.25 'Bodoni Moda',serif;color:#16130F">Where recycled gold actually comes from</span>
+</a>
+<a href="#3c" style="text-decoration:none;color:inherit;display:block;text-align:right">
+<span style="display:block;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#6A6157">Next</span>
+<span style="display:block;margin-top:9px;font:400 23px/1.25 'Bodoni Moda',serif;color:#16130F">Let it scratch: a short defence of patina</span>
+</a>
+</nav>
+</main>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3d">
+<div class="dv-olabel"><a class="dv-oid" href="#3d">3d</a>Customer accounts — login with inline validation, and the account overview</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" data-screen-label="Login" style="width:560px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 28px;text-align:center">
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+</header>
+<main style="padding:52px 48px 60px">
+<h1 style="margin:0;font:400 40px/1.1 'Bodoni Moda',serif;color:#16130F">Your account</h1>
+<p style="margin:14px 0 32px;font:300 15px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">Orders, certificates, and the care record of every piece you own.</p>
+<div role="alert" style="margin-bottom:24px;padding:14px 16px;border-left:3px solid #8C2F1D;background:#F0E7E2">
+<p style="margin:0;font:400 13.5px/1.6 Jost,sans-serif;color:#6E2416">That password doesn't match this email. Try again, or reset it below.</p>
+</div>
+<form style="display:flex;flex-direction:column;gap:22px">
+<div>
+<label for="3d-em" style="display:block;margin-bottom:9px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Email</label>
+<input id="3d-em" type="email" value="marina@exemplo.com" autocomplete="email" style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 15px Jost,sans-serif;color:#16130F">
+</div>
+<div>
+<label for="3d-pw" style="display:block;margin-bottom:9px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Password</label>
+<input id="3d-pw" type="password" value="0000000" aria-invalid="true" aria-describedby="3d-pw-err" autocomplete="current-password" style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border:1.5px solid #8C2F1D;background:#F5F2EC;font:300 15px Jost,sans-serif;color:#16130F">
+<p id="3d-pw-err" style="margin:9px 0 0;font:300 13px/1.6 Jost,sans-serif;color:#6E2416">Incorrect password.</p>
+</div>
+<button type="button" style="min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:400 12.5px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer" style-hover="background:#7A5E30">Sign in</button>
+<div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:300 14px/1.6 Jost,sans-serif">
+<a href="#3d">Reset your password</a>
+<a href="#3d">Create an account</a>
+</div>
+</form>
+<p style="margin:34px 0 0;padding-top:22px;border-top:1px solid rgba(22,19,15,.14);font:300 13px/1.7 Jost,sans-serif;color:#6A6157">Prefer not to have an account? Every order confirmation carries a guest link to the same care and repair form.</p>
+</main>
+</div>
+<div class="dv-card" data-screen-label="Account overview">
+<header style="border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:26px 44px 22px">
+<nav aria-label="Collections" style="display:flex;gap:26px">
+<a href="#2a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0">Jewellery</a>
+<a href="#3c" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0">Journal</a>
+</nav>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:22px;justify-content:flex-end">
+<a href="#3d" aria-current="page" style="min-height:44px;display:inline-flex;align-items:center;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;border-bottom:1px solid #16130F">Marina</a>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button>
+</div>
+</div>
+</header>
+<main style="padding:44px 44px 80px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding-bottom:26px;border-bottom:1px solid rgba(22,19,15,.14)">
+<h1 style="margin:0;font:400 52px/1.06 'Bodoni Moda',serif;color:#16130F">Marina Aurélio</h1>
+<p style="margin:0;font:300 13.5px/1.7 Jost,sans-serif;color:#6A6157;text-align:right">Client since 2019 · 4 pieces owned<br><a href="#3d">Sign out</a></p>
+</div>
+<div style="display:grid;grid-template-columns:206px minmax(0,1fr);gap:52px;padding-top:34px">
+<nav aria-label="Account" style="align-self:start;position:sticky;top:20px;display:flex;flex-direction:column">
+<a href="#3d" aria-current="page" style="font:400 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(22,19,15,.12);border-left:2px solid #16130F;padding-left:12px">Orders</a>
+<a href="#3d" style="font:400 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:13px 0 13px 14px;border-bottom:1px solid rgba(22,19,15,.12)">Your pieces</a>
+<a href="#3d" style="font:400 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:13px 0 13px 14px;border-bottom:1px solid rgba(22,19,15,.12)">Care &amp; repair</a>
+<a href="#3d" style="font:400 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:13px 0 13px 14px;border-bottom:1px solid rgba(22,19,15,.12)">Addresses</a>
+<a href="#3d" style="font:400 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:13px 0 13px 14px;border-bottom:1px solid rgba(22,19,15,.12)">Details</a>
+</nav>
+<div>
+<section aria-labelledby="3d-ord">
+<h2 id="3d-ord" style="margin:0 0 18px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Orders</h2>
+<table style="width:100%;border-collapse:collapse;text-align:left">
+<thead>
+<tr style="border-bottom:1px solid rgba(22,19,15,.2)">
+<th scope="col" style="padding:0 0 12px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6A6157">Order</th>
+<th scope="col" style="padding:0 0 12px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6A6157">Date</th>
+<th scope="col" style="padding:0 0 12px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6A6157">Status</th>
+<th scope="col" style="padding:0 0 12px;text-align:right;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6A6157">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(22,19,15,.12)">
+<th scope="row" style="padding:16px 0;font:400 15px/1.4 Jost,sans-serif;color:#16130F"><a href="#3d" style="color:#16130F">#AU-2261</a></th>
+<td style="padding:16px 0;font:300 14px Jost,sans-serif;color:#4A443C"><time datetime="2026-08-22">22 Aug 2026</time></td>
+<td style="padding:16px 0"><span style="display:inline-block;padding:5px 10px;background:#E4E9E1;font:400 11.5px/1 Jost,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#2E4028">In the workshop</span></td>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><td style="padding:16px 0;text-align:right;font:400 14.5px Jost,sans-serif;color:#16130F">R$&nbsp;4.280</td></sc-if>
+</tr>
+<tr style="border-bottom:1px solid rgba(22,19,15,.12)">
+<th scope="row" style="padding:16px 0;font:400 15px/1.4 Jost,sans-serif;color:#16130F"><a href="#3d" style="color:#16130F">#AU-1988</a></th>
+<td style="padding:16px 0;font:300 14px Jost,sans-serif;color:#4A443C"><time datetime="2025-12-04">4 Dec 2025</time></td>
+<td style="padding:16px 0"><span style="display:inline-block;padding:5px 10px;background:#EDE8DF;font:400 11.5px/1 Jost,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#4A443C">Delivered</span></td>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><td style="padding:16px 0;text-align:right;font:400 14.5px Jost,sans-serif;color:#16130F">R$&nbsp;2.940</td></sc-if>
+</tr>
+<tr style="border-bottom:1px solid rgba(22,19,15,.12)">
+<th scope="row" style="padding:16px 0;font:400 15px/1.4 Jost,sans-serif;color:#16130F"><a href="#3d" style="color:#16130F">#AU-1402</a></th>
+<td style="padding:16px 0;font:300 14px Jost,sans-serif;color:#4A443C"><time datetime="2024-05-17">17 May 2024</time></td>
+<td style="padding:16px 0"><span style="display:inline-block;padding:5px 10px;background:#EDE8DF;font:400 11.5px/1 Jost,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#4A443C">Delivered</span></td>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><td style="padding:16px 0;text-align:right;font:400 14.5px Jost,sans-serif;color:#16130F">R$&nbsp;6.150</td></sc-if>
+</tr>
+</tbody>
+</table>
+</section>
+<section aria-labelledby="3d-pcs" style="margin-top:44px;padding-top:30px;border-top:1px solid rgba(22,19,15,.14)">
+<h2 id="3d-pcs" style="margin:0 0 18px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Your pieces — care record</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px">
+<li style="border:1px solid rgba(22,19,15,.16);padding:18px">
+<span style="position:relative;display:block;width:100%;height:180px;background:#EDE8DF;overflow:hidden"><image-slot id="ac-1" shape="rect" placeholder="Owned piece" aria-label="Your Signet ring"></image-slot></span>
+<span style="display:block;margin-top:14px;font:400 21px/1.2 'Bodoni Moda',serif;color:#16130F">The Signet</span>
+<span style="display:block;margin-top:6px;font:300 13px/1.7 Jost,sans-serif;color:#6A6157">No. 01 / 24 · size 14<br>Last polished Mar 2026</span>
+<button type="button" style="margin-top:14px;width:100%;min-height:44px;border:1px solid rgba(22,19,15,.35);background:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer" style-hover="border-color:#16130F">Book care</button>
+</li>
+<li style="border:1px solid rgba(22,19,15,.16);padding:18px">
+<span style="position:relative;display:block;width:100%;height:180px;background:#EDE8DF;overflow:hidden"><image-slot id="ac-2" shape="rect" placeholder="Owned piece" aria-label="Your Cadena Fina necklace"></image-slot></span>
+<span style="display:block;margin-top:14px;font:400 21px/1.2 'Bodoni Moda',serif;color:#16130F">Cadena Fina</span>
+<span style="display:block;margin-top:6px;font:300 13px/1.7 Jost,sans-serif;color:#6A6157">No. 02 / 40 · 45cm<br>Clasp checked Jan 2026</span>
+<button type="button" style="margin-top:14px;width:100%;min-height:44px;border:1px solid rgba(22,19,15,.35);background:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer" style-hover="border-color:#16130F">Book care</button>
+</li>
+<li style="border:1px solid rgba(22,19,15,.16);padding:18px">
+<span style="position:relative;display:block;width:100%;height:180px;background:#EDE8DF;overflow:hidden"><image-slot id="ac-3" shape="rect" placeholder="Owned piece" aria-label="Your Órbita cuff"></image-slot></span>
+<span style="display:block;margin-top:14px;font:400 21px/1.2 'Bodoni Moda',serif;color:#16130F">Órbita Cuff</span>
+<span style="display:block;margin-top:6px;font:300 13px/1.7 Jost,sans-serif;color:#6A6157">No. 04 / 12 · brushed<br>Due for polish</span>
+<button type="button" style="margin-top:14px;width:100%;min-height:44px;border:1px solid rgba(22,19,15,.35);background:none;font:400 11.5px Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer" style-hover="border-color:#16130F">Book care</button>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3e">
+<div class="dv-olabel"><a class="dv-oid" href="#3e">3e</a>Utility — all collections, a standard page, and 404</div>
+<div style="display:flex;gap:24px;align-items:flex-start">
+<div class="dv-card" data-screen-label="All collections" style="width:900px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 32px;text-align:center">
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+</header>
+<main style="padding:44px 32px 64px">
+<h1 style="margin:0 0 8px;font:400 48px/1.08 'Bodoni Moda',serif;color:#16130F">Everything we keep</h1>
+<p style="margin:0 0 34px;font:300 15px/1.75 Jost,sans-serif;color:#4A443C;max-width:520px;text-wrap:pretty">Four open collections and the archive of chapters already closed.</p>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px">
+<li><a href="#2a" style="text-decoration:none;color:inherit;display:block" style-hover="opacity:.86"><span style="position:relative;display:block;width:100%;height:300px;background:#EDE8DF;overflow:hidden"><image-slot id="lc-1" shape="rect" placeholder="Collection — rings" aria-label="Rings collection"></image-slot></span><span style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:14px;padding-bottom:11px;border-bottom:1px solid rgba(22,19,15,.18)"><span style="font:400 27px/1.2 'Bodoni Moda',serif;color:#16130F">Rings</span><span style="font:300 12.5px/1 Jost,sans-serif;color:#6A6157">6 pieces</span></span></a></li>
+<li><a href="#2a" style="text-decoration:none;color:inherit;display:block" style-hover="opacity:.86"><span style="position:relative;display:block;width:100%;height:300px;background:#EDE8DF;overflow:hidden"><image-slot id="lc-2" shape="rect" placeholder="Collection — necklaces" aria-label="Necklaces collection"></image-slot></span><span style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:14px;padding-bottom:11px;border-bottom:1px solid rgba(22,19,15,.18)"><span style="font:400 27px/1.2 'Bodoni Moda',serif;color:#16130F">Necklaces</span><span style="font:300 12.5px/1 Jost,sans-serif;color:#6A6157">4 pieces</span></span></a></li>
+<li><a href="#2a" style="text-decoration:none;color:inherit;display:block" style-hover="opacity:.86"><span style="position:relative;display:block;width:100%;height:300px;background:#EDE8DF;overflow:hidden"><image-slot id="lc-3" shape="rect" placeholder="Collection — earrings" aria-label="Earrings collection"></image-slot></span><span style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:14px;padding-bottom:11px;border-bottom:1px solid rgba(22,19,15,.18)"><span style="font:400 27px/1.2 'Bodoni Moda',serif;color:#16130F">Earrings</span><span style="font:300 12.5px/1 Jost,sans-serif;color:#6A6157">3 pieces</span></span></a></li>
+<li><a href="#2a" style="text-decoration:none;color:inherit;display:block" style-hover="opacity:.86"><span style="position:relative;display:block;width:100%;height:300px;background:#EDE8DF;overflow:hidden"><image-slot id="lc-4" shape="rect" placeholder="Collection — the archive" aria-label="The archive"></image-slot></span><span style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:14px;padding-bottom:11px;border-bottom:1px solid rgba(22,19,15,.18)"><span style="font:400 27px/1.2 'Bodoni Moda',serif;color:#16130F">The Archive</span><span style="font:300 12.5px/1 Jost,sans-serif;color:#6A6157">Closed chapters</span></span></a></li>
+</ul>
+</main>
+</div>
+<div style="display:flex;flex-direction:column;gap:24px">
+<div class="dv-card" data-screen-label="Page" style="width:700px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 32px;text-align:center">
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+</header>
+<main style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding:44px 40px 60px">
+<nav aria-label="On this page" style="align-self:start;position:sticky;top:20px;display:flex;flex-direction:column;border-left:1px solid rgba(22,19,15,.16);padding-left:16px">
+<a href="#3e" aria-current="true" style="font:400 13.5px/1.4 Jost,sans-serif;color:#16130F;text-decoration:none;padding:9px 0">Resizing</a>
+<a href="#3e" style="font:300 13.5px/1.4 Jost,sans-serif;color:#4A443C;text-decoration:none;padding:9px 0">Polishing</a>
+<a href="#3e" style="font:300 13.5px/1.4 Jost,sans-serif;color:#4A443C;text-decoration:none;padding:9px 0">Stones &amp; settings</a>
+<a href="#3e" style="font:300 13.5px/1.4 Jost,sans-serif;color:#4A443C;text-decoration:none;padding:9px 0">Sending a piece in</a>
+</nav>
+<article>
+<p style="margin:0 0 14px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A5E30">House policy</p>
+<h1 style="margin:0;font:400 44px/1.1 'Bodoni Moda',serif;color:#16130F">Care &amp; repair</h1>
+<p style="margin:18px 0 22px;font:300 17px/1.85 Jost,sans-serif;color:#2C2823;text-wrap:pretty">Everything we make is repaired free, for as long as you own it. That is not a warranty against damage — it is the opposite. It assumes damage, because a piece worn daily will be knocked, bent and worn thin.</p>
+<h2 style="margin:30px 0 12px;font:400 27px/1.25 'Bodoni Moda',serif;color:#16130F">Resizing</h2>
+<p style="margin:0 0 18px;font:300 16px/1.85 Jost,sans-serif;color:#2C2823;text-wrap:pretty">Up to three sizes in either direction, as often as your hands change. We re-cut any engraving at the same time. Post it to us and we cover the return.</p>
+<h2 style="margin:30px 0 12px;font:400 27px/1.25 'Bodoni Moda',serif;color:#16130F">Polishing</h2>
+<p style="margin:0 0 18px;font:300 16px/1.85 Jost,sans-serif;color:#2C2823;text-wrap:pretty">We polish conservatively — enough to bring the surface back, never enough to soften an edge. Say the word and we will leave the patina alone entirely.</p>
+<a href="#3d" style="min-height:48px;display:inline-flex;align-items:center;margin-top:12px;padding:0 26px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Book care in your account</a>
+</article>
+</main>
+</div>
+<div class="dv-card" data-screen-label="404" style="width:700px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12);padding:22px 32px;text-align:center">
+<a href="#1a" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+</header>
+<main style="display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:36px;padding:56px 40px 60px;align-items:center">
+<div>
+<p style="margin:0 0 16px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A5E30">Error 404</p>
+<h1 style="margin:0;font:400 44px/1.1 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">This piece has been kept.</h1>
+<p style="margin:16px 0 28px;font:300 15.5px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">Chapters close, and their pages go with them. The archive holds photographs of everything we've made.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a href="#2a" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">The current chapter</a>
+<a href="#3e" style="min-height:48px;display:inline-flex;align-items:center;padding:0 26px;border:1px solid rgba(22,19,15,.35);color:#16130F;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">The archive</a>
+</div>
+</div>
+<div style="position:relative;height:280px;background:#EDE8DF"><image-slot id="e404" shape="rect" placeholder="Archive photograph" aria-label="An archived piece"></image-slot></div>
+</main>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "add the PDP variant states — swatches, sold out, on sale" · "design the gift-card and password pages" · "make a second preset style from <a class="dv-oid" href="#1c">1c</a>" · "swap the Google fonts for Shopify-hosted equivalents"</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">The rest of the theme, in the language of <a class="dv-oid" href="#1a">1a</a> — collection, product, cart, mobile</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Collection — filters as an editorial sidebar, numbered 3-up grid</div>
+<div class="dv-card" data-screen-label="Collection">
+<header style="background:#F5F2EC;border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:26px 44px 22px">
+<nav aria-label="Collections" style="display:flex;gap:26px">
+<a href="#2a" aria-current="page" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;border-bottom:1px solid #16130F;padding:12px 0">Jewellery</a>
+<a href="#2a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Archive</a>
+<a href="#2a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Atelier</a>
+</nav>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:22px;justify-content:flex-end;align-items:center">
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Search</button>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(1)</button>
+</div>
+</div>
+</header>
+<main>
+<nav aria-label="Breadcrumb" style="padding:20px 44px 0">
+<ol style="list-style:none;margin:0;padding:0;display:flex;gap:10px;font:300 12px/1 Jost,sans-serif;color:#6A6157">
+<li><a href="#1a" style="color:#6A6157">Home</a></li><li aria-hidden="true">/</li><li><span aria-current="page" style="color:#16130F">Rings</span></li>
+</ol>
+</nav>
+<div style="padding:34px 44px 20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:48px;align-items:end;border-bottom:1px solid rgba(22,19,15,.14)">
+<div>
+<p style="margin:0 0 20px;font:400 11px/1 Jost,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#7A5E30">Chapter IV · Autumn</p>
+<h1 style="margin:0;font:400 64px/1.06 'Bodoni Moda',serif;color:#16130F">Rings</h1>
+</div>
+<p style="margin:0 0 8px;font:300 15.5px/1.75 Jost,sans-serif;color:#4A443C;text-wrap:pretty">Cast one at a time in recycled 18k, numbered on the inner band. Every band can be resized for life.</p>
+</div>
+<div style="display:grid;grid-template-columns:238px minmax(0,1fr);gap:52px;padding:36px 44px 96px">
+<form aria-label="Filter and sort" style="align-self:start;position:sticky;top:20px;display:flex;flex-direction:column;gap:30px">
+<div>
+<label for="2a-sort" style="display:block;margin-bottom:10px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Sort</label>
+<select id="2a-sort" style="width:100%;min-height:44px;padding:0 10px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px Jost,sans-serif;color:#16130F">
+<option>Chapter order</option><option>Price, low to high</option><option>Price, high to low</option><option>Newest</option>
+</select>
+</div>
+<fieldset style="border:0;border-top:1px solid rgba(22,19,15,.16);margin:0;padding:20px 0 0">
+<legend style="padding:0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Material</legend>
+<div style="display:flex;flex-direction:column;gap:2px;margin-top:12px">
+<label style="display:flex;align-items:center;gap:11px;min-height:44px;font:300 14.5px Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" checked style="width:16px;height:16px;accent-color:#16130F">18k recycled gold <span style="color:#6A6157">(4)</span></label>
+<label style="display:flex;align-items:center;gap:11px;min-height:44px;font:300 14.5px Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:#16130F">Silver 950 <span style="color:#6A6157">(2)</span></label>
+<label style="display:flex;align-items:center;gap:11px;min-height:44px;font:300 14.5px Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:#16130F">With stones <span style="color:#6A6157">(3)</span></label>
+</div>
+</fieldset>
+<fieldset style="border:0;border-top:1px solid rgba(22,19,15,.16);margin:0;padding:20px 0 0">
+<legend style="padding:0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Availability</legend>
+<div style="display:flex;flex-direction:column;gap:2px;margin-top:12px">
+<label style="display:flex;align-items:center;gap:11px;min-height:44px;font:300 14.5px Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:#16130F">Ready to ship</label>
+<label style="display:flex;align-items:center;gap:11px;min-height:44px;font:300 14.5px Jost,sans-serif;color:#16130F;cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:#16130F">Made to order</label>
+</div>
+</fieldset>
+<p style="margin:0;padding-top:20px;border-top:1px solid rgba(22,19,15,.16);font:300 12.5px/1.6 Jost,sans-serif;color:#6A6157" role="status">Showing 6 of 6 pieces</p>
+</form>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:52px 34px">
+<sc-for list="{{ pieces }}" as="p" hint-placeholder-count="6">
+<li>
+<a href="#2b" style="text-decoration:none;color:inherit;display:block">
+<span style="position:relative;display:block;width:100%;height:388px;background:#EDE8DF;overflow:hidden"><image-slot id="{{ p.slotColl }}" shape="rect" placeholder="Piece" aria-label="{{ p.name }}"></image-slot></span>
+<span style="display:block;margin:15px 0 0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">{{ p.no }}</span>
+<span style="display:block;margin-top:8px;font:400 22px/1.25 'Bodoni Moda',serif;color:#16130F">{{ p.name }}</span>
+<span style="display:block;margin-top:5px;font:300 13px/1.6 Jost,sans-serif;color:#6A6157">{{ p.spec }}</span>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:9px;font:400 14px/1 Jost,sans-serif;color:#16130F">{{ p.price }}</span></sc-if>
+</a>
+</li>
+</sc-for>
+</ul>
+</div>
+</main>
+<footer style="padding:56px 44px 40px;border-top:1px solid rgba(22,19,15,.14);display:flex;justify-content:space-between;gap:40px;align-items:flex-end">
+<p style="margin:0;font:400 20px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F">AURELIA</p>
+<p style="margin:0;font:300 11.5px/1.7 Jost,sans-serif;color:#6A6157;text-align:right">Accessibility statement · Care &amp; repair<br>© 2026 Aurelia Joalheria</p>
+</footer>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Product — sticky image column, specs as a ledger, size help in place</div>
+<div class="dv-card" data-screen-label="Product">
+<header style="background:#F5F2EC;border-bottom:1px solid rgba(22,19,15,.12)">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:26px 44px 22px">
+<nav aria-label="Collections" style="display:flex;gap:26px">
+<a href="#2a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Jewellery</a>
+<a href="#2b" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Archive</a>
+<a href="#2b" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Atelier</a>
+</nav>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:22px;justify-content:flex-end;align-items:center">
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Search</button>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(1)</button>
+</div>
+</div>
+</header>
+<main style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)">
+<div style="border-right:1px solid rgba(22,19,15,.14)">
+<div style="position:relative;width:100%;height:760px;background:#EDE8DF"><image-slot id="p-main" shape="rect" placeholder="Product hero — the Signet on the hand" aria-label="The Signet ring worn on a hand"></image-slot></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">
+<div style="position:relative;height:420px;border-top:1px solid rgba(22,19,15,.14);background:#EDE8DF"><image-slot id="p-alt1" shape="rect" placeholder="Detail — engraving macro" aria-label="Macro detail of the hand-engraved band"></image-slot></div>
+<div style="position:relative;height:420px;border-top:1px solid rgba(22,19,15,.14);border-left:1px solid rgba(22,19,15,.14);background:#EDE8DF"><image-slot id="p-alt2" shape="rect" placeholder="Detail — on stone, top view" aria-label="The ring photographed on stone"></image-slot></div>
+</div>
+</div>
+<div style="padding:52px 46px 64px;align-self:start;position:sticky;top:0">
+<nav aria-label="Breadcrumb" style="margin-bottom:26px">
+<ol style="list-style:none;margin:0;padding:0;display:flex;gap:10px;font:300 12px/1 Jost,sans-serif;color:#6A6157">
+<li><a href="#2a" style="color:#6A6157">Rings</a></li><li aria-hidden="true">/</li><li><span aria-current="page" style="color:#16130F">The Signet</span></li>
+</ol>
+</nav>
+<p style="margin:0 0 14px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#7A5E30">No. 01 · Chapter IV</p>
+<h1 style="margin:0;font:400 52px/1.08 'Bodoni Moda',serif;color:#16130F">The Signet</h1>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><p style="margin:18px 0 0;font:400 19px/1 Jost,sans-serif;color:#16130F">R$&nbsp;4.280 <span style="font:300 13px Jost,sans-serif;color:#6A6157">— or 6× R$ 713 interest-free</span></p></sc-if>
+<p style="margin:22px 0 0;font:300 15.5px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">A heavy oval face on a tapered band, engraved by hand with your initials or nothing at all. Cast solid, so it wears down slowly and evenly — the way a signet should.</p>
+<form style="margin-top:34px;display:flex;flex-direction:column;gap:26px">
+<fieldset style="border:0;margin:0;padding:0">
+<legend style="padding:0 0 12px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Size · Brazilian</legend>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<label style="cursor:pointer"><input type="radio" name="2b-size" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px solid rgba(22,19,15,.3);font:300 14px Jost,sans-serif;color:#16130F">12</span></label>
+<label style="cursor:pointer"><input type="radio" name="2b-size" checked style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px solid #16130F;background:#16130F;color:#F5F2EC;font:300 14px Jost,sans-serif">14</span></label>
+<label style="cursor:pointer"><input type="radio" name="2b-size" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px solid rgba(22,19,15,.3);font:300 14px Jost,sans-serif;color:#16130F">16</span></label>
+<label style="cursor:pointer"><input type="radio" name="2b-size" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px solid rgba(22,19,15,.3);font:300 14px Jost,sans-serif;color:#16130F">18</span></label>
+<label style="cursor:pointer"><input type="radio" name="2b-size" style="position:absolute;opacity:0;width:1px;height:1px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;min-height:44px;border:1px solid rgba(22,19,15,.3);color:#6A6157;font:300 14px Jost,sans-serif;text-decoration:line-through">20</span></label>
+</div>
+<p style="margin:12px 0 0;font:300 13px/1.6 Jost,sans-serif;color:#6A6157">Unsure? <a href="#2b" style="color:#7A5E30">Order the free brass sizer</a> — resizing is free for life either way.</p>
+</fieldset>
+<div>
+<label for="2b-eng" style="display:block;margin-bottom:10px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Engraving <span style="text-transform:none;letter-spacing:0;font:300 12px Jost,sans-serif">(optional, up to 3 characters)</span></label>
+<input id="2b-eng" type="text" maxlength="3" placeholder="M.A." aria-describedby="2b-eng-help" style="width:180px;min-height:44px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px Jost,sans-serif;color:#16130F">
+<p id="2b-eng-help" style="margin:10px 0 0;font:300 13px/1.6 Jost,sans-serif;color:#6A6157">Engraved pieces ship in 10 days and can still be returned.</p>
+</div>
+<div style="display:flex;gap:12px">
+<button type="button" style="flex:1;min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:400 12.5px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer" style-hover="background:#7A5E30">Add to bag</button>
+<button type="button" aria-label="Save The Signet to your wishlist" style="min-width:52px;min-height:52px;border:1px solid rgba(22,19,15,.3);background:none;font:400 12.5px Jost,sans-serif;color:#16130F;cursor:pointer" style-hover="border-color:#16130F">Save</button>
+</div>
+<p style="margin:0;font:300 13px/1.7 Jost,sans-serif;color:#6A6157">Ready to ship in 3 days · Insured delivery · 30-day returns</p>
+</form>
+<dl style="margin:38px 0 0;border-top:1px solid rgba(22,19,15,.16);display:grid;grid-template-columns:auto minmax(0,1fr);gap:0">
+<dt style="padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:400 10.5px/1.6 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157;padding-right:28px">Material</dt><dd style="margin:0;padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:300 14.5px/1.6 Jost,sans-serif;color:#16130F">18k recycled gold, 9.4g</dd>
+<dt style="padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:400 10.5px/1.6 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157;padding-right:28px">Face</dt><dd style="margin:0;padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:300 14.5px/1.6 Jost,sans-serif;color:#16130F">13 × 11mm oval, brushed</dd>
+<dt style="padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:400 10.5px/1.6 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157;padding-right:28px">Made in</dt><dd style="margin:0;padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:300 14.5px/1.6 Jost,sans-serif;color:#16130F">Belo Horizonte, by Túlio</dd>
+<dt style="padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:400 10.5px/1.6 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6157;padding-right:28px">Care</dt><dd style="margin:0;padding:14px 0;border-bottom:1px solid rgba(22,19,15,.1);font:300 14.5px/1.6 Jost,sans-serif;color:#16130F">Warm water, soft cloth. Free polishing forever.</dd>
+</dl>
+</div>
+</main>
+<section aria-labelledby="2b-rel" style="border-top:1px solid rgba(22,19,15,.14);padding:70px 46px 90px">
+<h2 id="2b-rel" style="margin:0 0 34px;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#16130F">Worn with</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px">
+<li><a href="#2b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:320px;background:#EDE8DF;overflow:hidden"><image-slot id="p-rel1" shape="rect" placeholder="Piece" aria-label="Cadena Fina necklace"></image-slot></span><span style="display:block;margin-top:14px;font:400 20px/1.2 'Bodoni Moda',serif;color:#16130F">Cadena Fina</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:6px;font:400 13.5px/1 Jost,sans-serif;color:#16130F">R$&nbsp;2.940</span></sc-if></a></li>
+<li><a href="#2b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:320px;background:#EDE8DF;overflow:hidden"><image-slot id="p-rel2" shape="rect" placeholder="Piece" aria-label="Linha Band ring"></image-slot></span><span style="display:block;margin-top:14px;font:400 20px/1.2 'Bodoni Moda',serif;color:#16130F">Linha Band</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:6px;font:400 13.5px/1 Jost,sans-serif;color:#16130F">R$&nbsp;1.960</span></sc-if></a></li>
+<li><a href="#2b" style="text-decoration:none;color:inherit;display:block"><span style="position:relative;display:block;width:100%;height:320px;background:#EDE8DF;overflow:hidden"><image-slot id="p-rel3" shape="rect" placeholder="Piece" aria-label="Órbita cuff"></image-slot></span><span style="display:block;margin-top:14px;font:400 20px/1.2 'Bodoni Moda',serif;color:#16130F">Órbita Cuff</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:6px;font:400 13.5px/1 Jost,sans-serif;color:#16130F">R$&nbsp;6.150</span></sc-if></a></li>
+</ul>
+</section>
+</div>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Cart drawer — over a dimmed collection, focus trapped, gift note inline</div>
+<div class="dv-card" data-screen-label="Cart drawer" style="position:relative;height:900px">
+<div aria-hidden="true" style="position:absolute;inset:0;background:#F5F2EC;padding:44px;overflow:hidden">
+<p style="margin:0 0 28px;font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-align:center">AURELIA</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px">
+<div style="height:360px;background:#EDE8DF"></div><div style="height:360px;background:#EDE8DF"></div><div style="height:360px;background:#EDE8DF"></div>
+<div style="height:360px;background:#EDE8DF"></div><div style="height:360px;background:#EDE8DF"></div><div style="height:360px;background:#EDE8DF"></div>
+</div>
+</div>
+<div aria-hidden="true" style="position:absolute;inset:0;background:rgba(22,19,15,.42)"></div>
+<div role="dialog" aria-modal="true" aria-labelledby="2c-t" style="position:absolute;top:0;right:0;bottom:0;width:452px;background:#F5F2EC;border-left:1px solid rgba(22,19,15,.16);display:flex;flex-direction:column;box-shadow:-24px 0 60px rgba(22,19,15,.18)">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 28px 20px;border-bottom:1px solid rgba(22,19,15,.14)">
+<h2 id="2c-t" style="margin:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#16130F">Your bag — 2 pieces</h2>
+<button type="button" aria-label="Close bag" style="min-width:44px;min-height:44px;border:0;background:none;font:300 22px/1 Jost,sans-serif;color:#16130F;cursor:pointer">×</button>
+</div>
+<div style="flex:1;overflow-y:auto;padding:8px 28px">
+<ul style="list-style:none;margin:0;padding:0">
+<li style="display:grid;grid-template-columns:92px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid rgba(22,19,15,.12)">
+<span style="position:relative;display:block;width:92px;height:110px;background:#EDE8DF;overflow:hidden"><image-slot id="cart-1" shape="rect" placeholder="Piece" aria-label="The Signet ring"></image-slot></span>
+<span>
+<span style="display:flex;justify-content:space-between;gap:12px"><span style="font:400 21px/1.2 'Bodoni Moda',serif;color:#16130F">The Signet</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px/1.4 Jost,sans-serif;color:#16130F">R$&nbsp;4.280</span></sc-if></span>
+<span style="display:block;margin-top:6px;font:300 13px/1.6 Jost,sans-serif;color:#6A6157">Size 14 · engraved “M.A.”</span>
+<span style="display:flex;align-items:center;gap:16px;margin-top:12px">
+<span style="display:flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity of The Signet" style="min-width:36px;min-height:36px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:30px;text-align:center;font:400 14px Jost,sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity of The Signet" style="min-width:36px;min-height:36px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+<button type="button" style="min-height:36px;border:0;background:none;padding:0;font:300 13px Jost,sans-serif;color:#6A6157;text-decoration:underline;cursor:pointer" style-hover="color:#16130F">Remove</button>
+</span>
+</span>
+</li>
+<li style="display:grid;grid-template-columns:92px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid rgba(22,19,15,.12)">
+<span style="position:relative;display:block;width:92px;height:110px;background:#EDE8DF;overflow:hidden"><image-slot id="cart-2" shape="rect" placeholder="Piece" aria-label="Cadena Fina necklace"></image-slot></span>
+<span>
+<span style="display:flex;justify-content:space-between;gap:12px"><span style="font:400 21px/1.2 'Bodoni Moda',serif;color:#16130F">Cadena Fina</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px/1.4 Jost,sans-serif;color:#16130F">R$&nbsp;2.940</span></sc-if></span>
+<span style="display:block;margin-top:6px;font:300 13px/1.6 Jost,sans-serif;color:#6A6157">45cm</span>
+<span style="display:flex;align-items:center;gap:16px;margin-top:12px">
+<span style="display:flex;align-items:center;border:1px solid rgba(22,19,15,.28)">
+<button type="button" aria-label="Decrease quantity of Cadena Fina" style="min-width:36px;min-height:36px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">−</button>
+<span aria-live="polite" style="min-width:30px;text-align:center;font:400 14px Jost,sans-serif;color:#16130F">1</span>
+<button type="button" aria-label="Increase quantity of Cadena Fina" style="min-width:36px;min-height:36px;border:0;background:none;font:300 16px Jost,sans-serif;color:#16130F;cursor:pointer">+</button>
+</span>
+<button type="button" style="min-height:36px;border:0;background:none;padding:0;font:300 13px Jost,sans-serif;color:#6A6157;text-decoration:underline;cursor:pointer" style-hover="color:#16130F">Remove</button>
+</span>
+</span>
+</li>
+</ul>
+<div style="padding:24px 0 8px">
+<label for="2c-note" style="display:block;margin-bottom:10px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Gift note</label>
+<textarea id="2c-note" rows="3" placeholder="Written by hand on our card and tucked into the box." style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px/1.6 Jost,sans-serif;color:#16130F;resize:vertical"></textarea>
+</div>
+</div>
+<div style="border-top:1px solid rgba(22,19,15,.14);padding:22px 28px 26px">
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;justify-content:space-between;font:300 14px/1.9 Jost,sans-serif;color:#4A443C"><span>Subtotal</span><span>R$&nbsp;7.220</span></div>
+<div style="display:flex;justify-content:space-between;font:300 14px/1.9 Jost,sans-serif;color:#4A443C;padding-bottom:12px;border-bottom:1px solid rgba(22,19,15,.12)"><span>Insured shipping</span><span>Included</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0 18px;font:400 17px/1.4 Jost,sans-serif;color:#16130F"><span>Total</span><span>R$&nbsp;7.220</span></div>
+</sc-if>
+<button type="button" style="width:100%;min-height:52px;border:0;background:#16130F;color:#F5F2EC;font:400 12.5px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer" style-hover="background:#7A5E30">Checkout</button>
+<p style="margin:14px 0 0;text-align:center;font:300 12.5px/1.7 Jost,sans-serif;color:#6A6157">Free resizing for life · 30-day returns</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2d">
+<div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Mobile — home and the full-screen menu, 390pt</div>
+<div style="display:flex;gap:24px">
+<div class="dv-card" data-screen-label="Mobile home" style="width:390px">
+<header style="border-bottom:1px solid rgba(22,19,15,.12)">
+<p style="margin:0;padding:8px 0;text-align:center;font:400 10px/1 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#F5F2EC;background:#16130F">Insured shipping worldwide</p>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px">
+<button type="button" aria-label="Open menu" aria-expanded="false" style="min-width:44px;min-height:44px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0">
+<span aria-hidden="true" style="display:block;width:22px;height:1px;background:#16130F"></span>
+<span aria-hidden="true" style="display:block;width:22px;height:1px;background:#16130F"></span>
+</button>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 19px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F;text-decoration:none;text-indent:.3em">AURELIA</a>
+<button type="button" aria-label="Bag, 1 item" style="min-width:44px;min-height:44px;border:0;background:none;font:400 12px Jost,sans-serif;color:#16130F;cursor:pointer">(1)</button>
+</div>
+</header>
+<main>
+<div style="position:relative;width:100%;height:470px;background:#EDE8DF"><image-slot id="m-hero" shape="rect" placeholder="Mobile hero" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<section style="padding:40px 20px 34px;text-align:center;border-bottom:1px solid rgba(22,19,15,.14)">
+<p style="margin:0 0 16px;font:400 10px/1 Jost,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#7A5E30">Chapter One</p>
+<h1 style="margin:0;font:400 38px/1.1 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">Twelve pieces a year.<br><em style="font-style:italic">Kept forever.</em></h1>
+<a href="#2a" style="display:inline-flex;align-items:center;min-height:48px;margin-top:26px;padding:0 28px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase">Shop the chapter</a>
+</section>
+<ul style="list-style:none;margin:0;padding:26px 20px 40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 16px">
+<li><a href="#2b" style="text-decoration:none;color:inherit"><span style="position:relative;display:block;width:100%;height:210px;background:#EDE8DF;overflow:hidden"><image-slot id="m-p1" shape="rect" placeholder="Piece" aria-label="The Signet"></image-slot></span><span style="display:block;margin-top:11px;font:400 17px/1.2 'Bodoni Moda',serif;color:#16130F">The Signet</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:400 12.5px/1 Jost,sans-serif;color:#16130F">R$&nbsp;4.280</span></sc-if></a></li>
+<li><a href="#2b" style="text-decoration:none;color:inherit"><span style="position:relative;display:block;width:100%;height:210px;background:#EDE8DF;overflow:hidden"><image-slot id="m-p2" shape="rect" placeholder="Piece" aria-label="Cadena Fina"></image-slot></span><span style="display:block;margin-top:11px;font:400 17px/1.2 'Bodoni Moda',serif;color:#16130F">Cadena Fina</span><sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font:400 12.5px/1 Jost,sans-serif;color:#16130F">R$&nbsp;2.940</span></sc-if></a></li>
+</ul>
+</main>
+</div>
+<div class="dv-card" data-screen-label="Mobile menu" style="width:390px;background:#16130F">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(245,242,236,.18)">
+<button type="button" aria-label="Close menu" aria-expanded="true" style="min-width:44px;min-height:44px;border:0;background:none;font:300 22px/1 Jost,sans-serif;color:#F5F2EC;cursor:pointer">×</button>
+<span style="font:400 19px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#F5F2EC;text-indent:.3em">AURELIA</span>
+<span style="min-width:44px"></span>
+</div>
+<nav aria-label="Main" style="padding:26px 20px 0;display:flex;flex-direction:column">
+<a href="#2a" style="font:400 32px/1.1 'Bodoni Moda',serif;color:#F5F2EC;text-decoration:none;padding:16px 0;border-bottom:1px solid rgba(245,242,236,.16)">The Chapter</a>
+<a href="#2a" style="font:400 32px/1.1 'Bodoni Moda',serif;color:#F5F2EC;text-decoration:none;padding:16px 0;border-bottom:1px solid rgba(245,242,236,.16)">Rings</a>
+<a href="#2a" style="font:400 32px/1.1 'Bodoni Moda',serif;color:#F5F2EC;text-decoration:none;padding:16px 0;border-bottom:1px solid rgba(245,242,236,.16)">Necklaces</a>
+<a href="#2a" style="font:400 32px/1.1 'Bodoni Moda',serif;color:#F5F2EC;text-decoration:none;padding:16px 0;border-bottom:1px solid rgba(245,242,236,.16)">Earrings</a>
+<a href="#1a" style="font:400 32px/1.1 'Bodoni Moda',serif;color:#F5F2EC;text-decoration:none;padding:16px 0;border-bottom:1px solid rgba(245,242,236,.16)">Atelier</a>
+</nav>
+<div style="padding:34px 20px 40px;display:flex;flex-direction:column;gap:2px">
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#C9BFAC;text-decoration:none;padding:12px 0">Book a fitting</a>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#C9BFAC;text-decoration:none;padding:12px 0">Care &amp; repair</a>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#C9BFAC;text-decoration:none;padding:12px 0">Accessibility</a>
+<p style="margin:22px 0 0;font:300 12px/1.7 Jost,sans-serif;color:#8F8778">Belo Horizonte · Est. 2014</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "add the search overlay and empty-cart state" · "make <a class="dv-oid" href="#2b">2b</a>'s gallery a sticky scroll like Aésop" · "write the Shopify section settings for <a class="dv-oid" href="#2a">2a</a>" · "audit contrast on the dark sections"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">AURELIA — three editorial directions for the Shopify home template</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Quiet Editorial — centred masthead, one enormous statement, calm 3-up grid</div>
+<div class="dv-card">
+<a href="#1a-main" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">Skip to main content</a>
+<header style="background:#F5F2EC;border-bottom:1px solid rgba(22,19,15,.12)">
+<p style="margin:0;padding:9px 0;text-align:center;font:400 11px/1 Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#F5F2EC;background:#16130F">Complimentary insured shipping — worldwide</p>
+<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding:26px 44px 22px">
+<nav aria-label="Collections" style="display:flex;gap:26px">
+<a href="#1a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Jewellery</a>
+<a href="#1a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Archive</a>
+<a href="#1a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;text-decoration:none;padding:12px 0" style-hover="color:#7A5E30">Atelier</a>
+</nav>
+<a href="#1a" aria-label="Aurelia — home" style="font:400 27px/1 'Bodoni Moda',serif;letter-spacing:.34em;color:#16130F;text-decoration:none;text-indent:.34em">AURELIA</a>
+<div style="display:flex;gap:22px;justify-content:flex-end;align-items:center">
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Search</button>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button>
+</div>
+</div>
+</header>
+<main id="1a-main">
+<figure style="margin:0;position:relative">
+<div style="position:relative;width:100%;height:660px"><image-slot id="a-hero" shape="rect" fit="cover" placeholder="Hero — model wearing the signet, cropped at the collarbone" aria-label="Model wearing the Aurelia signet ring"></image-slot></div>
+<figcaption style="display:flex;justify-content:space-between;gap:40px;padding:14px 44px 0;font:300 12px/1.5 Jost,sans-serif;letter-spacing:.06em;color:#6A6157;border-top:1px solid rgba(22,19,15,.12);margin-top:14px">
+<span>Fig. 01 — The Signet, 18k recycled gold, photographed in Belo Horizonte</span><span>Autumn Chapter</span>
+</figcaption>
+</figure>
+<section data-reveal aria-labelledby="1a-stmt" style="padding:120px 44px 104px;text-align:center;max-width:1000px;margin:0 auto">
+<p style="margin:0 0 34px;font:400 11px/1 Jost,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#7A5E30">Chapter One</p>
+<h1 id="1a-stmt" style="margin:0;font:400 82px/1.06 'Bodoni Moda',serif;letter-spacing:-.01em;color:#16130F;text-wrap:pretty">Twelve pieces a year.<br><em style="font-style:italic">Each one kept forever.</em></h1>
+<p style="margin:34px auto 0;max-width:520px;font:300 16.5px/1.75 Jost,sans-serif;color:#4A443C;text-wrap:pretty">We release a single chapter each season — cast by hand, set by hand, and finished in our own workshop. Nothing is restocked.</p>
+</section>
+<section data-reveal aria-labelledby="1a-grid" style="padding:0 44px 110px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-bottom:18px;border-bottom:1px solid rgba(22,19,15,.14)">
+<h2 id="1a-grid" style="margin:0;font:400 13px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#16130F">The Chapter — 6 pieces</h2>
+<a href="#1a" style="font:400 12.5px/1 Jost,sans-serif;letter-spacing:.1em;color:#16130F;padding:12px 0">View all →</a>
+</div>
+<ul style="list-style:none;margin:0;padding:44px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px 40px">
+<li><a href="#1a" style="text-decoration:none;color:inherit;display:block">
+<div style="position:relative;width:100%;height:420px;background:#EDE8DF"><image-slot id="a-p1" shape="rect" placeholder="Product — Signet ring on stone" aria-label="Aurelia signet ring"></image-slot></div>
+<p style="margin:16px 0 0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">No. 01</p>
+<h3 style="margin:8px 0 0;font:400 23px/1.25 'Bodoni Moda',serif;color:#16130F">The Signet</h3>
+<p style="margin:6px 0 0;font:300 13.5px/1.6 Jost,sans-serif;color:#6A6157">18k recycled gold</p>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><p style="margin:10px 0 0;font:400 14px/1 Jost,sans-serif;color:#16130F">R$&nbsp;4.280</p></sc-if>
+</a></li>
+<li><a href="#1a" style="text-decoration:none;color:inherit;display:block">
+<div style="position:relative;width:100%;height:420px;background:#EDE8DF"><image-slot id="a-p2" shape="rect" placeholder="Product — Chain necklace, flat lay" aria-label="Aurelia chain necklace"></image-slot></div>
+<p style="margin:16px 0 0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">No. 02</p>
+<h3 style="margin:8px 0 0;font:400 23px/1.25 'Bodoni Moda',serif;color:#16130F">Cadena Fina</h3>
+<p style="margin:6px 0 0;font:300 13.5px/1.6 Jost,sans-serif;color:#6A6157">Hand-linked, 45cm</p>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><p style="margin:10px 0 0;font:400 14px/1 Jost,sans-serif;color:#16130F">R$&nbsp;2.940</p></sc-if>
+</a></li>
+<li><a href="#1a" style="text-decoration:none;color:inherit;display:block">
+<div style="position:relative;width:100%;height:420px;background:#EDE8DF"><image-slot id="a-p3" shape="rect" placeholder="Product — Pearl drop earrings on ear" aria-label="Aurelia pearl drop earrings"></image-slot></div>
+<p style="margin:16px 0 0;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7A5E30">No. 03</p>
+<h3 style="margin:8px 0 0;font:400 23px/1.25 'Bodoni Moda',serif;color:#16130F">Vespera Drops</h3>
+<p style="margin:6px 0 0;font:300 13.5px/1.6 Jost,sans-serif;color:#6A6157">Baroque pearl, gold</p>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><p style="margin:10px 0 0;font:400 14px/1 Jost,sans-serif;color:#16130F">R$&nbsp;3.510</p></sc-if>
+</a></li>
+</ul>
+</section>
+<section data-reveal aria-labelledby="1a-note" style="background:#16130F;color:#F5F2EC;padding:104px 44px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:72px;align-items:center">
+<div>
+<p style="margin:0 0 26px;font:400 11px/1 Jost,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#C9A96A">From the atelier</p>
+<h2 id="1a-note" style="margin:0;font:400 46px/1.2 'Bodoni Moda',serif;text-wrap:pretty">A ring should outlive the hand that chose it.</h2>
+<p style="margin:26px 0 34px;max-width:460px;font:300 16px/1.8 Jost,sans-serif;color:#D8D2C6;text-wrap:pretty">Every Aurelia piece is made to be resized, re-polished and re-set — free, for life. Read the notebook on how we cast.</p>
+<a href="#1a" style="display:inline-block;min-height:44px;padding:14px 30px;border:1px solid #C9A96A;color:#F5F2EC;text-decoration:none;font:400 12px/1.4 Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase" style-hover="background:#C9A96A;color:#16130F">Read the notebook</a>
+</div>
+<div style="position:relative;width:100%;height:520px"><image-slot id="a-atelier" shape="rect" placeholder="Atelier — hands at the bench, warm light" aria-label="Jeweller's hands at the workbench"></image-slot></div>
+</section>
+</main>
+<footer style="padding:64px 44px 40px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:48px;border-top:1px solid rgba(22,19,15,.14)">
+<div>
+<p style="margin:0 0 14px;font:400 20px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#16130F">AURELIA</p>
+<label for="1a-mail" style="display:block;font:300 13.5px/1.6 Jost,sans-serif;color:#4A443C;margin-bottom:10px">One letter per chapter. No more.</label>
+<div style="display:flex;gap:10px;max-width:400px">
+<input id="1a-mail" type="email" placeholder="you@email.com" style="flex:1;min-height:44px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px Jost,sans-serif;color:#16130F">
+<button type="button" style="min-height:44px;padding:0 22px;border:0;background:#16130F;color:#F5F2EC;font:400 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Join</button>
+</div>
+</div>
+<nav aria-label="Shop" style="display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">Shop</h2>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:11px 0">Rings</a>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:11px 0">Necklaces</a>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:11px 0">Earrings</a>
+</nav>
+<nav aria-label="House" style="display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6A6157">House</h2>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:11px 0">Care &amp; repair</a>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:11px 0">Sizing</a>
+<a href="#1a" style="font:300 14px/1 Jost,sans-serif;color:#16130F;text-decoration:none;padding:11px 0">Accessibility</a>
+</nav>
+</footer>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Asymmetric Ledger — sticky rail, offset columns, the chapter as an index</div>
+<div class="dv-card">
+<div style="display:grid;grid-template-columns:276px minmax(0,1fr);min-height:100%">
+<aside style="border-right:1px solid rgba(22,19,15,.14);padding:34px 26px;display:flex;flex-direction:column;justify-content:space-between;background:#F5F2EC">
+<div>
+<a href="#1b" style="font:400 22px/1 'Bodoni Moda',serif;letter-spacing:.26em;color:#16130F;text-decoration:none;display:block;margin-bottom:44px">AURELIA</a>
+<nav aria-label="Main" style="display:flex;flex-direction:column">
+<a href="#1b" style="font:400 14px/1 Jost,sans-serif;letter-spacing:.06em;color:#16130F;text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(22,19,15,.1)" style-hover="color:#7A5E30">The Chapter</a>
+<a href="#1b" style="font:400 14px/1 Jost,sans-serif;letter-spacing:.06em;color:#16130F;text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(22,19,15,.1)" style-hover="color:#7A5E30">Rings</a>
+<a href="#1b" style="font:400 14px/1 Jost,sans-serif;letter-spacing:.06em;color:#16130F;text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(22,19,15,.1)" style-hover="color:#7A5E30">Necklaces</a>
+<a href="#1b" style="font:400 14px/1 Jost,sans-serif;letter-spacing:.06em;color:#16130F;text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(22,19,15,.1)" style-hover="color:#7A5E30">Earrings</a>
+<a href="#1b" style="font:400 14px/1 Jost,sans-serif;letter-spacing:.06em;color:#16130F;text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(22,19,15,.1)" style-hover="color:#7A5E30">Atelier</a>
+</nav>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<button type="button" style="text-align:left;min-height:44px;background:none;border:0;font:400 12.5px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F;cursor:pointer">Search</button>
+<button type="button" style="text-align:left;min-height:44px;background:none;border:0;font:400 12.5px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#16130F;cursor:pointer">Bag&nbsp;(0)</button>
+<p style="margin:16px 0 0;font:300 11.5px/1.6 Jost,sans-serif;color:#6A6157">Belo Horizonte<br>Est. 2014</p>
+</div>
+</aside>
+<main>
+<section aria-labelledby="1b-h" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border-bottom:1px solid rgba(22,19,15,.14)">
+<div style="padding:88px 52px 72px;display:flex;flex-direction:column;justify-content:center">
+<p style="margin:0 0 28px;font:400 11px/1 Jost,sans-serif;letter-spacing:.26em;text-transform:uppercase;color:#7A5E30">Chapter IV · Autumn</p>
+<h1 id="1b-h" style="margin:0;font:400 68px/1.04 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">Weight,<br>warmth,<br><em style="font-style:italic">and a little</em><br>resistance.</h1>
+<p style="margin:30px 0 0;max-width:380px;font:300 16px/1.8 Jost,sans-serif;color:#4A443C;text-wrap:pretty">Six pieces cast in recycled 18k, each numbered on the inner band.</p>
+<div style="display:flex;gap:14px;margin-top:36px">
+<a href="#1b" style="min-height:44px;display:inline-flex;align-items:center;padding:0 28px;background:#16130F;color:#F5F2EC;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase" style-hover="background:#7A5E30">Shop the chapter</a>
+<a href="#1b" style="min-height:44px;display:inline-flex;align-items:center;padding:0 28px;border:1px solid rgba(22,19,15,.35);color:#16130F;text-decoration:none;font:400 12px Jost,sans-serif;letter-spacing:.16em;text-transform:uppercase" style-hover="border-color:#16130F">Book a fitting</a>
+</div>
+</div>
+<div style="position:relative;height:720px;border-left:1px solid rgba(22,19,15,.14)"><image-slot id="b-hero" shape="rect" placeholder="Hero — vertical portrait, hand on shoulder" aria-label="Portrait of a model wearing Aurelia rings"></image-slot></div>
+</section>
+<section data-reveal aria-labelledby="1b-idx" style="padding:72px 52px 84px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid rgba(22,19,15,.14);padding-bottom:16px">
+<h2 id="1b-idx" style="margin:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#16130F">Index of pieces</h2>
+<p style="margin:0;font:300 12px Jost,sans-serif;color:#6A6157">Six of six available</p>
+</div>
+<ul style="list-style:none;margin:0;padding:0">
+<sc-for list="{{ pieces }}" as="p" hint-placeholder-count="4">
+<li style="border-bottom:1px solid rgba(22,19,15,.1)">
+<a href="#1b" style="display:grid;grid-template-columns:64px 96px minmax(0,1fr) auto;gap:26px;align-items:center;padding:18px 4px;text-decoration:none;color:inherit" style-hover="background:#EFEBE2">
+<span style="font:400 11.5px/1 Jost,sans-serif;letter-spacing:.16em;color:#7A5E30">{{ p.no }}</span>
+<span style="position:relative;display:block;width:96px;height:110px;background:#EDE8DF"><image-slot id="{{ p.slot }}" shape="rect" placeholder="Piece" aria-label="{{ p.name }}"></image-slot></span>
+<span>
+<span style="display:block;font:400 27px/1.2 'Bodoni Moda',serif;color:#16130F">{{ p.name }}</span>
+<span style="display:block;margin-top:5px;font:300 13.5px/1.5 Jost,sans-serif;color:#6A6157">{{ p.spec }}</span>
+</span>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="font:400 15px/1 Jost,sans-serif;color:#16130F">{{ p.price }}</span></sc-if>
+</a>
+</li>
+</sc-for>
+</ul>
+</section>
+<section data-reveal aria-labelledby="1b-mat" style="border-top:1px solid rgba(22,19,15,.14);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)">
+<div style="padding:80px 52px;background:#EFEBE2">
+<p style="margin:0 0 22px;font:400 11px/1 Jost,sans-serif;letter-spacing:.26em;text-transform:uppercase;color:#7A5E30">Materials</p>
+<h2 id="1b-mat" style="margin:0 0 22px;font:400 38px/1.18 'Bodoni Moda',serif;color:#16130F;text-wrap:pretty">Recycled gold, traced stones, no exceptions.</h2>
+<dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:12px 20px;font:300 14px/1.6 Jost,sans-serif;color:#4A443C">
+<dt style="color:#6A6157">Gold</dt><dd style="margin:0">100% post-consumer, refined in Brazil</dd>
+<dt style="color:#6A6157">Stones</dt><dd style="margin:0">Named mine, invoice on request</dd>
+<dt style="color:#6A6157">Repairs</dt><dd style="margin:0">Free for life, including resizing</dd>
+</dl>
+</div>
+<div style="position:relative;height:520px"><image-slot id="b-mat" shape="rect" placeholder="Macro — gold grain and raw stone" aria-label="Close-up of gold grain and an uncut stone"></image-slot></div>
+</section>
+<footer style="border-top:1px solid rgba(22,19,15,.14);padding:52px;display:flex;justify-content:space-between;gap:40px;align-items:flex-end">
+<div>
+<label for="1b-mail" style="display:block;font:300 13.5px/1.6 Jost,sans-serif;color:#4A443C;margin-bottom:10px">The chapter letter — four times a year.</label>
+<div style="display:flex;gap:10px">
+<input id="1b-mail" type="email" placeholder="you@email.com" style="min-height:44px;width:280px;padding:0 14px;border:1px solid rgba(22,19,15,.3);background:#F5F2EC;font:300 14px Jost,sans-serif;color:#16130F">
+<button type="button" style="min-height:44px;padding:0 22px;border:0;background:#16130F;color:#F5F2EC;font:400 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Join</button>
+</div>
+</div>
+<p style="margin:0;font:300 11.5px/1.7 Jost,sans-serif;color:#6A6157;text-align:right">Accessibility statement · Care &amp; repair<br>© 2026 Aurelia Joalheria</p>
+</footer>
+</main>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Lookbook — full-bleed imagery, type over photograph, horizontal chapter rail</div>
+<div class="dv-card">
+<header style="position:relative;z-index:2;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 40px;background:#16130F">
+<nav aria-label="Main" style="display:flex;gap:24px">
+<a href="#1c" style="font:400 12px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#F5F2EC;text-decoration:none;padding:14px 0" style-hover="color:#C9A96A">Chapter</a>
+<a href="#1c" style="font:400 12px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#F5F2EC;text-decoration:none;padding:14px 0" style-hover="color:#C9A96A">Shop</a>
+<a href="#1c" style="font:400 12px/1 Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#F5F2EC;text-decoration:none;padding:14px 0" style-hover="color:#C9A96A">Atelier</a>
+</nav>
+<a href="#1c" style="font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em;color:#F5F2EC;text-decoration:none;text-indent:.3em">AURELIA</a>
+<div style="display:flex;gap:20px;justify-content:flex-end">
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#F5F2EC;cursor:pointer">Search</button>
+<button type="button" style="min-height:44px;background:none;border:0;font:400 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#F5F2EC;cursor:pointer">Bag&nbsp;(0)</button>
+</div>
+</header>
+<main>
+<section aria-labelledby="1c-h" style="position:relative;height:780px;background:#16130F">
+<div style="position:absolute;inset:0"><image-slot id="c-hero" shape="rect" placeholder="Full-bleed hero — editorial, dark, jewellery close to skin" aria-label="Editorial hero photograph"></image-slot></div>
+<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,6,.78) 0%,rgba(10,8,6,.45) 46%,rgba(10,8,6,0) 72%);pointer-events:none"></div>
+<div style="position:absolute;left:56px;bottom:72px;max-width:660px;pointer-events:none">
+<p style="margin:0 0 22px;font:400 11px/1 Jost,sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#DCC79B">Autumn Chapter · 2026</p>
+<h1 id="1c-h" style="margin:0;font:400 104px/.96 'Bodoni Moda',serif;color:#FBF9F5;text-wrap:pretty">Worn<br><em style="font-style:italic">until it</em><br>changes shape.</h1>
+<a href="#1c" style="pointer-events:auto;display:inline-flex;align-items:center;min-height:48px;margin-top:34px;padding:0 32px;background:#FBF9F5;color:#16130F;text-decoration:none;font:400 12.5px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase" style-hover="background:#DCC79B">Enter the chapter</a>
+</div>
+</section>
+<section data-reveal aria-labelledby="1c-rail" style="padding:84px 0 92px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 56px 20px;border-bottom:1px solid rgba(22,19,15,.14);margin:0 0 40px">
+<h2 id="1c-rail" style="margin:0;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#16130F">Scroll the chapter</h2>
+<p style="margin:0;font:300 12px Jost,sans-serif;color:#6A6157">Drag, or use the arrow keys</p>
+</div>
+<ul tabindex="0" aria-label="Chapter pieces, horizontally scrollable" style="list-style:none;margin:0;padding:4px 56px 22px;display:flex;gap:32px;overflow-x:auto;scroll-snap-type:x mandatory">
+<sc-for list="{{ pieces }}" as="p" hint-placeholder-count="4">
+<li style="flex:none;width:330px;scroll-snap-align:start">
+<a href="#1c" style="text-decoration:none;color:inherit;display:block">
+<span style="position:relative;display:block;width:330px;height:430px;background:#EDE8DF"><image-slot id="{{ p.slotC }}" shape="rect" placeholder="Piece" aria-label="{{ p.name }}"></image-slot></span>
+<span style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:15px;padding-bottom:11px;border-bottom:1px solid rgba(22,19,15,.16)">
+<span style="font:400 22px/1.2 'Bodoni Moda',serif;color:#16130F">{{ p.name }}</span>
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><span style="font:400 13.5px/1 Jost,sans-serif;color:#16130F">{{ p.price }}</span></sc-if>
+</span>
+<span style="display:block;margin-top:10px;font:300 13px/1.6 Jost,sans-serif;color:#6A6157">{{ p.spec }}</span>
+</a>
+</li>
+</sc-for>
+</ul>
+</section>
+<section data-reveal aria-labelledby="1c-q" style="padding:0 56px 100px">
+<figure style="margin:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;align-items:stretch">
+<blockquote id="1c-q" style="margin:0;background:#16130F;color:#FBF9F5;padding:74px 60px;display:flex;flex-direction:column;justify-content:space-between">
+<p style="margin:0;font:400 38px/1.3 'Bodoni Moda',serif;text-wrap:pretty"><em style="font-style:italic">“</em>The best jewellery is slightly worn out. That is the proof it was loved.<em style="font-style:italic">”</em></p>
+<figcaption style="margin-top:44px;font:300 13px/1.7 Jost,sans-serif;color:#C9BFAC">Marina Aurélio — founder, in conversation with <cite style="font-style:normal">Revista Casa</cite></figcaption>
+</blockquote>
+<div style="position:relative;min-height:480px"><image-slot id="c-quote" shape="rect" placeholder="Portrait — founder in the workshop" aria-label="Portrait of the founder in the workshop"></image-slot></div>
+</figure>
+</section>
+<section data-reveal aria-labelledby="1c-svc" style="border-top:1px solid rgba(22,19,15,.14);padding:70px 56px 84px">
+<h2 id="1c-svc" style="margin:0 0 40px;font:400 12.5px/1 Jost,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#16130F">House services</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px">
+<li style="border-top:1px solid rgba(22,19,15,.2);padding-top:20px">
+<h3 style="margin:0 0 10px;font:400 26px/1.2 'Bodoni Moda',serif;color:#16130F">Fittings</h3>
+<p style="margin:0;font:300 14.5px/1.7 Jost,sans-serif;color:#4A443C">Sit with a piece for an hour in Belo Horizonte, or by video anywhere.</p>
+</li>
+<li style="border-top:1px solid rgba(22,19,15,.2);padding-top:20px">
+<h3 style="margin:0 0 10px;font:400 26px/1.2 'Bodoni Moda',serif;color:#16130F">Lifetime care</h3>
+<p style="margin:0;font:300 14.5px/1.7 Jost,sans-serif;color:#4A443C">Polishing, re-setting and resizing at no cost, for as long as you own it.</p>
+</li>
+<li style="border-top:1px solid rgba(22,19,15,.2);padding-top:20px">
+<h3 style="margin:0 0 10px;font:400 26px/1.2 'Bodoni Moda',serif;color:#16130F">Commissions</h3>
+<p style="margin:0;font:300 14.5px/1.7 Jost,sans-serif;color:#4A443C">Bring an heirloom; we melt, trace and rebuild it as something worn daily.</p>
+</li>
+</ul>
+</section>
+</main>
+<footer style="background:#16130F;color:#F5F2EC;padding:60px 56px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:48px">
+<div>
+<p style="margin:0 0 18px;font:400 21px/1 'Bodoni Moda',serif;letter-spacing:.3em">AURELIA</p>
+<label for="1c-mail" style="display:block;font:300 13.5px/1.6 Jost,sans-serif;color:#D8D2C6;margin-bottom:10px">Be first into the next chapter.</label>
+<div style="display:flex;gap:10px;max-width:380px">
+<input id="1c-mail" type="email" placeholder="you@email.com" style="flex:1;min-height:44px;padding:0 14px;border:1px solid rgba(245,242,236,.4);background:transparent;font:300 14px Jost,sans-serif;color:#F5F2EC">
+<button type="button" style="min-height:44px;padding:0 22px;border:0;background:#DCC79B;color:#16130F;font:400 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Join</button>
+</div>
+</div>
+<nav aria-label="Shop" style="display:flex;flex-direction:column;gap:4px">
+<h2 style="margin:0 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#C9BFAC">Shop</h2>
+<a href="#1c" style="font:300 14px/1 Jost,sans-serif;color:#F5F2EC;text-decoration:none;padding:11px 0">Rings</a>
+<a href="#1c" style="font:300 14px/1 Jost,sans-serif;color:#F5F2EC;text-decoration:none;padding:11px 0">Necklaces</a>
+<a href="#1c" style="font:300 14px/1 Jost,sans-serif;color:#F5F2EC;text-decoration:none;padding:11px 0">Earrings</a>
+</nav>
+<nav aria-label="House" style="display:flex;flex-direction:column;gap:4px">
+<h2 style="margin:0 0 8px;font:400 10.5px/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#C9BFAC">House</h2>
+<a href="#1c" style="font:300 14px/1 Jost,sans-serif;color:#F5F2EC;text-decoration:none;padding:11px 0">Accessibility</a>
+<a href="#1c" style="font:300 14px/1 Jost,sans-serif;color:#F5F2EC;text-decoration:none;padding:11px 0">Shipping</a>
+<a href="#1c" style="font:300 14px/1 Jost,sans-serif;color:#F5F2EC;text-decoration:none;padding:11px 0">Contact</a>
+</nav>
+</footer>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build the PDP for <a class="dv-oid" href="#1b">1b</a>" · "make <a class="dv-oid" href="#1a">1a</a>'s hero full-bleed like <a class="dv-oid" href="#1c">1c</a>" · "add the mobile menu + cart drawer" · "show the dark-on-light contrast audit"</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showPrices&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;},&quot;scrollReveal&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const pieces = [
+      { no: "No. 01", name: "The Signet", spec: "18k recycled gold, hand-engraved", price: "R$ 4.280", slot: "b-p1", slotC: "c-p1", slotColl: "coll-p1" },
+      { no: "No. 02", name: "Cadena Fina", spec: "Hand-linked chain, 45cm", price: "R$ 2.940", slot: "b-p2", slotC: "c-p2", slotColl: "coll-p2" },
+      { no: "No. 03", name: "Vespera Drops", spec: "Baroque pearl, gold posts", price: "R$ 3.510", slot: "b-p3", slotC: "c-p3", slotColl: "coll-p3" },
+      { no: "No. 04", name: "Órbita Cuff", spec: "Solid cuff, brushed finish", price: "R$ 6.150", slot: "b-p4", slotC: "c-p4", slotColl: "coll-p4" },
+      { no: "No. 05", name: "Sal Pendant", spec: "Rough salt-crystal quartz", price: "R$ 2.180", slot: "b-p5", slotC: "c-p5", slotColl: "coll-p5" },
+      { no: "No. 06", name: "Linha Band", spec: "2mm band, numbered inside", price: "R$ 1.960", slot: "b-p6", slotC: "c-p6", slotColl: "coll-p6" }
+    ];
+    return { pieces, showPrices: this.props.showPrices ?? true };
+  }
+  componentDidMount() {
+    if (this.props.scrollReveal === false) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
+    const els = Array.from(document.querySelectorAll("[data-reveal]"));
+    els.forEach(el => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(22px)";
+      el.style.transition = "opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)";
+    });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = "1";
+          e.target.style.transform = "none";
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.06 });
+    els.forEach(el => io.observe(el));
+  }
+}
+
+</script>
+</body>
+</html>

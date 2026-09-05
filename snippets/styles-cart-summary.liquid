@@ -1,0 +1,61 @@
+{% doc %}
+  Styles shared by the cart drawer, the cart page and the order detail page.
+
+  This snippet renders nothing. Shopify subsets `{% stylesheet %}` CSS to the
+  files in a page's render tree, so styles shared by sections that never render
+  together have to be pulled in by something each of them renders. Keeping them
+  in `critical.css` instead would ship them to every page in the theme.
+
+  @example
+  {% render 'styles-cart-summary' %}
+{% enddoc %}
+
+{% stylesheet %}
+.cart-summary__discounts {
+display: contents;
+padding: 0;
+margin: 0;
+list-style: none;
+}
+
+.cart-summary__row {
+display: flex;
+align-items: baseline;
+justify-content: space-between;
+gap: var(--space-4);
+font-size: var(--text-detail);
+line-height: 1.9;
+}
+
+.cart-summary__row--quiet {
+color: var(--color-secondary);
+padding-block-end: var(--space-3);
+border-block-end: 1px solid var(--hairline-row);
+}
+
+.cart-summary__row--discount {
+color: var(--color-accent);
+}
+
+.cart-summary__row--total {
+padding-block: var(--space-3) var(--space-1);
+font-family: var(--font-heading--family);
+font-weight: var(--font-heading--weight);
+font-size: var(--text-title-sm);
+line-height: 1.4;
+color: var(--color-heading);
+}
+
+.cart-summary__tax {
+padding-block-end: var(--space-3);
+font-size: var(--text-caption);
+color: var(--color-secondary);
+}
+
+.cart-summary__dynamic {
+display: flex;
+flex-direction: column;
+gap: var(--space-2);
+padding-block-start: var(--space-2);
+}
+{% endstylesheet %}

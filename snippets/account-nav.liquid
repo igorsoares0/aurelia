@@ -1,0 +1,106 @@
+{% doc %}
+  Renders the account section navigation.
+
+  A sticky column on a wide screen, a horizontal scroll rail on a phone. The
+  rail carries `tabindex="0"` and an accessible name that says it scrolls, so
+  it is reachable without a gesture.
+
+  The current item is marked with `aria-current="page"` as well as a rule, never
+  by color alone.
+
+  @param {string} current - Which item is current: `orders`, `addresses`, or `order`
+
+  @example
+  {% render 'account-nav', current: 'orders' %}
+{% enddoc %}
+
+<nav class="account-nav" aria-label="{{ 'customers.account.title' | t }}">
+  <ul
+    class="account-nav__list"
+    tabindex="0"
+    aria-label="{{ 'accessibility.rail_label' | t: name: 'customers.account.title' | t }}"
+  >
+    <li>
+      <a
+        class="account-nav__link"
+        href="{{ routes.account_url }}"
+        {% if current == 'orders' or current == 'order' %}aria-current="page"{% endif %}
+      >
+        {{- 'customers.account.orders' | t -}}
+      </a>
+    </li>
+    <li>
+      <a
+        class="account-nav__link"
+        href="{{ routes.account_addresses_url }}"
+        {% if current == 'addresses' %}aria-current="page"{% endif %}
+      >
+        {{- 'customers.account.addresses' | t -}}
+      </a>
+    </li>
+    <li>
+      <a class="account-nav__link" href="{{ routes.account_logout_url }}">
+        {{- 'customers.account.log_out' | t -}}
+      </a>
+    </li>
+  </ul>
+</nav>
+
+{% stylesheet %}
+  .account-nav__list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .account-nav__link {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    padding-inline-start: var(--space-4);
+    font-size: var(--text-detail);
+    text-decoration: none;
+    color: var(--color-text);
+    border-block-end: 1px solid var(--hairline-row);
+  }
+
+  .account-nav__link[aria-current='page'] {
+    padding-inline-start: var(--space-3);
+    border-inline-start: 2px solid var(--color-heading);
+    color: var(--color-heading);
+    font-weight: var(--font-body--weight-medium);
+  }
+
+  @media screen and (max-width: 989px) {
+    /* Restructured: the column becomes a rail. */
+    .account-nav {
+      border-block: 1px solid var(--hairline-section);
+    }
+
+    .account-nav__list {
+      flex-direction: row;
+      gap: var(--space-6);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .account-nav__list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .account-nav__link {
+      min-height: 3rem;
+      padding-inline: 0;
+      white-space: nowrap;
+      border-block-end: 0;
+    }
+
+    .account-nav__link[aria-current='page'] {
+      padding-inline: 0;
+      border-inline-start: 0;
+      border-block-end: 2px solid var(--color-heading);
+    }
+  }
+{% endstylesheet %}

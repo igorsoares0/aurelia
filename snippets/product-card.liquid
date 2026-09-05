@@ -1,0 +1,170 @@
+{% doc %}
+  Renders a product card: image, piece number, title, specification line, price.
+
+  There is one tab stop per card. The title carries the only link and its
+  `::after` covers the whole card, so the image is clickable without adding a
+  second stop or a duplicate accessible name.
+
+  The eyebrow reads the piece number metafield where one exists and falls back
+  to the card's position in the chapter, which is what the number means. When
+  numbering is off, or nothing supplies a number, the eyebrow is not rendered
+  at all rather than rendered empty.
+
+  @param {object} product - The product to render
+  @param {number} [number] - Position in the list, used when no piece number metafield exists
+  @param {number} [image_height] - Fixed image height in px
+  @param {string} [ratio] - Ratio class, used when no `image_height` is given
+  @param {string} [sizes] - The `sizes` attribute for the image
+  @param {string} [heading_size] - `card__title--sm` for the tighter grids
+  @param {string} [loading] - `eager` for the first row of the first grid
+  @param {string} [placeholder] - Placeholder name when the product has no image
+
+  @example
+  {% render 'product-card', product: product, number: forloop.index, image_height: 420 %}
+{% enddoc %}
+
+{% liquid
+  assign piece_number = product.metafields.custom.piece_number.value
+  if piece_number == blank and number != blank
+    assign piece_number = number
+  endif
+
+  assign spec = product.metafields.custom.specification.value | default: product.metafields.custom.material.value
+
+  assign card_sizes = sizes | default: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 50vw'
+  assign card_image = product.featured_media.preview_image
+  assign card_alt = product.featured_media.alt | default: product.title
+  assign card_placeholder = placeholder | default: 'product-1'
+%}
+
+<div class="card">
+  {% render 'image',
+    image: card_image,
+    alt: card_alt,
+    height: image_height,
+    ratio: ratio,
+    sizes: card_sizes,
+    loading: loading,
+    placeholder: card_placeholder,
+    class: 'card__media'
+  %}
+
+  {%- unless product.available -%}
+    <p class="badge badge--sold-out card__badge">{{ 'products.sold_out' | t }}</p>
+  {%- endunless -%}
+
+  <div class="card__body">
+    {%- if settings.piece_numbering and piece_number != blank -%}
+      <p class="eyebrow card__number">
+        {{- 'products.piece_number_html' | t: number: piece_number -}}
+      </p>
+    {%- endif -%}
+
+    <h3 class="card__title {{ heading_size }}">
+      <a class="card__link" href="{{ product.url }}">{{ product.title | escape }}</a>
+    </h3>
+
+    {%- if settings.product_card_spec and spec != blank -%}
+      <p class="card__spec">{{ spec }}</p>
+    {%- endif -%}
+
+    {%- if settings.product_card_price -%}
+      {% render 'price', product: product, show_from: true, show_unit_price: true, class: 'card__price' %}
+    {%- endif -%}
+
+    {%- if settings.product_card_swatches -%}
+      {%- for option in product.options_with_values -%}
+        {%- if option.values.first.swatch -%}
+          <ul class="card__swatches" aria-label="{{ option.name | escape }}">
+            {%- for value in option.values limit: 5 -%}
+              {%- if value.swatch.color or value.swatch.image -%}
+                <li
+                  class="card__swatch"
+                  style="--swatch: {{ value.swatch.color }};{% if value.swatch.image %} --swatch-image: url({{ value.swatch.image | image_url: width: 40 }});{% endif %}"
+                >
+                  <span class="visually-hidden">{{ value.name }}</span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card__badge {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    background-color: var(--color-background);
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block-start: var(--space-4);
+  }
+
+  .card__number {
+    margin: 0;
+  }
+
+  .card__title {
+    font-size: var(--text-title);
+    line-height: var(--leading-title);
+  }
+
+  .card__title--sm {
+    font-size: var(--text-title-sm);
+  }
+
+  /* One tab stop, whole card clickable. */
+  .card__link {
+    text-decoration: none;
+  }
+
+  .card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card:hover .card__link {
+    color: var(--color-accent);
+  }
+
+  .card__spec {
+    font-size: var(--text-detail);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .card__swatches {
+    display: flex;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .card__swatch {
+    width: 16px;
+    height: 16px;
+    /* The only border-radius in the theme. */
+    border-radius: 50%;
+    border: 1px solid var(--hairline-control);
+    background-color: var(--swatch, var(--color-well));
+    background-image: var(--swatch-image, none);
+    background-size: cover;
+  }
+{% endstylesheet %}

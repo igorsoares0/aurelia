@@ -1,0 +1,183 @@
+{% doc %}
+  Emits every design token the theme uses as CSS custom properties, plus the
+  `@font-face` declarations for the two `font_picker` settings.
+
+  Two font settings drive the whole type system; there are no per-section font
+  settings. Sizes are `rem` derived from `type_base_size` so the scale holds at
+  200% zoom, and `html` is sized in `%` so a customer's own browser font size is
+  respected rather than overridden.
+
+  Colors come from the `color_schemes` group. Each scheme emits a
+  `.color-<id>` class carrying its own background, text, heading, accent and
+  hairline values, so a section can be re-grounded without touching any other
+  token. Secondary text, the quiet tint and the image well are derived from the
+  scheme rather than set separately, which keeps them coherent when a merchant
+  recolors.
+
+  Rendered once, in the `<head>` of every layout, before any other stylesheet.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+{% liquid
+  assign heading_font = settings.type_heading_font
+  assign body_font = settings.type_body_font
+
+  assign heading_italic = heading_font | font_modify: 'style', 'italic' | default: heading_font
+  assign body_medium = body_font | font_modify: 'weight', '500' | default: body_font
+  assign body_bold = body_font | font_modify: 'weight', 'bold' | default: body_font
+  assign body_italic = body_font | font_modify: 'style', 'italic' | default: body_font
+
+  assign base_ratio = settings.type_base_size | times: 1.0 | divided_by: 16.0
+%}
+
+{% style %}
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {{ heading_italic | font_face: font_display: 'swap' }}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {{ body_medium | font_face: font_display: 'swap' }}
+  {{ body_bold | font_face: font_display: 'swap' }}
+  {{ body_italic | font_face: font_display: 'swap' }}
+
+  :root {
+    /* Type families. Body carries 400 and 500 only -- body copy is never 300. */
+    --font-heading--family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --font-heading--style: {{ heading_font.style }};
+    --font-heading--weight: {{ heading_font.weight }};
+    --font-body--family: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-body--style: {{ body_font.style }};
+    --font-body--weight: {{ body_font.weight }};
+    --font-body--weight-medium: {{ body_medium.weight }};
+    --font-body--weight-bold: {{ body_bold.weight }};
+
+    /* Type scale. Every value is rem off the customer's own base size. */
+    --text-label: 0.75rem;
+    --text-caption: 0.8125rem;
+    --text-detail: 0.875rem;
+    --text-body: 0.9375rem;
+    --text-body-md: 1rem;
+    --text-lead: 1.0625rem;
+    --text-title-sm: 1.25rem;
+    --text-title: 1.375rem;
+    --text-title-lg: 1.5rem;
+    --text-title-xl: 1.5625rem;
+    --text-display-xs: 2.125rem;
+    --text-display-sm: 2.5rem;
+    --text-display-md: 2.625rem;
+    --text-display-lg: 3.125rem;
+    --text-display-xl: 3.25rem;
+    --text-display-2xl: 4rem;
+    --text-display-3xl: 4.5rem;
+
+    --leading-display: 1.08;
+    --leading-heading: 1.2;
+    --leading-title: 1.25;
+    --leading-body: 1.7;
+    --leading-lead: 1.75;
+
+    --tracking-label: 0.18em;
+    --tracking-label-wide: 0.26em;
+    --tracking-wordmark: 0.34em;
+
+    /* Spacing -- 4px base, expressed in rem so it scales with the type. */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-9: 2.25rem;
+    --space-11: 2.75rem;
+    --space-13: 3.25rem;
+    --space-16: 4rem;
+    --space-18: 4.5rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-27: 6.875rem;
+
+    /* Controls. 44px is the touch-target floor, not a suggestion. */
+    --tap-target: 2.75rem;
+    --control-height: 2.75rem;
+    --control-height-secondary: 3rem;
+    --control-height-primary: 3.25rem;
+    --field-height: 3rem;
+    --field-padding-inline: 0.875rem;
+
+    /* Page frame */
+    --page-width: {{ settings.max_page_width }}px;
+    --page-margin: {{ settings.min_page_margin }}px;
+
+    /* Motion. Every one of these is suppressed under prefers-reduced-motion. */
+    --motion-hover: 170ms;
+    --motion-sheet: 260ms;
+    --motion-reveal: 900ms;
+    --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-sheet: cubic-bezier(0.2, 0, 0, 1);
+
+    /* Fixed semantic colors. These sit on the light ground and are not themed,
+       because a merchant recoloring an error state is a hazard, not a feature. */
+    --color-error-rule: #8c2f1d;
+    --color-error-text: #6e2416;
+    --color-sale-background: #f0e7e2;
+    --color-progress-text: #2e4028;
+    --color-progress-background: #e4e9e1;
+
+    /* The single shadow in the theme, under a sheet floating above the page. */
+    --shadow-sheet: 0 0 60px rgb(22 19 15 / 18%);
+  }
+
+  html {
+    font-size: calc({{ base_ratio }} * 100%);
+  }
+
+  {% for scheme in settings.color_schemes %}
+    {%- liquid
+      assign hairline_r = scheme.settings.heading | color_extract: 'red'
+      assign hairline_g = scheme.settings.heading | color_extract: 'green'
+      assign hairline_b = scheme.settings.heading | color_extract: 'blue'
+      assign secondary = scheme.settings.text | color_mix: scheme.settings.background, 88
+      assign tint = scheme.settings.heading | color_mix: scheme.settings.background, 3
+      assign well = scheme.settings.heading | color_mix: scheme.settings.background, 4
+    -%}
+    .color-{{ scheme.id }} {
+      --color-background: {{ scheme.settings.background }};
+      --color-text: {{ scheme.settings.text }};
+      --color-heading: {{ scheme.settings.heading }};
+      --color-secondary: {{ secondary }};
+      --color-accent: {{ scheme.settings.accent }};
+      --color-tint: {{ tint }};
+      --color-well: {{ well }};
+      --color-button: {{ scheme.settings.button }};
+      --color-button-label: {{ scheme.settings.button_label }};
+
+      /* Hairlines do the work that cards and shadows do in other themes. */
+      --hairline-rgb: {{ hairline_r }} {{ hairline_g }} {{ hairline_b }};
+      --hairline-row: rgb(var(--hairline-rgb) / 10%);
+      --hairline-section: rgb(var(--hairline-rgb) / 14%);
+      --hairline-group: rgb(var(--hairline-rgb) / 18%);
+      --hairline-quiet: rgb(var(--hairline-rgb) / 20%);
+      --hairline-strong: rgb(var(--hairline-rgb) / 28%);
+      --hairline-control: rgb(var(--hairline-rgb) / 30%);
+      --hairline-selected: var(--color-heading);
+
+      background-color: var(--color-background);
+      color: var(--color-text);
+    }
+  {% endfor %}
+
+  @media screen and (max-width: 749px) {
+    :root {
+      --text-display-xs: 1.5rem;
+      --text-display-sm: 1.75rem;
+      --text-display-md: 1.875rem;
+      --text-display-lg: 2rem;
+      --text-display-xl: 2.125rem;
+      --text-display-2xl: 2.25rem;
+      --text-display-3xl: 2.375rem;
+      --leading-display: 1.12;
+      --page-margin: 1.25rem;
+    }
+  }
+{% endstyle %}

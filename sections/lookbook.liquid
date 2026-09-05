@@ -1,0 +1,282 @@
+{% comment %}
+  A horizontal rail of plates at three different widths.
+
+  Uneven widths are what makes this read as a lookbook rather than a carousel:
+  a wide plate, two narrow ones, a wider one. Equal cards would be a grid that
+  happens to scroll.
+
+  The rail is reachable from the keyboard (`tabindex="0"`) and names its own
+  non-gesture alternative in an `aria-label` *and* in visible text beside the
+  heading -- a hint that only screen reader users get is a hint the person with
+  a trackpad and no scroll wheel never sees. Nothing autoplays.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="lookbook color-{{ section.settings.color_scheme }} full-width">
+  <div
+    class="lookbook__inner"
+    style="--plate-height: {{ section.settings.plate_height }}px;"
+    {% if settings.motion_reveal %}data-reveal{% endif %}
+  >
+    <div class="lookbook__head">
+      <div class="lookbook__head-text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow eyebrow--wide">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="lookbook__heading">{{ section.settings.heading | escape }}</h2>
+      </div>
+      {%- if section.settings.hint != blank -%}
+        <p class="lookbook__hint">{{ section.settings.hint | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <ul
+      class="rail lookbook__rail"
+      tabindex="0"
+      aria-label="{{ 'accessibility.rail_label' | t: name: section.settings.heading | escape }}"
+    >
+      {%- for block in section.blocks -%}
+        <li class="plate plate--{{ block.settings.width }}" {{ block.shopify_attributes }}>
+          <figure class="plate__figure">
+            {% render 'image',
+              image: block.settings.image,
+              alt: block.settings.image_alt,
+              ratio: 'media--natural',
+              sizes: '(min-width: 990px) 40vw, 80vw',
+              placeholder: 'lifestyle-1',
+              class: 'plate__media'
+            %}
+
+            {%- if block.settings.caption_left != blank or block.settings.caption_right != blank -%}
+              <figcaption class="plate__caption">
+                <span>{{ block.settings.caption_left | escape }}</span>
+                <span>{{ block.settings.caption_right | escape }}</span>
+              </figcaption>
+            {%- endif -%}
+          </figure>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="lookbook__foot">
+        <a class="button button--secondary" href="{{ section.settings.button_link }}">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .lookbook {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .lookbook__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    /* No side padding: the rail bleeds to the viewport edge. */
+    padding-block: var(--space-20);
+  }
+
+  .lookbook__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-8);
+    margin-inline: var(--page-margin);
+    padding-block-end: var(--space-5);
+    border-block-end: 1px solid var(--hairline-section);
+  }
+
+  .lookbook__head-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .lookbook__heading {
+    font-size: var(--text-display-sm);
+    line-height: 1.1;
+  }
+
+  /* The gesture-free alternative, said out loud rather than only in an aria-label. */
+  .lookbook__hint {
+    font-size: var(--text-detail);
+    color: var(--color-secondary);
+  }
+
+  .lookbook__rail {
+    padding: var(--space-1) var(--page-margin) var(--space-6);
+    margin: 0;
+    list-style: none;
+    gap: var(--space-8);
+  }
+
+  .plate {
+    min-width: 0;
+  }
+
+  .plate--small {
+    width: 390px;
+  }
+
+  .plate--medium {
+    width: 520px;
+  }
+
+  .plate--large {
+    width: 660px;
+  }
+
+  .plate__figure {
+    margin: 0;
+  }
+
+  .plate__media {
+    height: var(--plate-height);
+  }
+
+  .plate__caption {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-block-start: var(--space-4);
+    padding-block-end: var(--space-3);
+    border-block-end: 1px solid var(--hairline-group);
+    font-size: var(--text-detail);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .lookbook__foot {
+    margin-inline: var(--page-margin);
+  }
+
+  @media screen and (max-width: 749px) {
+    .plate--small,
+    .plate--medium,
+    .plate--large {
+      width: min(80vw, 20rem);
+    }
+
+    .plate__media {
+      height: min(var(--plate-height), 100vw);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.lookbook",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Worn"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "The autumn lookbook"
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "label": "t:labels.gesture_hint",
+      "info": "t:info.gesture_hint",
+      "default": "Drag, or use the arrow keys"
+    },
+    {
+      "type": "range",
+      "id": "plate_height",
+      "label": "t:labels.image_height",
+      "min": 360,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 640
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "See the whole chapter"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "plate",
+      "name": "t:general.plate",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "t:labels.image_alt",
+          "info": "t:info.image_alt"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "t:labels.plate_width",
+          "options": [
+            { "value": "small", "label": "t:options.plate_width.small" },
+            { "value": "medium", "label": "t:options.plate_width.medium" },
+            { "value": "large", "label": "t:options.plate_width.large" }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "text",
+          "id": "caption_left",
+          "label": "t:labels.caption_left",
+          "default": "Plate 01"
+        },
+        {
+          "type": "text",
+          "id": "caption_right",
+          "label": "t:labels.caption_right",
+          "default": "Belo Horizonte"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_lookbook",
+      "category": "t:general.cat_media",
+      "blocks": [
+        { "type": "plate", "settings": { "width": "medium" } },
+        { "type": "plate", "settings": { "width": "small" } },
+        { "type": "plate", "settings": { "width": "large" } },
+        { "type": "plate", "settings": { "width": "small" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

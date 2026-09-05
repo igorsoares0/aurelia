@@ -1,0 +1,356 @@
+{% comment %}
+  The collection grid, with filtering and sorting.
+
+  Three things here are not the obvious implementation and are deliberate.
+
+  The filters stay applied and visible when nothing matches. Clearing them for
+  the customer hides the cause; the empty state instead says which combination
+  emptied the shelf and offers to clear it.
+
+  The mobile filter sheet is the same form as the desktop sidebar: `facets.js`
+  moves that one node between the sidebar and the sheet rather than rendering a
+  second copy, so the two layouts cannot disagree about what is selected.
+
+  The grid is wrapped in `{% paginate %}` even when pagination is not shown, so
+  Liquid fetches only the products this page renders.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-facets' %}
+
+{% liquid
+  assign per_page = section.settings.products_per_page
+  assign columns = section.settings.columns
+%}
+
+<aurelia-facets
+  class="collection color-{{ section.settings.color_scheme }} full-width"
+  data-section-id="{{ section.id }}"
+>
+  <div class="band" data-facets-root>
+    <div class="collection__inner">
+      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+        <div class="collection__bar">
+          <button
+            class="button button--secondary collection__bar-button"
+            type="button"
+            data-overlay-open="FilterSheet"
+            aria-expanded="false"
+            aria-controls="FilterSheet"
+          >
+            {{ 'collections.filters' | t }}
+          </button>
+        </div>
+      {%- endif -%}
+
+      <div class="collection__layout">
+        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+          <div class="collection__sidebar-home" data-facets-home>
+          <div
+            class="collection__sidebar{% if section.settings.sticky_sidebar %} collection__sidebar--sticky{% endif %}"
+            data-facets-panel
+          >
+            {% render 'facets',
+              results: collection,
+              id: 'CollectionFacets',
+              show_sort: section.settings.enable_sorting,
+              show_filters: section.settings.enable_filtering
+            %}
+          </div>
+          </div>
+        {%- endif -%}
+
+        <div class="collection__main">
+          {% render 'active-facets', results: collection, class: 'collection__chips' %}
+
+          {%- paginate collection.products by per_page -%}
+            {%- if collection.products.size == 0 -%}
+              <div class="collection__empty">
+                <h2 class="collection__empty-heading">{{ section.settings.empty_heading | escape }}</h2>
+                <div class="collection__empty-body rte">{{ section.settings.empty_body }}</div>
+
+                <div class="collection__empty-actions">
+                  <a class="button button--primary" href="{{ collection.url }}">
+                    {{- 'collections.clear_all' | t -}}
+                  </a>
+                  {%- if section.settings.empty_link != blank -%}
+                    <a class="button button--secondary" href="{{ section.settings.empty_link }}">
+                      {{- section.settings.empty_link_label | escape -}}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {%- if section.settings.empty_collection != blank -%}
+                <section class="collection__alternatives" aria-labelledby="CollectionAlternatives">
+                  <h2 class="eyebrow eyebrow--quiet" id="CollectionAlternatives">
+                    {{- 'collections.near_alternatives' | t -}}
+                  </h2>
+                  <ul class="collection__grid" style="--columns: 3;">
+                    {%- for alternative in section.settings.empty_collection.products limit: 3 -%}
+                      <li>
+                        {% render 'product-card',
+                          product: alternative,
+                          number: forloop.index,
+                          image_height: 220,
+                          sizes: '(min-width: 990px) 25vw, 45vw',
+                          heading_size: 'card__title--sm'
+                        %}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </section>
+              {%- endif -%}
+            {%- else -%}
+              <ul class="collection__grid" id="ProductGrid" style="--columns: {{ columns }};">
+                {%- for product in collection.products -%}
+                  {%- liquid
+                    assign card_loading = 'lazy'
+                    if forloop.index <= columns
+                      assign card_loading = 'eager'
+                    endif
+                  -%}
+                  <li>
+                    {% render 'product-card',
+                      product: product,
+                      number: forloop.index,
+                      image_height: section.settings.image_height,
+                      loading: card_loading,
+                      sizes: '(min-width: 990px) 30vw, 45vw'
+                    %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              {% render 'pagination',
+                paginate: paginate,
+                label: 'Collection pages',
+                anchor: '#ProductGrid'
+              %}
+            {%- endif -%}
+          {%- endpaginate -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%}
+    The sheet is an empty shell. `facets.js` never duplicates the controls --
+    the sidebar node itself is moved in and out of it, so there is one set of
+    inputs and one source of truth.
+  {%- endcomment -%}
+  <aurelia-overlay id="FilterSheet" class="overlay overlay--bottom collection__sheet">
+    <button class="overlay__scrim" type="button" data-overlay-close>
+      <span class="visually-hidden">{{ 'general.close' | t }}</span>
+    </button>
+    <div class="overlay__sheet" role="dialog" aria-modal="true" aria-labelledby="FilterSheetTitle">
+      <div class="collection__sheet-head">
+        <h2 class="eyebrow eyebrow--quiet" id="FilterSheetTitle">{{ 'collections.filters' | t }}</h2>
+        <button class="collection__sheet-close" type="button" data-overlay-close>
+          <span class="visually-hidden">{{ 'general.close' | t }}</span>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="collection__sheet-body" data-facets-slot></div>
+    </div>
+  </aurelia-overlay>
+</aurelia-facets>
+
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+{% stylesheet %}
+  .collection {
+    display: block;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .collection__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-block: var(--space-9) var(--space-24);
+  }
+
+  .collection__layout {
+    display: grid;
+    grid-template-columns: 238px minmax(0, 1fr);
+    gap: var(--space-13);
+    align-items: start;
+  }
+
+  .collection__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+  }
+
+  .collection__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-13) var(--space-9);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .collection__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    max-width: 38.75rem;
+    padding: var(--space-9);
+    border: 1px solid var(--hairline-group);
+  }
+
+  .collection__empty-heading {
+    font-size: var(--text-display-sm);
+    line-height: 1.18;
+  }
+
+  .collection__empty-body {
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+
+  .collection__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .collection__alternatives {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-block-start: var(--space-9);
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection__layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-5);
+    }
+
+    /* The sidebar is not hidden -- it is relocated into the sheet by script.
+       Left in place with no script, it simply sits above the grid. */
+    .collection__sidebar--sticky {
+      position: static;
+    }
+
+    .collection__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8) var(--space-4);
+    }
+
+    .collection__empty {
+      padding: var(--space-6);
+    }
+  
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.product_grid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:labels.products_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 388
+    },
+    {
+      "type": "header",
+      "content": "t:general.filtering"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "t:labels.enable_filtering",
+      "info": "t:info.enable_filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "t:labels.enable_sorting",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_sidebar",
+      "label": "t:labels.sticky_sidebar",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:general.empty_state"
+    },
+    {
+      "type": "text",
+      "id": "empty_heading",
+      "label": "t:labels.heading",
+      "default": "Nothing matches both filters."
+    },
+    {
+      "type": "richtext",
+      "id": "empty_body",
+      "label": "t:labels.text",
+      "default": "<p>It is the pair that empties the shelf. Clear one of them, or ask us to make the piece you had in mind.</p>"
+    },
+    {
+      "type": "text",
+      "id": "empty_link_label",
+      "label": "t:labels.button_label",
+      "default": "Ask for a commission"
+    },
+    {
+      "type": "url",
+      "id": "empty_link",
+      "label": "t:labels.button_link"
+    },
+    {
+      "type": "collection",
+      "id": "empty_collection",
+      "label": "t:labels.alternatives",
+      "info": "t:info.alternatives"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}

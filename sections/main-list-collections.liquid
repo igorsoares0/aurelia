@@ -1,0 +1,172 @@
+{% comment %}
+  All collections, two up.
+
+  The caption row under each image is the pattern the theme uses everywhere a
+  name needs a number beside it: name left, count right, a hairline underneath
+  holding them together.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-collection-card' %}
+
+<div class="collection-list-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="collection-list-page__inner">
+      <div class="collection-list-page__head">
+        <h1 class="collection-list-page__title">{{ page_title }}</h1>
+        {%- if section.settings.intro != blank -%}
+          <div class="collection-list-page__intro rte">{{ section.settings.intro }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- paginate collections by section.settings.collections_per_page -%}
+        <ul class="collection-list-page__grid" style="--columns: {{ section.settings.columns }};">
+          {%- for collection in collections -%}
+            {%- liquid
+              assign collection_alt = collection.featured_image.alt | default: collection.title
+              assign card_loading = 'lazy'
+              if forloop.index <= section.settings.columns
+                assign card_loading = 'eager'
+              endif
+            -%}
+            <li class="collection-card">
+              {% render 'image',
+                image: collection.featured_image,
+                alt: collection_alt,
+                height: section.settings.image_height,
+                sizes: '(min-width: 750px) 45vw, 90vw',
+                loading: card_loading,
+                placeholder: 'collection-1',
+                url: collection.url,
+                class: 'collection-card__media'
+              %}
+
+              <div class="collection-card__caption">
+                <h2 class="collection-card__title">
+                  <a class="collection-card__link" href="{{ collection.url }}">{{ collection.title | escape }}</a>
+                </h2>
+                {%- if section.settings.show_count -%}
+                  <p class="collection-card__count">
+                    {%- if collection.all_products_count == 1 -%}
+                      {{ 'collections.product_count_one' | t }}
+                    {%- else -%}
+                      {{ 'collections.product_count' | t: count: collection.all_products_count }}
+                    {%- endif -%}
+                  </p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {% render 'pagination', paginate: paginate, label: 'Collection pages' %}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .collection-list-page {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .collection-list-page__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-11);
+    padding-block: var(--space-11) var(--space-24);
+  }
+
+  .collection-list-page__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .collection-list-page__title {
+    font-size: var(--text-display-lg);
+    line-height: 1.08;
+  }
+
+  .collection-list-page__intro {
+    max-width: 32.5rem;
+    font-size: var(--text-body);
+    line-height: 1.75;
+  }
+
+  .collection-list-page__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-8);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-list-page__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collection_list",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:labels.intro",
+      "default": "<p>Each chapter is twelve pieces, made once and then closed.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "label": "t:labels.collections_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "t:labels.show_count",
+      "default": true
+    }
+  ],
+  "enabled_on": {
+    "templates": ["list-collections"]
+  }
+}
+{% endschema %}

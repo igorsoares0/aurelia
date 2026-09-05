@@ -1,0 +1,112 @@
+{% doc %}
+  Renders the country/region and language selectors.
+
+  Both are native `<select>` elements inside a real form, so they work with the
+  keyboard, with a screen reader and with JavaScript switched off. The submit
+  button stays in the markup and is hidden only once `localization.js` has taken
+  over the change event -- a selector that silently does nothing without
+  JavaScript is worse than one extra button.
+
+  Renders nothing when a store has only one country and one language, which is
+  most stores.
+
+  @param {string} [id] - Prefix for the field ids, so header and footer copies do not collide
+  @param {string} [class] - Extra classes for the wrapper
+
+  @example
+  {% render 'localization-form', id: 'FooterLocalization' %}
+{% enddoc %}
+
+{% liquid
+  assign prefix = id | default: 'Localization'
+  assign show_country = false
+  assign show_language = false
+
+  if localization.available_countries.size > 1
+    assign show_country = true
+  endif
+  if localization.available_languages.size > 1
+    assign show_language = true
+  endif
+%}
+
+{%- if show_country or show_language -%}
+  <div class="localization {{ class }}">
+    {%- if show_country -%}
+      {% form 'localization', class: 'localization__form' %}
+        <div class="field">
+          <label class="field__label" for="{{ prefix }}-country">
+            {{- 'localization.country_label' | t -}}
+          </label>
+          <select
+            class="field__select localization__select"
+            id="{{ prefix }}-country"
+            name="country_code"
+            data-localization-select
+          >
+            {{ form.country_option_tags }}
+          </select>
+        </div>
+        <button class="button button--secondary localization__submit" type="submit">
+          {{- 'localization.update' | t -}}
+        </button>
+      {% endform %}
+    {%- endif -%}
+
+    {%- if show_language -%}
+      {% form 'localization', class: 'localization__form' %}
+        <div class="field">
+          <label class="field__label" for="{{ prefix }}-language">
+            {{- 'localization.language_label' | t -}}
+          </label>
+          <select
+            class="field__select localization__select"
+            id="{{ prefix }}-language"
+            name="locale_code"
+            data-localization-select
+          >
+            {{ form.language_option_tags }}
+          </select>
+        </div>
+        <button class="button button--secondary localization__submit" type="submit">
+          {{- 'localization.update' | t -}}
+        </button>
+      {% endform %}
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% javascript %}
+  document.addEventListener('change', (event) => {
+    const select = event.target.closest('[data-localization-select]');
+    if (!select) return;
+    select.form.submit();
+  });
+
+  document.querySelectorAll('.localization__form').forEach((form) => {
+    form.classList.add('localization__form--auto');
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .localization {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .localization__form {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
+  .localization__select {
+    min-width: 10rem;
+  }
+
+  /* The button only disappears once the change handler above is running. */
+  .localization__form--auto .localization__submit {
+    display: none;
+  }
+{% endstylesheet %}

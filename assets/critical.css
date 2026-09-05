@@ -1,0 +1,898 @@
+/**
+ * Critical CSS for the Aurelia theme. Included on every page.
+ *
+ * Everything here is expressed against the tokens emitted by
+ * snippets/css-variables.liquid. Two rules in this file are load-bearing and
+ * fail silently if removed: the `label:focus-within > span` outline, which is
+ * the only focus indicator the option pickers have, and the `white-space:
+ * nowrap` on tracked uppercase labels, which is what stops "Add to bag" from
+ * wrapping when a merchant substitutes the font.
+ *
+ * There is no border-radius in this theme except the swatch dot, and exactly
+ * one box-shadow, under a sheet floating above the page.
+ */
+
+/* --------------------------------------------------------------------------
+   Reset -- after https://www.joshwcomeau.com/css/custom-css-reset/
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100svh;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(dialog[scroll-lock][open], details[scroll-lock][open]),
+html.overlay-open {
+  overflow: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  color: inherit;
+  border-radius: 0;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+select {
+  background-color: var(--color-background);
+  color: currentcolor;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p:empty {
+  display: none;
+}
+
+:is(p, h1, h2, h3, h4, h5, h6):first-child,
+:empty:first-child + :where(p, h1, h2, h3, h4, h5, h6) {
+  margin-block-start: 0;
+}
+
+:is(p, h1, h2, h3, h4, h5, h6):last-child,
+:where(p, h1, h2, h3, h4, h5, h6) + :has(+ :empty:last-child) {
+  margin-block-end: 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--font-body--family);
+  font-style: var(--font-body--style);
+  font-weight: var(--font-body--weight);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/**
+ * Headings are visually distinct from one another by size and leading, never
+ * by weight alone -- one of the preset faces (Prata) ships a single weight.
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3 {
+  font-family: var(--font-heading--family);
+  font-style: var(--font-heading--style);
+  font-weight: var(--font-heading--weight);
+  color: var(--color-heading);
+  text-wrap: balance;
+}
+
+h1,
+.h1 {
+  font-size: var(--text-display-2xl);
+  line-height: var(--leading-display);
+  letter-spacing: -0.01em;
+}
+
+h2,
+.h2 {
+  font-size: var(--text-display-sm);
+  line-height: var(--leading-heading);
+}
+
+h3,
+.h3 {
+  font-size: var(--text-title);
+  line-height: var(--leading-title);
+}
+
+h4 {
+  font-size: var(--text-title-sm);
+  line-height: var(--leading-title);
+}
+
+h5 {
+  font-size: var(--text-body-md);
+  line-height: var(--leading-title);
+}
+
+h6 {
+  font-size: var(--text-body);
+  line-height: var(--leading-title);
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: color var(--motion-hover) ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+strong,
+b {
+  font-weight: var(--font-body--weight-bold);
+}
+
+/* --------------------------------------------------------------------------
+   Focus. The second rule is the one that breaks silently.
+   -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 3px;
+}
+
+/**
+ * Option pickers hide the real <input> and style a visible <span>, so the ring
+ * has to be drawn on that child. Lose this and the primary buy control becomes
+ * invisible to keyboard users.
+ */
+label:focus-within > span,
+label:has(:focus-visible) > span {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-background);
+  color: var(--color-heading);
+  border: 1px solid var(--color-heading);
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Section layout. Inherited from the Skeleton theme -- a three-column grid
+   that constrains children by default and lets `.full-width` escape to the
+   viewport edge. Sections depend on this; do not replace it.
+   -------------------------------------------------------------------------- */
+
+.shopify-section {
+  --content-width: min(
+    calc(var(--page-width) - var(--page-margin) * 2),
+    calc(100% - var(--page-margin) * 2)
+  );
+  --content-margin: minmax(var(--page-margin), 1fr);
+  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--content-grid);
+  width: 100%;
+}
+
+.shopify-section > * {
+  grid-column: 2;
+}
+
+.shopify-section > .full-width {
+  grid-column: 1 / -1;
+}
+
+/* A full-bleed band that re-establishes the content column inside itself. */
+.band {
+  display: grid;
+  grid-template-columns: var(--content-grid);
+}
+
+.band > * {
+  grid-column: 2;
+}
+
+.band > .full-width {
+  grid-column: 1 / -1;
+}
+
+/* Vertical rhythm between home sections: 80/96, 110 around a lone statement. */
+.section-padding {
+  padding-block: var(--space-20);
+}
+
+.section-padding--loose {
+  padding-block: var(--space-24);
+}
+
+.section-padding--statement {
+  padding-block: var(--space-27) var(--space-24);
+}
+
+@media screen and (max-width: 749px) {
+  .section-padding,
+  .section-padding--loose,
+  .section-padding--statement {
+    padding-block: var(--space-16);
+  }
+
+  
+  
+  
+  
+  
+  }
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Type utilities
+   -------------------------------------------------------------------------- */
+
+/**
+ * Uppercase plus wide tracking is exactly what wraps when a merchant swaps the
+ * font, so every tracked label refuses to wrap. Never below 12px.
+ */
+.eyebrow {
+  font-family: var(--font-body--family);
+  font-size: var(--text-label);
+  font-weight: var(--font-body--weight-medium);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-accent);
+}
+
+.eyebrow--wide {
+  letter-spacing: var(--tracking-label-wide);
+}
+
+.eyebrow--quiet {
+  color: var(--color-secondary);
+}
+
+.caption {
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  color: var(--color-secondary);
+}
+
+.detail {
+  font-size: var(--text-detail);
+  line-height: 1.5;
+  color: var(--color-secondary);
+}
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+}
+
+/* Display headlines are constrained in em of their own size -- never in ch,
+   which resolves against the inherited body font and drifts on substitution. */
+.measure-display {
+  max-width: 14em;
+}
+
+.measure-lead {
+  max-width: 32.5rem;
+}
+
+.measure-body {
+  max-width: 52ch;
+}
+
+/* --------------------------------------------------------------------------
+   Rich text (RTE). Styled consistently wherever merchant HTML lands.
+   -------------------------------------------------------------------------- */
+
+.rte > * + * {
+  margin-block-start: var(--space-4);
+}
+
+.rte :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--space-8);
+}
+
+.rte :is(ul, ol) {
+  padding-inline-start: var(--space-5);
+}
+
+.rte li + li {
+  margin-block-start: var(--space-2);
+}
+
+.rte blockquote {
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--hairline-group);
+  font-family: var(--font-heading--family);
+  font-size: var(--text-title-lg);
+  line-height: 1.4;
+  color: var(--color-heading);
+}
+
+.rte a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.rte img {
+  height: auto;
+}
+
+.rte table {
+  display: block;
+  overflow-x: auto;
+}
+
+.rte :is(th, td) {
+  padding: var(--space-3) var(--space-4);
+  border-block-end: 1px solid var(--hairline-row);
+  text-align: start;
+}
+
+.rte th {
+  font-weight: var(--font-body--weight-medium);
+  color: var(--color-heading);
+  border-block-end: 1.5px solid var(--color-heading);
+}
+
+/* --------------------------------------------------------------------------
+   Hairlines
+   -------------------------------------------------------------------------- */
+
+.hairline-top {
+  border-block-start: 1px solid var(--hairline-section);
+}
+
+.hairline-bottom {
+  border-block-end: 1px solid var(--hairline-section);
+}
+
+.hairline-row {
+  border-block-end: 1px solid var(--hairline-row);
+}
+
+.hairline-group {
+  border-block-end: 1px solid var(--hairline-group);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons. Primary 52, secondary 48, everything else 44 minimum.
+   Never more than one filled button in a view.
+   -------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--control-height-secondary);
+  padding-inline: var(--space-6);
+  font-family: var(--font-body--family);
+  font-size: var(--text-label);
+  font-weight: var(--font-body--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: color var(--motion-hover) ease, background-color var(--motion-hover) ease,
+    border-color var(--motion-hover) ease;
+}
+
+.button--primary {
+  min-height: var(--control-height-primary);
+  background-color: var(--color-button);
+  color: var(--color-button-label);
+  border-color: var(--color-button);
+}
+
+.button--primary:hover {
+  background-color: transparent;
+  color: var(--color-heading);
+  border-color: var(--color-heading);
+}
+
+.button--secondary {
+  background-color: transparent;
+  color: var(--color-heading);
+  border-color: var(--color-heading);
+}
+
+.button--secondary:hover {
+  background-color: var(--color-heading);
+  color: var(--color-background);
+}
+
+.button--quiet {
+  min-height: var(--tap-target);
+  padding-inline: 0;
+  background: none;
+  color: var(--color-heading);
+  border-color: transparent;
+}
+
+.button--quiet:hover {
+  color: var(--color-accent);
+}
+
+.button--full {
+  width: 100%;
+}
+
+.button[disabled],
+.button[aria-disabled='true'] {
+  cursor: not-allowed;
+  background-color: var(--color-well);
+  color: var(--color-secondary);
+  border-color: var(--hairline-control);
+}
+
+/* A link that reads as a link and still clears the touch-target floor. */
+.link-inline {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.link-tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   Fields. A placeholder is an example, never a label.
+   -------------------------------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: var(--text-label);
+  font-weight: var(--font-body--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-heading);
+}
+
+.field__input,
+.field__select,
+.field__textarea {
+  min-height: var(--field-height);
+  padding: var(--space-3) var(--field-padding-inline);
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--hairline-control);
+  transition: border-color var(--motion-hover) ease;
+}
+
+.field__textarea {
+  min-height: calc(var(--field-height) * 2.5);
+  resize: vertical;
+}
+
+.field__input:hover,
+.field__select:hover,
+.field__textarea:hover {
+  border-color: var(--hairline-selected);
+}
+
+.field__input::placeholder,
+.field__textarea::placeholder {
+  color: var(--color-secondary);
+  opacity: 1;
+}
+
+.field__error {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-detail);
+  color: var(--color-error-text);
+}
+
+[aria-invalid='true'] {
+  border-color: var(--color-error-rule);
+  border-width: 1.5px;
+}
+
+.form-error-summary {
+  padding: var(--space-4);
+  border: 1px solid var(--color-error-rule);
+  border-inline-start-width: 1.5px;
+  color: var(--color-error-text);
+  font-size: var(--text-detail);
+}
+
+/* --------------------------------------------------------------------------
+   Badges and status messages
+   -------------------------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-label);
+  font-weight: var(--font-body--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid var(--hairline-group);
+  color: var(--color-heading);
+}
+
+.badge--sold-out {
+  background-color: var(--color-tint);
+  color: var(--color-secondary);
+}
+
+.badge--progress {
+  background-color: var(--color-progress-background);
+  color: var(--color-progress-text);
+  border-color: transparent;
+}
+
+.callout {
+  padding: var(--space-4);
+  background-color: var(--color-tint);
+  font-size: var(--text-detail);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Media. Every ratio holds its box so a varying aspect ratio never breaks the
+   grid, and the well shows through before the photo loads.
+   -------------------------------------------------------------------------- */
+
+.media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background-color: var(--color-well);
+}
+
+.media > :is(img, svg, video, iframe) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media--square {
+  aspect-ratio: 1 / 1;
+}
+
+.media--portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.media--tall {
+  aspect-ratio: 4 / 5;
+}
+
+.media--wide {
+  aspect-ratio: 3 / 2;
+}
+
+.media--natural {
+  aspect-ratio: auto;
+}
+
+.media--natural > :is(img, svg, video, iframe) {
+  position: static;
+  height: auto;
+  object-fit: contain;
+}
+
+.media__placeholder {
+  fill: var(--color-secondary);
+  opacity: 0.35;
+}
+
+/* --------------------------------------------------------------------------
+   Rails. Horizontal scroll with snap, always keyboard reachable and always
+   announced with a non-gesture alternative. Never autoplays.
+   -------------------------------------------------------------------------- */
+
+.rail {
+  display: flex;
+  gap: var(--space-9);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rail > * {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal. Opacity and a 20px rise, nothing else. The `js` guard means
+   the content is visible when JavaScript never runs.
+   -------------------------------------------------------------------------- */
+
+.js [data-reveal][hidden-until-revealed] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+[data-reveal] {
+  transition: opacity var(--motion-reveal) var(--ease-reveal),
+    transform var(--motion-reveal) var(--ease-reveal);
+}
+
+[data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Sheets and drawers. The only shadow in the theme lives here.
+   -------------------------------------------------------------------------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  visibility: hidden;
+}
+
+.overlay[data-open] {
+  visibility: visible;
+}
+
+.overlay__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(22 19 15 / 40%);
+  opacity: 0;
+  transition: opacity var(--motion-sheet) var(--ease-sheet);
+  border: 0;
+  width: 100%;
+}
+
+.overlay[data-open] .overlay__scrim {
+  opacity: 1;
+}
+
+.overlay__sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 100svh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sheet);
+  transition: transform var(--motion-sheet) var(--ease-sheet);
+}
+
+.overlay--end .overlay__sheet {
+  margin-inline-start: auto;
+  width: min(28rem, 100vw);
+  height: 100svh;
+  transform: translateX(100%);
+}
+
+.overlay--top .overlay__sheet {
+  width: 100%;
+  transform: translateY(-100%);
+}
+
+.overlay--bottom .overlay__sheet {
+  margin-block-start: auto;
+  width: 100%;
+  max-height: 85svh;
+  transform: translateY(100%);
+}
+
+.overlay[data-open] .overlay__sheet {
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Account pages. Shared by login, register, reset, activate, account, order
+   and addresses -- each of those templates renders exactly one section, so
+   these rules cannot live in any single section's stylesheet.
+   -------------------------------------------------------------------------- */
+
+.account-page {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Line-item tables. Shared by the cart page and the order detail page.
+   -------------------------------------------------------------------------- */
+
+.cart-table__caption {
+  padding-block-end: var(--space-3);
+  font-size: var(--text-label);
+  font-weight: var(--font-body--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-align: start;
+  color: var(--color-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Cart totals. Shared by the drawer, the cart page and order detail.
+   -------------------------------------------------------------------------- */
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Collection cards. Shared by the all-collections page and the home page's
+   collection list, which are never rendered together.
+   -------------------------------------------------------------------------- */
+.collection-card {
+  position: relative;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Chips. Applied filters on collection and search, topic filters on the
+   journal and on an article -- none of which render each other's files.
+   -------------------------------------------------------------------------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Negative margins keep the target at 44px without padding the chip out. */
+.chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  margin-inline: calc(var(--space-1) * -1) calc(var(--space-3) * -1);
+  text-decoration: none;
+  color: var(--color-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Faceted browsing chrome -- the sidebar, the mobile Filter bar and the
+   bottom sheet. Shared by the collection grid and the search results page,
+   which never render each other's sections.
+   -------------------------------------------------------------------------- */
+.collection__sidebar-home {
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Motion suppression. Every animation is off, and the reveal is forced open so
+   print, PDF and thumbnail captures are never blank.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js [data-reveal][hidden-until-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media print {
+  .js [data-reveal][hidden-until-revealed],
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .overlay,
+  .skip-link {
+    display: none !important;
+  }
+
+  
+  
+  
+  
+  
+  }

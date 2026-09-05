@@ -1,0 +1,47 @@
+{% comment %}
+  A place for app blocks to live on any template.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="apps color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="apps__inner section-padding">
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          {% render block %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .apps {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .apps__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.apps",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "presets": [{ "name": "t:general.apps", "category": "t:general.cat_content" }]
+}
+{% endschema %}

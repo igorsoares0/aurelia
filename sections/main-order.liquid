@@ -1,0 +1,388 @@
+{% comment %}
+  Order detail. The making progress is the page.
+
+  The four steps are an `<ol>`, because they are ordered and finite, and the
+  step in progress carries `aria-current="step"`. Each step's state is also
+  written out in words under its label -- "Done", "In progress", "Not started"
+  -- so the accent rule is never the only thing carrying the information.
+
+  Step state is derived from the order Shopify actually has: it exists, it is
+  paid, it is fulfilled. The labels are merchant-editable so a workshop can
+  describe those states in its own terms without the theme inventing data it
+  cannot see.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-cart-table' %}
+{% render 'styles-cart-summary' %}
+
+{% render 'styles-account' %}
+
+{% liquid
+  assign paid = false
+  if order.financial_status == 'paid' or order.financial_status == 'partially_refunded' or order.financial_status == 'refunded'
+    assign paid = true
+  endif
+
+  assign shipped = false
+  if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial'
+    assign shipped = true
+  endif
+%}
+
+<div class="account-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="account-page__inner">
+      <a class="link-tap link-inline" href="{{ routes.account_url }}">
+        <span aria-hidden="true">&larr;</span>
+        {{ 'customers.account.title' | t }}
+      </a>
+
+      <div class="account-page__head">
+        <h1 class="account-page__name">{{ 'customers.order.title_html' | t: name: order.name }}</h1>
+        <p class="account-page__email">
+          {{ 'customers.order.placed_on_html' | t: date: order.created_at | date: format: 'date' }}
+        </p>
+      </div>
+
+      {%- if order.cancelled -%}
+        <div class="form-error-summary" role="status">
+          {{ 'customers.order.cancelled_html' | t: date: order.cancelled_at | date: format: 'date' }}
+          {{ order.cancel_reason_label }}
+        </div>
+      {%- else -%}
+        <section class="progress" aria-labelledby="OrderProgress">
+          <h2 class="eyebrow eyebrow--quiet" id="OrderProgress">{{ 'customers.order.progress' | t }}</h2>
+
+          <ol class="progress__steps">
+            {%- liquid
+              assign step_1_state = 'done'
+
+              if paid
+                assign step_2_state = 'done'
+              else
+                assign step_2_state = 'current'
+              endif
+
+              if shipped
+                assign step_3_state = 'done'
+              elsif paid
+                assign step_3_state = 'current'
+              else
+                assign step_3_state = 'pending'
+              endif
+
+              if shipped
+                assign step_4_state = 'current'
+              else
+                assign step_4_state = 'pending'
+              endif
+            -%}
+
+            {%- assign step_labels = section.settings.step_labels | split: ',' -%}
+
+            {%- for index in (1..4) -%}
+              {%- liquid
+                case index
+                  when 1
+                    assign state = step_1_state
+                  when 2
+                    assign state = step_2_state
+                  when 3
+                    assign state = step_3_state
+                  when 4
+                    assign state = step_4_state
+                endcase
+
+                assign label_index = index | minus: 1
+                assign label = step_labels[label_index] | strip
+
+                case state
+                  when 'done'
+                    assign state_text = 'customers.order.step_done' | t
+                  when 'current'
+                    assign state_text = 'customers.order.step_current' | t
+                  else
+                    assign state_text = 'customers.order.step_pending' | t
+                endcase
+              -%}
+              <li
+                class="progress__step progress__step--{{ state }}"
+                {% if state == 'current' %}aria-current="step"{% endif %}
+              >
+                <p class="progress__label">{{ label }}</p>
+                <p class="progress__state">{{ state_text }}</p>
+              </li>
+            {%- endfor -%}
+          </ol>
+
+          {%- if section.settings.progress_note != blank -%}
+            <p class="progress__note" role="status">{{ section.settings.progress_note }}</p>
+          {%- endif -%}
+        </section>
+      {%- endif -%}
+
+      <div class="order__layout">
+        <section class="order__items" aria-labelledby="OrderItems">
+          <h2 class="eyebrow eyebrow--quiet" id="OrderItems">{{ 'customers.order.items' | t }}</h2>
+
+          <table class="cart-table">
+            <caption class="visually-hidden">{{ 'customers.order.items' | t }}</caption>
+            <thead>
+              <tr class="cart-table__head-row">
+                <th class="cart-table__th" scope="col">{{ 'cart.piece' | t }}</th>
+                <th class="cart-table__th" scope="col">{{ 'cart.quantity' | t }}</th>
+                <th class="cart-table__th cart-table__th--end" scope="col">{{ 'cart.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for line in order.line_items -%}
+                {%- liquid
+                  assign line_alt = line.image.alt | default: line.title
+                  assign piece_number = line.product.metafields.custom.piece_number.value
+                -%}
+                <tr class="cart-table__row">
+                  <td class="cart-table__cell">
+                    <div class="cart-table__piece">
+                      {% render 'image',
+                        image: line.image,
+                        alt: line_alt,
+                        ratio: 'media--tall',
+                        sizes: '96px',
+                        placeholder: 'product-1'
+                      %}
+                      <div class="cart-table__detail">
+                        <h3 class="cart-table__title">
+                          {%- if line.product.url != blank -%}
+                            <a href="{{ line.product.url }}">{{ line.title | escape }}</a>
+                          {%- else -%}
+                            {{ line.title | escape }}
+                          {%- endif -%}
+                        </h3>
+                        {%- unless line.product.has_only_default_variant -%}
+                          <p class="cart-table__meta">{{ line.variant.title }}</p>
+                        {%- endunless -%}
+                        {%- for property in line.properties -%}
+                          {%- liquid
+                            assign first_char = property.first | slice: 0
+                            if first_char == '_' or property.last == blank
+                              continue
+                            endif
+                          -%}
+                          <p class="cart-table__meta">{{ property.first }}: {{ property.last }}</p>
+                        {%- endfor -%}
+                        {%- if piece_number != blank -%}
+                          <p class="cart-table__meta">
+                            {{ 'products.piece_number_html' | t: number: piece_number }}
+                          </p>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </td>
+                  <td class="cart-table__cell">{{ line.quantity }}</td>
+                  <td class="cart-table__cell cart-table__cell--end">{{ line.final_line_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </section>
+
+        <aside class="order__aside">
+          <section class="order__box" aria-labelledby="OrderSummary">
+            <h2 class="eyebrow eyebrow--quiet" id="OrderSummary">{{ 'customers.order.summary' | t }}</h2>
+            <div class="cart-summary">
+              <div class="cart-summary__row">
+                <span>{{ 'cart.subtotal' | t }}</span>
+                <span>{{ order.line_items_subtotal_price | money }}</span>
+              </div>
+              {%- for discount in order.cart_level_discount_applications -%}
+                <div class="cart-summary__row cart-summary__row--discount">
+                  <span>{{ discount.title }}</span>
+                  <span>&minus;{{ discount.total_allocated_amount | money }}</span>
+                </div>
+              {%- endfor -%}
+              {%- for shipping_method in order.shipping_methods -%}
+                <div class="cart-summary__row">
+                  <span>{{ shipping_method.title }}</span>
+                  <span>{{ shipping_method.price | money }}</span>
+                </div>
+              {%- endfor -%}
+              <div class="cart-summary__row cart-summary__row--quiet">
+                <span>{{ 'customers.order.tax' | t }}</span>
+                <span>{{ order.tax_price | money }}</span>
+              </div>
+              <div class="cart-summary__row cart-summary__row--total">
+                <span>{{ 'cart.total' | t }}</span>
+                <span>{{ order.total_net_amount | money_with_currency }}</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="order__box" aria-labelledby="OrderAddress">
+            <h2 class="eyebrow eyebrow--quiet" id="OrderAddress">
+              {{- 'customers.order.shipping_address' | t -}}
+            </h2>
+            <address class="order__address">{{ order.shipping_address | format_address }}</address>
+            {%- unless shipped -%}
+              <p class="order__address-note">
+                {{ 'customers.order.address_editable' | t }}
+                <a class="link-inline" href="{{ routes.account_addresses_url }}">
+                  {{- 'customers.account.addresses' | t -}}
+                </a>
+              </p>
+            {%- endunless -%}
+          </section>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .progress__steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .progress__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5) 0 0;
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .progress__step--done {
+    border-block-start: 1.5px solid var(--color-heading);
+  }
+
+  .progress__step--current {
+    border-block-start: 1.5px solid var(--color-accent);
+  }
+
+  .progress__label {
+    font-size: var(--text-label);
+    font-weight: var(--font-body--weight-medium);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-heading);
+  }
+
+  .progress__step--current .progress__label {
+    color: var(--color-accent);
+  }
+
+  .progress__step--pending .progress__label {
+    color: var(--color-secondary);
+  }
+
+  /* The state is written out, so the accent rule is never the only signal. */
+  .progress__state {
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .progress__note {
+    padding: var(--space-4);
+    max-width: 70ch;
+    background-color: var(--color-tint);
+    border-inline-start: 3px solid var(--color-accent);
+    font-size: var(--text-detail);
+    line-height: 1.7;
+  }
+
+  .order__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: var(--space-13);
+    align-items: start;
+  }
+
+  .order__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .order__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .order__box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border: 1px solid var(--hairline-group);
+  }
+
+  .order__address {
+    font-style: normal;
+    font-size: var(--text-detail);
+    line-height: 1.75;
+  }
+
+  .order__address-note {
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 989px) {
+    .progress__steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4) var(--space-3);
+    }
+
+    .order__layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.order",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "text",
+      "id": "step_labels",
+      "label": "t:labels.step_labels",
+      "info": "t:info.step_labels",
+      "default": "Order placed, Materials drawn, At the bench, Shipped"
+    },
+    {
+      "type": "text",
+      "id": "progress_note",
+      "label": "t:labels.progress_note",
+      "default": "Each piece is made once it is ordered. We write when it leaves the bench."
+    }
+  ],
+  "enabled_on": {
+    "templates": ["customers/order"]
+  }
+}
+{% endschema %}
