@@ -1,5 +1,19 @@
 # Contributing to Skeleton Theme
 
+> **Inherited file — this is not Aurelia's contribution process.**
+>
+> Aurelia is built on Shopify's Skeleton theme, and this document came with it.
+> It describes contributing to Skeleton itself: the fork link below points at
+> `Shopify/skeleton-theme`, and the CLA is Shopify's.
+>
+> The "Standards" section in particular does **not** apply here. "This codebase
+> must be minimalist, not a fully featured theme" is Skeleton's goal, not
+> Aurelia's — Aurelia is a full commercial theme for the Theme Store, and adding
+> sections and templates to it is the work, not a violation.
+>
+> For how this theme is actually built, read `AGENTS.md` (the "This theme,
+> specifically" section) and `README.md`.
+
 ## How to contribute
 
 We ❤️ pull requests. If you'd like to fix a bug, contribute a feature, or just correct a typo, feel free to do so, as long as you follow our [Code of Conduct](./CODE_OF_CONDUCT.md).

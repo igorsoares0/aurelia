@@ -4,6 +4,47 @@ Work items for extending the theme. Each is independently shippable. Read
 `AGENTS.md` first; the invariants below are the ones people get wrong on this
 codebase specifically.
 
+## Status — 6 September 2026
+
+**Sections: all seven written and statically validated**, committed as
+`8902054 start 7 home sections`. Written and theme-check clean is not the same as
+accepted -- see the acceptance table below. **Templates: none started.**
+
+New files: `sections/{video-with-text,marquee,pinned-story,pairing,comparison,
+shop-by,edition}.liquid`, `snippets/{styles-ledger,video-facade}.liquid`,
+`assets/{video.js,edition.js}`.
+
+Changed: `assets/cart.js` (the pairing element, and the form-matching fix below),
+`sections/{main-product,featured-product,header}.liquid`,
+`snippets/{spec-ledger,styles-cart-table}.liquid`, both locale files,
+`templates/index.json` and all three `listings/*/templates/index.json`, `README.md`.
+
+**A defect fixed first, because it outranked the whole roadmap.**
+`settings.cart_type` had no effect anywhere in the theme. `<aurelia-product-form>`
+was defined in `cart.js` but used in no Liquid file, and nothing anywhere opened
+`CartDrawer` -- so the drawer was unreachable on every page, and every add-to-bag
+was a full-page POST even with `drawer` selected, which is the default. The AJAX
+path in `cart.js` had never run. Fixed by wrapping the buy control in
+`<aurelia-product-form>` in `main-product` and `featured-product`, and giving the
+header bag `data-overlay-open="CartDrawer"` when `cart_type` is `drawer`, keeping
+the href as the no-JS route.
+
+One trap came with it: `buy-buttons` renders a waitlist `{% form 'contact' %}` in
+its sold-out branch, and `AureliaProductForm` took the *first* form it found. It
+now matches `form[action*="/cart/add"]`, or a waitlist submission would have
+posted to the cart with no variant id.
+
+**Two things to confirm the moment the theme runs.** Neither is caught by theme
+check, and both fail quietly:
+
+1. `row.settings[value_key]` in `comparison.liquid:67,95` -- bracket access with a
+   variable key. Standard in Shopify themes, but the first use in this repo. If it
+   does not resolve, the comparison cells render empty.
+2. The marquee's `animation-play-state: paused` under `prefers-reduced-motion`.
+   `critical.css` forces `animation-duration: 0.01ms !important` with one
+   iteration, so without the override the band snaps to its end state and carries
+   the text off screen.
+
 ## Invariants for every item here
 
 - Styling reads tokens from `snippets/css-variables.liquid`. A section never
@@ -35,22 +76,33 @@ codebase specifically.
 - [ ] Body and label text at 4.5:1 on both `ground` and `ink`
 - [ ] Preset added to all three listings
 
+### Where the seven sections stand against it
+
+Theme check validates Liquid, schema and translations. It does not render
+anything, so it closes exactly one of these boxes. The rest need
+`shopify theme dev`.
+
+| Box | The seven sections |
+|---|---|
+| `theme check` clean | **Done.** 116 files, no offenses. |
+| Renders at defaults and with no blocks | Written for it, never rendered. |
+| Keyboard pass, 44px targets | Not tested. |
+| 200% zoom, 320px | Not tested. |
+| Nothing blank in print | Not tested. `marquee` and `video-with-text` are the two to watch. |
+| 4.5:1 on both schemes | Not measured. Built from tokens that already meet it, which is not the same thing. |
+| Preset in all three listings | **Three of seven.** Deliberate -- see "Where the seven were placed". The other four carry a schema preset, so they appear in Add section, but are not in any listing's home page. |
+
+Until that pass is run, the honest description is *written and statically
+validated*, not *accepted*.
+
 ---
 
 # Sections
 
-**All seven shipped.** `shopify theme check` clean. Three deviations from what is
-written below, each noted at its item: no autoplay on the video, two markups
-rather than one in the comparison, and only three of the seven placed on the
-home page.
-
-One thing found while building these, and fixed first because it outranked them:
-`settings.cart_type` had no effect anywhere. `<aurelia-product-form>` was defined
-in `cart.js` but used in no Liquid file, and nothing in the theme opened
-`CartDrawer` -- so the drawer was unreachable, and every add-to-bag was a
-full-page POST regardless of the setting. See `assets/cart.js`,
-`sections/main-product.liquid`, `sections/featured-product.liquid` and
-`sections/header.liquid`.
+**All seven written**, theme check clean, not yet run in a store -- see Status
+above. Three deviations from what is written below, each noted at its item: no
+autoplay on the video, two markups rather than one in the comparison, and only
+three of the seven placed on the home page.
 
 ## 1. `sections/video-with-text.liquid`
 
@@ -241,7 +293,16 @@ four ship with a schema preset only, which is what a merchant needs to find them
 
 # Templates
 
+**None started.** What follows is the original list, plus what each one was found
+to actually need when it was costed on 6 September 2026.
+
 `page.contact.json` and the generic `page.json` exist. These do not.
+
+**None of these is a submission requirement.** Shopify's template documentation is
+explicit: *"No template types are required. However, you must have a matching
+template for any page type that you want to render."* `MissingTemplate` already
+passes, so every page type the theme renders has a template. Everything below is
+merchandising value and demo quality, not a review gate.
 
 | Template | Notes |
 |---|---|
@@ -258,3 +319,63 @@ four ship with a schema preset only, which is what a merchant needs to find them
 Every new page template also needs seed data in `scripts/seed.mjs` so a
 development store renders it, and an entry in the listings presets where it
 belongs in the preset's story.
+
+## What each one actually costs
+
+Costed against the code as it stands, not against the notes above.
+
+**JSON only -- the settings already exist.** No Liquid, no CSS.
+
+- `blog.editorial.json` -- `main-blog` already carries `show_lead`, `columns`,
+  `image_height`, `show_excerpt`. The lead-article grid is a settings file.
+- `page.about.json` -- assembled from sections that exist, now including
+  `pinned-story`, which was built for this page.
+- `page.faq.json` -- `collapsible-content` already has `disclosures--sidebar`;
+  the anchors come from `main-page`'s `page--index`, which builds its index from
+  the real `<h2>` elements in the page body.
+- `page.gift-guide.json` -- `featured-collection` plus the new `shop-by`.
+
+**JSON plus one line of seed data.**
+
+- `page.care.json` -- **the trap.** The page the seed creates has handle
+  `care-and-repair` and **no `templateSuffix`** (`seed-data.mjs:357`); only
+  `contact` has one. Ship the template without adding `templateSuffix: 'care'`
+  and you get a file that is never applied to anything.
+
+**JSON plus a small amount of code.**
+
+- `product.made-to-order.json` -- most of it already exists: `main-product` has an
+  `engraving` block and `buy_buttons` takes `lead_time`. The only new code is the
+  lead-time row in the ledger, which today has four fixed rows fed from
+  metafields. Plus a `templateSuffix` on a seed product.
+- `page.stockists.json` -- needs a new section for address and hours as blocks.
+  The note above is right to refuse an embedded map: a third-party iframe on first
+  paint is exactly what costs the Lighthouse score that is actually measured.
+
+**Real work.**
+
+- `page.size-guide.json` -- printing a ring sizer at 1:1 means physical CSS units,
+  a 100%-scale warning and a calibration check. None of it shows up in Lighthouse
+  or in review; it is quality for the customer holding the paper.
+- `templates/metaobject/maker.json` -- the note above understates this. There is
+  **not one line of metaobject code anywhere in the repository**. It needs
+  definitions and seeding added to `seed.mjs`, a `metaobject_reference` metafield
+  (the type is currently decided by a hardcoded ternary at `seed.mjs:387`), the
+  template directory, a `METAFIELDS.md` entry -- and **new API scopes, which force
+  every existing user to re-run `--auth`**. Easier to ask that of merchants who
+  already have the theme than to do it mid-review.
+
+## Not in the original list
+
+- `templates/agents.md.liquid` -- a template type the theme does not have. Served
+  at `/agents.md`, described by Shopify as *"the canonical, agent-facing
+  description of the store, telling AI agents how to discover and transact with
+  it."* Optional and cheap, and the kind of thing that separates a current theme
+  from a dated one.
+
+## Suggested order
+
+The four JSON-only templates plus `page.care.json` in one short pass: five
+templates for very little work, and they improve the demo, which is what the
+submission is actually judged on. Then `agents.md.liquid`. Leave
+`metaobject/maker` until after the theme is published.

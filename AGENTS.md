@@ -4,6 +4,119 @@
 
 Use the [Shopify AI Toolkit](https://shopify.dev/docs/apps/build/ai-toolkit) for all Shopify API and platform work. If missing, install it in the agent host per that page (or `npx skills add Shopify/shopify-ai-toolkit --list` for skill-compatible hosts).
 
+## This theme, specifically
+
+Everything below this section is the generic Shopify guide. Aurelia diverges from
+it in ways that matter. **Where they conflict, this section wins.**
+
+### The section skeleton
+
+One file, in this order: a `{% comment %}` header carrying the prose rationale and
+the shopify.dev link, then any `{% render 'styles-*' %}`, then markup, then
+`{% stylesheet %}`, then `{% schema %}`. `sections/multicolumn.liquid` is the
+archetype; copy its shape.
+
+```liquid
+<div class="<block> color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div class="<block>__inner section-padding" {% if settings.motion_reveal %}data-reveal{% endif %}>
+```
+
+- `.band` re-establishes the content column inside a full-bleed band. A section
+  that must reach the viewport edge (`lookbook`, `marquee`) drops it and uses
+  `margin-inline: var(--page-margin)` on its own head and foot instead.
+- Vertical rhythm is the fixed utilities `.section-padding`, `--loose`,
+  `--statement`. Never a per-section padding range. Inline `style="--x: {{ … }}"`
+  is only for merchant-controlled numeric knobs the section's own CSS consumes.
+- `{{ section.shopify_attributes }}` is never used — `"tag": "section"` handles
+  it. `{{ block.shopify_attributes }}` goes last on each block's outer element.
+- Scroll reveal is opted into with exactly
+  `{% if settings.motion_reveal %}data-reveal{% endif %}` on the `__inner` div.
+- `| escape` on `text` and `textarea` settings; never on `richtext`.
+- Every image goes through `{% render 'image' %}` with `sizes` and a
+  `placeholder` — never a raw `<img>`. The placeholder is what makes a preset
+  render in the theme editor before anything is uploaded.
+
+### Shared CSS fails silently
+
+Shopify subsets `{% stylesheet %}` CSS to the files in a page's render tree, so
+two sections that never render together cannot borrow each other's CSS — the
+second one loses its styling with no error anywhere. Shared rules go in a style
+module, `snippets/styles-*.liquid`, rendered by every consumer.
+
+**A `ValidScopedCSSClass` warning from `shopify theme check` is that bug, not
+noise.** The module table is in `README.md`. This is the mistake that recurs most
+often in this codebase.
+
+### Translations
+
+Four schema namespaces, and only these:
+
+| Form | For |
+|---|---|
+| `t:general.*` | section names, block names, `preset_*`, `cat_*` |
+| `t:labels.*` | setting labels |
+| `t:info.*` | setting help text |
+| `t:options.<setting_id>.<value>` | select option labels |
+
+Storefront strings live in `locales/en.default.json`, grouped by page domain
+(`products`, `cart`, `accessibility`, …). Keys carrying HTML take an `_html`
+suffix — `ValidHTMLTranslation` is enabled. The schema locale is sorted
+alphabetically; the storefront one is in narrative order at the top level, so add
+to it without re-sorting.
+
+### Design constraints
+
+- Tokens come from `snippets/css-variables.liquid` and nowhere else. A section
+  never reads a theme setting for styling.
+- The spacing scale has holes: `--space-` 1 2 3 4 5 6 8 9 11 13 16 18 20 24 27.
+  There is no `--space-7`, `-10`, `-12`, `-14`, `-15`, `-17`, `-19`, `-21`.
+- Two breakpoints only, `max-width: 749px` and `max-width: 989px`. A mobile block
+  **restructures**; it does not shrink. Say what it restructures, in a comment.
+- No `border-radius` anywhere except the 16px swatch dot. Exactly one
+  `box-shadow` in the theme, already spent on overlays.
+- No libraries. Vanilla JS, deferred. `reveal.js`, `overlay.js` and `cart.js`
+  load from the layout on every page, and `predictive-search.js` does too when
+  the setting is on; every other script is loaded by the section that needs it,
+  as `main-product.liquid:199` does.
+- **No permanently dead control.** A sold-out product does not get a disabled
+  button, it gets a waitlist form; an unavailable option is dashed *and*
+  explained in words. A transient `disabled` while a request is in flight is
+  fine and is the existing pattern -- see `setPending` in `cart.js` and the
+  `[disabled]` styling in `critical.css`.
+
+### What follows does not apply here
+
+- **There is no `blocks/` directory and no theme blocks.** `"@theme"` and
+  `{% content_for 'blocks' %}` appear nowhere. Blocks are section-local schema
+  blocks, iterated with `{% for block in section.blocks %}`. Ignore the `block`
+  example near the end of this file.
+- **Only `en.default.json` and `en.default.schema.json` exist.** No other locales
+  to keep in sync.
+- The storefront key examples further down (`sections.featured_collection.title`)
+  are not this repo's convention — there is no `sections` group. Use the four
+  namespaces above.
+- `max_blocks` and `disabled_on` are used nowhere. Block-level `"limit"` is.
+
+### The bar this is aimed at
+
+Aurelia is being submitted to the Shopify Theme Store, and submission risk is the
+criterion for changes here — not craft, and not fidelity to a roadmap. Four facts
+worth having before proposing anything:
+
+- Lighthouse **≥60 performance and ≥90 accessibility**, averaged across home,
+  collection and product, desktop *and* mobile. Anything added to the home page
+  is measured.
+- The urgency ban is narrower than it reads: "**fictitious** countdown timers,
+  stock levels, or viewer activity counts". Real tracked stock, cross-selling,
+  animation and product videos are all supported feature tags. The app-like
+  prohibition means features *requiring API access*.
+- Whatever goes into `listings/*/templates/` becomes content the preset's demo
+  store has to show.
+- No template type is required.
+
+---
+
 ## Theme Architecture
 
 **Key principles: focus on generating snippets, blocks, and sections; users may create templates using the theme editor**

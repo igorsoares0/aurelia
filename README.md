@@ -18,7 +18,7 @@ shopify theme check
 ## Architecture
 
 ```
-assets/      critical.css, six deferred scripts, no libraries
+assets/      critical.css, eight deferred scripts, no libraries
 config/      settings_schema.json, settings_data.json (holds the three presets)
 layout/      theme.liquid, password.liquid
 listings/    per-preset template variants for the Theme Store submission

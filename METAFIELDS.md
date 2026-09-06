@@ -11,8 +11,8 @@ Define them in **Settings → Custom data → Products** in the Shopify admin.
 
 | Namespace and key | Type | Where it appears |
 |---|---|---|
-| `custom.piece_number` | Single line text | The eyebrow on a product card and on the product page (`No. 04`); the order detail line; the care record on the account page |
-| `custom.piece_total` | Single line text | Pairs with `piece_number` on the product page to read `No. 04 / 24` |
+| `custom.piece_number` | Single line text | The eyebrow on a product card, on the product page and on the edition section (`No. 04`); the order detail line; the care record on the account page |
+| `custom.piece_total` | Single line text | Pairs with `piece_number` on the product page and the edition section to read `No. 04 / 24`; the edition section also uses it for the pieces-remaining line |
 | `custom.specification` | Single line text | The line under the title on a product card |
 | `custom.material` | Single line text | The **Material** row of the specification ledger |
 | `custom.face` | Single line text | The **Face** row — dimensions and finish |
