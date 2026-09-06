@@ -1,0 +1,321 @@
+{% comment %}
+  A numbered edition: the piece, the date the chapter closes, and how many are
+  left.
+
+  Two rules govern what this section is allowed to say. The count comes from
+  real tracked inventory or it does not appear -- there is no fallback number
+  and no "only a few left". And the countdown is rendered on the server, so the
+  page is correct with JavaScript off; `edition.js` only keeps it current, once
+  a minute.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign piece = section.settings.product
+  assign piece_variant = piece.selected_or_first_available_variant
+
+  assign expired = true
+  assign remaining = 0
+  if section.settings.deadline != blank
+    assign deadline_epoch = section.settings.deadline | date: '%s' | plus: 0
+    assign now_epoch = 'now' | date: '%s' | plus: 0
+    assign remaining = deadline_epoch | minus: now_epoch
+    if remaining > 0
+      assign expired = false
+    endif
+  endif
+
+  assign deadline_iso = section.settings.deadline | date: '%Y-%m-%dT%H:%M:%S%z'
+
+  if expired == false
+    assign days = remaining | divided_by: 86400
+    assign hours = remaining | modulo: 86400 | divided_by: 3600
+    assign minutes = remaining | modulo: 3600 | divided_by: 60
+
+    if days > 0
+      if days == 1
+        assign major = 'edition.days_one' | t
+      else
+        assign major = 'edition.days' | t: count: days
+      endif
+      if hours == 1
+        assign minor = 'edition.hours_one' | t
+      else
+        assign minor = 'edition.hours' | t: count: hours
+      endif
+      assign countdown_text = 'edition.duration' | t: major: major, minor: minor
+    elsif hours > 0
+      if hours == 1
+        assign major = 'edition.hours_one' | t
+      else
+        assign major = 'edition.hours' | t: count: hours
+      endif
+      if minutes == 1
+        assign minor = 'edition.minutes_one' | t
+      else
+        assign minor = 'edition.minutes' | t: count: minutes
+      endif
+      assign countdown_text = 'edition.duration' | t: major: major, minor: minor
+    elsif minutes > 0
+      if minutes == 1
+        assign countdown_text = 'edition.minutes_one' | t
+      else
+        assign countdown_text = 'edition.minutes' | t: count: minutes
+      endif
+    else
+      assign countdown_text = 'edition.imminent' | t
+    endif
+  endif
+
+  assign piece_number = piece.metafields.custom.piece_number.value
+  assign piece_total = piece.metafields.custom.piece_total.value
+  if piece_number != blank and piece_total != blank
+    assign eyebrow_text = 'products.piece_number_of_html' | t: number: piece_number, total: piece_total
+  elsif piece_number != blank
+    assign eyebrow_text = 'products.piece_number_html' | t: number: piece_number
+  else
+    assign eyebrow_text = section.settings.eyebrow
+  endif
+
+  assign show_remaining = false
+  if section.settings.show_remaining and piece_variant.inventory_management != blank and piece_variant.inventory_quantity > 0
+    assign show_remaining = true
+  endif
+
+  if show_remaining
+    if piece_total != blank
+      assign remaining_text = 'edition.pieces_of' | t: count: piece_variant.inventory_quantity, total: piece_total
+    elsif piece_variant.inventory_quantity == 1
+      assign remaining_text = 'edition.pieces_remaining_one' | t
+    else
+      assign remaining_text = 'edition.pieces_remaining' | t: count: piece_variant.inventory_quantity
+    endif
+  endif
+
+  assign hide_when_expired = false
+  if expired and section.settings.expiry == 'hide' and request.design_mode == false
+    assign hide_when_expired = true
+  endif
+%}
+
+{%- unless hide_when_expired -%}
+  <div class="edition color-{{ section.settings.color_scheme }} full-width" data-edition-root>
+    <div class="band">
+      <div
+        class="edition__inner section-padding--loose"
+        {% if settings.motion_reveal %}data-reveal{% endif %}
+      >
+        <div class="edition__media">
+          {% render 'image',
+            image: piece.featured_media.preview_image,
+            alt: piece.title,
+            height: section.settings.image_height,
+            sizes: '(min-width: 990px) 45vw, 100vw',
+            placeholder: 'product-1'
+          %}
+        </div>
+
+        <div class="edition__text">
+          {%- if eyebrow_text != blank -%}
+            <p class="eyebrow eyebrow--wide">{{ eyebrow_text }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="edition__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+
+          <div class="edition__body rte measure-lead">{{ section.settings.text }}</div>
+
+          {%- if expired -%}
+            <p class="edition__expired">{{ section.settings.expired_message | escape }}</p>
+          {%- else -%}
+            <aurelia-edition
+              class="edition__countdown"
+              data-deadline="{{ deadline_iso }}"
+              data-expiry="{{ section.settings.expiry }}"
+              data-expired-text="{{ section.settings.expired_message | escape }}"
+              data-days="{{ 'edition.days' | t: count: '[count]' | escape }}"
+              data-days-one="{{ 'edition.days_one' | t | escape }}"
+              data-hours="{{ 'edition.hours' | t: count: '[count]' | escape }}"
+              data-hours-one="{{ 'edition.hours_one' | t | escape }}"
+              data-minutes="{{ 'edition.minutes' | t: count: '[count]' | escape }}"
+              data-minutes-one="{{ 'edition.minutes_one' | t | escape }}"
+              data-pair="{{ 'edition.duration' | t: major: '[major]', minor: '[minor]' | escape }}"
+              data-imminent="{{ 'edition.imminent' | t | escape }}"
+            >
+              {%- if section.settings.countdown_label != blank -%}
+                <p class="eyebrow eyebrow--quiet">{{ section.settings.countdown_label | escape }}</p>
+              {%- endif -%}
+              <p class="edition__time">
+                <time datetime="{{ deadline_iso }}" aria-live="polite" data-edition-output>
+                  {{- countdown_text -}}
+                </time>
+              </p>
+            </aurelia-edition>
+          {%- endif -%}
+
+          {%- if show_remaining -%}
+            <p class="edition__remaining detail">{{ remaining_text }}</p>
+          {%- endif -%}
+
+          {%- if piece != blank and section.settings.button_label != blank -%}
+            <a class="button button--secondary" href="{{ piece.url }}">
+              {{- section.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endunless -%}
+
+<script src="{{ 'edition.js' | asset_url }}" defer="defer"></script>
+
+{% stylesheet %}
+  .edition {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .edition__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-18);
+    align-items: center;
+  }
+
+  .edition__media {
+    min-width: 0;
+  }
+
+  .edition__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .edition__heading {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-heading);
+  }
+
+  .edition__body {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+  }
+
+  .edition__countdown {
+    display: block;
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .edition__time {
+    margin-block-start: var(--space-2);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-title-lg);
+    line-height: var(--leading-title);
+    color: var(--color-heading);
+  }
+
+  .edition__remaining {
+    color: var(--color-secondary);
+  }
+
+  .edition__expired {
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--color-tint);
+    font-size: var(--text-detail);
+    color: var(--color-heading);
+  }
+
+  @media screen and (max-width: 989px) {
+    /* Restructured: the piece over the announcement, not two narrow columns. */
+    .edition__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.edition",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "product", "id": "product", "label": "t:labels.product" },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 300,
+      "max": 760,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    },
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "info": "t:info.edition_eyebrow" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "The autumn edition" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.body_text",
+      "default": "<p>Twenty-four pieces, numbered at the bench. When they are gone the chapter closes.</p>"
+    },
+    {
+      "type": "text",
+      "id": "deadline",
+      "label": "t:labels.deadline",
+      "info": "t:info.deadline"
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "label": "t:labels.countdown_label",
+      "default": "The chapter closes in"
+    },
+    {
+      "type": "select",
+      "id": "expiry",
+      "label": "t:labels.expiry",
+      "options": [
+        { "value": "message", "label": "t:options.expiry.message" },
+        { "value": "hide", "label": "t:options.expiry.hide" }
+      ],
+      "default": "message"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "t:labels.expired_message",
+      "default": "This chapter has closed. Archive pieces occasionally return."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_remaining",
+      "label": "t:labels.show_remaining",
+      "info": "t:info.show_remaining",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "See the piece"
+    }
+  ],
+  "presets": [
+    { "name": "t:general.preset_edition", "category": "t:general.cat_product" }
+  ]
+}
+{% endschema %}

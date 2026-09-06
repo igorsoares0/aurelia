@@ -97,6 +97,32 @@
     "badge_model": "3D",
     "weight": "Weight"
   },
+  "pairing": {
+    "set_total": "Set total",
+    "add_all": "Add all {{ count }} — {{ price }}",
+    "add_available": "Add the {{ count }} available — {{ price }}",
+    "unavailable": "{{ names }} is unavailable, and is not in the set.",
+    "unavailable_many": "{{ names }} are unavailable, and are not in the set.",
+    "added": "The set was added to your bag.",
+    "add_error": "The set could not be added. Try again."
+  },
+  "edition": {
+    "days": "{{ count }} days",
+    "days_one": "1 day",
+    "hours": "{{ count }} hours",
+    "hours_one": "1 hour",
+    "minutes": "{{ count }} minutes",
+    "minutes_one": "1 minute",
+    "duration": "{{ major }}, {{ minor }}",
+    "imminent": "Any moment now",
+    "pieces_remaining": "{{ count }} pieces remaining",
+    "pieces_remaining_one": "1 piece remaining",
+    "pieces_of": "{{ count }} of {{ total }} still unclaimed"
+  },
+  "comparison": {
+    "criterion": "Criterion",
+    "not_specified": "Not specified"
+  },
   "collections": {
     "title": "Collections",
     "all": "All collections",

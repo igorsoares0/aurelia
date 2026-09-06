@@ -141,7 +141,7 @@
           {%- endif -%}
 
         {%- when 'buy_buttons' -%}
-          <div {{ block.shopify_attributes }}>
+          <aurelia-product-form {{ block.shopify_attributes }}>
             {% render 'buy-buttons',
               product: product,
               variant: variant,
@@ -151,7 +151,7 @@
               reassurance: block.settings.reassurance,
               commission_url: block.settings.commission_url
             %}
-          </div>
+          </aurelia-product-form>
 
         {%- when 'pickup' -%}
           <div {{ block.shopify_attributes }}>

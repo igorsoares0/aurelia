@@ -24,7 +24,7 @@ layout/      theme.liquid, password.liquid
 listings/    per-preset template variants for the Theme Store submission
 locales/     en.default.json (storefront), en.default.schema.json (editor)
 scripts/     seed.mjs, to fill a development store with test data
-sections/    41 sections, plus three section groups
+sections/    48 sections, plus three section groups
 snippets/    shared components, every one with a {% doc %} header
 templates/   JSON templates, plus gift_card.liquid
 ```
@@ -73,6 +73,7 @@ under `snippets/styles-*.liquid` that renders nothing and carries only a
 | `styles-chips` | collection, search, blog, article |
 | `styles-collection-card` | all-collections page, home collection list |
 | `styles-facets` | collection grid, search results |
+| `styles-ledger` | product specification ledger, material comparison |
 
 This keeps the CSS on the pages that need it. Putting it in `critical.css`
 instead would ship it to every page in the theme; that file is now reserved for
@@ -86,7 +87,9 @@ style module.
 
 ### JavaScript
 
-Six files, all deferred, no libraries, no framework.
+Eight files, all deferred, no libraries, no framework. `reveal.js`, `overlay.js`
+and `cart.js` load from the layout on every page; the rest are loaded by the
+sections that need them.
 
 | File | Responsibility |
 |---|---|
@@ -96,6 +99,8 @@ Six files, all deferred, no libraries, no framework.
 | `product.js` | Variant selection, deferred media, the mobile gallery counter, recommendations |
 | `facets.js` | Filtering, and moving the one filter form between sidebar and sheet |
 | `predictive-search.js` | Debounced predictive search with request cancellation |
+| `video.js` | The deferred video swap: nothing of a player, or of a third party, is fetched until someone presses play |
+| `edition.js` | Keeps the server-rendered edition countdown current, once a minute |
 
 Variant selection re-renders the section on the server rather than patching the
 DOM from a client-side variant matrix. Availability here is per combination, and

@@ -1,0 +1,325 @@
+{% comment %}
+  Two to four pieces presented as a set, with one control that adds all of them.
+
+  The combined control is the only thing here that needs JavaScript, so it is
+  hidden until the element it belongs to is defined -- `:not(:defined)` rather
+  than a `no-js` class, because it also covers the script failing to load or
+  throwing. Underneath it, every piece keeps its own product form from
+  `buy-buttons`, which posts natively. There is never a dead button.
+
+  No `<script>` tag: `<aurelia-pairing>` lives in `cart.js`, which the layout
+  already loads on every page. The theme's other convention is a per-section
+  script, so this is worth saying out loud.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign set_total = 0
+  assign available_count = 0
+  assign unavailable_names = ''
+  assign unavailable_count = 0
+
+  for block in section.blocks
+    assign candidate = block.settings.product
+    if candidate != blank
+      assign candidate_variant = candidate.selected_or_first_available_variant
+      if candidate_variant.available
+        assign set_total = set_total | plus: candidate_variant.price
+        assign available_count = available_count | plus: 1
+      else
+        assign unavailable_names = unavailable_names | append: candidate.title | append: ', '
+        assign unavailable_count = unavailable_count | plus: 1
+      endif
+    endif
+  endfor
+
+  assign unavailable_names = unavailable_names | remove_last: ', '
+  assign set_total_money = set_total | money
+
+  if unavailable_count > 0
+    assign add_label = 'pairing.add_available' | t: count: available_count, price: set_total_money
+  else
+    assign add_label = 'pairing.add_all' | t: count: available_count, price: set_total_money
+  endif
+
+  if unavailable_count == 1
+    assign missing_sentence = 'pairing.unavailable' | t: names: unavailable_names
+  elsif unavailable_count > 1
+    assign missing_sentence = 'pairing.unavailable_many' | t: names: unavailable_names
+  endif
+
+  assign individual_class = ''
+  if section.settings.show_individual_add == false
+    assign individual_class = ' pairing--combined-only'
+  endif
+%}
+
+<div class="pairing color-{{ section.settings.color_scheme }} full-width{{ individual_class }}">
+  <div class="band">
+    <div
+      class="pairing__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      <div class="pairing__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="pairing__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        <div class="pairing__intro rte measure-lead">{{ section.settings.text }}</div>
+      </div>
+
+      <aurelia-pairing
+        class="pairing__set"
+        data-added-text="{{ 'pairing.added' | t | escape }}"
+        data-error-text="{{ 'pairing.add_error' | t | escape }}"
+      >
+        <ul class="pairing__grid" style="--columns: {{ section.blocks.size }};">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign piece = block.settings.product
+              assign piece_variant = piece.selected_or_first_available_variant
+              assign form_id = 'PairingForm-' | append: section.id | append: '-' | append: block.id
+            -%}
+            <li
+              class="pairing__item"
+              {% if piece_variant.available %}data-pairing-variant="{{ piece_variant.id }}"{% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {%- if piece == blank -%}
+                {%- comment -%}
+                  A preset renders before the merchant has chosen anything.
+                {%- endcomment -%}
+                <div class="media media--fixed" style="--media-height: {{ section.settings.image_height }}px;">
+                  {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+                </div>
+                <p class="pairing__hint detail">{{ 'onboarding.pick_product' | t }}</p>
+              {%- else -%}
+                {% render 'product-card',
+                  product: piece,
+                  image_height: section.settings.image_height,
+                  sizes: '(min-width: 990px) 25vw, (min-width: 750px) 45vw, 90vw',
+                  heading_size: 'card__title--sm'
+                %}
+
+                <div class="pairing__buy">
+                  <aurelia-product-form>
+                    {% render 'buy-buttons',
+                      product: piece,
+                      variant: piece_variant,
+                      form_id: form_id,
+                      show_dynamic: false
+                    %}
+                  </aurelia-product-form>
+                </div>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if section.settings.combined_add and available_count > 1 -%}
+          <div class="pairing__combined">
+            <p class="pairing__total">
+              <span class="eyebrow eyebrow--quiet">{{ 'pairing.set_total' | t }}</span>
+              <span class="pairing__total-value">{{ set_total_money }}</span>
+            </p>
+
+            <button class="button button--primary pairing__add" type="button" data-pairing-add>
+              {{- add_label -}}
+            </button>
+
+            {%- if missing_sentence != blank -%}
+              <p class="pairing__missing detail">{{ missing_sentence }}</p>
+            {%- endif -%}
+
+            <p class="pairing__status detail" data-pairing-status role="status" hidden></p>
+          </div>
+        {%- endif -%}
+      </aurelia-pairing>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .pairing {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .pairing__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-11);
+  }
+
+  .pairing__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .pairing__heading {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-heading);
+  }
+
+  aurelia-pairing {
+    display: block;
+  }
+
+  /* The combined control only works with script, so it is not in the page until
+     the element behind it is defined. This also covers cart.js failing to load. */
+  aurelia-pairing:not(:defined) .pairing__combined {
+    display: none;
+  }
+
+  /* Hiding the per-piece controls is safe only once the combined one is both
+     defined and actually rendered -- otherwise nothing could be bought. */
+  .pairing--combined-only aurelia-pairing:defined:has(.pairing__combined) .pairing__buy {
+    display: none;
+  }
+
+  .pairing__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-11);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pairing__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .pairing__buy {
+    margin-block-start: auto;
+  }
+
+  .pairing__hint {
+    color: var(--color-secondary);
+  }
+
+  .pairing__combined {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    align-items: center;
+    justify-content: space-between;
+    padding-block-start: var(--space-6);
+    border-block-start: 1px solid var(--hairline-strong);
+  }
+
+  .pairing__total {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+  }
+
+  .pairing__total-value {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--text-title);
+    color: var(--color-heading);
+  }
+
+  .pairing__missing,
+  .pairing__status {
+    flex-basis: 100%;
+    margin: 0;
+    color: var(--color-secondary);
+  }
+
+  .pairing__status[hidden] {
+    display: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    .pairing__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Restructured: one piece to a row, and the combined control becomes a
+       full-width block rather than a strip with the total pushed away. */
+    .pairing__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+
+    .pairing__combined {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .pairing__add {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.pairing",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Worn together" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.body_text",
+      "default": "<p>Three pieces made in the same chapter, in the same gold.</p>"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 200,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "default": 380
+    },
+    {
+      "type": "checkbox",
+      "id": "combined_add",
+      "label": "t:labels.combined_add",
+      "info": "t:info.pairing_combined",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_individual_add",
+      "label": "t:labels.show_individual_add",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "piece",
+      "name": "t:general.piece",
+      "limit": 4,
+      "settings": [{ "type": "product", "id": "product", "label": "t:labels.product" }]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_pairing",
+      "category": "t:general.cat_product",
+      "blocks": [{ "type": "piece" }, { "type": "piece" }, { "type": "piece" }]
+    }
+  ]
+}
+{% endschema %}

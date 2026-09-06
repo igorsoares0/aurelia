@@ -143,7 +143,22 @@
         <shopify-account class="header__account"></shopify-account>
       {%- endif -%}
 
-      <a class="header__icon header__action header__bag" href="{{ routes.cart_url }}" data-bag-link>
+      {% comment %}
+        The bag is a real link first: with JavaScript off, and whenever the
+        merchant has chosen the cart page, it navigates. The drawer attributes
+        are added only for `cart_type: drawer`, and the delegated handler in
+        `overlay.js` calls preventDefault, so the href never fires in that case.
+      {% endcomment %}
+      <a
+        class="header__icon header__action header__bag"
+        href="{{ routes.cart_url }}"
+        {%- if settings.cart_type == 'drawer' %}
+          data-overlay-open="CartDrawer"
+          aria-expanded="false"
+          aria-controls="CartDrawer"
+        {%- endif %}
+        data-bag-link
+      >
         <span aria-hidden="true">{{ 'cart.title' | t }} ({{ bag_count }})</span>
         <span class="visually-hidden">
           {%- if bag_count == 0 -%}

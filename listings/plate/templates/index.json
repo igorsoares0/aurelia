@@ -42,6 +42,47 @@
         "alignment": "center"
       }
     },
+    "ribbon": {
+      "type": "marquee",
+      "blocks": {
+        "p1": {
+          "type": "phrase",
+          "settings": {
+            "text": "Twelve pieces a year"
+          }
+        },
+        "p2": {
+          "type": "phrase",
+          "settings": {
+            "text": "18k recycled gold"
+          }
+        },
+        "p3": {
+          "type": "phrase",
+          "settings": {
+            "text": "Made in Belo Horizonte"
+          }
+        },
+        "p4": {
+          "type": "phrase",
+          "settings": {
+            "text": "Resized for life"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "separator": "—",
+        "speed": 70,
+        "direction": "left"
+      }
+    },
     "press": {
       "type": "logo-list",
       "blocks": {
@@ -101,6 +142,68 @@
         "products_count": 4,
         "columns": 4,
         "image_height": 340
+      }
+    },
+    "browse": {
+      "type": "shop-by",
+      "blocks": {
+        "a1": {
+          "type": "attribute",
+          "settings": {
+            "label": "18k recycled gold",
+            "swatch_color": "#b08d4f"
+          }
+        },
+        "a2": {
+          "type": "attribute",
+          "settings": {
+            "label": "Vermeil",
+            "swatch_color": "#d8bd8a"
+          }
+        },
+        "a3": {
+          "type": "attribute",
+          "settings": {
+            "label": "Sterling silver",
+            "swatch_color": "#c9c9c4"
+          }
+        },
+        "a4": {
+          "type": "attribute",
+          "settings": {
+            "label": "Set with stones",
+            "swatch_color": "#7f8a93"
+          }
+        },
+        "a5": {
+          "type": "attribute",
+          "settings": {
+            "label": "Engravable",
+            "swatch_color": "#8d7f6b"
+          }
+        },
+        "a6": {
+          "type": "attribute",
+          "settings": {
+            "label": "Under R$ 2,000",
+            "swatch_color": "#efebe2"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "a6"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Shop by metal",
+        "columns": 4,
+        "columns_mobile": "2",
+        "show_count": false
       }
     },
     "lookbook": {
@@ -237,6 +340,57 @@
         "columns": 4
       }
     },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Sourcing",
+            "heading": "The gold is refined in São Paulo",
+            "text": "<p>Recycled, refined and certified. We can show the refiner's certificate for any piece.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Cutting",
+            "heading": "Stones are chosen one at a time",
+            "text": "<p>Every stone is seen in daylight before it is bought. Nothing is ordered from a photograph.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Finishing",
+            "heading": "Twenty-one days at the bench",
+            "text": "<p>Filed, set and polished by hand. The tool marks inside a band are Túlio's, and they stay.</p>"
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Packing",
+            "heading": "Numbered, then wrapped",
+            "text": "<p>The piece number is struck last, recorded against your order, and kept for any repair.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "A ring held in the setting block at the bench",
+        "image_position": "right",
+        "image_height": 560,
+        "eyebrow": "Provenance",
+        "heading": "How a piece is made"
+      }
+    },
     "journal": {
       "type": "featured-blog",
       "settings": {
@@ -365,11 +519,14 @@
   "order": [
     "banner",
     "statement",
+    "ribbon",
     "press",
     "chapter",
+    "browse",
     "lookbook",
     "atelier",
     "kept",
+    "provenance",
     "journal",
     "questions",
     "ugc"

@@ -105,7 +105,7 @@
                   {%- endif -%}
 
                 {%- when 'buy_buttons' -%}
-                  <div {{ block.shopify_attributes }}>
+                  <aurelia-product-form {{ block.shopify_attributes }}>
                     {% render 'buy-buttons',
                       product: featured,
                       variant: variant,
@@ -113,7 +113,7 @@
                       show_dynamic: block.settings.show_dynamic_checkout,
                       reassurance: block.settings.reassurance
                     %}
-                  </div>
+                  </aurelia-product-form>
 
                 {%- when 'link' -%}
                   <a class="link-tap link-inline" href="{{ featured.url }}" {{ block.shopify_attributes }}>

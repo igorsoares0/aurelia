@@ -1,0 +1,43 @@
+{% doc %}
+  The ruled term-and-value treatment shared by the product specification ledger
+  and the material comparison table.
+
+  This snippet renders nothing. Shopify subsets `{% stylesheet %}` CSS to the
+  files in a page's render tree, so styles shared by sections that never render
+  together have to be pulled in by something each of them renders. Keeping them
+  in `critical.css` instead would ship them to every page in the theme.
+
+  The classes are deliberately element-agnostic: the ledger puts them on
+  `<dt>`/`<dd>`, the comparison table on `<th scope="row">`/`<td>`. Only the
+  rule, the rhythm and the two type treatments live here -- the grid or table
+  that arranges them belongs to whichever file is doing the arranging.
+
+  @example
+  {% render 'styles-ledger' %}
+{% enddoc %}
+
+{% stylesheet %}
+.ledger__term,
+.ledger__value {
+padding-block: var(--space-4);
+border-block-end: 1px solid var(--hairline-row);
+}
+
+.ledger__term {
+padding-inline-end: var(--space-8);
+font-size: var(--text-label);
+font-weight: var(--font-body--weight-medium);
+line-height: 1.6;
+letter-spacing: var(--tracking-label);
+text-transform: uppercase;
+text-align: start;
+color: var(--color-secondary);
+}
+
+.ledger__value {
+margin: 0;
+font-size: var(--text-detail);
+line-height: 1.6;
+color: var(--color-heading);
+}
+{% endstylesheet %}

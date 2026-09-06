@@ -1,0 +1,210 @@
+{% comment %}
+  Attribute-first navigation: by metal, by stone, by occasion. Each entry pairs
+  a collection link with the 16px swatch dot.
+
+  One section names one family -- the heading says which. A subheading inside
+  the list would not be valid inside a `<ul>`, so a second family is a second
+  section rather than a group block.
+
+  The dot repeats the rule from `product-card` and `variant-picker` rather than
+  moving to a style module. Both of those are snippets, so their CSS already
+  travels with them into any render tree; the module rule exists for sections
+  that never render together, which is not the case here.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="entries color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="entries__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      {%- if section.settings.heading != blank -%}
+        <h2 class="eyebrow eyebrow--quiet">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <ul
+        class="entries__grid"
+        style="--columns: {{ section.settings.columns }}; --columns-mobile: {{ section.settings.columns_mobile }};"
+      >
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign target = block.settings.collection
+            assign target_url = target.url | default: block.settings.link
+            assign swatch_image = block.settings.swatch_image
+          -%}
+          <li class="entries__item" {{ block.shopify_attributes }}>
+            <a
+              class="entries__link link-tap"
+              href="{{ target_url | default: routes.all_products_collection_url }}"
+            >
+              <span
+                class="entries__dot"
+                aria-hidden="true"
+                style="--swatch: {{ block.settings.swatch_color }};{% if swatch_image %} --swatch-image: url({{ swatch_image | image_url: width: 40 }});{% endif %}"
+              ></span>
+              <span class="entries__label">{{ block.settings.label | escape }}</span>
+              {%- if section.settings.show_count and target != blank -%}
+                <span class="entries__count">
+                  {%- if target.all_products_count == 1 -%}
+                    {{ 'collections.product_count_one' | t }}
+                  {%- else -%}
+                    {{ 'collections.product_count' | t: count: target.all_products_count }}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .entries {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .entries__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .entries__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    column-gap: var(--space-11);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .entries__item {
+    min-width: 0;
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .entries__link {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    padding-inline-end: var(--space-4);
+    text-decoration: none;
+    color: var(--color-heading);
+  }
+
+  .entries__link:hover {
+    color: var(--color-accent);
+  }
+
+  .entries__dot {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--hairline-control);
+    /* The only border-radius in the theme, alongside the card and picker swatches. */
+    border-radius: 50%;
+    background-color: var(--swatch, var(--color-well));
+    background-image: var(--swatch-image, none);
+    background-size: cover;
+  }
+
+  .entries__label {
+    min-width: 0;
+    font-size: var(--text-body-md);
+  }
+
+  .entries__count {
+    margin-inline-start: auto;
+    font-size: var(--text-label);
+    white-space: nowrap;
+    color: var(--color-secondary);
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Restructured: the merchant chooses one or two columns here, rather than
+       the desktop count shrinking to something unreadable. */
+    .entries__grid {
+      grid-template-columns: repeat(var(--columns-mobile), minmax(0, 1fr));
+      column-gap: var(--space-6);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.shop_by",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Shop by metal" },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:labels.columns_mobile",
+      "options": [
+        { "value": "1", "label": "t:options.columns_mobile.one" },
+        { "value": "2", "label": "t:options.columns_mobile.two" }
+      ],
+      "default": "2"
+    },
+    { "type": "checkbox", "id": "show_count", "label": "t:labels.show_count", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "attribute",
+      "name": "t:general.attribute",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:labels.link_label",
+          "default": "18k recycled gold"
+        },
+        { "type": "collection", "id": "collection", "label": "t:labels.collection" },
+        { "type": "url", "id": "link", "label": "t:labels.link", "info": "t:info.entry_link" },
+        {
+          "type": "color",
+          "id": "swatch_color",
+          "label": "t:labels.swatch_color",
+          "info": "t:info.swatch",
+          "default": "#b08d4f"
+        },
+        { "type": "image_picker", "id": "swatch_image", "label": "t:labels.swatch_image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_entries",
+      "category": "t:general.cat_storefront",
+      "blocks": [
+        { "type": "attribute", "settings": { "label": "18k recycled gold", "swatch_color": "#b08d4f" } },
+        { "type": "attribute", "settings": { "label": "Vermeil", "swatch_color": "#d8bd8a" } },
+        { "type": "attribute", "settings": { "label": "Sterling silver", "swatch_color": "#c9c9c4" } },
+        { "type": "attribute", "settings": { "label": "Set with stones", "swatch_color": "#7f8a93" } },
+        { "type": "attribute", "settings": { "label": "Engravable", "swatch_color": "#8d7f6b" } },
+        { "type": "attribute", "settings": { "label": "Under R$ 2,000", "swatch_color": "#efebe2" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

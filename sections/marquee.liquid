@@ -1,0 +1,191 @@
+{% comment %}
+  A slow band of editorial text between two rules.
+
+  It deliberately does not use `.band` or `.section-padding`: this is a rule-to-
+  rule band that reaches the viewport edge, not a block of content.
+
+  The run is written twice. The second copy is `aria-hidden` -- it exists only so
+  the loop has something to hand over to -- and carries no block attributes,
+  because duplicating those breaks selection in the theme editor.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% liquid
+  assign separator = section.settings.separator | default: '—'
+  assign direction_class = ''
+  if section.settings.direction == 'right'
+    assign direction_class = ' ribbon--reverse'
+  endif
+%}
+
+<div class="ribbon color-{{ section.settings.color_scheme }} full-width{{ direction_class }}">
+  <div class="ribbon__inner" style="--ribbon-speed: {{ section.settings.speed }}s;">
+    <div class="ribbon__track">
+      <p class="ribbon__run">
+        {%- for block in section.blocks -%}
+          <span class="ribbon__item eyebrow eyebrow--wide" {{ block.shopify_attributes }}>
+            {{- block.settings.text | escape -}}
+          </span>
+          <span class="ribbon__separator eyebrow eyebrow--quiet" aria-hidden="true">
+            {{- separator | escape -}}
+          </span>
+        {%- endfor -%}
+      </p>
+
+      <p class="ribbon__run" aria-hidden="true">
+        {%- for block in section.blocks -%}
+          <span class="ribbon__item eyebrow eyebrow--wide">{{ block.settings.text | escape }}</span>
+          <span class="ribbon__separator eyebrow eyebrow--quiet">{{ separator | escape }}</span>
+        {%- endfor -%}
+      </p>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ribbon {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .ribbon__inner {
+    overflow: hidden;
+    padding-block: var(--space-5);
+    border-block: 1px solid var(--hairline-section);
+  }
+
+  .ribbon__track {
+    --ribbon-gap: var(--space-8);
+
+    display: flex;
+    width: max-content;
+    gap: var(--ribbon-gap);
+    animation: ribbon-pass var(--ribbon-speed, 70s) linear infinite;
+  }
+
+  .ribbon--reverse .ribbon__track {
+    animation-direction: reverse;
+  }
+
+  .ribbon__run {
+    display: flex;
+    align-items: baseline;
+    gap: var(--ribbon-gap);
+    margin: 0;
+  }
+
+  @keyframes ribbon-pass {
+    from {
+      transform: translateX(0);
+    }
+
+    /* The track is two runs plus one gap, so -50% lands half a gap short of the
+       handover. Taking that half gap back puts run two exactly where run one
+       started, and the seam is invisible. */
+    to {
+      transform: translateX(calc(-50% - var(--ribbon-gap) / 2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Paused, not hidden -- the words are the content. `critical.css` collapses
+       every animation to 0.01ms with one iteration, which would snap the track
+       straight to its end state and carry the text off the screen. Pausing
+       holds it at time zero instead. */
+    .ribbon__track {
+      animation-play-state: paused;
+    }
+  }
+
+  @media print {
+    .ribbon__track {
+      animation: none;
+    }
+
+    .ribbon__run[aria-hidden='true'] {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Restructured only in rhythm: the type is already at the 12px label floor
+       and must not shrink further. */
+    .ribbon__inner {
+      padding-block: var(--space-4);
+    }
+
+    .ribbon__track {
+      --ribbon-gap: var(--space-6);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.marquee",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "t:labels.separator",
+      "info": "t:info.separator",
+      "default": "—"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:labels.speed",
+      "info": "t:info.speed",
+      "min": 20,
+      "max": 160,
+      "step": 10,
+      "unit": "s",
+      "default": 70
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:labels.direction",
+      "options": [
+        { "value": "left", "label": "t:options.direction.left" },
+        { "value": "right", "label": "t:options.direction.right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "phrase",
+      "name": "t:general.phrase",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "Twelve pieces a year"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_marquee",
+      "category": "t:general.cat_content",
+      "blocks": [
+        { "type": "phrase", "settings": { "text": "Twelve pieces a year" } },
+        { "type": "phrase", "settings": { "text": "18k recycled gold" } },
+        { "type": "phrase", "settings": { "text": "Made in Belo Horizonte" } },
+        { "type": "phrase", "settings": { "text": "Resized for life" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -23,6 +23,8 @@
   {% render 'spec-ledger', product: product, variant: variant %}
 {% enddoc %}
 
+{% render 'styles-ledger' %}
+
 {% liquid
   assign material = product.metafields.custom.material.value
   assign face = product.metafields.custom.face.value
@@ -46,20 +48,20 @@
   <dl class="spec__list">
     {%- if has_metafields -%}
       {%- if material != blank -%}
-        <dt class="spec__term">{{ label_material | default: 'Material' }}</dt>
-        <dd class="spec__value">{{ material }}</dd>
+        <dt class="ledger__term">{{ label_material | default: 'Material' }}</dt>
+        <dd class="ledger__value">{{ material }}</dd>
       {%- endif -%}
       {%- if face != blank -%}
-        <dt class="spec__term">{{ label_face | default: 'Face' }}</dt>
-        <dd class="spec__value">{{ face }}</dd>
+        <dt class="ledger__term">{{ label_face | default: 'Face' }}</dt>
+        <dd class="ledger__value">{{ face }}</dd>
       {%- endif -%}
       {%- if origin != blank -%}
-        <dt class="spec__term">{{ label_origin | default: 'Made in' }}</dt>
-        <dd class="spec__value">{{ origin }}</dd>
+        <dt class="ledger__term">{{ label_origin | default: 'Made in' }}</dt>
+        <dd class="ledger__value">{{ origin }}</dd>
       {%- endif -%}
       {%- if care != blank -%}
-        <dt class="spec__term">{{ label_care | default: 'Care' }}</dt>
-        <dd class="spec__value">{{ care }}</dd>
+        <dt class="ledger__term">{{ label_care | default: 'Care' }}</dt>
+        <dd class="ledger__value">{{ care }}</dd>
       {%- endif -%}
     {%- else -%}
       {%- comment -%}
@@ -67,20 +69,20 @@
         so the ledger is never an empty rule.
       {%- endcomment -%}
       {%- if product.vendor != blank -%}
-        <dt class="spec__term">{{ 'products.vendor' | t }}</dt>
-        <dd class="spec__value">{{ product.vendor }}</dd>
+        <dt class="ledger__term">{{ 'products.vendor' | t }}</dt>
+        <dd class="ledger__value">{{ product.vendor }}</dd>
       {%- endif -%}
       {%- if product.type != blank -%}
-        <dt class="spec__term">{{ label_material | default: 'Material' }}</dt>
-        <dd class="spec__value">{{ product.type }}</dd>
+        <dt class="ledger__term">{{ label_material | default: 'Material' }}</dt>
+        <dd class="ledger__value">{{ product.type }}</dd>
       {%- endif -%}
       {%- if variant.sku != blank -%}
-        <dt class="spec__term">{{ 'products.sku' | t }}</dt>
-        <dd class="spec__value">{{ variant.sku }}</dd>
+        <dt class="ledger__term">{{ 'products.sku' | t }}</dt>
+        <dd class="ledger__value">{{ variant.sku }}</dd>
       {%- endif -%}
       {%- if variant.weight > 0 -%}
-        <dt class="spec__term">{{ 'products.weight' | t }}</dt>
-        <dd class="spec__value">{{ variant.weight | weight_with_unit: variant.weight_unit }}</dd>
+        <dt class="ledger__term">{{ 'products.weight' | t }}</dt>
+        <dd class="ledger__value">{{ variant.weight | weight_with_unit: variant.weight_unit }}</dd>
       {%- endif -%}
     {%- endif -%}
   </dl>
@@ -128,29 +130,6 @@
     grid-template-columns: auto minmax(0, 1fr);
     gap: 0;
     margin: 0;
-  }
-
-  .spec__term,
-  .spec__value {
-    padding-block: var(--space-4);
-    border-block-end: 1px solid var(--hairline-row);
-  }
-
-  .spec__term {
-    padding-inline-end: var(--space-8);
-    font-size: var(--text-label);
-    font-weight: var(--font-body--weight-medium);
-    line-height: 1.6;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-secondary);
-  }
-
-  .spec__value {
-    margin: 0;
-    font-size: var(--text-detail);
-    line-height: 1.6;
-    color: var(--color-heading);
   }
 
   @media screen and (min-width: 990px) {

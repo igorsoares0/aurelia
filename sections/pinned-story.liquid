@@ -1,0 +1,235 @@
+{% comment %}
+  A held image beside the steps of making: sourcing, cutting, finishing,
+  packing. The image sticks while the steps pass it.
+
+  Below the tablet breakpoint the section stops being two columns and becomes an
+  ordinary sequence, with the image appearing once, first -- a sticky element in
+  a single column would pin over the text it is meant to accompany.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+<div class="provenance color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="provenance__inner provenance__inner--{{ section.settings.image_position }} section-padding--loose"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      <div class="provenance__media">
+        {% render 'image',
+          image: section.settings.image,
+          alt: section.settings.image_alt,
+          height: section.settings.image_height,
+          sizes: '(min-width: 990px) 45vw, 100vw',
+          placeholder: 'lifestyle-2'
+        %}
+      </div>
+
+      <div class="provenance__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow eyebrow--wide">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="provenance__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+
+        <ol class="provenance__steps">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign step_number = forloop.index
+              if step_number < 10
+                assign step_number = step_number | prepend: '0'
+              endif
+            -%}
+            <li class="provenance__step" {{ block.shopify_attributes }}>
+              <p class="eyebrow eyebrow--wide provenance__step-eyebrow">
+                <span class="provenance__step-number">{{ step_number }}</span>
+                {%- if block.settings.eyebrow != blank -%}
+                  <span aria-hidden="true"> &mdash; </span>{{ block.settings.eyebrow | escape }}
+                {%- endif -%}
+              </p>
+              {%- if block.settings.heading != blank -%}
+                <h3 class="provenance__step-heading">{{ block.settings.heading | escape }}</h3>
+              {%- endif -%}
+              <div class="provenance__step-body rte">{{ block.settings.text }}</div>
+            </li>
+          {%- endfor -%}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .provenance {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .provenance__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-18);
+    align-items: start;
+  }
+
+  .provenance__inner--right .provenance__media {
+    order: 2;
+  }
+
+  .provenance__media {
+    /* `align-self: start` is load-bearing. A grid item stretched to the row
+       height has nowhere to travel, and sticky silently does nothing. */
+    position: sticky;
+    top: var(--space-16);
+    align-self: start;
+    min-width: 0;
+  }
+
+  .provenance__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .provenance__heading {
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-heading);
+  }
+
+  .provenance__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: 0;
+    margin: 0;
+    margin-block-start: var(--space-6);
+    list-style: none;
+  }
+
+  .provenance__step {
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .provenance__step-eyebrow {
+    margin: 0;
+  }
+
+  .provenance__step-number {
+    color: var(--color-heading);
+  }
+
+  .provenance__step-heading {
+    margin-block-start: var(--space-3);
+    font-size: var(--text-title-lg);
+    line-height: var(--leading-title);
+  }
+
+  .provenance__step-body {
+    max-width: 26rem;
+    margin-block-start: var(--space-2);
+    font-size: var(--text-detail);
+    line-height: 1.75;
+  }
+
+  @media screen and (max-width: 989px) {
+    /* Restructured: one column, the image released and shown once, first. */
+    .provenance__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-11);
+    }
+
+    .provenance__inner--right .provenance__media {
+      order: 0;
+    }
+
+    .provenance__media {
+      position: static;
+    }
+
+    .provenance__steps {
+      gap: var(--space-11);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.pinned_story",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "t:labels.image_alt",
+      "info": "t:info.image_alt",
+      "default": "A ring held in the setting block"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:labels.image_position",
+      "options": [
+        { "value": "left", "label": "t:options.image_position.left" },
+        { "value": "right", "label": "t:options.image_position.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "t:labels.image_height",
+      "min": 360,
+      "max": 820,
+      "step": 20,
+      "unit": "px",
+      "default": 620
+    },
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "Provenance" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "How a piece is made" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "t:general.step",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "Sourcing" },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:labels.heading",
+          "default": "The gold is refined in Sao Paulo"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "<p>Recycled, refined and certified. We can show the refiner's certificate for any piece.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_provenance",
+      "category": "t:general.cat_content",
+      "blocks": [
+        { "type": "step", "settings": { "eyebrow": "Sourcing" } },
+        { "type": "step", "settings": { "eyebrow": "Cutting" } },
+        { "type": "step", "settings": { "eyebrow": "Finishing" } },
+        { "type": "step", "settings": { "eyebrow": "Packing" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

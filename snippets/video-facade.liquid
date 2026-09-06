@@ -1,0 +1,98 @@
+{% doc %}
+  Renders a poster and a play control, with the real player held back in a
+  `<template>` until someone asks for it.
+
+  Nothing of the video loads on first paint -- no third-party connection, no
+  cookie, no bytes -- which is what keeps an external embed off the critical
+  path. `video.js` swaps the player into the poster's `.media` box on click; the
+  global `.media > :is(img, svg, video, iframe)` rule in `critical.css` then
+  positions it, so the fixed height survives the swap.
+
+  The control is an anchor, not a button. With JavaScript off a button here
+  would be a dead control, which this theme does not ship; the anchor opens the
+  video on its own and `video.js` calls preventDefault to swap in place instead.
+
+  @param {object} [video] - A Shopify-hosted video setting
+  @param {object} [video_url] - An external YouTube or Vimeo URL setting
+  @param {image} [poster] - Poster image. Falls back to the hosted video's own preview.
+  @param {string} [alt] - Describes the poster, and names the player
+  @param {number} [height] - Fixed media height in px
+  @param {string} [sizes] - The poster's `sizes` attribute
+
+  @example
+  {% render 'video-facade',
+    video: section.settings.video,
+    video_url: section.settings.video_url,
+    poster: section.settings.poster,
+    alt: section.settings.image_alt,
+    height: 520,
+    sizes: '(min-width: 990px) 50vw, 100vw'
+  %}
+{% enddoc %}
+
+{% liquid
+  assign poster_image = poster | default: video.preview_image
+
+  assign fallback_url = ''
+  if video != blank
+    for source in video.sources
+      if source.format == 'mp4'
+        assign fallback_url = source.url
+        break
+      endif
+    endfor
+  elsif video_url != blank
+    assign fallback_url = video_url
+  endif
+
+  assign has_player = false
+  if video != blank or video_url != blank
+    assign has_player = true
+  endif
+%}
+
+{% render 'image',
+  image: poster_image,
+  alt: alt,
+  height: height,
+  sizes: sizes,
+  placeholder: 'lifestyle-1',
+  class: 'film__poster'
+%}
+
+{%- if has_player -%}
+  <a
+    class="film__play"
+    href="{{ fallback_url }}"
+    data-video-play
+    aria-label="{{ 'products.play_video' | t: title: alt }}"
+  >
+    <span aria-hidden="true">&#9654;</span>
+  </a>
+
+  <template data-video-template>
+    {%- if video != blank -%}
+      {{ video | video_tag: image_size: '1200x', controls: true, autoplay: false, loop: false, muted: false, preload: 'none' }}
+    {%- else -%}
+      {%- if video_url.type == 'youtube' -%}
+        <iframe
+          src="https://www.youtube.com/embed/{{ video_url.id }}?autoplay=1&playsinline=1&rel=0"
+          title="{{ alt | escape }}"
+          loading="lazy"
+          allow="autoplay; fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      {%- else -%}
+        <iframe
+          src="https://player.vimeo.com/video/{{ video_url.id }}?autoplay=1&playsinline=1"
+          title="{{ alt | escape }}"
+          loading="lazy"
+          allow="autoplay; fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      {%- endif -%}
+    {%- endif -%}
+  </template>
+{%- endif -%}

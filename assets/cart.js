@@ -59,7 +59,10 @@ async function postCart(url, body) {
 
 class AureliaProductForm extends HTMLElement {
   connectedCallback() {
-    this.form = this.querySelector('form');
+    // Matched by action, not by position: the sold-out branch of `buy-buttons`
+    // renders a waitlist contact form instead, and taking the first form here
+    // would post that waitlist to /cart/add with no variant id.
+    this.form = this.querySelector('form[action*="/cart/add"]');
     if (!this.form) return;
 
     this.submitButton = this.querySelector('[type="submit"]');
@@ -205,10 +208,88 @@ class AureliaCartItems extends HTMLElement {
   }
 }
 
+/* -------------------------------------------------------------------------
+   Adding a set in one go
+   ------------------------------------------------------------------------- */
+
+class AureliaPairing extends HTMLElement {
+  connectedCallback() {
+    this.button = this.querySelector('[data-pairing-add]');
+    this.status = this.querySelector('[data-pairing-status]');
+    if (!this.button) return;
+
+    this.button.addEventListener('click', () => this.addSet());
+  }
+
+  variantIds() {
+    return Array.from(this.querySelectorAll('[data-pairing-variant]'))
+      .map((node) => node.getAttribute('data-pairing-variant'))
+      .filter(Boolean);
+  }
+
+  async addSet() {
+    const ids = this.variantIds();
+    if (ids.length === 0) return;
+
+    this.setPending(true);
+    this.clearError();
+
+    // One request, not one per piece: /cart/add.js takes the whole set and is
+    // atomic across it, so the bag is never left half filled.
+    const body = {
+      items: ids.map((id) => ({ id: id, quantity: 1 })),
+      sections: sectionsToRender(),
+      sections_url: window.location.pathname,
+    };
+
+    try {
+      const data = await postCart(routes.cartAdd, body);
+      renderSections(data.sections);
+      announce(this.getAttribute('data-added-text') || strings.addedToBag);
+
+      if (window.Aurelia && window.Aurelia.cartType === 'drawer') {
+        const drawer = document.getElementById('CartDrawer');
+        if (drawer && typeof drawer.open === 'function') drawer.open(this.button);
+      } else {
+        window.location.href = routes.cart;
+      }
+    } catch (error) {
+      // Shopify names the offending piece in `description`; prefer it over ours.
+      const message = (error && error.description) || this.getAttribute('data-error-text');
+      this.showError(message);
+      announce(message, true);
+    } finally {
+      this.setPending(false);
+    }
+  }
+
+  setPending(pending) {
+    this.button.classList.toggle('is-pending', pending);
+    this.button.disabled = pending;
+    this.button.setAttribute('aria-busy', pending ? 'true' : 'false');
+  }
+
+  showError(message) {
+    if (!this.status) return;
+    this.status.textContent = message;
+    this.status.hidden = false;
+  }
+
+  clearError() {
+    if (!this.status) return;
+    this.status.textContent = '';
+    this.status.hidden = true;
+  }
+}
+
 if (!customElements.get('aurelia-product-form')) {
   customElements.define('aurelia-product-form', AureliaProductForm);
 }
 
 if (!customElements.get('aurelia-cart-items')) {
   customElements.define('aurelia-cart-items', AureliaCartItems);
+}
+
+if (!customElements.get('aurelia-pairing')) {
+  customElements.define('aurelia-pairing', AureliaPairing);
 }
