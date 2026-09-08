@@ -1,0 +1,167 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "The house"
+      }
+    },
+    "statement": {
+      "type": "rich-text",
+      "blocks": {
+        "eyebrow": { "type": "eyebrow", "settings": { "text": "Since 2015" } },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "<p>Four people, one bench.<em>Twelve pieces a year.</em></p>"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We do not run a season and we do not restock a chapter once it closes. What we make is what four people can finish properly in a year, which is about twelve pieces.</p>"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "heading", "text"],
+      "settings": { "color_scheme": "ground", "alignment": "center" }
+    },
+    "atelier": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": { "type": "eyebrow", "settings": { "text": "The atelier" } },
+        "heading": {
+          "type": "heading",
+          "settings": { "text": "Belo Horizonte, on the second floor." }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Túlio opened the bench in 2015 with one polishing motor and a borrowed rolling mill. Both are still in the room. Nothing is cast off site, and every piece is finished by the person who set it.</p>"
+          }
+        },
+        "button": { "type": "button", "settings": { "label": "Visits are by appointment", "link": "/pages/contact" } }
+      },
+      "block_order": ["eyebrow", "heading", "text", "button"],
+      "settings": {
+        "color_scheme": "ink",
+        "image_position": "left",
+        "image_height": 520,
+        "image_alt": "The bench in Belo Horizonte, tools laid out on the block"
+      }
+    },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Sourcing",
+            "heading": "The gold is refined in São Paulo",
+            "text": "<p>Recycled, refined and certified. We can show the refiner's certificate for any piece, and we would rather you asked.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Cutting",
+            "heading": "Stones are chosen one at a time",
+            "text": "<p>Two cutters, both used for eleven years. Every stone is seen in daylight before it is bought. Nothing is ordered from a photograph.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Finishing",
+            "heading": "Twenty-one days at the bench",
+            "text": "<p>Filed, set and polished by hand. The tool marks inside a band are Túlio's, and they stay.</p>"
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Packing",
+            "heading": "Numbered, then wrapped",
+            "text": "<p>The piece number is struck last, recorded against your order, and kept for any repair — for as long as the piece exists.</p>"
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "A ring held in the setting block at the bench",
+        "image_position": "left",
+        "image_height": 620,
+        "eyebrow": "Provenance",
+        "heading": "How a piece is made"
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "Resizing, for life",
+            "text": "<p>Free, up to three sizes either way, for as long as you own the piece. We send a prepaid insured label.</p>",
+            "link_label": "Care and repair",
+            "link": "/pages/care-and-repair"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Polishing, forever",
+            "text": "<p>Send a piece in whenever it stops looking like itself. There is no charge and no time limit.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "Repairs, quoted first",
+            "text": "<p>Nothing is touched before you have the number. We will say honestly when a repair is not worth doing.</p>"
+          }
+        }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": { "color_scheme": "ground", "heading": "What comes with a piece", "columns": 3 }
+    },
+    "kept": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "quote": "I have worn it every day for two years. It has been polished twice and resized once, both free.",
+            "name": "Marina A.",
+            "piece": "The Signet",
+            "year": "2024"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "quote": "Twenty-one days, and they wrote twice while it was being made. I knew exactly where it was.",
+            "name": "Júlia R.",
+            "piece": "Linha Band",
+            "year": "2025"
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "quote": "It is 9.4 grams and I can feel every one of them. That is the whole point.",
+            "name": "Pedro V.",
+            "piece": "Sal Pendant",
+            "year": "2025"
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": { "color_scheme": "ink", "heading": "Kept", "columns": 3 }
+    }
+  },
+  "order": ["main", "statement", "atelier", "provenance", "services", "kept"]
+}

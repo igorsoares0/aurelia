@@ -356,8 +356,20 @@ export const BLOG = {
 
 export const PAGES = [
   {
+    handle: 'about',
+    title: 'The house',
+    // Uses templates/page.about.json, which carries the story in sections. The
+    // body is only the lead paragraph above them.
+    templateSuffix: 'about',
+    body: `<p>Aurelia is four people and one bench on the second floor of a building in Belo Horizonte. We make about twelve pieces a year, in 18k recycled gold, silver 950 and vermeil, and we finish every one of them ourselves.</p>
+<p>A chapter closes when it closes. Nothing is restocked, nothing is made in a season we did not plan, and nothing leaves the room without the person who set it looking at it last.</p>`,
+  },
+  {
     handle: 'care-and-repair',
     title: 'Care and repair',
+    // Uses templates/page.care.json. Without this suffix the template exists
+    // but is applied to nothing -- the page falls back to page.json.
+    templateSuffix: 'care',
     // The anchored-index layout builds its sidebar from these h2 elements.
     body: `<p>Everything we make can be brought back. Polishing is free forever, resizing is free for life up to three sizes, and repairs are quoted before any work starts.</p>
 <h2>Everyday care</h2>
@@ -378,5 +390,20 @@ export const PAGES = [
     templateSuffix: 'contact',
     body: `<p>A person reads every message. We reply within two working days, and we would rather answer a question before you order than after.</p>
 <p>The bench is in Belo Horizonte. Visits are by appointment.</p>`,
+  },
+  {
+    handle: 'faq',
+    title: 'Questions',
+    // Uses templates/page.faq.json. The groups are collapsible-content
+    // sections, so the body stays a lead paragraph -- see the template.
+    templateSuffix: 'faq',
+    body: `<p>Grouped by what people actually ask, in the order they ask it. Anything not here, write to us and a person answers.</p>`,
+  },
+  {
+    handle: 'gift-guide',
+    title: 'Gifting',
+    // Uses templates/page.gift-guide.json.
+    templateSuffix: 'gift-guide',
+    body: `<p>Every piece is made after it is ordered, which is the one thing worth knowing before you buy one for somebody else. Twenty-one days at the bench, sized afterwards for free, and no price anywhere in the parcel.</p>`,
   },
 ];

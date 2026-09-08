@@ -8,7 +8,12 @@ codebase specifically.
 
 **Sections: all seven written and statically validated**, committed as
 `8902054 start 7 home sections`. Written and theme-check clean is not the same as
-accepted -- see the acceptance table below. **Templates: none started.**
+accepted -- see the acceptance table below.
+
+**Templates: the five-template pass is done, 8 September 2026.** `page.about.json`,
+`page.care.json`, `page.faq.json`, `page.gift-guide.json` and `blog.editorial.json`,
+with the seed pages that make them render. Theme check: 121 files, no offenses.
+Same caveat as the sections -- written and statically validated, never rendered.
 
 New files: `sections/{video-with-text,marquee,pinned-story,pairing,comparison,
 shop-by,edition}.liquid`, `snippets/{styles-ledger,video-facade}.liquid`,
@@ -293,8 +298,9 @@ four ship with a schema preset only, which is what a merchant needs to find them
 
 # Templates
 
-**None started.** What follows is the original list, plus what each one was found
-to actually need when it was costed on 6 September 2026.
+**Five of ten done** -- the JSON-only pass plus `page.care.json`. What follows is
+the original list, plus what each one was found to actually need when it was
+costed on 6 September 2026, and what shipped on 8 September 2026.
 
 `page.contact.json` and the generic `page.json` exist. These do not.
 
@@ -306,13 +312,13 @@ merchandising value and demo quality, not a review gate.
 
 | Template | Notes |
 |---|---|
-| `page.about.json` | The house story. Assembled preset, not a blank page. |
+| `page.about.json` | **Shipped.** Statement, atelier, `pinned-story`, house services, quotes. Seed page `about`. |
 | `page.size-guide.json` | Ring sizer. Print at 1:1 with a `@media print` scale check and a 100%-scale warning. This is the one almost no theme gets right. |
-| `page.care.json` | Care and repairs, alongside `custom.care`. `seed.mjs` already creates the page; the template is missing. |
-| `page.faq.json` | Grouped questions with anchors, distinct from the loose `collapsible-content` on the home page. |
+| `page.care.json` | **Shipped**, with `templateSuffix: 'care'` added to the seeded page -- see the trap below. |
+| `page.faq.json` | **Shipped as four grouped `collapsible-content` sections**, not anchors -- see the note below. Seed page `faq`. |
 | `page.stockists.json` | Stockists and atelier visits. Address and hours as blocks. No embedded map — no libraries, and the iframe wrecks Lighthouse. Text address plus a directions link. |
-| `page.gift-guide.json` | Seasonal, by price band and recipient. |
-| `blog.editorial.json` | Alternate blog template: large grid with a lead article, against the current list. |
+| `page.gift-guide.json` | **Shipped.** Two `shop-by` bands (price, recipient), the chapter grid, gifting questions. Seed page `gift-guide`. |
+| `blog.editorial.json` | **Shipped** as two columns at 400px against the default three at 250. Not applied to the seeded blog -- the merchant selects it. |
 | `product.made-to-order.json` | Declared lead time, line item property for engraving. Buy control reads as a commission; the ledger gains a lead-time row. |
 | `templates/metaobject/maker.json` | Highest value here. `custom.made_in` already reads "Belo Horizonte, by Túlio". Promoting maker and material to metaobjects with their own templates gives linkable provenance pages from the product ledger. Requires metaobject definitions in `scripts/seed.mjs` and a note in `METAFIELDS.md`. |
 
@@ -335,12 +341,31 @@ Costed against the code as it stands, not against the notes above.
   the real `<h2>` elements in the page body.
 - `page.gift-guide.json` -- `featured-collection` plus the new `shop-by`.
 
+> **Shipped, and the anchors in `page.faq.json` were declined.** `page--index`
+> builds its list from `<h2>` elements inside `[data-page-content]` -- the page
+> body, and nothing below it. Grouped questions are `collapsible-content`
+> sections, which the index cannot see, so it would have rendered an empty
+> sidebar. Worse: `nav[hidden]` generates no box, and
+> `.page--index .page-section__inner` is a fixed `200px minmax(0, 1fr)` grid, so
+> the article would have landed in the 200px column. The FAQ uses `page--plain`;
+> `page.care.json` keeps `page--index`, whose seeded body carries five real
+> `<h2>`s. **The latent bug is still there** for any merchant who picks the index
+> layout on a page with fewer than two `<h2>`s.
+>
+> Each template also got a seed page (`about`, `faq`, `gift-guide`), since a
+> template with no page carrying its `templateSuffix` is applied to nothing.
+> Nothing was added to `listings/` -- those hold `index.json` and
+> `collection.json` only, and the page content is the same across all three
+> presets.
+
 **JSON plus one line of seed data.**
 
 - `page.care.json` -- **the trap.** The page the seed creates has handle
   `care-and-repair` and **no `templateSuffix`** (`seed-data.mjs:357`); only
   `contact` has one. Ship the template without adding `templateSuffix: 'care'`
-  and you get a file that is never applied to anything.
+  and you get a file that is never applied to anything. **Done** -- the suffix is
+  on the seeded page, so an existing dev store needs `seed.mjs` re-run, or the
+  template set by hand in the admin.
 
 **JSON plus a small amount of code.**
 
@@ -375,7 +400,10 @@ Costed against the code as it stands, not against the notes above.
 
 ## Suggested order
 
-The four JSON-only templates plus `page.care.json` in one short pass: five
-templates for very little work, and they improve the demo, which is what the
-submission is actually judged on. Then `agents.md.liquid`. Leave
-`metaobject/maker` until after the theme is published.
+~~The four JSON-only templates plus `page.care.json` in one short pass~~ --
+**done, 8 September 2026.** Next: `agents.md.liquid`, then `page.stockists.json`
+and `product.made-to-order.json`. `page.size-guide.json` is real work, and
+`metaobject/maker` stays until after the theme is published.
+
+Before any of that, the five new templates need the same render pass the seven
+sections are still waiting on -- nothing here has been seen in a browser.
