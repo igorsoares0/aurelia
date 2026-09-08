@@ -7,6 +7,12 @@
   the customer hides the cause; the empty state instead says which combination
   emptied the shelf and offers to clear it.
 
+  An empty grid has two causes, and they read nothing alike. A filtered-to-zero
+  collection has something to clear, so the merchant's own wording and a clear
+  button are shown. A collection that is simply empty has nothing to clear, and
+  offering to clear it would be a control that reloads the same empty page --
+  it gets its own wording and a route to everything else instead.
+
   The mobile filter sheet is the same form as the desktop sidebar: `facets.js`
   moves that one node between the sidebar and the sheet rather than rendering a
   second copy, so the two layouts cannot disagree about what is selected.
@@ -22,6 +28,34 @@
 {% liquid
   assign per_page = section.settings.products_per_page
   assign columns = section.settings.columns
+
+  comment
+    The same test as `active-facets`, price range included: a price filter on
+    its own can empty a collection and carries no `active_values`.
+  endcomment
+  assign has_active_filters = false
+  for filter in collection.filters
+    if filter.active_values.size > 0
+      assign has_active_filters = true
+      break
+    endif
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign has_active_filters = true
+        break
+      endif
+    endif
+  endfor
+
+  if has_active_filters
+    assign empty_heading = section.settings.empty_heading | escape
+    assign empty_action_url = collection.url
+    assign empty_action_label = 'collections.clear_all' | t
+  else
+    assign empty_heading = 'collections.empty' | t
+    assign empty_action_url = routes.all_products_collection_url
+    assign empty_action_label = 'collections.browse_all' | t
+  endif
 %}
 
 <aurelia-facets
@@ -67,12 +101,19 @@
           {%- paginate collection.products by per_page -%}
             {%- if collection.products.size == 0 -%}
               <div class="collection__empty">
-                <h2 class="collection__empty-heading">{{ section.settings.empty_heading | escape }}</h2>
-                <div class="collection__empty-body rte">{{ section.settings.empty_body }}</div>
+                <h2 class="collection__empty-heading">{{ empty_heading }}</h2>
+
+                <div class="collection__empty-body rte">
+                  {%- if has_active_filters -%}
+                    {{ section.settings.empty_body }}
+                  {%- else -%}
+                    <p>{{ 'collections.empty_body' | t }}</p>
+                  {%- endif -%}
+                </div>
 
                 <div class="collection__empty-actions">
-                  <a class="button button--primary" href="{{ collection.url }}">
-                    {{- 'collections.clear_all' | t -}}
+                  <a class="button button--primary" href="{{ empty_action_url }}">
+                    {{- empty_action_label -}}
                   </a>
                   {%- if section.settings.empty_link != blank -%}
                     <a class="button button--secondary" href="{{ section.settings.empty_link }}">
@@ -317,7 +358,11 @@
     },
     {
       "type": "header",
-      "content": "t:general.empty_state"
+      "content": "t:general.empty_state_filtered"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:info.empty_state_filtered"
     },
     {
       "type": "text",
