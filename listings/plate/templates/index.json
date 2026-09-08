@@ -514,6 +514,118 @@
         "permission": "Tag @aurelia and we ask before we post.",
         "link_label": "Follow"
       }
+    },
+    "comparison": {
+      "type": "comparison",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "18k recycled gold",
+            "note": "The house standard"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Vermeil",
+            "note": "Gold over silver 950"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Silver 950",
+            "note": "It darkens, and comes back"
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Wears",
+            "value_1": "A lifetime",
+            "value_2": "Two to five years",
+            "value_3": "A lifetime, with polishing"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "On skin",
+            "value_1": "Nickel-free throughout",
+            "value_2": "Nickel-free at the surface",
+            "value_3": "Nickel-free throughout"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Care",
+            "value_1": "Warm water, soft cloth",
+            "value_2": "No polishing compounds",
+            "value_3": "A cloth, when it darkens"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Price band",
+            "value_1": "R$ 5,000 and up",
+            "value_2": "R$ 1,200 to 3,000",
+            "value_3": "R$ 800 to 2,400"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Gold, vermeil, silver",
+        "table_caption": "Materials compared on wear, skin, care and price",
+        "note": "<p>Every piece can be remade in any of the three. Ask, and we quote before we start.</p>"
+      }
+    },
+    "pairing": {
+      "type": "pairing",
+      "blocks": {
+        "p1": {
+          "type": "piece",
+          "settings": {}
+        },
+        "p2": {
+          "type": "piece",
+          "settings": {}
+        },
+        "p3": {
+          "type": "piece",
+          "settings": {}
+        },
+        "p4": {
+          "type": "piece",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Worn together",
+        "text": "<p>Pieces made in the same chapter, in the same gold. Add the set in one go, or take them one at a time.</p>",
+        "image_height": 320,
+        "combined_add": true,
+        "show_individual_add": true
+      }
     }
   },
   "order": [
@@ -523,7 +635,9 @@
     "press",
     "chapter",
     "browse",
+    "comparison",
     "lookbook",
+    "pairing",
     "atelier",
     "kept",
     "provenance",

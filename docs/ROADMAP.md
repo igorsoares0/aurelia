@@ -109,7 +109,7 @@ anything, so it closes exactly one of these boxes. The second was closed by the
 | 200% zoom, 320px | Not tested. |
 | Nothing blank in print | Not tested. `marquee` and `video-with-text` are the two to watch. |
 | 4.5:1 on both schemes | Not measured. Built from tokens that already meet it, which is not the same thing. |
-| Preset in all three listings | **Three of seven.** Deliberate -- see "Where the seven were placed". The other four carry a schema preset, so they appear in Add section, but are not in any listing's home page. |
+| Preset in all three listings | **Five of seven.** `comparison` and `pairing` were added on 8 September. The two still out are `video-with-text` and `edition`, both for stated reasons -- see "Where the seven were placed". They carry a schema preset, so a merchant finds them in Add section. |
 
 The render pass closed the first two boxes. What is still open is everything
 that has to be **measured** rather than looked at: keyboard and tap targets,
@@ -121,9 +121,9 @@ with a number that can fail a submission.
 # Sections
 
 **All seven written**, theme check clean, and rendered by hand on 8 September
-2026 -- see Status above. Three deviations from what is written below, each noted at its item: no
-autoplay on the video, two markups rather than one in the comparison, and only
-three of the seven placed on the home page.
+2026 -- see Status above. Three deviations from what is written below, each noted
+at its item: no autoplay on the video, two markups rather than one in the
+comparison, and five of the seven placed on the home page rather than all.
 
 ## 1. `sections/video-with-text.liquid`
 
@@ -297,18 +297,36 @@ section / show message), color scheme.
 
 `listings/` holds only `index.json` and `collection.json` per preset, so "add a
 preset to each of the three listings" means putting the section on the home page
-of all three Theme Store variants. Two things argue against doing that seven
-times: home, collection and product are the pages Lighthouse is averaged over
-(60 performance, 90 accessibility, desktop and mobile), and whatever goes into a
-listing becomes content the demo store has to show -- and the demo stores do not
-exist yet.
+of all three Theme Store variants.
 
-So three went on the home page, all cheap and all rendering correctly with no
-merchant data: `marquee` between the statement and the press row, `shop-by` after
-the chapter, `pinned-story` after the testimonials. Still two grounds. The other
-four ship with a schema preset only, which is what a merchant needs to find them:
-`video-with-text` is the heaviest and belongs on an about page, `comparison` and
-`edition` are product and content sections, and `pairing` is product cross-sell.
+**The first version of this section argued from section count, and that argument
+was wrong.** The home page already carried thirteen sections, which is ordinary
+for a Theme Store demo -- published themes run to fifteen and twenty. The
+Lighthouse floor is a floor, not a prize for being light, and count is not what
+moves it. What each section *loads* is, and so is whether the demo store has
+content for it.
+
+Measured that way, only two of the four had a case:
+
+- `video-with-text` loads `video.js` and needs a real video file. It is the
+  heaviest thing in the theme and the demo store would have to shoot for it.
+- `edition` loads `edition.js`, needs a product with tracked inventory and a
+  merchant-set date, and is the one item with submission exposure. Keeping it off
+  the home page keeps the countdown off the first screen a reviewer sees. That is
+  deliberate.
+
+`comparison` and `pairing` had no case and went in on 8 September. Neither loads
+any JavaScript -- `pairing` uses `cart.js`, which the layout loads on every page
+anyway -- and neither breaks without merchant data: `comparison` carries its
+content in the schema, and `pairing` draws a placeholder and an onboarding hint
+per empty block, with the combined control hidden until more than one piece is
+actually available.
+
+The home page is now fifteen sections in all three listings: `marquee` between
+the statement and the press row, `comparison` after `shop-by` (browse the metals,
+then compare them), `pairing` after the lookbook, and `pinned-story` after the
+testimonials. Still two grounds. The listings differ only in density, as they did
+before -- `ledger` pairs two pieces, `aurelia` three, `plate` four.
 
 ---
 
@@ -478,10 +496,10 @@ except `agents.md.liquid`, which was declined for the reason above.
 
 **No work item in this file is open.** Two things are, and neither is a template:
 
-1. **The acceptance table above**, where five boxes are still open for the seven
-   sections -- keyboard and tap targets, 200% zoom, print, contrast, and presets
-   in all three listings. The nine new templates and three new sections have not
-   been through it at all.
+1. **The acceptance table above.** Four boxes are untested for the seven
+   sections -- keyboard and tap targets, 200% zoom, print, contrast -- and the
+   listings box stands at five of seven by decision. The nine new templates and
+   three new sections have not been through any of it.
 2. **Everything outside this file.** Lighthouse has never been run,
    `config/settings_schema.json:6-8` still carries Dawn's placeholder
    documentation and support URLs, and the demo stores do not exist. Those are

@@ -13,10 +13,17 @@
     "statement": {
       "type": "rich-text",
       "blocks": {
-        "eyebrow": { "type": "eyebrow", "settings": { "text": "Chapter one" } },
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Chapter one"
+          }
+        },
         "heading": {
           "type": "heading",
-          "settings": { "text": "<p>Twelve pieces a year.<em>Each one kept forever.</em></p>" }
+          "settings": {
+            "text": "<p>Twelve pieces a year.<em>Each one kept forever.</em></p>"
+          }
         },
         "text": {
           "type": "text",
@@ -25,30 +32,50 @@
           }
         }
       },
-      "block_order": ["eyebrow", "heading", "text"],
-      "settings": { "color_scheme": "ground", "alignment": "center" }
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "alignment": "center"
+      }
     },
     "ribbon": {
       "type": "marquee",
       "blocks": {
         "p1": {
           "type": "phrase",
-          "settings": { "text": "Twelve pieces a year" }
+          "settings": {
+            "text": "Twelve pieces a year"
+          }
         },
         "p2": {
           "type": "phrase",
-          "settings": { "text": "18k recycled gold" }
+          "settings": {
+            "text": "18k recycled gold"
+          }
         },
         "p3": {
           "type": "phrase",
-          "settings": { "text": "Made in Belo Horizonte" }
+          "settings": {
+            "text": "Made in Belo Horizonte"
+          }
         },
         "p4": {
           "type": "phrase",
-          "settings": { "text": "Resized for life" }
+          "settings": {
+            "text": "Resized for life"
+          }
         }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
         "color_scheme": "ground",
         "separator": "—",
@@ -59,13 +86,44 @@
     "press": {
       "type": "logo-list",
       "blocks": {
-        "l1": { "type": "logo", "settings": { "name": "Vogue Brasil" } },
-        "l2": { "type": "logo", "settings": { "name": "Wallpaper" } },
-        "l3": { "type": "logo", "settings": { "name": "Monocle" } },
-        "l4": { "type": "logo", "settings": { "name": "Casa Vogue" } },
-        "l5": { "type": "logo", "settings": { "name": "Elle" } }
+        "l1": {
+          "type": "logo",
+          "settings": {
+            "name": "Vogue Brasil"
+          }
+        },
+        "l2": {
+          "type": "logo",
+          "settings": {
+            "name": "Wallpaper"
+          }
+        },
+        "l3": {
+          "type": "logo",
+          "settings": {
+            "name": "Monocle"
+          }
+        },
+        "l4": {
+          "type": "logo",
+          "settings": {
+            "name": "Casa Vogue"
+          }
+        },
+        "l5": {
+          "type": "logo",
+          "settings": {
+            "name": "Elle"
+          }
+        }
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5"],
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ],
       "settings": {
         "color_scheme": "ground",
         "heading": "Written about",
@@ -91,30 +149,55 @@
       "blocks": {
         "a1": {
           "type": "attribute",
-          "settings": { "label": "18k recycled gold", "swatch_color": "#b08d4f" }
+          "settings": {
+            "label": "18k recycled gold",
+            "swatch_color": "#b08d4f"
+          }
         },
         "a2": {
           "type": "attribute",
-          "settings": { "label": "Vermeil", "swatch_color": "#d8bd8a" }
+          "settings": {
+            "label": "Vermeil",
+            "swatch_color": "#d8bd8a"
+          }
         },
         "a3": {
           "type": "attribute",
-          "settings": { "label": "Sterling silver", "swatch_color": "#c9c9c4" }
+          "settings": {
+            "label": "Sterling silver",
+            "swatch_color": "#c9c9c4"
+          }
         },
         "a4": {
           "type": "attribute",
-          "settings": { "label": "Set with stones", "swatch_color": "#7f8a93" }
+          "settings": {
+            "label": "Set with stones",
+            "swatch_color": "#7f8a93"
+          }
         },
         "a5": {
           "type": "attribute",
-          "settings": { "label": "Engravable", "swatch_color": "#8d7f6b" }
+          "settings": {
+            "label": "Engravable",
+            "swatch_color": "#8d7f6b"
+          }
         },
         "a6": {
           "type": "attribute",
-          "settings": { "label": "Under R$ 2,000", "swatch_color": "#efebe2" }
+          "settings": {
+            "label": "Under R$ 2,000",
+            "swatch_color": "#efebe2"
+          }
         }
       },
-      "block_order": ["a1", "a2", "a3", "a4", "a5", "a6"],
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "a6"
+      ],
       "settings": {
         "color_scheme": "ground",
         "heading": "Shop by metal",
@@ -126,12 +209,45 @@
     "lookbook": {
       "type": "lookbook",
       "blocks": {
-        "p1": { "type": "plate", "settings": { "width": "medium", "caption_left": "Plate 01", "caption_right": "Belo Horizonte" } },
-        "p2": { "type": "plate", "settings": { "width": "small", "caption_left": "Plate 02", "caption_right": "The Signet" } },
-        "p3": { "type": "plate", "settings": { "width": "large", "caption_left": "Plate 03", "caption_right": "Linha Band" } },
-        "p4": { "type": "plate", "settings": { "width": "small", "caption_left": "Plate 04", "caption_right": "Sal Pendant" } }
+        "p1": {
+          "type": "plate",
+          "settings": {
+            "width": "medium",
+            "caption_left": "Plate 01",
+            "caption_right": "Belo Horizonte"
+          }
+        },
+        "p2": {
+          "type": "plate",
+          "settings": {
+            "width": "small",
+            "caption_left": "Plate 02",
+            "caption_right": "The Signet"
+          }
+        },
+        "p3": {
+          "type": "plate",
+          "settings": {
+            "width": "large",
+            "caption_left": "Plate 03",
+            "caption_right": "Linha Band"
+          }
+        },
+        "p4": {
+          "type": "plate",
+          "settings": {
+            "width": "small",
+            "caption_left": "Plate 04",
+            "caption_right": "Sal Pendant"
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
         "color_scheme": "ground",
         "eyebrow": "Worn",
@@ -144,10 +260,17 @@
     "atelier": {
       "type": "image-with-text",
       "blocks": {
-        "eyebrow": { "type": "eyebrow", "settings": { "text": "The atelier" } },
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "The atelier"
+          }
+        },
         "heading": {
           "type": "heading",
-          "settings": { "text": "Everything is made here, by four people." }
+          "settings": {
+            "text": "Everything is made here, by four people."
+          }
         },
         "text": {
           "type": "text",
@@ -155,9 +278,19 @@
             "text": "<p>The gold is recycled and refined in São Paulo. The stones are bought from two cutters we have used for eleven years. Nothing is cast off site.</p>"
           }
         },
-        "button": { "type": "button", "settings": { "label": "How a piece is made" } }
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "How a piece is made"
+          }
+        }
       },
-      "block_order": ["eyebrow", "heading", "text", "button"],
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ],
       "settings": {
         "color_scheme": "ink",
         "image_position": "left",
@@ -196,8 +329,16 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3"],
-      "settings": { "color_scheme": "ink", "heading": "Kept", "columns": 3 }
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Kept",
+        "columns": 3
+      }
     },
     "provenance": {
       "type": "pinned-story",
@@ -235,7 +376,12 @@
           }
         }
       },
-      "block_order": ["s1", "s2", "s3", "s4"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
       "settings": {
         "color_scheme": "ground",
         "image_alt": "A ring held in the setting block at the bench",
@@ -287,7 +433,12 @@
           }
         }
       },
-      "block_order": ["q1", "q2", "q3", "q4"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
       "settings": {
         "color_scheme": "ground",
         "layout": "disclosures--sidebar",
@@ -299,18 +450,176 @@
     "ugc": {
       "type": "ugc-gallery",
       "blocks": {
-        "f1": { "type": "figure", "settings": { "span": "3", "offset": "0", "height": 420, "handle": "@marina.a", "piece": "The Signet" } },
-        "f2": { "type": "figure", "settings": { "span": "2", "offset": "64", "height": 250, "handle": "@juliar", "piece": "Linha Band" } },
-        "f3": { "type": "figure", "settings": { "span": "3", "offset": "0", "height": 330, "handle": "@pedro.v", "piece": "Sal Pendant" } },
-        "f4": { "type": "figure", "settings": { "span": "2", "offset": "96", "height": 230, "handle": "@ana.costa", "piece": "The Signet" } },
-        "f5": { "type": "figure", "settings": { "span": "2", "offset": "28", "height": 300, "handle": "@t.moraes", "piece": "Linha Band" } }
+        "f1": {
+          "type": "figure",
+          "settings": {
+            "span": "3",
+            "offset": "0",
+            "height": 420,
+            "handle": "@marina.a",
+            "piece": "The Signet"
+          }
+        },
+        "f2": {
+          "type": "figure",
+          "settings": {
+            "span": "2",
+            "offset": "64",
+            "height": 250,
+            "handle": "@juliar",
+            "piece": "Linha Band"
+          }
+        },
+        "f3": {
+          "type": "figure",
+          "settings": {
+            "span": "3",
+            "offset": "0",
+            "height": 330,
+            "handle": "@pedro.v",
+            "piece": "Sal Pendant"
+          }
+        },
+        "f4": {
+          "type": "figure",
+          "settings": {
+            "span": "2",
+            "offset": "96",
+            "height": 230,
+            "handle": "@ana.costa",
+            "piece": "The Signet"
+          }
+        },
+        "f5": {
+          "type": "figure",
+          "settings": {
+            "span": "2",
+            "offset": "28",
+            "height": 300,
+            "handle": "@t.moraes",
+            "piece": "Linha Band"
+          }
+        }
       },
-      "block_order": ["f1", "f2", "f3", "f4", "f5"],
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5"
+      ],
       "settings": {
         "color_scheme": "ground",
         "heading": "Worn by you",
         "permission": "Tag @aurelia and we ask before we post.",
         "link_label": "Follow"
+      }
+    },
+    "comparison": {
+      "type": "comparison",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "18k recycled gold",
+            "note": "The house standard"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Vermeil",
+            "note": "Gold over silver 950"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Silver 950",
+            "note": "It darkens, and comes back"
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Wears",
+            "value_1": "A lifetime",
+            "value_2": "Two to five years",
+            "value_3": "A lifetime, with polishing"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "On skin",
+            "value_1": "Nickel-free throughout",
+            "value_2": "Nickel-free at the surface",
+            "value_3": "Nickel-free throughout"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Care",
+            "value_1": "Warm water, soft cloth",
+            "value_2": "No polishing compounds",
+            "value_3": "A cloth, when it darkens"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Price band",
+            "value_1": "R$ 5,000 and up",
+            "value_2": "R$ 1,200 to 3,000",
+            "value_3": "R$ 800 to 2,400"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Gold, vermeil, silver",
+        "table_caption": "Materials compared on wear, skin, care and price",
+        "note": "<p>Every piece can be remade in any of the three. Ask, and we quote before we start.</p>"
+      }
+    },
+    "pairing": {
+      "type": "pairing",
+      "blocks": {
+        "p1": {
+          "type": "piece",
+          "settings": {}
+        },
+        "p2": {
+          "type": "piece",
+          "settings": {}
+        },
+        "p3": {
+          "type": "piece",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Worn together",
+        "text": "<p>Pieces made in the same chapter, in the same gold. Add the set in one go, or take them one at a time.</p>",
+        "image_height": 380,
+        "combined_add": true,
+        "show_individual_add": true
       }
     }
   },
@@ -321,7 +630,9 @@
     "press",
     "chapter",
     "browse",
+    "comparison",
     "lookbook",
+    "pairing",
     "atelier",
     "kept",
     "provenance",
