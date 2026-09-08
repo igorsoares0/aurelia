@@ -1,0 +1,262 @@
+{% doc %}
+  Renders the recipient panel on a gift card product: who the card is emailed
+  to, what it says, and when it goes.
+
+  Required by the Theme Store -- a gift card product must offer to send the
+  card to someone else -- and implemented with the four line item properties
+  Shopify validates against, plus the two it reads internally.
+  https://shopify.dev/docs/storefronts/themes/product-merchandising/gift-cards
+
+  It lives inside `{% form 'product' %}` rather than beside it. The `form`
+  object is what repopulates the fields and carries the server's errors after a
+  failed submission, and `{% render %}` has isolated scope, so the form object
+  has to be handed in from the file that opened the tag.
+
+  The panel is a disclosure, not a default. Most gift cards are bought for the
+  buyer's own use, and an empty recipient email on a card marked as a gift is a
+  validation failure rather than a blank field -- so the fields appear only once
+  someone says the card is for someone else. CSS reveals them, so the panel
+  works with no JavaScript; `aurelia-gift-card-recipient` in `product.js` then
+  disables the collapsed fields, which is what stops a filled-in then
+  reconsidered address from riding along to the cart.
+
+  `Send on` is capped at 90 days because Shopify refuses anything further out,
+  and `__shopify_offset` carries the buyer's timezone so a card scheduled for
+  the 24th does not arrive on the 23rd.
+
+  @param {object} form - The product form object, for errors and repopulation
+  @param {string} form_id - Id of the product form, for unique field ids
+
+  @example
+  {% if product.gift_card? %}
+    {% render 'gift-card-recipient', form: form, form_id: form_id %}
+  {% endif %}
+{% enddoc %}
+
+{% liquid
+  assign toggle_id = form_id | append: '-Recipient'
+  assign email_id = toggle_id | append: '-Email'
+  assign name_id = toggle_id | append: '-Name'
+  assign message_id = toggle_id | append: '-Message'
+  assign send_on_id = toggle_id | append: '-SendOn'
+
+  assign email_error_id = email_id | append: '-error'
+  assign name_error_id = name_id | append: '-error'
+  assign message_error_id = message_id | append: '-error'
+  assign send_on_error_id = send_on_id | append: '-error'
+  assign message_help_id = message_id | append: '-help'
+  assign send_on_help_id = send_on_id | append: '-help'
+
+  assign send_on_min = 'now' | date: '%Y-%m-%d'
+  assign send_on_max = 'now' | date: '%s' | plus: 7776000 | date: '%Y-%m-%d'
+
+  assign message_limit = 200
+  assign name_limit = 255
+
+  comment
+    A submission that came back with errors was a submission made with the
+    panel open, so it reopens rather than hiding the fields the customer has to
+    correct.
+  endcomment
+  assign is_open = false
+  if form.errors
+    assign is_open = true
+  endif
+%}
+
+<aurelia-gift-card-recipient class="recipient">
+  <label class="recipient__toggle" for="{{ toggle_id }}">
+    <input
+      class="recipient__check"
+      type="checkbox"
+      id="{{ toggle_id }}"
+      name="properties[__shopify_send_gift_card_to_recipient]"
+      value="true"
+      data-recipient-toggle
+      {% if is_open %}checked{% endif %}
+    >
+    <span>{{ 'products.gift_card_send' | t }}</span>
+  </label>
+
+  <div class="recipient__fields">
+    <p class="recipient__note">{{ 'products.gift_card_send_note' | t }}</p>
+
+    <div class="field">
+      <label class="field__label" for="{{ email_id }}">{{ 'products.gift_card_recipient_email' | t }}</label>
+      <input
+        class="field__input"
+        id="{{ email_id }}"
+        type="email"
+        name="properties[Recipient email]"
+        value="{{ form.email | escape }}"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        required
+        data-recipient-field="email"
+        aria-describedby="{{ email_error_id }}"
+        {% if form.errors.messages.email %}aria-invalid="true"{% endif %}
+      >
+      <p class="field__error recipient__error" id="{{ email_error_id }}" role="alert" data-recipient-error="email"
+        {% unless form.errors.messages.email %}hidden{% endunless %}
+      >
+        <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+        <span data-recipient-error-text>
+          {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="{{ name_id }}">
+        {{ 'products.gift_card_recipient_name' | t }}
+        <span class="recipient__qualifier">({{ 'general.optional' | t | downcase }})</span>
+      </label>
+      <input
+        class="field__input"
+        id="{{ name_id }}"
+        type="text"
+        name="properties[Recipient name]"
+        value="{{ form.name | escape }}"
+        maxlength="{{ name_limit }}"
+        autocomplete="off"
+        data-recipient-field="name"
+        aria-describedby="{{ name_error_id }}"
+        {% if form.errors.messages.name %}aria-invalid="true"{% endif %}
+      >
+      <p class="field__error recipient__error" id="{{ name_error_id }}" role="alert" data-recipient-error="name"
+        {% unless form.errors.messages.name %}hidden{% endunless %}
+      >
+        <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+        <span data-recipient-error-text>
+          {{- form.errors.translated_fields.name | capitalize }} {{ form.errors.messages.name -}}
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="{{ message_id }}">
+        {{ 'products.gift_card_message' | t }}
+        <span class="recipient__qualifier">({{ 'general.optional' | t | downcase }})</span>
+      </label>
+      <textarea
+        class="field__textarea"
+        id="{{ message_id }}"
+        name="properties[Message]"
+        maxlength="{{ message_limit }}"
+        rows="3"
+        data-recipient-field="message"
+        aria-describedby="{{ message_help_id }} {{ message_error_id }}"
+        {% if form.errors.messages.message %}aria-invalid="true"{% endif %}
+      >{{ form.message | escape }}</textarea>
+      <p class="recipient__help" id="{{ message_help_id }}">
+        {{ 'products.gift_card_message_help' | t: count: message_limit }}
+      </p>
+      <p class="field__error recipient__error" id="{{ message_error_id }}" role="alert" data-recipient-error="message"
+        {% unless form.errors.messages.message %}hidden{% endunless %}
+      >
+        <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+        <span data-recipient-error-text>
+          {{- form.errors.translated_fields.message | capitalize }} {{ form.errors.messages.message -}}
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="{{ send_on_id }}">
+        {{ 'products.gift_card_send_on' | t }}
+        <span class="recipient__qualifier">({{ 'general.optional' | t | downcase }})</span>
+      </label>
+      <input
+        class="field__input"
+        id="{{ send_on_id }}"
+        type="date"
+        name="properties[Send on]"
+        value="{{ form.send_on | escape }}"
+        min="{{ send_on_min }}"
+        max="{{ send_on_max }}"
+        data-recipient-field="send_on"
+        aria-describedby="{{ send_on_help_id }} {{ send_on_error_id }}"
+        {% if form.errors.messages.send_on %}aria-invalid="true"{% endif %}
+      >
+      <p class="recipient__help" id="{{ send_on_help_id }}">{{ 'products.gift_card_send_on_help' | t }}</p>
+      <p class="field__error recipient__error" id="{{ send_on_error_id }}" role="alert" data-recipient-error="send_on"
+        {% unless form.errors.messages.send_on %}hidden{% endunless %}
+      >
+        <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+        <span data-recipient-error-text>
+          {{- form.errors.translated_fields.send_on | capitalize }} {{ form.errors.messages.send_on -}}
+        </span>
+      </p>
+    </div>
+
+    {% comment %}
+      Filled in by `product.js`. Without it Shopify schedules against the shop's
+      timezone, not the buyer's.
+    {% endcomment %}
+    <input type="hidden" name="properties[__shopify_offset]" value="" data-recipient-offset>
+  </div>
+</aurelia-gift-card-recipient>
+
+{% stylesheet %}
+  .recipient {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-tint);
+  }
+
+  .recipient__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--tap-target);
+    cursor: pointer;
+    font-size: var(--text-detail);
+    color: var(--color-heading);
+  }
+
+  .recipient__check {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: var(--color-heading);
+  }
+
+  /* The panel is revealed in CSS, not in script, so the fields are reachable
+     with JavaScript off. What script adds is the `disabled` that keeps a
+     collapsed field out of the submission. */
+  .recipient__fields {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .recipient:has(.recipient__check:checked) .recipient__fields {
+    display: flex;
+  }
+
+  .recipient__note,
+  .recipient__help {
+    font-size: var(--text-caption);
+    line-height: 1.7;
+    color: var(--color-secondary);
+  }
+
+  .recipient__qualifier {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--color-secondary);
+  }
+
+  .recipient__error[hidden] {
+    display: none;
+  }
+
+  /* The date control is the one field that must not stretch: a full-width date
+     input renders as a short value marooned beside a picker button. */
+  .recipient__fields input[type='date'] {
+    max-width: 18rem;
+  }
+{% endstylesheet %}

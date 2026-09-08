@@ -187,6 +187,79 @@ class AureliaRecommendations extends HTMLElement {
 }
 
 /* -------------------------------------------------------------------------
+   Gift card recipient
+   ------------------------------------------------------------------------- */
+
+/**
+ * The recipient panel opens and closes in CSS, so it works with this file
+ * blocked. What is added here is the two things CSS cannot do.
+ *
+ * A collapsed field is disabled, so an address that was typed and then
+ * reconsidered is not still submitted as a line item property. And the buyer's
+ * timezone offset is written into `__shopify_offset`, without which a card
+ * scheduled for the 24th is sent against the shop's clock rather than the
+ * buyer's and can arrive a day early.
+ */
+class AureliaGiftCardRecipient extends HTMLElement {
+  connectedCallback() {
+    this.fields = Array.from(this.querySelectorAll('[data-recipient-field]'));
+    this.offset = this.querySelector('[data-recipient-offset]');
+    this.toggle = this.querySelector('[data-recipient-toggle]');
+    if (!this.toggle) return;
+
+    if (this.offset) this.offset.value = new Date().getTimezoneOffset();
+
+    this.toggle.addEventListener('change', () => this.sync());
+    this.sync();
+  }
+
+  sync() {
+    const sending = this.toggle.checked;
+
+    this.fields.forEach((field) => {
+      field.disabled = !sending;
+    });
+    if (this.offset) this.offset.disabled = !sending;
+
+    if (!sending) this.clearErrors();
+  }
+
+  /**
+   * `/cart/add.js` returns recipient failures keyed by field -- `email`,
+   * `name`, `message`, `send_on` -- so each one is put under the field it
+   * belongs to rather than summarised into the one line above the button.
+   */
+  showErrors(errors) {
+    this.clearErrors();
+
+    Object.keys(errors).forEach((key) => {
+      const target = this.querySelector(`[data-recipient-error="${key}"]`);
+      if (!target) return;
+
+      const message = errors[key];
+      target.querySelector('[data-recipient-error-text]').textContent = Array.isArray(message)
+        ? message.join(', ')
+        : message;
+      target.hidden = false;
+
+      const field = this.querySelector(`[data-recipient-field="${key}"]`);
+      if (field) field.setAttribute('aria-invalid', 'true');
+    });
+
+    const first = this.querySelector('[data-recipient-field][aria-invalid="true"]');
+    if (first) first.focus();
+  }
+
+  clearErrors() {
+    this.querySelectorAll('[data-recipient-error]').forEach((target) => {
+      target.querySelector('[data-recipient-error-text]').textContent = '';
+      target.hidden = true;
+    });
+    this.fields.forEach((field) => field.removeAttribute('aria-invalid'));
+  }
+}
+
+/* -------------------------------------------------------------------------
    Quantity steppers outside the cart
    ------------------------------------------------------------------------- */
 
@@ -214,4 +287,8 @@ if (!customElements.get('aurelia-gallery')) {
 
 if (!customElements.get('aurelia-recommendations')) {
   customElements.define('aurelia-recommendations', AureliaRecommendations);
+}
+
+if (!customElements.get('aurelia-gift-card-recipient')) {
+  customElements.define('aurelia-gift-card-recipient', AureliaGiftCardRecipient);
 }

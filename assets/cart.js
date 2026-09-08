@@ -88,6 +88,7 @@ class AureliaProductForm extends HTMLElement {
   async addToCart() {
     this.setPending(true);
     this.clearError();
+    this.clearFieldErrors();
 
     const formData = new FormData(this.form);
     const body = { items: [], sections: sectionsToRender(), sections_url: window.location.pathname };
@@ -114,6 +115,7 @@ class AureliaProductForm extends HTMLElement {
       const message = (error && error.description) || strings.addToBagError;
       this.showError(message);
       announce(message, true);
+      this.showFieldErrors(error);
     } finally {
       this.setPending(false);
     }
@@ -141,6 +143,30 @@ class AureliaProductForm extends HTMLElement {
     if (!this.errorTarget) return;
     this.errorTarget.textContent = '';
     this.errorTarget.hidden = true;
+  }
+
+  /**
+   * A gift card recipient failure comes back field by field, in `errors`, on
+   * top of the one-sentence `description`. Those belong under the fields that
+   * caused them, so they are handed to the recipient element -- if `product.js`
+   * has upgraded it, and otherwise the sentence above the button still stands.
+   */
+  recipientElement() {
+    const recipient = this.querySelector('aurelia-gift-card-recipient');
+    if (!recipient || typeof recipient.showErrors !== 'function') return null;
+    return recipient;
+  }
+
+  showFieldErrors(error) {
+    if (!error || !error.errors || typeof error.errors !== 'object') return;
+
+    const recipient = this.recipientElement();
+    if (recipient) recipient.showErrors(error.errors);
+  }
+
+  clearFieldErrors() {
+    const recipient = this.recipientElement();
+    if (recipient) recipient.clearErrors();
   }
 }
 

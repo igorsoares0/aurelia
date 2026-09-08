@@ -37,6 +37,21 @@
 
       <h1 class="visually-hidden">{{ 'gift_card.title' | t }}</h1>
 
+      {%- comment -%}
+        A card bought for someone else carries a recipient and, when it was
+        scheduled, a date. Both are stated: the person who opens this page needs
+        to know it is addressed to them, and a card that has not been sent yet
+        should say so rather than look like one that failed to arrive.
+      {%- endcomment -%}
+      {%- if gift_card.recipient -%}
+        <p class="gift-card__recipient">
+          {{ 'gift_card.for_recipient_html' | t: name: gift_card.recipient.name }}
+          {%- if gift_card.send_on -%}
+            {{ ' ' }}{{ 'gift_card.send_on_html' | t: date: gift_card.send_on | date: format: 'date' }}
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+
       <div class="gift-card__card">
         <div class="gift-card__balance">
           <p class="eyebrow eyebrow--quiet">{{ 'gift_card.balance' | t }}</p>
@@ -160,6 +175,13 @@
       .gift-card__expiry,
       .gift-card__hint {
         font-size: var(--text-caption);
+        color: var(--color-secondary);
+      }
+
+      .gift-card__recipient {
+        margin-block-end: var(--space-4);
+        font-size: var(--text-detail);
+        line-height: 1.7;
         color: var(--color-secondary);
       }
 

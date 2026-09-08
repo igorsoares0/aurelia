@@ -1,7 +1,8 @@
 {% doc %}
   Renders the buy area: the lead-time callout, the product form, the button and
   the accelerated checkout buttons -- or, when the piece is sold out, a waitlist
-  and a route to a commission.
+  and a route to a commission. On a gift card product it also carries the
+  recipient panel, which has to sit inside the form tag to reach `form`.
 
   The `{% form 'product' %}` block lives here rather than around the whole panel
   for two reasons. `payment_button` needs the form object and `{% render %}` has
@@ -117,12 +118,20 @@
     {% form 'product', product, id: form_id, class: 'buy__form', novalidate: 'novalidate' %}
       <input type="hidden" name="id" value="{{ variant.id }}" data-variant-id>
 
+      {%- if product.gift_card? -%}
+        {% render 'gift-card-recipient', form: form, form_id: form_id %}
+      {%- endif -%}
+
       <button class="button button--primary button--full buy__submit" type="submit" name="add">
         {{- button_label -}}
       </button>
 
       {%- if show_dynamic -%}
         <div class="buy__dynamic">{{ form | payment_button }}</div>
+
+        {%- if product.gift_card? -%}
+          <p class="buy__note buy__express-note">{{ 'products.gift_card_express_note' | t }}</p>
+        {%- endif -%}
       {%- endif -%}
     {% endform %}
   {%- endif -%}
@@ -187,6 +196,22 @@
     font-size: var(--text-caption);
     line-height: 1.7;
     color: var(--color-secondary);
+  }
+
+  /* Shopify does not validate the recipient properties on an accelerated
+     checkout, so that route is withdrawn while the card is addressed to
+     someone else -- and the withdrawal is said in words, next to the button
+     that does still work, rather than left as a control that vanished. */
+  .buy__express-note {
+    display: none;
+  }
+
+  .buy__form:has([data-recipient-toggle]:checked) .buy__dynamic {
+    display: none;
+  }
+
+  .buy__form:has([data-recipient-toggle]:checked) .buy__express-note {
+    display: block;
   }
 
   .buy__error[hidden] {
