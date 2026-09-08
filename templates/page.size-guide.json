@@ -1,0 +1,87 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Sizing"
+      }
+    },
+    "sizer": {
+      "type": "size-guide",
+      "blocks": {
+        "s10": { "type": "size", "settings": { "label": "10", "circumference": 50 } },
+        "s11": { "type": "size", "settings": { "label": "11", "circumference": 51 } },
+        "s12": { "type": "size", "settings": { "label": "12", "circumference": 52 } },
+        "s13": { "type": "size", "settings": { "label": "13", "circumference": 53 } },
+        "s14": { "type": "size", "settings": { "label": "14", "circumference": 54 } },
+        "s15": { "type": "size", "settings": { "label": "15", "circumference": 55 } },
+        "s16": { "type": "size", "settings": { "label": "16", "circumference": 56 } },
+        "s17": { "type": "size", "settings": { "label": "17", "circumference": 57 } },
+        "s18": { "type": "size", "settings": { "label": "18", "circumference": 58 } },
+        "s19": { "type": "size", "settings": { "label": "19", "circumference": 59 } },
+        "s20": { "type": "size", "settings": { "label": "20", "circumference": 60 } },
+        "s22": { "type": "size", "settings": { "label": "22", "circumference": 62 } },
+        "s24": { "type": "size", "settings": { "label": "24", "circumference": 64 } },
+        "s26": { "type": "size", "settings": { "label": "26", "circumference": 66 } },
+        "s28": { "type": "size", "settings": { "label": "28", "circumference": 68 } }
+      },
+      "block_order": [
+        "s10", "s11", "s12", "s13", "s14", "s15", "s16", "s17",
+        "s18", "s19", "s20", "s22", "s24", "s26", "s28"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "eyebrow": "Sizing",
+        "heading": "Print this, and measure a ring you already wear",
+        "intro": "<p>Every band is resized free for life, up to three sizes either way. This sheet is here so the first one usually is not needed.</p>",
+        "warning": "<p>Print at 100%. In the print dialog set scale to 100% or Actual size — Fit to page will shrink the sheet and every circle with it. On screen this page is not to scale.</p>",
+        "rule_length": 100,
+        "columns": 5,
+        "footnote": "<p>Sizes are inner circumference in millimetres, which is what Brazilian and European sizing measure. If you are between two, take the larger and tell us — we set it to the finger, not to the table.</p>"
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "What if I get it wrong?",
+            "text": "<p>Resizing is free for life, up to three sizes either way. Write to us and we send a prepaid insured label.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Does the width of the band change the size?",
+            "text": "<p>Yes. A band wider than about 6mm usually needs half a size more. Tell us the piece and we allow for it.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "When should I measure?",
+            "text": "<p>At the end of the day, at room temperature. Fingers are smallest in the cold morning and largest after heat or salt.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Can an engraved ring be resized?",
+            "text": "<p>One size at most before the engraving distorts. This is why engraved pieces are final sale, and we say it before you order.</p>"
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "About sizing",
+        "open_first": false
+      }
+    }
+  },
+  "order": ["main", "sizer", "questions"]
+}

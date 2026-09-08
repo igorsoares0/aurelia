@@ -1,0 +1,158 @@
+{% comment %}
+  A maker's page: the person named in a piece's ledger, given somewhere to
+  point at.
+
+  The section reads the `metaobject` object rather than any section setting for
+  its content, so one file serves every maker the merchant defines. Each field
+  is guarded -- a maker with only a name renders as a name, not as a page of
+  empty rules.
+
+  The definition, its `onlineStore` capability and the `custom.maker` product
+  metafield that references it are created by `scripts/seed.mjs`. See
+  METAFIELDS.md.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/templates/metaobject
+{% endcomment %}
+
+{% render 'styles-ledger' %}
+
+{% liquid
+  assign maker_name = metaobject.name.value | default: metaobject.system.handle
+  assign role = metaobject.role.value
+  assign place = metaobject.place.value
+  assign since = metaobject.since.value
+  assign bio = metaobject.bio.value
+  assign portrait = metaobject.portrait.value
+%}
+
+<div class="maker color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="maker__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      <div class="maker__media">
+        {% render 'image',
+          image: portrait,
+          alt: maker_name,
+          height: section.settings.portrait_height,
+          sizes: '(min-width: 990px) 40vw, 100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          placeholder: 'lifestyle-1'
+        %}
+      </div>
+
+      <div class="maker__text">
+        {%- if role != blank -%}
+          <p class="eyebrow eyebrow--wide">{{ role }}</p>
+        {%- endif -%}
+
+        <h1 class="maker__name">{{ maker_name }}</h1>
+
+        {%- if bio != blank -%}
+          <div class="maker__bio rte">{{ bio | newline_to_br }}</div>
+        {%- endif -%}
+
+        {%- if place != blank or since != blank -%}
+          <dl class="maker__ledger">
+            {%- if place != blank -%}
+              <dt class="ledger__term">{{ 'makers.place' | t }}</dt>
+              <dd class="ledger__value">{{ place }}</dd>
+            {%- endif -%}
+            {%- if since != blank -%}
+              <dt class="ledger__term">{{ 'makers.since' | t }}</dt>
+              <dd class="ledger__value">{{ since }}</dd>
+            {%- endif -%}
+          </dl>
+        {%- endif -%}
+
+        {%- if section.settings.link_label != blank -%}
+          <a class="button button--secondary" href="{{ section.settings.link | default: routes.all_products_collection_url }}">
+            {{- section.settings.link_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .maker {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .maker__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: var(--space-13);
+    align-items: start;
+  }
+
+  .maker__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    min-width: 0;
+    max-width: 56ch;
+  }
+
+  .maker__name {
+    font-size: var(--text-display-md);
+    line-height: 1.05;
+  }
+
+  .maker__bio {
+    font-size: var(--text-lead);
+    line-height: 1.7;
+  }
+
+  .maker__ledger {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Mobile restructure: the two columns become one sequence with the portrait
+     first, because the face is what identifies the page before the name is
+     read. The portrait keeps its merchant-set height rather than shrinking. */
+  @media screen and (max-width: 989px) {
+    .maker__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.maker",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    {
+      "type": "range",
+      "id": "portrait_height",
+      "label": "t:labels.image_height",
+      "min": 320,
+      "max": 760,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    },
+    { "type": "text", "id": "link_label", "label": "t:labels.link_label" },
+    { "type": "url", "id": "link", "label": "t:labels.link" }
+  ],
+  "enabled_on": {
+    "templates": ["metaobject"]
+  }
+}
+{% endschema %}

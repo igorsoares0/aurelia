@@ -95,7 +95,19 @@
     "badge_video": "Video · {{ duration }}s",
     "badge_external_video": "Video",
     "badge_model": "3D",
-    "weight": "Weight"
+    "weight": "Weight",
+    "sizer_check_heading": "Check the scale first",
+    "sizer_check_body": "Print the sheet, then measure this rule. It must read {{ length }}mm. If it is short, the print was scaled and every circle below is wrong by the same amount.",
+    "sizer_rule_alt": "A rule {{ length }} millimetres long, marked every 10 millimetres.",
+    "sizer_measurements": "{{ diameter }}mm across, {{ circumference }}mm around",
+    "sizer_method_ring": "Measuring a ring you own",
+    "sizer_ring_1": "Choose a ring worn on the same finger, and lay it on the sheet.",
+    "sizer_ring_2": "Move it until the printed circle disappears just inside the band.",
+    "sizer_ring_3": "That is your size. Between two, take the larger.",
+    "sizer_method_finger": "Measuring the finger itself",
+    "sizer_finger_1": "Cut a strip of paper about 10mm wide and wrap it around the base of the finger, snug but not tight.",
+    "sizer_finger_2": "Mark where it overlaps, unwrap it, and measure to the mark against the {{ length }}mm rule above.",
+    "sizer_finger_3": "That measurement in millimetres is the circumference. Match it to the sizes above."
   },
   "pairing": {
     "set_total": "Set total",
@@ -385,5 +397,10 @@
     "article_title": "Example article",
     "article_excerpt": "Replace this with an article from your journal.",
     "pick_product": "Choose a product in the theme editor."
+  },
+  "makers": {
+    "place": "At the bench in",
+    "since": "At Aurelia since",
+    "made_by": "Made by"
   }
 }

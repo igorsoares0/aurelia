@@ -1,0 +1,149 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb": { "type": "breadcrumb", "settings": {} },
+        "eyebrow": { "type": "eyebrow", "settings": { "text": "Made to order" } },
+        "title": { "type": "title", "settings": {} },
+        "price": { "type": "price", "settings": { "show_instalments": true } },
+        "description": { "type": "description", "settings": {} },
+        "variant_picker": { "type": "variant_picker", "settings": {} },
+        "engraving": { "type": "engraving", "settings": { "max_characters": 3 } },
+        "quantity": { "type": "quantity", "settings": {} },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "lead_time": "Set to order in 28 days, then three days to ship.",
+            "reassurance": "Free shipping and free resizing, for life. Engraved pieces are final sale.",
+            "commission_url": "/pages/contact"
+          }
+        },
+        "pickup": { "type": "pickup", "settings": {} },
+        "spec_list": {
+          "type": "spec_list",
+          "settings": {
+            "summary_label": "Specification",
+            "label_material": "Material",
+            "label_face": "Face",
+            "label_origin": "Made in",
+            "label_lead_time": "Lead time",
+            "label_care": "Care"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb",
+        "eyebrow",
+        "title",
+        "price",
+        "description",
+        "variant_picker",
+        "engraving",
+        "quantity",
+        "buy_buttons",
+        "pickup",
+        "spec_list"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "hero_height": 760,
+        "detail_height": 420,
+        "sticky_panel": true
+      }
+    },
+    "commission": {
+      "type": "collapsible-content",
+      "blocks": {
+        "order": {
+          "type": "row",
+          "settings": {
+            "heading": "What happens after you order",
+            "text": "<p>The stone is chosen the same week and the band is cut to your size. We write once when it goes on the bench and once when it ships.</p>"
+          }
+        },
+        "changes": {
+          "type": "row",
+          "settings": {
+            "heading": "Changing your mind",
+            "text": "<p>Within three days, in full, no questions. After that the gold has been cut and the stone is set aside for you.</p>"
+          }
+        },
+        "engraving": {
+          "type": "row",
+          "settings": {
+            "heading": "Engraving",
+            "text": "<p>Up to three characters on the inside of the band. Engraved pieces are final sale and can be resized one size at most, so tell us the size you are sure of.</p>"
+          }
+        },
+        "sizing": {
+          "type": "row",
+          "settings": {
+            "heading": "If you do not know the size",
+            "text": "<p>Order anyway and print the sizer. Resizing is free for life, up to three sizes either way, on pieces that are not engraved.</p>"
+          }
+        }
+      },
+      "block_order": ["order", "changes", "engraving", "sizing"],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Ordering a piece that does not exist yet",
+        "intro": "<p>Nothing here is made in advance. That is the whole arrangement, and these are its terms.</p>",
+        "button_label": "The ring sizer",
+        "button_link": "/pages/size-guide",
+        "open_first": true
+      }
+    },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Week one",
+            "heading": "The stone is chosen",
+            "text": "<p>Seen in daylight, against the others from the same parcel. Nothing is ordered from a photograph.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Week two",
+            "heading": "The band is cut to your size",
+            "text": "<p>Cut, formed and soldered, then left to normalise before anything is set into it.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Week four",
+            "heading": "Set, finished and struck",
+            "text": "<p>The stone is set flush, the band polished, and the piece number struck last and recorded against your order.</p>"
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "A stone being set flush into a band at the bench",
+        "image_position": "right",
+        "image_height": 620,
+        "eyebrow": "Twenty-eight days",
+        "heading": "What the wait is for"
+      }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    }
+  },
+  "order": ["main", "commission", "provenance", "related"]
+}

@@ -1,0 +1,253 @@
+{% comment %}
+  Where the pieces can be seen in person: the atelier, and the shops that carry
+  the chapter.
+
+  There is deliberately no embedded map. A third-party map iframe is a library
+  by another name and it loads on first paint, which is exactly the cost the
+  Lighthouse floor is measured against. A written address a person can read
+  aloud, plus a directions link they choose to follow, does the same work for
+  nothing.
+
+  Each entry is an `<address>` inside a list item, which is what the element is
+  for. The hours are a `<dl>`, so a day and its hours stay associated when the
+  page is read aloud rather than looked at.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/sections
+{% endcomment %}
+
+{% render 'styles-ledger' %}
+
+<div class="stockists color-{{ section.settings.color_scheme }} full-width">
+  <div class="band">
+    <div
+      class="stockists__inner section-padding"
+      {% if settings.motion_reveal %}data-reveal{% endif %}
+    >
+      <div class="stockists__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="eyebrow eyebrow--quiet">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.intro != blank -%}
+          <div class="stockists__intro rte">{{ section.settings.intro }}</div>
+        {%- endif -%}
+      </div>
+
+      <ul class="stockists__grid" style="--columns: {{ section.settings.columns }};">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign tel = block.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-'
+          -%}
+          <li class="stockists__item" {{ block.shopify_attributes }}>
+            <h3 class="stockists__name">{{ block.settings.name | escape }}</h3>
+
+            {%- if block.settings.role != blank -%}
+              <p class="stockists__role eyebrow">{{ block.settings.role | escape }}</p>
+            {%- endif -%}
+
+            <address class="stockists__address">
+              {%- if block.settings.address != blank -%}
+                {{ block.settings.address | escape | newline_to_br }}
+              {%- endif -%}
+              {%- if block.settings.phone != blank -%}
+                <br>
+                <a class="link-tap link-inline" href="tel:{{ tel }}">
+                  {{- block.settings.phone | escape -}}
+                </a>
+              {%- endif -%}
+            </address>
+
+            {%- if block.settings.hours != blank -%}
+              <dl class="stockists__hours">
+                {%- assign rows = block.settings.hours | newline_to_br | split: '<br />' -%}
+                {%- for row in rows -%}
+                  {%- assign pair = row | strip | split: ':' -%}
+                  {%- if pair.size > 1 -%}
+                    <dt class="ledger__term">{{ pair[0] | strip | escape }}</dt>
+                    <dd class="ledger__value">
+                      {{- row | strip | remove_first: pair[0] | remove_first: ':' | strip | escape -}}
+                    </dd>
+                  {%- else -%}
+                    <dt class="ledger__term">{{ row | strip | escape }}</dt>
+                    <dd class="ledger__value"></dd>
+                  {%- endif -%}
+                {%- endfor -%}
+              </dl>
+            {%- endif -%}
+
+            {%- if block.settings.note != blank -%}
+              <p class="stockists__note">{{ block.settings.note | escape }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.directions != blank -%}
+              <a class="stockists__directions link-tap link-inline" href="{{ block.settings.directions }}">
+                {{- block.settings.directions_label | default: 'Directions' | escape -}}
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .stockists {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .stockists__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-9);
+  }
+
+  .stockists__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 44ch;
+  }
+
+  .stockists__intro {
+    font-size: var(--text-lead);
+    line-height: 1.6;
+  }
+
+  .stockists__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: var(--space-11);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .stockists__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-width: 0;
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--hairline-group);
+  }
+
+  .stockists__name {
+    font-size: var(--text-title-sm);
+    line-height: 1.25;
+  }
+
+  .stockists__role {
+    color: var(--color-accent);
+  }
+
+  .stockists__address {
+    font-size: var(--text-detail);
+    font-style: normal;
+    line-height: 1.75;
+  }
+
+  .stockists__hours {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    width: 100%;
+    margin: 0;
+  }
+
+  .stockists__note {
+    font-size: var(--text-caption);
+    line-height: 1.6;
+    color: var(--color-secondary);
+  }
+
+  .stockists__directions {
+    margin-block-start: auto;
+    padding-block-start: var(--space-2);
+  }
+
+  .stockists__directions span {
+    margin-inline-start: var(--space-1);
+  }
+
+  /* Mobile restructure: the columns become a single stack, and each entry keeps
+     its own top rule so the list still reads as separate places rather than as
+     one long address. */
+  @media screen and (max-width: 989px) {
+    .stockists__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.stockists",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "ground"
+    },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Where to find us" },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:labels.intro",
+      "default": "<p>The bench is open by appointment. Everything else is carried by three shops who have sold the chapters since the first one.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:labels.columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "place",
+      "name": "t:general.place",
+      "settings": [
+        { "type": "text", "id": "name", "label": "t:labels.name", "default": "The atelier" },
+        { "type": "text", "id": "role", "label": "t:labels.role", "info": "t:info.stockist_role" },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "t:labels.address",
+          "default": "Rua Sergipe 1440, 2nd floor\nSavassi, Belo Horizonte\nMG 30130-171"
+        },
+        { "type": "text", "id": "phone", "label": "t:labels.phone" },
+        {
+          "type": "textarea",
+          "id": "hours",
+          "label": "t:labels.hours",
+          "info": "t:info.hours",
+          "default": "Tuesday to Friday: 10h to 18h\nSaturday: 10h to 14h\nSunday and Monday: closed"
+        },
+        { "type": "text", "id": "note", "label": "t:labels.note" },
+        { "type": "url", "id": "directions", "label": "t:labels.directions" },
+        {
+          "type": "text",
+          "id": "directions_label",
+          "label": "t:labels.directions_label",
+          "default": "Directions"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.preset_stockists",
+      "category": "t:general.cat_content",
+      "blocks": [{ "type": "place" }, { "type": "place" }, { "type": "place" }]
+    }
+  ]
+}
+{% endschema %}

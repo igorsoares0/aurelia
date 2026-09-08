@@ -4,20 +4,32 @@ Work items for extending the theme. Each is independently shippable. Read
 `AGENTS.md` first; the invariants below are the ones people get wrong on this
 codebase specifically.
 
-## Status — 6 September 2026
+## Status — 8 September 2026
 
-**Sections: all seven written and statically validated**, committed as
-`8902054 start 7 home sections`. Written and theme-check clean is not the same as
-accepted -- see the acceptance table below.
+**Sections: all seven written, and rendered by hand on 8 September 2026** against
+a seeded dev store. Committed as `8902054 start 7 home sections`. What is still
+open on them is everything that has to be *measured* -- see the acceptance table
+below.
 
-**Templates: the five-template pass is done, 8 September 2026.** `page.about.json`,
-`page.care.json`, `page.faq.json`, `page.gift-guide.json` and `blog.editorial.json`,
-with the seed pages that make them render. Theme check: 121 files, no offenses.
-Same caveat as the sections -- written and statically validated, never rendered.
+**Templates: all ten are done, 8 September 2026.** The five cheap ones first
+(`page.about`, `page.care`, `page.faq`, `page.gift-guide`, `blog.editorial`), then
+the four that needed code: `page.stockists`, `page.size-guide`,
+`product.made-to-order` and `metaobject/maker`. Theme check: 128 files, no
+offenses. `agents.md.liquid`, which was never in the original list, was declined
+for a documented reason -- see the end of this file. **No work item here is
+open.** The acceptance boxes below are a different question, and five of them
+are.
+
+**Nothing new renders until `seed.mjs` is run again**, and the maker metaobject
+also needs `--auth` re-run, because it asks for four scopes the earlier grant
+does not carry. Until then the new pages do not exist and the templates are
+applied to nothing.
 
 New files: `sections/{video-with-text,marquee,pinned-story,pairing,comparison,
 shop-by,edition}.liquid`, `snippets/{styles-ledger,video-facade}.liquid`,
-`assets/{video.js,edition.js}`.
+`assets/{video.js,edition.js}`. Then, for the templates:
+`sections/{stockists,size-guide,main-maker}.liquid`, nine template JSON files and
+`templates/metaobject/maker.json`.
 
 Changed: `assets/cart.js` (the pairing element, and the form-matching fix below),
 `sections/{main-product,featured-product,header}.liquid`,
@@ -40,7 +52,9 @@ now matches `form[action*="/cart/add"]`, or a waitlist submission would have
 posted to the cart with no variant id.
 
 **Two things to confirm the moment the theme runs.** Neither is caught by theme
-check, and both fail quietly:
+check, and both fail quietly. **Both were looked at in the 8 September render pass
+and neither was reported as broken**, so what follows is kept as the description
+of the failure mode, not as an open question:
 
 1. `row.settings[value_key]` in `comparison.liquid:67,95` -- bracket access with a
    variable key. Standard in Shopify themes, but the first use in this repo. If it
@@ -84,28 +98,30 @@ check, and both fail quietly:
 ### Where the seven sections stand against it
 
 Theme check validates Liquid, schema and translations. It does not render
-anything, so it closes exactly one of these boxes. The rest need
-`shopify theme dev`.
+anything, so it closes exactly one of these boxes. The second was closed by the
+8 September render pass; the rest need instruments, not a look.
 
 | Box | The seven sections |
 |---|---|
-| `theme check` clean | **Done.** 116 files, no offenses. |
-| Renders at defaults and with no blocks | Written for it, never rendered. |
+| `theme check` clean | **Done.** 128 files, no offenses (116 before the templates). |
+| Renders at defaults and with no blocks | **Done, 8 September 2026.** Passed by hand against a seeded dev store, home plus a scratch `page.qa.json` carrying the four sections that are on no template. No defects reported. |
 | Keyboard pass, 44px targets | Not tested. |
 | 200% zoom, 320px | Not tested. |
 | Nothing blank in print | Not tested. `marquee` and `video-with-text` are the two to watch. |
 | 4.5:1 on both schemes | Not measured. Built from tokens that already meet it, which is not the same thing. |
 | Preset in all three listings | **Three of seven.** Deliberate -- see "Where the seven were placed". The other four carry a schema preset, so they appear in Add section, but are not in any listing's home page. |
 
-Until that pass is run, the honest description is *written and statically
-validated*, not *accepted*.
+The render pass closed the first two boxes. What is still open is everything
+that has to be **measured** rather than looked at: keyboard and tap targets,
+200% zoom, print, and contrast -- plus Lighthouse, which is the only one of them
+with a number that can fail a submission.
 
 ---
 
 # Sections
 
-**All seven written**, theme check clean, not yet run in a store -- see Status
-above. Three deviations from what is written below, each noted at its item: no
+**All seven written**, theme check clean, and rendered by hand on 8 September
+2026 -- see Status above. Three deviations from what is written below, each noted at its item: no
 autoplay on the video, two markups rather than one in the comparison, and only
 three of the seven placed on the home page.
 
@@ -298,9 +314,9 @@ four ship with a schema preset only, which is what a merchant needs to find them
 
 # Templates
 
-**Five of ten done** -- the JSON-only pass plus `page.care.json`. What follows is
-the original list, plus what each one was found to actually need when it was
-costed on 6 September 2026, and what shipped on 8 September 2026.
+**All ten done, 8 September 2026.** What follows is the original list, what each
+one was found to actually need when it was costed on 6 September 2026, and what
+actually shipped.
 
 `page.contact.json` and the generic `page.json` exist. These do not.
 
@@ -313,14 +329,14 @@ merchandising value and demo quality, not a review gate.
 | Template | Notes |
 |---|---|
 | `page.about.json` | **Shipped.** Statement, atelier, `pinned-story`, house services, quotes. Seed page `about`. |
-| `page.size-guide.json` | Ring sizer. Print at 1:1 with a `@media print` scale check and a 100%-scale warning. This is the one almost no theme gets right. |
+| `page.size-guide.json` | **Shipped** as `sections/size-guide.liquid`. SVG circles in `mm`, a printed 100mm rule to check the scale against, and the warning on screen and on paper. Seed page `size-guide`. |
 | `page.care.json` | **Shipped**, with `templateSuffix: 'care'` added to the seeded page -- see the trap below. |
 | `page.faq.json` | **Shipped as four grouped `collapsible-content` sections**, not anchors -- see the note below. Seed page `faq`. |
-| `page.stockists.json` | Stockists and atelier visits. Address and hours as blocks. No embedded map — no libraries, and the iframe wrecks Lighthouse. Text address plus a directions link. |
+| `page.stockists.json` | **Shipped** as `sections/stockists.liquid`. `<address>` per place, hours as a `<dl>`, a directions link, no map. Seed page `stockists`. |
 | `page.gift-guide.json` | **Shipped.** Two `shop-by` bands (price, recipient), the chapter grid, gifting questions. Seed page `gift-guide`. |
 | `blog.editorial.json` | **Shipped** as two columns at 400px against the default three at 250. Not applied to the seeded blog -- the merchant selects it. |
-| `product.made-to-order.json` | Declared lead time, line item property for engraving. Buy control reads as a commission; the ledger gains a lead-time row. |
-| `templates/metaobject/maker.json` | Highest value here. `custom.made_in` already reads "Belo Horizonte, by Túlio". Promoting maker and material to metaobjects with their own templates gives linkable provenance pages from the product ledger. Requires metaobject definitions in `scripts/seed.mjs` and a note in `METAFIELDS.md`. |
+| `product.made-to-order.json` | **Shipped.** The ledger gained a Lead time row fed by `custom.lead_time`; `ponto-ring` carries the suffix in the seed. |
+| `templates/metaobject/maker.json` | **Shipped** as `sections/main-maker.liquid`. `made_in` went back to being a place and the person moved to a `maker` metaobject with an online-store URL, linked from the ledger's new Made by row. Material was **not** promoted -- see below. |
 
 Every new page template also needs seed data in `scripts/seed.mjs` so a
 development store renders it, and an entry in the listings presets where it
@@ -377,11 +393,27 @@ Costed against the code as it stands, not against the notes above.
   The note above is right to refuse an embedded map: a third-party iframe on first
   paint is exactly what costs the Lighthouse score that is actually measured.
 
+> **Both shipped.** `product.made-to-order.json` needed less than costed: the
+> ledger row is fed by a new `custom.lead_time` metafield, and `seed.mjs` gained
+> product `templateSuffix` support, which it did not have. The metafield type is
+> now read from `METAFIELD_DEFINITIONS` rather than from the `key === 'care'`
+> ternary, which is what made a `metaobject_reference` possible at all.
+
 **Real work.**
 
 - `page.size-guide.json` -- printing a ring sizer at 1:1 means physical CSS units,
   a 100%-scale warning and a calibration check. None of it shows up in Lighthouse
   or in review; it is quality for the customer holding the paper.
+
+> **Shipped, and the circles are SVG.** The theme bans `border-radius` outside
+> the swatch dot, and a stroked SVG circle is geometry rather than decoration --
+> it also puts the stroke *on* the diameter instead of outside it, which a CSS
+> border cannot do. Sizes are entered as inner circumference in whole
+> millimetres, because a `range` cannot express a diameter to two decimals
+> (12--24mm at 0.1 is 120 steps, over the 101 the schema allows), and the
+> diameter is computed. The printed rule is the part that matters: without
+> measuring it, a sheet scaled by "fit to page" looks exactly like a correct
+> one.
 - `templates/metaobject/maker.json` -- the note above understates this. There is
   **not one line of metaobject code anywhere in the repository**. It needs
   definitions and seeding added to `seed.mjs`, a `metaobject_reference` metafield
@@ -389,6 +421,25 @@ Costed against the code as it stands, not against the notes above.
   template directory, a `METAFIELDS.md` entry -- and **new API scopes, which force
   every existing user to re-run `--auth`**. Easier to ask that of merchants who
   already have the theme than to do it mid-review.
+
+> **Shipped, and material was declined.** One metaobject, not two. A material is
+> a property of a piece and already has a ledger row; a maker is a person, and a
+> page about a person is worth linking to. Promoting material as well would have
+> doubled the definitions and the seeding for a page that would read as a
+> glossary entry.
+>
+> Three things were load-bearing and are easy to lose. The definition needs the
+> `onlineStore` capability or entries have no URL at all, and the template is
+> then a file nothing renders -- the ledger falls back to unlinked text, which is
+> correct but silent. A `metaobject_reference` metafield is **rejected** without
+> a `metaobject_definition_id` validation, so the definition has to be created,
+> and its id held, before the metafield definition is attempted. And the seed
+> data holds a readable handle (`tulio`) where the API needs a gid, so
+> `seedProducts` resolves it and drops the field rather than sending a string the
+> API would refuse.
+>
+> The four new scopes are the real cost: **`--auth` has to be run again** on any
+> store that was authorised before this.
 
 ## Not in the original list
 
@@ -398,12 +449,40 @@ Costed against the code as it stands, not against the notes above.
   it."* Optional and cheap, and the kind of thing that separates a current theme
   from a dated one.
 
+> **Declined, 8 September 2026, and the reasoning above is backwards.** Shopify
+> manages an `agents.md` for every store already, and the documentation is
+> explicit that the managed file *"is all you need"* for most stores, that it
+> *"stays aligned with Shopify's agent-discovery capabilities and the store's
+> commerce configuration without extra theme maintenance"*, and that the template
+> should be added *"only when you have advanced requirements that the managed
+> file doesn't cover"* -- at which point *"you hand-edit the Liquid template and
+> take responsibility for keeping its content current"*.
+>
+> A theme cannot take that responsibility. The file would ship to every merchant
+> who installs Aurelia, override the managed one on each of their stores, and
+> freeze the UCP and MCP endpoints, the browsing URLs and the policy list at
+> whatever was true on the day it was written. The hand-written file is the one
+> that becomes dated; the managed file is the current one.
+>
+> Aurelia has no advanced requirement here. The item is closed as declined
+> rather than done, and nothing about it is a submission risk either way.
+>
+> https://shopify.dev/docs/storefronts/themes/architecture/templates/agents-md-liquid
+
 ## Suggested order
 
-~~The four JSON-only templates plus `page.care.json` in one short pass~~ --
-**done, 8 September 2026.** Next: `agents.md.liquid`, then `page.stockists.json`
-and `product.made-to-order.json`. `page.size-guide.json` is real work, and
-`metaobject/maker` stays until after the theme is published.
+~~The four JSON-only templates plus `page.care.json` in one short pass~~,
+~~then `agents.md.liquid`, `page.stockists.json`, `product.made-to-order.json`,
+`page.size-guide.json` and `metaobject/maker`~~ -- **all done, 8 September 2026**,
+except `agents.md.liquid`, which was declined for the reason above.
 
-Before any of that, the five new templates need the same render pass the seven
-sections are still waiting on -- nothing here has been seen in a browser.
+**No work item in this file is open.** Two things are, and neither is a template:
+
+1. **The acceptance table above**, where five boxes are still open for the seven
+   sections -- keyboard and tap targets, 200% zoom, print, contrast, and presets
+   in all three listings. The nine new templates and three new sections have not
+   been through it at all.
+2. **Everything outside this file.** Lighthouse has never been run,
+   `config/settings_schema.json:6-8` still carries Dawn's placeholder
+   documentation and support URLs, and the demo stores do not exist. Those are
+   the ones that fail a review; nothing in the template list ever could.

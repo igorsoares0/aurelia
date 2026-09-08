@@ -53,6 +53,79 @@ export const METAFIELD_DEFINITIONS = [
     type: 'multi_line_text_field',
     description: 'The Care row of the ledger.',
   },
+  {
+    key: 'maker',
+    name: 'Maker',
+    type: 'metaobject_reference',
+    // Resolved by seed.mjs into a validation against the metaobject definition
+    // below, and into the entry's id when the value is written on a product.
+    metaobjectType: 'maker',
+    description: 'The person who made the piece. The Made by row of the ledger, linked to their page.',
+  },
+  {
+    key: 'lead_time',
+    name: 'Lead time',
+    type: 'single_line_text_field',
+    description:
+      'How long the piece takes to make. The Lead time row of the ledger, used by the made-to-order template.',
+  },
+];
+
+/**
+ * The one metaobject the theme defines. `onlineStore` is what gives each entry
+ * a real URL -- without that capability the maker still renders in the ledger,
+ * but as text rather than as a link, and templates/metaobject/maker.json is
+ * never reached.
+ *
+ * These are merchant-owned custom data, not app-owned: the theme reads them
+ * from Liquid on a store it does not install an app into, so they live in the
+ * `custom` namespace and are created through the Admin API rather than
+ * declared in a shopify.app.toml.
+ */
+export const METAOBJECT_DEFINITIONS = [
+  {
+    type: 'maker',
+    name: 'Maker',
+    displayNameKey: 'name',
+    urlHandle: 'makers',
+    fields: [
+      { key: 'name', name: 'Name', type: 'single_line_text_field', required: true },
+      { key: 'role', name: 'Role', type: 'single_line_text_field' },
+      { key: 'place', name: 'Place', type: 'single_line_text_field' },
+      { key: 'since', name: 'At the bench since', type: 'single_line_text_field' },
+      { key: 'bio', name: 'Biography', type: 'multi_line_text_field' },
+      { key: 'portrait', name: 'Portrait', type: 'file_reference' },
+    ],
+  },
+];
+
+export const MAKERS = [
+  {
+    type: 'maker',
+    handle: 'tulio',
+    fields: {
+      name: 'Tulio Ferraz',
+      role: 'Bench jeweller, founder',
+      place: 'Belo Horizonte',
+      since: '2015',
+      bio: `Tulio opened the bench in 2015 with one polishing motor and a borrowed rolling mill. Both are still in the room.
+
+He cuts and finishes every band himself, which is the reason there are twelve pieces a year and not forty. The tool marks inside a band are his, and they stay.`,
+    },
+  },
+  {
+    type: 'maker',
+    handle: 'ana',
+    fields: {
+      name: 'Ana Prado',
+      role: 'Setter',
+      place: 'Belo Horizonte',
+      since: '2018',
+      bio: `Ana sets every stone in the house, flush or otherwise, and buys them alongside the cutters we have used for eleven years.
+
+Nothing is ordered from a photograph. If a stone is not right in daylight it does not come back to the bench.`,
+    },
+  },
 ];
 
 const METALS = ['18k yellow gold', '18k rose gold', 'Silver 950'];
@@ -79,7 +152,8 @@ export const PRODUCTS = [
       specification: '18k recycled gold, 9.4g',
       material: '18k recycled gold, 9.4g',
       face: '13 x 11mm oval, brushed',
-      made_in: 'Belo Horizonte, by Tulio',
+      made_in: 'Belo Horizonte',
+      maker: 'tulio',
       care: 'Warm water, soft cloth. Free polishing forever.',
     },
     options: [
@@ -112,7 +186,8 @@ export const PRODUCTS = [
       specification: '18k recycled gold, 3.2g',
       material: '18k recycled gold, 3.2g',
       face: '2.1mm band, polished',
-      made_in: 'Belo Horizonte, by Ana',
+      made_in: 'Belo Horizonte',
+      maker: 'ana',
       care: 'Warm water, soft cloth. Free polishing forever.',
     },
     options: [{ name: 'Size', values: SIZES }],
@@ -139,7 +214,8 @@ export const PRODUCTS = [
       specification: 'Silver 950, 6.8g the pair',
       material: 'Silver 950, 6.8g the pair',
       face: '18 x 14mm, brushed',
-      made_in: 'Belo Horizonte, by Tulio',
+      made_in: 'Belo Horizonte',
+      maker: 'tulio',
       care: 'Warm water, soft cloth. Silver darkens; we re-polish free.',
     },
     options: [{ name: 'Finish', values: ['Brushed', 'Polished'] }],
@@ -164,7 +240,8 @@ export const PRODUCTS = [
       specification: '18k recycled gold, 2.1g',
       material: '18k recycled gold, 2.1g',
       face: '6 x 5mm, cast texture',
-      made_in: 'Belo Horizonte, by Ana',
+      made_in: 'Belo Horizonte',
+      maker: 'ana',
       care: 'Warm water, soft cloth. Free polishing forever.',
     },
     options: [],
@@ -186,7 +263,8 @@ export const PRODUCTS = [
       specification: 'Silver 950, 24g',
       material: 'Silver 950, 24g',
       face: '9mm wide, hammered',
-      made_in: 'Belo Horizonte, by Tulio',
+      made_in: 'Belo Horizonte',
+      maker: 'tulio',
       care: 'Warm water, soft cloth. Silver darkens; we re-polish free.',
     },
     options: [{ name: 'Size', values: ['Small', 'Large'] }],
@@ -211,7 +289,8 @@ export const PRODUCTS = [
       specification: '18k recycled gold, from 11g',
       material: '18k recycled gold, from 11g',
       face: '3.4mm curb, polished',
-      made_in: 'Belo Horizonte, by Ana',
+      made_in: 'Belo Horizonte',
+      maker: 'ana',
       care: 'Warm water, soft cloth. Free polishing forever.',
     },
     options: [{ name: 'Length', values: ['40cm', '45cm', '50cm'] }],
@@ -225,19 +304,26 @@ export const PRODUCTS = [
   {
     handle: 'ponto-ring',
     title: 'Ponto Ring',
-    exercises: 'A single stone, and a price that varies across variants',
+    exercises:
+      'A single stone, a price that varies across variants, and the made-to-order template',
     description:
-      '<p>One stone set flush into the band, so nothing catches. The stone is bought from a cutter we have used for eleven years.</p>',
+      '<p>One stone set flush into the band, so nothing catches. The stone is bought from a cutter we have used for eleven years.</p><p>Each one is set to order, to the finger it is going on.</p>',
     type: '18k recycled gold',
     vendor: 'Aurelia',
-    tags: ['Rings', 'Autumn chapter'],
+    tags: ['Rings', 'Autumn chapter', 'Made to order'],
+    // Uses templates/product.made-to-order.json. It is the one seeded product
+    // that declares a lead time, so it is also the only one whose ledger shows
+    // the Lead time row.
+    templateSuffix: 'made-to-order',
     metafields: {
       piece_number: '07',
       piece_total: '24',
       specification: '18k recycled gold, 4.0g',
       material: '18k recycled gold, 4.0g',
       face: '2.5mm stone, flush set',
-      made_in: 'Belo Horizonte, by Tulio',
+      made_in: 'Belo Horizonte',
+      maker: 'tulio',
+      lead_time: '28 days from order, then three days to ship',
       care: 'Warm water, soft cloth. Free polishing forever.',
     },
     options: [{ name: 'Stone', values: ['Sapphire', 'Tourmaline', 'Diamond'] }],
@@ -398,6 +484,21 @@ export const PAGES = [
     // sections, so the body stays a lead paragraph -- see the template.
     templateSuffix: 'faq',
     body: `<p>Grouped by what people actually ask, in the order they ask it. Anything not here, write to us and a person answers.</p>`,
+  },
+  {
+    handle: 'size-guide',
+    title: 'Ring sizes',
+    // Uses templates/page.size-guide.json, whose sizer is only correct on
+    // paper. The body says so above the fold.
+    templateSuffix: 'size-guide',
+    body: `<p>Print the sheet below at 100% and measure a ring you already wear. On screen it is not to scale, and no screen can be trusted for this.</p>`,
+  },
+  {
+    handle: 'stockists',
+    title: 'Visiting',
+    // Uses templates/page.stockists.json.
+    templateSuffix: 'stockists',
+    body: `<p>The bench is in Belo Horizonte and visits are by appointment, one at a time. Two shops carry the current chapter.</p>`,
   },
   {
     handle: 'gift-guide',

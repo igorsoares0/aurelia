@@ -22,7 +22,15 @@ import { promisify } from 'node:util';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { METAFIELD_DEFINITIONS, PRODUCTS, COLLECTIONS, BLOG, PAGES } from './seed-data.mjs';
+import {
+  METAFIELD_DEFINITIONS,
+  METAOBJECT_DEFINITIONS,
+  MAKERS,
+  PRODUCTS,
+  COLLECTIONS,
+  BLOG,
+  PAGES,
+} from './seed-data.mjs';
 
 const exec = promisify(execFile);
 
@@ -59,6 +67,12 @@ const SCOPES = [
   'write_content',
   'read_online_store_pages',
   'write_online_store_pages',
+  // The maker metaobject. These four are why an existing install has to run
+  // `--auth` again after upgrading: the stored grant does not widen itself.
+  'read_metaobject_definitions',
+  'write_metaobject_definitions',
+  'read_metaobjects',
+  'write_metaobjects',
 ].join(',');
 
 /**
@@ -303,10 +317,135 @@ async function storeContext() {
    Metafield definitions
    ------------------------------------------------------------------------- */
 
-async function seedMetafieldDefinitions() {
+async function seedMetaobjectDefinitions() {
+  console.log('\nMetaobject definitions');
+  const ids = {};
+
+  for (const def of METAOBJECT_DEFINITIONS) {
+    // Created definitions are not returned by a create that fails as TAKEN, so
+    // the lookup comes first and the id is what the rest of the run needs.
+    const existing = await gql(
+      `query DefinitionByType($type: String!) {
+        metaobjectDefinitionByType(type: $type) { id }
+      }`,
+      { type: def.type },
+      { label: `metaobject ${def.type}` }
+    );
+
+    if (existing.metaobjectDefinitionByType?.id) {
+      ids[def.type] = existing.metaobjectDefinitionByType.id;
+      skipped += 1;
+      console.log(dim(`  exists  ${def.type}`));
+      continue;
+    }
+
+    const result = await gql(
+      `mutation CreateMetaobjectDefinition($definition: MetaobjectDefinitionCreateInput!) {
+        metaobjectDefinitionCreate(definition: $definition) {
+          metaobjectDefinition { id type }
+          userErrors { code field message }
+        }
+      }`,
+      {
+        definition: {
+          type: def.type,
+          name: def.name,
+          displayNameKey: def.displayNameKey,
+          access: { storefront: 'PUBLIC_READ' },
+          capabilities: {
+            publishable: { enabled: true },
+            // Without this there is no URL, and templates/metaobject/maker.json
+            // is a file nothing ever renders.
+            onlineStore: {
+              enabled: true,
+              data: { urlHandle: def.urlHandle, createRedirects: true },
+            },
+          },
+          fieldDefinitions: def.fields.map((field) => ({
+            key: field.key,
+            name: field.name,
+            type: field.type,
+            required: field.required === true,
+          })),
+        },
+      },
+      { label: `metaobject ${def.type}`, tolerate: ['TAKEN'] }
+    );
+
+    if (result.__skipped) continue;
+    const id = result.metaobjectDefinitionCreate?.metaobjectDefinition?.id;
+    if (id) ids[def.type] = id;
+    if (!DRY_RUN) console.log(green(`  ok      ${def.type}`));
+    created += 1;
+  }
+
+  return ids;
+}
+
+async function seedMakers() {
+  console.log('\nMakers');
+  const ids = {};
+
+  for (const entry of MAKERS) {
+    const result = await gql(
+      `mutation UpsertMetaobject($handle: MetaobjectHandleInput!, $metaobject: MetaobjectUpsertInput!) {
+        metaobjectUpsert(handle: $handle, metaobject: $metaobject) {
+          metaobject { id handle }
+          userErrors { code field message }
+        }
+      }`,
+      {
+        handle: { type: entry.type, handle: entry.handle },
+        metaobject: {
+          capabilities: { publishable: { status: 'ACTIVE' } },
+          fields: Object.entries(entry.fields).map(([key, value]) => ({ key, value })),
+        },
+      },
+      { label: entry.fields.name }
+    );
+
+    if (result.__skipped) continue;
+    const id = result.metaobjectUpsert?.metaobject?.id;
+    if (id) ids[entry.handle] = id;
+    if (!DRY_RUN) console.log(green(`  ok      ${entry.fields.name}`));
+    created += 1;
+  }
+
+  return ids;
+}
+
+/**
+ * Falls back to a lookup when `--only` skipped the step that would have
+ * produced these, so `--only products` still writes a usable maker reference.
+ */
+async function findMakerIds() {
+  const ids = {};
+  if (DRY_RUN) return ids;
+
+  for (const entry of MAKERS) {
+    const data = await gql(
+      `query MetaobjectByHandle($handle: MetaobjectHandleInput!) {
+        metaobjectByHandle(handle: $handle) { id }
+      }`,
+      { handle: { type: entry.type, handle: entry.handle } },
+      { label: `maker ${entry.handle}` }
+    );
+    if (data.metaobjectByHandle?.id) ids[entry.handle] = data.metaobjectByHandle.id;
+  }
+
+  return ids;
+}
+
+async function seedMetafieldDefinitions(metaobjectIds = {}) {
   console.log('\nMetafield definitions');
 
   for (const def of METAFIELD_DEFINITIONS) {
+    if (def.metaobjectType && !metaobjectIds[def.metaobjectType] && !DRY_RUN) {
+      console.log(dim(`  skip    custom.${def.key} — no ${def.metaobjectType} definition`));
+      skipped += 1;
+      continue;
+    }
+
     const result = await gql(
       `mutation CreateDefinition($definition: MetafieldDefinitionInput!) {
         metafieldDefinitionCreate(definition: $definition) {
@@ -322,6 +461,18 @@ async function seedMetafieldDefinitions() {
           description: def.description,
           type: def.type,
           ownerType: 'PRODUCT',
+          // A metaobject_reference without this validation is rejected: the
+          // field has to say which definition it may point at.
+          ...(def.metaobjectType && metaobjectIds[def.metaobjectType]
+            ? {
+                validations: [
+                  {
+                    name: 'metaobject_definition_id',
+                    value: metaobjectIds[def.metaobjectType],
+                  },
+                ],
+              }
+            : {}),
           // Without PUBLIC_READ the value exists but Liquid cannot see it, and
           // every ledger row silently falls back.
           access: { storefront: 'PUBLIC_READ' },
@@ -352,7 +503,7 @@ async function findByHandle(type, handle) {
   return data[field]?.id ?? null;
 }
 
-async function seedProducts({ locationId, publicationId }) {
+async function seedProducts({ locationId, publicationId, makerIds = {} }) {
   console.log('\nProducts');
   const ids = {};
 
@@ -380,12 +531,26 @@ async function seedProducts({ locationId, publicationId }) {
         name: o.name,
         values: o.values.map((v) => ({ name: v })),
       })),
-      metafields: Object.entries(product.metafields).map(([key, value]) => ({
-        namespace: 'custom',
-        key,
-        value,
-        type: key === 'care' ? 'multi_line_text_field' : 'single_line_text_field',
-      })),
+      ...(product.templateSuffix ? { templateSuffix: product.templateSuffix } : {}),
+      // The type comes from the definition list rather than from a guess about
+      // the key, so adding a metafield of any new type is a one-line change in
+      // seed-data.mjs.
+      metafields: Object.entries(product.metafields)
+        .map(([key, value]) => {
+          const definition = METAFIELD_DEFINITIONS.find((entry) => entry.key === key);
+          // A reference metafield stores the target's id. seed-data.mjs holds
+          // the readable handle, so an unresolved one is dropped rather than
+          // written as a string the API would reject.
+          const resolved = definition?.metaobjectType ? makerIds[value] : value;
+          if (!resolved) return null;
+          return {
+            namespace: 'custom',
+            key,
+            value: resolved,
+            type: definition?.type ?? 'single_line_text_field',
+          };
+        })
+        .filter(Boolean),
       variants: product.variants.map((variant) => ({
         optionValues: hasOptions
           ? Object.entries(variant.options).map(([optionName, name]) => ({ optionName, name }))
@@ -760,10 +925,38 @@ async function main() {
 
   const context = await storeContext();
 
-  if (step('metafields')) await seedMetafieldDefinitions();
+  let metaobjectIds = {};
+  let makerIds = {};
+  if (step('metaobjects')) {
+    metaobjectIds = await seedMetaobjectDefinitions();
+    makerIds = await seedMakers();
+  }
+
+  // The maker metafield validates against the definition created above, so the
+  // metaobject step has to have run -- or its ids be looked up -- first.
+  if (step('metafields')) {
+    if (Object.keys(metaobjectIds).length === 0 && !DRY_RUN) {
+      for (const def of METAOBJECT_DEFINITIONS) {
+        const data = await gql(
+          `query DefinitionByType($type: String!) {
+            metaobjectDefinitionByType(type: $type) { id }
+          }`,
+          { type: def.type },
+          { label: `metaobject ${def.type}` }
+        );
+        if (data.metaobjectDefinitionByType?.id) {
+          metaobjectIds[def.type] = data.metaobjectDefinitionByType.id;
+        }
+      }
+    }
+    await seedMetafieldDefinitions(metaobjectIds);
+  }
 
   let productIds = {};
-  if (step('products')) productIds = await seedProducts(context);
+  if (step('products')) {
+    if (Object.keys(makerIds).length === 0) makerIds = await findMakerIds();
+    productIds = await seedProducts({ ...context, makerIds });
+  }
   if (step('collections')) {
     if (Object.keys(productIds).length === 0 && !DRY_RUN) {
       for (const p of PRODUCTS) {

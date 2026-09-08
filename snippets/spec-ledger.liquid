@@ -16,6 +16,8 @@
   @param {string} [label_material] - Label for the material row
   @param {string} [label_face] - Label for the dimensions row
   @param {string} [label_origin] - Label for the origin row
+  @param {string} [label_maker] - Label for the maker row
+  @param {string} [label_lead_time] - Label for the lead-time row
   @param {string} [label_care] - Label for the care row
   @param {string} [summary_label] - The disclosure label shown on mobile
 
@@ -29,10 +31,18 @@
   assign material = product.metafields.custom.material.value
   assign face = product.metafields.custom.face.value
   assign origin = product.metafields.custom.made_in.value
+  assign lead_time = product.metafields.custom.lead_time.value
+  assign maker = product.metafields.custom.maker.value
   assign care = product.metafields.custom.care.value
 
   assign has_metafields = false
   if material != blank or face != blank or origin != blank or care != blank
+    assign has_metafields = true
+  endif
+  if lead_time != blank
+    assign has_metafields = true
+  endif
+  if maker != blank
     assign has_metafields = true
   endif
 
@@ -58,6 +68,30 @@
       {%- if origin != blank -%}
         <dt class="ledger__term">{{ label_origin | default: 'Made in' }}</dt>
         <dd class="ledger__value">{{ origin }}</dd>
+      {%- endif -%}
+      {%- comment -%}
+        The maker is a metaobject, so the row can be a link to their page. The
+        URL only exists when the definition has the online store capability --
+        without it the name still shows, unlinked, rather than a dead control.
+      {%- endcomment -%}
+      {%- if maker != blank -%}
+        <dt class="ledger__term">{{ label_maker | default: 'Made by' }}</dt>
+        <dd class="ledger__value">
+          {%- if maker.system.url != blank -%}
+            <a class="link-inline" href="{{ maker.system.url }}">{{ maker.name.value }}</a>
+          {%- else -%}
+            {{ maker.name.value }}
+          {%- endif -%}
+        </dd>
+      {%- endif -%}
+      {%- comment -%}
+        Lead time is a fact about the piece, not a promise about the order, so
+        it sits in the ledger rather than only above the button. The
+        made-to-order template shows both; a stocked piece defines neither.
+      {%- endcomment -%}
+      {%- if lead_time != blank -%}
+        <dt class="ledger__term">{{ label_lead_time | default: 'Lead time' }}</dt>
+        <dd class="ledger__value">{{ lead_time }}</dd>
       {%- endif -%}
       {%- if care != blank -%}
         <dt class="ledger__term">{{ label_care | default: 'Care' }}</dt>

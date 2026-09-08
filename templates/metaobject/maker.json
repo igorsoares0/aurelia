@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-maker",
+      "settings": {
+        "color_scheme": "ground",
+        "portrait_height": 560,
+        "link_label": "The pieces from this bench",
+        "link": "/collections/all"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -166,6 +166,8 @@
               label_material: block.settings.label_material,
               label_face: block.settings.label_face,
               label_origin: block.settings.label_origin,
+              label_maker: block.settings.label_maker,
+              label_lead_time: block.settings.label_lead_time,
               label_care: block.settings.label_care,
               summary_label: block.settings.summary_label
             %}
@@ -486,6 +488,18 @@
           "id": "label_origin",
           "label": "t:labels.spec_origin",
           "default": "Made in"
+        },
+        {
+          "type": "text",
+          "id": "label_maker",
+          "label": "t:labels.label_maker",
+          "default": "Made by"
+        },
+        {
+          "type": "text",
+          "id": "label_lead_time",
+          "label": "t:labels.label_lead_time",
+          "default": "Lead time"
         },
         {
           "type": "text",
