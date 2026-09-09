@@ -5,7 +5,7 @@
       "settings": {
         "color_scheme": "ground",
         "show_breadcrumb": true,
-        "eyebrow": "Chapter one",
+        "eyebrow": "Autumn collection",
         "show_image": false
       }
     },
@@ -20,8 +20,8 @@
         "enable_sorting": true,
         "sticky_sidebar": true,
         "empty_heading": "Nothing matches both filters.",
-        "empty_body": "<p>It is the pair that empties the shelf. Clear one of them, or ask us to make the piece you had in mind.</p>",
-        "empty_link_label": "Ask for a commission"
+        "empty_body": "<p>Usually it is a size and a cloth that were never cut together. Clear one of them, or tell us the size you needed and we will say when it returns.</p>",
+        "empty_link_label": "Ask about a size"
       }
     }
   },

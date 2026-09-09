@@ -5,9 +5,9 @@
       "settings": {
         "color_scheme": "ground",
         "height": 660,
-        "image_alt": "The Signet in 18k recycled gold, worn on a hand",
-        "caption_left": "Fig. 01 — The Signet, 18k recycled gold, photographed in Belo Horizonte",
-        "caption_right": "Autumn chapter"
+        "image_alt": "A wood-fired stoneware bowl in oatmeal glaze, on a bare table",
+        "caption_left": "Fig. 01 — Bowl no. 12, wood-fired stoneware, photographed in Tiradentes",
+        "caption_right": "Winter firing"
       }
     },
     "statement": {
@@ -16,19 +16,19 @@
         "eyebrow": {
           "type": "eyebrow",
           "settings": {
-            "text": "Chapter one"
+            "text": "Firing no. 14"
           }
         },
         "heading": {
           "type": "heading",
           "settings": {
-            "text": "<p>Twelve pieces a year.<em>Each one kept forever.</em></p>"
+            "text": "<p>Forty pieces a firing.<em>Each one numbered on the foot.</em></p>"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Made at the bench in Belo Horizonte, in 18k recycled gold. Twenty-one days from order to shipping, and free resizing for life.</p>"
+            "text": "<p>Thrown and glazed in Tiradentes, fired in a wood kiln twice a year. The kiln decides the last ten per cent, which is why no two pieces leave the same.</p>"
           }
         }
       },
@@ -48,25 +48,25 @@
         "p1": {
           "type": "phrase",
           "settings": {
-            "text": "Twelve pieces a year"
+            "text": "Forty pieces a firing"
           }
         },
         "p2": {
           "type": "phrase",
           "settings": {
-            "text": "18k recycled gold"
+            "text": "Wood-fired stoneware"
           }
         },
         "p3": {
           "type": "phrase",
           "settings": {
-            "text": "Made in Belo Horizonte"
+            "text": "Thrown in Tiradentes"
           }
         },
         "p4": {
           "type": "phrase",
           "settings": {
-            "text": "Resized for life"
+            "text": "Numbered on the foot"
           }
         }
       },
@@ -83,65 +83,184 @@
         "direction": "left"
       }
     },
-    "press": {
-      "type": "logo-list",
+    "provenance": {
+      "type": "pinned-story",
       "blocks": {
-        "l1": {
-          "type": "logo",
+        "s1": {
+          "type": "step",
           "settings": {
-            "name": "Vogue Brasil"
+            "eyebrow": "The clay",
+            "heading": "Dug in Minas, blended here",
+            "text": "<p>Two stoneware bodies from the same pit outside São Thomé, blended wet in the yard and rested a month before anything is thrown.</p>"
           }
         },
-        "l2": {
-          "type": "logo",
+        "s2": {
+          "type": "step",
           "settings": {
-            "name": "Wallpaper"
+            "eyebrow": "Throwing",
+            "heading": "Forty pieces, one pair of hands",
+            "text": "<p>Every piece is thrown on the wheel and turned by hand at the leather-hard stage. The foot is where the number is cut.</p>"
           }
         },
-        "l3": {
-          "type": "logo",
+        "s3": {
+          "type": "step",
           "settings": {
-            "name": "Monocle"
+            "eyebrow": "Glazing",
+            "heading": "Four glazes, mixed by weight",
+            "text": "<p>Ash, oatmeal, iron and a clear. All four are mixed here from raw materials, and the recipes are on the journal.</p>"
           }
         },
-        "l4": {
-          "type": "logo",
+        "s4": {
+          "type": "step",
           "settings": {
-            "name": "Casa Vogue"
-          }
-        },
-        "l5": {
-          "type": "logo",
-          "settings": {
-            "name": "Elle"
+            "eyebrow": "The firing",
+            "heading": "Thirty-six hours of wood",
+            "text": "<p>Stoked in pairs, day and night, to 1,280°C. What the flame does to a glaze on one side of the kiln it will not do on the other.</p>"
           }
         }
       },
       "block_order": [
-        "l1",
-        "l2",
-        "l3",
-        "l4",
-        "l5"
+        "s1",
+        "s2",
+        "s3",
+        "s4"
       ],
       "settings": {
         "color_scheme": "ground",
-        "heading": "Written about",
-        "quote": "Twelve pieces a year, made by four people, and a waiting list either way.",
-        "cite": "Vogue Brasil",
-        "cite_date": "March 2026",
-        "logo_height": 44
+        "image_alt": "A pot being turned on the wheel at the leather-hard stage",
+        "image_position": "left",
+        "image_height": 660,
+        "eyebrow": "The making",
+        "heading": "How a piece is made"
       }
     },
     "chapter": {
       "type": "featured-collection",
       "settings": {
         "color_scheme": "ground",
-        "heading": "The autumn chapter",
+        "heading": "The winter firing",
         "link_label": "View all",
         "products_count": 2,
         "columns": 2,
         "image_height": 480
+      }
+    },
+    "maker": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "The maker"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "One potter, two apprentices, one kiln."
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Teresa has thrown in Tiradentes for nineteen years. The apprentices stay three years each and take the wheel for the second firing of every year — those pieces carry their mark, not hers.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "Meet the maker"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "image_position": "right",
+        "image_height": 560,
+        "image_alt": "The potter at the wheel in the Tiradentes studio"
+      }
+    },
+    "comparison": {
+      "type": "comparison",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Ash glaze",
+            "note": "The house glaze"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Oatmeal",
+            "note": "The quiet one"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Iron black",
+            "note": "Different on every piece"
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Made from",
+            "value_1": "Wood ash from the kiln, feldspar, clay",
+            "value_2": "Feldspar, silica, ball clay, tin",
+            "value_3": "Feldspar, silica, red iron oxide"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "Comes out",
+            "value_1": "Green to amber, thick where it pools",
+            "value_2": "Soft white, matt, even",
+            "value_3": "Black to rust where the flame hits"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Everyday use",
+            "value_1": "Dishwasher and microwave safe",
+            "value_2": "Dishwasher and microwave safe",
+            "value_3": "Dishwasher safe, not for the microwave"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Price band",
+            "value_1": "R$ 240 to 600",
+            "value_2": "R$ 180 to 420",
+            "value_3": "R$ 260 to 680"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "The four glazes",
+        "table_caption": "Glazes compared on recipe, result, everyday use and price",
+        "note": "<p>The clear glaze is not listed here because it is used only inside cups. All four recipes are published in the journal.</p>"
       }
     },
     "browse": {
@@ -150,42 +269,42 @@
         "a1": {
           "type": "attribute",
           "settings": {
-            "label": "18k recycled gold",
-            "swatch_color": "#b08d4f"
+            "label": "Bowls",
+            "swatch_color": "#b9ad94"
           }
         },
         "a2": {
           "type": "attribute",
           "settings": {
-            "label": "Vermeil",
-            "swatch_color": "#d8bd8a"
+            "label": "Plates",
+            "swatch_color": "#e2dccd"
           }
         },
         "a3": {
           "type": "attribute",
           "settings": {
-            "label": "Sterling silver",
-            "swatch_color": "#c9c9c4"
+            "label": "Cups and mugs",
+            "swatch_color": "#8a7f6a"
           }
         },
         "a4": {
           "type": "attribute",
           "settings": {
-            "label": "Set with stones",
-            "swatch_color": "#7f8a93"
+            "label": "Vases",
+            "swatch_color": "#6b6257"
           }
         },
         "a5": {
           "type": "attribute",
           "settings": {
-            "label": "Engravable",
-            "swatch_color": "#8d7f6b"
+            "label": "Serving",
+            "swatch_color": "#3b3630"
           }
         },
         "a6": {
           "type": "attribute",
           "settings": {
-            "label": "Under R$ 2,000",
+            "label": "Under R$ 300",
             "swatch_color": "#efebe2"
           }
         }
@@ -200,10 +319,35 @@
       ],
       "settings": {
         "color_scheme": "ground",
-        "heading": "Shop by metal",
+        "heading": "Shop by form",
         "columns": 2,
         "columns_mobile": "2",
         "show_count": false
+      }
+    },
+    "pairing": {
+      "type": "pairing",
+      "blocks": {
+        "p1": {
+          "type": "piece",
+          "settings": {}
+        },
+        "p2": {
+          "type": "piece",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "From the same firing",
+        "text": "<p>Pieces that came out of the kiln together, in the same glaze. Bought as a pair they match; bought a firing apart they will not.</p>",
+        "image_height": 440,
+        "combined_add": true,
+        "show_individual_add": true
       }
     },
     "lookbook": {
@@ -214,31 +358,31 @@
           "settings": {
             "width": "medium",
             "caption_left": "Plate 01",
-            "caption_right": "Belo Horizonte"
+            "caption_right": "The table, set"
           }
         },
         "p2": {
           "type": "plate",
           "settings": {
-            "width": "small",
+            "width": "large",
             "caption_left": "Plate 02",
-            "caption_right": "The Signet"
+            "caption_right": "Ash glaze, no. 04"
           }
         },
         "p3": {
           "type": "plate",
           "settings": {
-            "width": "large",
+            "width": "small",
             "caption_left": "Plate 03",
-            "caption_right": "Linha Band"
+            "caption_right": "Cups, in use"
           }
         },
         "p4": {
           "type": "plate",
           "settings": {
-            "width": "small",
+            "width": "medium",
             "caption_left": "Plate 04",
-            "caption_right": "Sal Pendant"
+            "caption_right": "Tiradentes"
           }
         }
       },
@@ -250,52 +394,11 @@
       ],
       "settings": {
         "color_scheme": "ground",
-        "eyebrow": "Worn",
-        "heading": "The autumn lookbook",
+        "eyebrow": "In use",
+        "heading": "The table, set",
         "hint": "Drag, or use the arrow keys",
-        "plate_height": 640,
-        "button_label": "See the whole chapter"
-      }
-    },
-    "atelier": {
-      "type": "image-with-text",
-      "blocks": {
-        "eyebrow": {
-          "type": "eyebrow",
-          "settings": {
-            "text": "The atelier"
-          }
-        },
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "text": "Everything is made here, by four people."
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>The gold is recycled and refined in São Paulo. The stones are bought from two cutters we have used for eleven years. Nothing is cast off site.</p>"
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "label": "How a piece is made"
-          }
-        }
-      },
-      "block_order": [
-        "eyebrow",
-        "heading",
-        "text",
-        "button"
-      ],
-      "settings": {
-        "color_scheme": "ink",
-        "image_position": "left",
-        "image_height": 520,
-        "image_alt": "Hands and tools at the bench"
+        "plate_height": 600,
+        "button_label": "See the whole firing"
       }
     },
     "kept": {
@@ -304,27 +407,27 @@
         "q1": {
           "type": "quote",
           "settings": {
-            "quote": "I have worn it every day for two years. It has been polished twice and resized once, both free.",
+            "quote": "They have been through the dishwasher twice a week for two years. The ash glaze has gone softer, not worse.",
             "name": "Marina A.",
-            "piece": "The Signet",
+            "piece": "Bowl no. 12",
             "year": "2024"
           }
         },
         "q2": {
           "type": "quote",
           "settings": {
-            "quote": "Twenty-one days, and they wrote twice while it was being made. I knew exactly where it was.",
+            "quote": "I chipped a plate in the first month, wrote to ask about a replacement, and got the potter. Not a form.",
             "name": "Júlia R.",
-            "piece": "Linha Band",
+            "piece": "Dinner plate",
             "year": "2025"
           }
         },
         "q3": {
           "type": "quote",
           "settings": {
-            "quote": "It is 9.4 grams and I can feel every one of them. That is the whole point.",
+            "quote": "The two cups I bought are visibly different and I would not want them to match. That is the kiln, not a defect.",
             "name": "Pedro V.",
-            "piece": "Sal Pendant",
+            "piece": "Cup, iron black",
             "year": "2025"
           }
         }
@@ -335,60 +438,9 @@
         "q3"
       ],
       "settings": {
-        "color_scheme": "ink",
+        "color_scheme": "ground",
         "heading": "Kept",
         "columns": 2
-      }
-    },
-    "provenance": {
-      "type": "pinned-story",
-      "blocks": {
-        "s1": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Sourcing",
-            "heading": "The gold is refined in São Paulo",
-            "text": "<p>Recycled, refined and certified. We can show the refiner's certificate for any piece.</p>"
-          }
-        },
-        "s2": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Cutting",
-            "heading": "Stones are chosen one at a time",
-            "text": "<p>Every stone is seen in daylight before it is bought. Nothing is ordered from a photograph.</p>"
-          }
-        },
-        "s3": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Finishing",
-            "heading": "Twenty-one days at the bench",
-            "text": "<p>Filed, set and polished by hand. The tool marks inside a band are Túlio's, and they stay.</p>"
-          }
-        },
-        "s4": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Packing",
-            "heading": "Numbered, then wrapped",
-            "text": "<p>The piece number is struck last, recorded against your order, and kept for any repair.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {
-        "color_scheme": "ground",
-        "image_alt": "A ring held in the setting block at the bench",
-        "image_position": "left",
-        "image_height": 660,
-        "eyebrow": "Provenance",
-        "heading": "How a piece is made"
       }
     },
     "journal": {
@@ -401,35 +453,84 @@
         "show_read_time": true
       }
     },
+    "stockists": {
+      "type": "stockists",
+      "blocks": {
+        "s1": {
+          "type": "place",
+          "settings": {
+            "name": "The studio",
+            "role": "Tiradentes",
+            "address": "Rua do Chafariz 212\nCentro, Tiradentes\nMG 36325-000",
+            "hours": "Thursday to Saturday: 10h to 17h\nSunday: 10h to 13h\nMonday to Wednesday: closed",
+            "note": "The kiln yard is open on firing weekends. Dates are posted in the journal.",
+            "directions_label": "Directions"
+          }
+        },
+        "s2": {
+          "type": "place",
+          "settings": {
+            "name": "Casa Mineira",
+            "role": "São Paulo",
+            "address": "Rua Aspicuelta 380\nVila Madalena, São Paulo\nSP 05433-011",
+            "hours": "Monday to Saturday: 11h to 19h\nSunday: closed",
+            "note": "Carries the full winter firing.",
+            "directions_label": "Directions"
+          }
+        },
+        "s3": {
+          "type": "place",
+          "settings": {
+            "name": "Oficina do Largo",
+            "role": "Belo Horizonte",
+            "address": "Rua Fernandes Tourinho 940\nSavassi, Belo Horizonte\nMG 30112-000",
+            "hours": "Tuesday to Friday: 10h to 18h\nSaturday: 10h to 14h",
+            "note": "Bowls and cups only.",
+            "directions_label": "Directions"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Where to find us",
+        "intro": "<p>The studio is open four days a week and you are welcome without an appointment. Three shops carry the firings, and they get the pieces the same week we do.</p>",
+        "columns": 3
+      }
+    },
     "questions": {
       "type": "collapsible-content",
       "blocks": {
         "q1": {
           "type": "row",
           "settings": {
-            "heading": "How long does a piece take?",
-            "text": "<p>Twenty-one days from order to shipping. Resizing adds three.</p>"
+            "heading": "Why do two of the same piece look different?",
+            "text": "<p>Because they were in different parts of a wood kiln. The form is repeatable, the glaze is not, and every listing photograph is of a piece from the firing you are buying from.</p>"
           }
         },
         "q2": {
           "type": "row",
           "settings": {
-            "heading": "Can a piece be resized later?",
-            "text": "<p>Free for life, up to three sizes either way. Post it back and we return it insured.</p>"
+            "heading": "Can these go in the dishwasher?",
+            "text": "<p>Everything except iron black in the microwave — the iron in the glaze will heat. Dishwasher is fine for all four glazes.</p>"
           }
         },
         "q3": {
           "type": "row",
           "settings": {
-            "heading": "Where does the gold come from?",
-            "text": "<p>Recycled and refined in São Paulo. We can show the refiner's certificate for any piece.</p>"
+            "heading": "What does the number on the foot mean?",
+            "text": "<p>The firing, then the piece within it. No. 14/06 is the sixth piece out of the fourteenth firing. It is recorded against your order.</p>"
           }
         },
         "q4": {
           "type": "row",
           "settings": {
-            "heading": "What happens when a chapter closes?",
-            "text": "<p>It is not made again. Archive pieces occasionally return, and those are final sale.</p>"
+            "heading": "What happens when a firing sells out?",
+            "text": "<p>It is not repeated. The next firing is twice a year, in June and December, and the journal says when it is loaded.</p>"
           }
         }
       },
@@ -457,7 +558,7 @@
             "offset": "0",
             "height": 420,
             "handle": "@marina.a",
-            "piece": "The Signet"
+            "piece": "Bowl no. 12"
           }
         },
         "f2": {
@@ -467,7 +568,7 @@
             "offset": "64",
             "height": 250,
             "handle": "@juliar",
-            "piece": "Linha Band"
+            "piece": "Dinner plate"
           }
         },
         "f3": {
@@ -477,7 +578,7 @@
             "offset": "0",
             "height": 330,
             "handle": "@pedro.v",
-            "piece": "Sal Pendant"
+            "piece": "Cup, iron black"
           }
         },
         "f4": {
@@ -487,7 +588,7 @@
             "offset": "96",
             "height": 230,
             "handle": "@ana.costa",
-            "piece": "The Signet"
+            "piece": "Serving bowl"
           }
         },
         "f5": {
@@ -497,7 +598,7 @@
             "offset": "28",
             "height": 300,
             "handle": "@t.moraes",
-            "piece": "Linha Band"
+            "piece": "Vase, ash glaze"
           }
         }
       },
@@ -510,111 +611,9 @@
       ],
       "settings": {
         "color_scheme": "ground",
-        "heading": "Worn by you",
-        "permission": "Tag @aurelia and we ask before we post.",
+        "heading": "In your homes",
+        "permission": "Tag @ledger and we ask before we post.",
         "link_label": "Follow"
-      }
-    },
-    "comparison": {
-      "type": "comparison",
-      "blocks": {
-        "c1": {
-          "type": "column",
-          "settings": {
-            "title": "18k recycled gold",
-            "note": "The house standard"
-          }
-        },
-        "c2": {
-          "type": "column",
-          "settings": {
-            "title": "Vermeil",
-            "note": "Gold over silver 950"
-          }
-        },
-        "c3": {
-          "type": "column",
-          "settings": {
-            "title": "Silver 950",
-            "note": "It darkens, and comes back"
-          }
-        },
-        "r1": {
-          "type": "row",
-          "settings": {
-            "label": "Wears",
-            "value_1": "A lifetime",
-            "value_2": "Two to five years",
-            "value_3": "A lifetime, with polishing"
-          }
-        },
-        "r2": {
-          "type": "row",
-          "settings": {
-            "label": "On skin",
-            "value_1": "Nickel-free throughout",
-            "value_2": "Nickel-free at the surface",
-            "value_3": "Nickel-free throughout"
-          }
-        },
-        "r3": {
-          "type": "row",
-          "settings": {
-            "label": "Care",
-            "value_1": "Warm water, soft cloth",
-            "value_2": "No polishing compounds",
-            "value_3": "A cloth, when it darkens"
-          }
-        },
-        "r4": {
-          "type": "row",
-          "settings": {
-            "label": "Price band",
-            "value_1": "R$ 5,000 and up",
-            "value_2": "R$ 1,200 to 3,000",
-            "value_3": "R$ 800 to 2,400"
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "r1",
-        "r2",
-        "r3",
-        "r4"
-      ],
-      "settings": {
-        "color_scheme": "ground",
-        "heading": "Gold, vermeil, silver",
-        "table_caption": "Materials compared on wear, skin, care and price",
-        "note": "<p>Every piece can be remade in any of the three. Ask, and we quote before we start.</p>"
-      }
-    },
-    "pairing": {
-      "type": "pairing",
-      "blocks": {
-        "p1": {
-          "type": "piece",
-          "settings": {}
-        },
-        "p2": {
-          "type": "piece",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2"
-      ],
-      "settings": {
-        "color_scheme": "ground",
-        "heading": "Worn together",
-        "text": "<p>Pieces made in the same chapter, in the same gold. Add the set in one go, or take them one at a time.</p>",
-        "image_height": 440,
-        "combined_add": true,
-        "show_individual_add": true
       }
     }
   },
@@ -622,16 +621,16 @@
     "banner",
     "statement",
     "ribbon",
-    "press",
-    "chapter",
-    "browse",
-    "comparison",
-    "lookbook",
-    "pairing",
-    "atelier",
-    "kept",
     "provenance",
+    "chapter",
+    "maker",
+    "comparison",
+    "browse",
+    "pairing",
+    "lookbook",
+    "kept",
     "journal",
+    "stockists",
     "questions",
     "ugc"
   ]

@@ -621,6 +621,35 @@
         "combined_add": true,
         "show_individual_add": true
       }
+    },
+    "edition": {
+      "type": "edition",
+      "settings": {
+        "color_scheme": "ground",
+        "image_height": 560,
+        "eyebrow": "The edition",
+        "heading": "The autumn edition",
+        "text": "<p>Twenty-four pieces, numbered at the bench in the order they were finished. When they are gone the chapter closes and this one is not made again.</p>",
+        "deadline": "2026-12-01 18:00",
+        "countdown_label": "The chapter closes in",
+        "expiry": "message",
+        "expired_message": "This chapter has closed. Archive pieces occasionally return, and those are final sale.",
+        "show_remaining": true,
+        "button_label": "See the piece"
+      }
+    },
+    "film": {
+      "type": "video-with-text",
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "The bench in Belo Horizonte, filmed over one chapter",
+        "layout": "film__inner--left",
+        "video_height": 520,
+        "eyebrow": "The film",
+        "heading": "Twenty-one days, in four minutes",
+        "text": "<p>Filmed at the bench over one chapter. No music, no narration, only the work and the sound the work makes.</p>",
+        "button_label": "How a piece is made"
+      }
     }
   },
   "order": [
@@ -630,9 +659,11 @@
     "press",
     "chapter",
     "browse",
+    "edition",
     "comparison",
     "lookbook",
     "pairing",
+    "film",
     "atelier",
     "kept",
     "provenance",

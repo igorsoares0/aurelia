@@ -99,27 +99,59 @@ exists rather than a nice detail.
 
 ## Work items
 
-- [ ] `listings/plate/templates/index.json` — reorder for apparel; lookbook and
-      video-with-text high, comparison as fabric, pairing as complete-the-look
+Done, 9 September 2026. Both home templates rewritten, theme check clean at 129
+files, and every section type, block type and setting id validated against the
+section schemas.
+
+- [x] `listings/plate/templates/index.json` — reordered for apparel
+- [x] `listings/ledger/templates/index.json` — reordered for ceramics
+- [x] Each preset's home order reads as a distinct story
+- [x] Every section placed exists in `sections/` and validates against its schema
 - [ ] `listings/plate/templates/page.size-guide.json` — garment measurements
-- [ ] `listings/ledger/templates/index.json` — reorder for ceramics;
-      pinned-story high, maker and stockists present
-- [ ] `listings/ledger/sections/header-group.json` — if the narrower page needs
+- [ ] `listings/ledger/sections/header-group.json` — only if the 1360 page needs
       its own masthead proportions; skip if inherited works
-- [ ] Confirm each preset's home order reads as a distinct story, not the same
-      order with different fonts. Reviewers see all three side by side.
-- [ ] Every section placed in a preset template must already exist in
-      `sections/` and carry a preset entry in all three listings where it makes
-      sense
+- [x] Aurelia: `video-with-text` placed between `pairing` and `atelier`, and
+      `edition` between `browse` and `comparison`. Aurelia only, as decided.
+- [ ] **`edition`'s `deadline` is hard-coded to `2026-12-01 18:00`** in
+      `listings/aurelia/templates/index.json`. Past that date the section
+      renders "This chapter has closed" instead of a countdown. Set a real
+      deadline on the demo store, and move this date before any submission
+      that lands near it.
 
-Root `templates/index.json` order, for reference when reordering:
+### What the three orders are now
+
+The three presets no longer share an order, and no longer share a word of copy.
 
 ```
-image-banner, rich-text, marquee, logo-list, featured-collection, shop-by,
-comparison, lookbook, pairing, image-with-text, testimonials, pinned-story,
-featured-blog, collapsible-content, ugc-gallery
+Aurelia   banner statement ribbon press chapter browse edition comparison
+          lookbook pairing film atelier kept provenance journal questions ugc
+
+Plate     banner statement ribbon lookbook chapter browse pairing film
+          comparison atelier kept press journal questions ugc
+
+Ledger    banner statement ribbon provenance chapter maker comparison browse
+          pairing lookbook kept journal stockists questions ugc
 ```
 
-Note `video-with-text` and `edition` are on no template. Place `video-with-text`
-in Aurelia between `image-with-text` and `lookbook`, and `edition` in Aurelia
-only.
+**Plate** leads on the lookbook, because apparel does. `film` is
+`video-with-text`, placed for the first time — it was written and on no
+template. `pinned-story` is dropped: the film tells the making story and the
+home page stays at fifteen sections, which is what the Lighthouse budget was
+measured against. `comparison` is the three cloths, on composition, weight,
+care and origin.
+
+**Ledger** leads on `pinned-story`, because provenance is the argument in studio
+ceramics. `maker` is `image-with-text` pointing at the maker metaobject page.
+`stockists` is placed on the home page, not just its own page. `comparison` is
+the glaze table. The lookbook falls to tenth — the table set is the payoff, not
+the opening.
+
+**Aurelia** is the only preset with `edition`, and now the only one at
+seventeen sections. `edition` sits after `browse` — the grid, the routes in,
+then the one piece with a date on it. `film` sits before `atelier` because its
+button ("How a piece is made") leads straight into that band.
+
+Every preset holds to one continuous `ink` band and two scheme changes on the
+whole page. Ledger's `kept` was moved back to `ground` for this: it was a second
+ink island four sections away from `maker`, which is the thing the README rule
+exists to prevent.
