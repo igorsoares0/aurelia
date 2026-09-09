@@ -118,13 +118,19 @@
                     {%- when 'product' -%}
                       {% render 'product-card',
                         product: item,
-                        image_height: section.settings.image_height,
+                        ratio: settings.product_card_image_ratio,
                         sizes: '(min-width: 990px) 30vw, 45vw',
                         heading_size: 'card__title--sm'
                       %}
 
                     {%- when 'article' -%}
-                      {% render 'article-card', article: item, image_height: section.settings.image_height %}
+                      {%- comment -%}
+                        Products and articles share one row here, so the article
+                        card takes the product card's ratio rather than its own
+                        height -- otherwise the two kinds of result sit at
+                        different image heights side by side.
+                      {%- endcomment -%}
+                      {% render 'article-card', article: item, ratio: settings.product_card_image_ratio %}
 
                     {%- else -%}
                       <div class="search-page__page-result">
@@ -321,16 +327,6 @@
       "id": "enable_sorting",
       "label": "t:labels.enable_sorting",
       "default": true
-    },
-    {
-      "type": "range",
-      "id": "image_height",
-      "label": "t:labels.image_height",
-      "min": 200,
-      "max": 500,
-      "step": 20,
-      "unit": "px",
-      "default": 320
     },
     {
       "type": "text",

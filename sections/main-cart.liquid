@@ -43,7 +43,7 @@
                   {% render 'product-card',
                     product: product,
                     number: forloop.index,
-                    image_height: 190,
+                    ratio: settings.product_card_image_ratio,
                     sizes: '(min-width: 750px) 25vw, 45vw',
                     heading_size: 'card__title--sm'
                   %}

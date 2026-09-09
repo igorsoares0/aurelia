@@ -15,7 +15,6 @@
         "color_scheme": "ground",
         "products_per_page": 12,
         "columns": 3,
-        "image_height": 388,
         "enable_filtering": true,
         "enable_sorting": true,
         "sticky_sidebar": true,

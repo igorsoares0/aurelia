@@ -89,14 +89,14 @@
                 {%- comment -%}
                   A preset renders before the merchant has chosen anything.
                 {%- endcomment -%}
-                <div class="media media--fixed" style="--media-height: {{ section.settings.image_height }}px;">
+                <div class="media {{ settings.product_card_image_ratio }}">
                   {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
                 </div>
                 <p class="pairing__hint detail">{{ 'onboarding.pick_product' | t }}</p>
               {%- else -%}
                 {% render 'product-card',
                   product: piece,
-                  image_height: section.settings.image_height,
+                  ratio: settings.product_card_image_ratio,
                   sizes: '(min-width: 990px) 25vw, (min-width: 750px) 45vw, 90vw',
                   heading_size: 'card__title--sm'
                 %}
@@ -281,16 +281,6 @@
       "id": "text",
       "label": "t:labels.body_text",
       "default": "<p>Three pieces made in the same chapter, in the same gold.</p>"
-    },
-    {
-      "type": "range",
-      "id": "image_height",
-      "label": "t:labels.image_height",
-      "min": 200,
-      "max": 600,
-      "step": 20,
-      "unit": "px",
-      "default": 380
     },
     {
       "type": "checkbox",

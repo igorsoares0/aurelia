@@ -89,31 +89,31 @@
         "l1": {
           "type": "logo",
           "settings": {
-            "name": "Vogue Brasil"
+            "name": "Revista Ourives"
           }
         },
         "l2": {
           "type": "logo",
           "settings": {
-            "name": "Wallpaper"
+            "name": "Caderno Papel"
           }
         },
         "l3": {
           "type": "logo",
           "settings": {
-            "name": "Monocle"
+            "name": "Norte Editorial"
           }
         },
         "l4": {
           "type": "logo",
           "settings": {
-            "name": "Casa Vogue"
+            "name": "Casa e Forma"
           }
         },
         "l5": {
           "type": "logo",
           "settings": {
-            "name": "Elle"
+            "name": "Prata Quinzenal"
           }
         }
       },
@@ -128,7 +128,7 @@
         "color_scheme": "ground",
         "heading": "Written about",
         "quote": "Twelve pieces a year, made by four people, and a waiting list either way.",
-        "cite": "Vogue Brasil",
+        "cite": "Revista Ourives",
         "cite_date": "March 2026",
         "logo_height": 44
       }
@@ -140,8 +140,7 @@
         "heading": "The autumn chapter",
         "link_label": "View all",
         "products_count": 3,
-        "columns": 3,
-        "image_height": 420
+        "columns": 3
       }
     },
     "browse": {

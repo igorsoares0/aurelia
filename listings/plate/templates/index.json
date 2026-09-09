@@ -150,8 +150,7 @@
         "heading": "The autumn collection",
         "link_label": "View all",
         "products_count": 4,
-        "columns": 4,
-        "image_height": 340
+        "columns": 4
       }
     },
     "browse": {
@@ -440,31 +439,31 @@
         "l1": {
           "type": "logo",
           "settings": {
-            "name": "Vogue Brasil"
+            "name": "Revista Corte"
           }
         },
         "l2": {
           "type": "logo",
           "settings": {
-            "name": "Monocle"
+            "name": "Norte Editorial"
           }
         },
         "l3": {
           "type": "logo",
           "settings": {
-            "name": "Another"
+            "name": "Caderno Papel"
           }
         },
         "l4": {
           "type": "logo",
           "settings": {
-            "name": "Elle"
+            "name": "Fio Quinzenal"
           }
         },
         "l5": {
           "type": "logo",
           "settings": {
-            "name": "Harper's Bazaar"
+            "name": "Modo Editorial"
           }
         }
       },
@@ -479,7 +478,7 @@
         "color_scheme": "ground",
         "heading": "Written about",
         "quote": "Eleven garments a season, every mill named, and a repair counter in the back of the shop.",
-        "cite": "Monocle",
+        "cite": "Norte Editorial",
         "cite_date": "February 2026",
         "logo_height": 44
       }

@@ -9,6 +9,7 @@
 
   @param {object} article - The article to render
   @param {number} [image_height] - Fixed image height in px
+  @param {string} [ratio] - A ratio class, for a grid that must line up with product cards
   @param {string} [sizes] - The `sizes` attribute for the image
   @param {boolean} [show_excerpt] - Render the excerpt
   @param {boolean} [show_date] - Render the published date
@@ -36,6 +37,7 @@
     image: article.image,
     alt: card_alt,
     height: image_height,
+    ratio: ratio,
     sizes: card_sizes,
     placeholder: 'blog-apparel-1',
     class: 'card__media'

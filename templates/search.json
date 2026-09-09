@@ -6,7 +6,6 @@
         "color_scheme": "ground",
         "results_per_page": 12,
         "columns": 3,
-        "image_height": 320,
         "empty_link_label": "Ask for a commission"
       }
     }

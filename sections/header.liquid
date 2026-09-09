@@ -100,17 +100,29 @@
       if request.page_type == 'index'
         assign wordmark_tag = 'h1'
       endif
+
+      comment
+        The logo is served at the width the merchant set, not at a hard-coded
+        one, so `sizes` has to be that setting too -- otherwise the browser
+        picks a candidate for a width the image is never drawn at.
+      endcomment
+      assign logo_width = settings.logo_width | default: 140
+      assign sizes_attr = logo_width | append: 'px'
     -%}
     <{{ wordmark_tag }} class="header__wordmark-wrap">
-      <a class="header__wordmark" href="{{ routes.root_url }}">
+      <a
+        class="header__wordmark"
+        href="{{ routes.root_url }}"
+        style="--logo-width: {{ logo_width }}px;"
+      >
         {%- if settings.logo != blank -%}
           <span class="visually-hidden">{{ 'accessibility.home' | t: shop_name: shop.name }}</span>
           {{
             settings.logo
-            | image_url: width: 600
+            | image_url: width: 640
             | image_tag:
-              widths: '150, 300, 450, 600',
-              sizes: '(min-width: 750px) 200px, 140px',
+              widths: '120, 180, 240, 320, 480, 640',
+              sizes: sizes_attr,
               alt: shop.name,
               class: 'header__logo',
               loading: 'eager'
@@ -387,9 +399,15 @@
     text-indent: 0.3em;
   }
 
+  /* The merchant's own width, held back only by the space actually there.
+     Height follows the artwork; a logo taller than it is wide is capped so a
+     square upload cannot push the masthead open. */
   .header__logo {
-    width: auto;
-    max-height: 3rem;
+    width: var(--logo-width);
+    max-width: 100%;
+    height: auto;
+    max-height: 4.5rem;
+    object-fit: contain;
   }
 
   .header__trail {

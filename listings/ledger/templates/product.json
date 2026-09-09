@@ -79,8 +79,7 @@
         "intent": "complementary",
         "heading": "Set with",
         "products_count": 3,
-        "columns": 3,
-        "image_height": 320
+        "columns": 3
       }
     },
     "care": {
@@ -127,8 +126,7 @@
         "intent": "related",
         "heading": "You may also like",
         "products_count": 3,
-        "columns": 3,
-        "image_height": 320
+        "columns": 3
       }
     }
   },

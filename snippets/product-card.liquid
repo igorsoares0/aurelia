@@ -10,17 +10,27 @@
   numbering is off, or nothing supplies a number, the eyebrow is not rendered
   at all rather than rendered empty.
 
+  Card grids pass `ratio`, never `image_height`. A height in px against a
+  column that is a fraction of the viewport gives a crop that changes with
+  the column count and inverts on mobile -- a 480px image in a 158px column
+  is a 1:3 slit. `settings.product_card_image_ratio` is the one place the
+  proportion is decided, which is also what makes it differ between presets.
+
   @param {object} product - The product to render
   @param {number} [number] - Position in the list, used when no piece number metafield exists
-  @param {number} [image_height] - Fixed image height in px
-  @param {string} [ratio] - Ratio class, used when no `image_height` is given
+  @param {string} [ratio] - Ratio class. What every grid passes; normally `settings.product_card_image_ratio`
+  @param {number} [image_height] - Fixed image height in px. Wins over `ratio`; only for a card outside a fluid grid
   @param {string} [sizes] - The `sizes` attribute for the image
   @param {string} [heading_size] - `card__title--sm` for the tighter grids
   @param {string} [loading] - `eager` for the first row of the first grid
   @param {string} [placeholder] - Placeholder name when the product has no image
 
   @example
-  {% render 'product-card', product: product, number: forloop.index, image_height: 420 %}
+  {% render 'product-card',
+    product: product,
+    number: forloop.index,
+    ratio: settings.product_card_image_ratio
+  %}
 {% enddoc %}
 
 {% liquid

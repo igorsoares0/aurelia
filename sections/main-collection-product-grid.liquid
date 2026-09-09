@@ -134,7 +134,7 @@
                         {% render 'product-card',
                           product: alternative,
                           number: forloop.index,
-                          image_height: 220,
+                          ratio: settings.product_card_image_ratio,
                           sizes: '(min-width: 990px) 25vw, 45vw',
                           heading_size: 'card__title--sm'
                         %}
@@ -156,7 +156,7 @@
                     {% render 'product-card',
                       product: product,
                       number: forloop.index,
-                      image_height: section.settings.image_height,
+                      ratio: settings.product_card_image_ratio,
                       loading: card_loading,
                       sizes: '(min-width: 990px) 30vw, 45vw'
                     %}
@@ -322,16 +322,6 @@
       "max": 4,
       "step": 1,
       "default": 3
-    },
-    {
-      "type": "range",
-      "id": "image_height",
-      "label": "t:labels.image_height",
-      "min": 200,
-      "max": 500,
-      "step": 20,
-      "unit": "px",
-      "default": 388
     },
     {
       "type": "header",
