@@ -1,0 +1,80 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Visiting"
+      }
+    },
+    "places": {
+      "type": "stockists",
+      "blocks": {
+        "p1": {
+          "type": "place",
+          "settings": {
+            "name": "The studio",
+            "role": "And the kiln yard",
+            "address": "Rua do Chafariz 212\nCentro, Tiradentes\nMG 36325-000",
+            "phone": "+55 32 3355 1180",
+            "hours": "Thursday to Saturday: 10h to 17h\nSunday: 10h to 13h\nMonday to Wednesday: closed",
+            "note": "No appointment needed. The kiln yard is open on firing weekends; dates are in the journal.",
+            "directions": "https://maps.google.com/?q=Rua+do+Chafariz+212+Tiradentes",
+            "directions_label": "Directions"
+          }
+        },
+        "p2": {
+          "type": "place",
+          "settings": {
+            "name": "Casa Mineira",
+            "role": "Stockist",
+            "address": "Rua Aspicuelta 288\nVila Madalena, São Paulo\nSP 05433-011",
+            "phone": "+55 11 3031 7720",
+            "hours": "Monday to Saturday: 11h to 19h\nSunday: closed",
+            "note": "Carries the full firing, the same week we do.",
+            "directions": "https://maps.google.com/?q=Rua+Aspicuelta+288+Sao+Paulo",
+            "directions_label": "Directions"
+          }
+        },
+        "p3": {
+          "type": "place",
+          "settings": {
+            "name": "Oficina do Largo",
+            "role": "Stockist",
+            "address": "Rua Jardim Botânico 674\nJardim Botânico, Rio de Janeiro\nRJ 22461-000",
+            "phone": "+55 21 2274 9050",
+            "hours": "Tuesday to Saturday: 11h to 19h\nSunday and Monday: closed",
+            "note": "Bowls and cups only.",
+            "directions": "https://maps.google.com/?q=Rua+Jardim+Botanico+674+Rio+de+Janeiro",
+            "directions_label": "Directions"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Where to find us",
+        "intro": "<p>The studio is open four days a week and you are welcome without an appointment. Two shops carry the firings.</p>",
+        "columns": 3
+      }
+    },
+    "write": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Visit the studio",
+        "intro": "<p>Tell us roughly when. If it is a firing weekend we will say so, because that is the week worth coming.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "places",
+    "write"
+  ]
+}

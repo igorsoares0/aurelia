@@ -1,0 +1,225 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "The house"
+      }
+    },
+    "statement": {
+      "type": "rich-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Since 2017"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "<p>Six people, one room.<em>Eleven garments a season.</em></p>"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We do not chase a trend and we do not repeat a cloth once the run is finished. What we make is what six people can draft, cut and sew properly in a season, which is about eleven garments.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "alignment": "center"
+      }
+    },
+    "atelier": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "The cutting room"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "São Paulo, one floor, six people."
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Helena opened the room in 2017 with one industrial machine and a borrowed cutting table. Both are still here. Every pattern is drafted and graded on site, and nothing is sewn outside the building.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "The repair counter is open six days",
+            "link": "/pages/contact"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "image_position": "left",
+        "image_height": 520,
+        "image_alt": "Shears and a graded pattern on the cutting table in São Paulo"
+      }
+    },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Cloth",
+            "heading": "Every mill is named",
+            "text": "<p>Merino from Biella, linen from Cork, organic cotton grown in Ceará and woven here. The mill, the town and the weight are on the label, and we would rather you asked.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Pattern",
+            "heading": "Drafted here, graded here",
+            "text": "<p>Nothing is bought in from a block we did not draw. Every size is cut from its own graded pattern, not scaled from a sample.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Cutting",
+            "heading": "Four days for a coat",
+            "text": "<p>Chalked, cut and sewn by the person who finishes it. A coat passes through two pairs of hands, and both of them are in this room.</p>"
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Finishing",
+            "heading": "Pressed, then labelled",
+            "text": "<p>The label carries the mill and the weight, and the order is recorded against it — which is how a repair five years from now still finds the right cloth.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "A coat sleeve being set on the machine",
+        "image_position": "left",
+        "image_height": 620,
+        "eyebrow": "Provenance",
+        "heading": "How a garment is made"
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "Repairs, for five years",
+            "text": "<p>Free — seams, buttons, linings and moth holes, for five years from the day it ships. We send a prepaid insured label.</p>",
+            "link_label": "Care and repair",
+            "link": "/pages/care-and-repair"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Hemming, whenever",
+            "text": "<p>Free on anything we made, for as long as you own it. To the centimetre, in about a week.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "Alterations, quoted first",
+            "text": "<p>Nothing is touched before you have the number. We will say honestly when an alteration is not worth doing.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "What comes with a garment",
+        "columns": 3
+      }
+    },
+    "kept": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "quote": "Three winters in the overcoat and it has been pressed twice. The shoulder still sits where it did.",
+            "name": "Marina A.",
+            "piece": "The Overcoat",
+            "year": "2023"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "quote": "I split a seam in the second month. They repaired it in a week and posted it back, free.",
+            "name": "Júlia R.",
+            "piece": "The Wide Trouser",
+            "year": "2025"
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "quote": "The linen creases hard and I have stopped apologising for it. That is what the cloth does.",
+            "name": "Pedro V.",
+            "piece": "The Camp Shirt",
+            "year": "2025"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Worn in",
+        "columns": 3
+      }
+    }
+  },
+  "order": [
+    "main",
+    "statement",
+    "atelier",
+    "provenance",
+    "services",
+    "kept"
+  ]
+}

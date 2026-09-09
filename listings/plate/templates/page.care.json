@@ -1,0 +1,108 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--index",
+        "eyebrow": "Care and repair"
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "Repairs, for five years",
+            "text": "<p>Free — seams, buttons, linings and moth holes. Post it back, or bring it to the counter at the back of the cutting room.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Hemming, whenever",
+            "text": "<p>Free on anything we made, for as long as you own it. Trousers and coats, to the centimetre, in about a week.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "Re-proofing and pressing",
+            "text": "<p>Quoted first. A coat that has had three winters usually wants pressing rather than cleaning, and we will say so.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "House services",
+        "columns": 3
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How do I send a garment in?",
+            "text": "<p>Write to us with the order number. We reply with a prepaid insured label, and nothing is sent at your own risk.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "What does a repair cost?",
+            "text": "<p>Repairs and hemming are free for five years. Anything else is quoted before work starts, and we will say when a repair is not worth the money.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Do you work on garments you did not make?",
+            "text": "<p>Yes, on the same terms: quoted first, and an honest answer about whether to do it at all.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Can a hemmed garment be let down again?",
+            "text": "<p>Usually once, depending on the seam allowance we left. This is why hemmed garments are final sale, and we say it before you order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Sending a garment back",
+        "intro": "<p>The practical part. Anything not here, write to us and a person answers.</p>",
+        "open_first": true
+      }
+    },
+    "write": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Ask about a repair",
+        "intro": "<p>Tell us the order number and what happened. We reply within two working days, with a quote before anything is touched.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "services",
+    "questions",
+    "write"
+  ]
+}

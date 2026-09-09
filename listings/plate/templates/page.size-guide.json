@@ -1,0 +1,162 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Measurements"
+      }
+    },
+    "table": {
+      "type": "comparison",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "S",
+            "note": "Fits 92–97 cm chest"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "M",
+            "note": "97–102 cm"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "L",
+            "note": "102–107 cm"
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "XL",
+            "note": "107–112 cm"
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Chest, flat",
+            "value_1": "50 cm",
+            "value_2": "53 cm",
+            "value_3": "56 cm",
+            "value_4": "59 cm"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "Waist, flat",
+            "value_1": "48 cm",
+            "value_2": "51 cm",
+            "value_3": "54 cm",
+            "value_4": "57 cm"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Back length",
+            "value_1": "71 cm",
+            "value_2": "73 cm",
+            "value_3": "75 cm",
+            "value_4": "77 cm"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Sleeve, shoulder to cuff",
+            "value_1": "63 cm",
+            "value_2": "64 cm",
+            "value_3": "65 cm",
+            "value_4": "66 cm"
+          }
+        },
+        "r5": {
+          "type": "row",
+          "settings": {
+            "label": "Shoulder, seam to seam",
+            "value_1": "44 cm",
+            "value_2": "46 cm",
+            "value_3": "48 cm",
+            "value_4": "50 cm"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "The Overcoat, measured flat",
+        "table_caption": "Garment measured flat in centimetres, not body measurements",
+        "note": "<p>Every product page carries its own table, taken from that garment’s graded sample. Lay a garment you already wear flat and compare — it is more reliable than measuring yourself.</p>"
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "What if I am between two sizes?",
+            "text": "<p>Take the larger for outerwear and the smaller for shirting. Or write to us with the flat measurements of something that fits, and we will say which.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Are these body or garment measurements?",
+            "text": "<p>Garment, measured flat, with the piece buttoned and pressed. Body measurements are in the first row of the table as a fitting range.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "What if it does not fit?",
+            "text": "<p>Thirty days, unworn, tags on, and we pay the return. An exchange for another size ships the day the first one lands.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Can it be hemmed?",
+            "text": "<p>Free on anything we made, for as long as you own it, to the centimetre. Hemmed garments are final sale, and we say so before you order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "About sizing",
+        "open_first": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "table",
+    "questions"
+  ]
+}

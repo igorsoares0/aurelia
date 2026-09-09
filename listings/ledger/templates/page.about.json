@@ -1,0 +1,225 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "The studio"
+      }
+    },
+    "statement": {
+      "type": "rich-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Since 2007"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "<p>One wheel, one kiln.<em>Two firings a year.</em></p>"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We do not make to order and we do not repeat a firing. What leaves here is what one potter and two apprentices can throw, glaze and fire properly in six months, which is about forty pieces a kiln.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "alignment": "center"
+      }
+    },
+    "atelier": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "The studio"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "Tiradentes, and a kiln in the yard."
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Teresa has thrown here for nineteen years. The apprentices stay three years each and take the wheel for the second firing of every year — those pieces carry their mark, not hers.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "The studio is open four days a week",
+            "link": "/pages/contact"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "image_position": "left",
+        "image_height": 520,
+        "image_alt": "The wheel and the kiln yard in Tiradentes"
+      }
+    },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "The clay",
+            "heading": "Dug in Minas, blended here",
+            "text": "<p>Two stoneware bodies from the same pit outside São Thomé, blended wet in the yard and rested a month before anything is thrown.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Throwing",
+            "heading": "Forty pieces, one pair of hands",
+            "text": "<p>Thrown on the wheel and turned by hand at the leather-hard stage. The foot is where the number is cut, and it is cut before the glaze goes on.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Glazing",
+            "heading": "Four glazes, mixed by weight",
+            "text": "<p>Ash, oatmeal, iron and a clear. All four are mixed here from raw materials, and the recipes are published in the journal.</p>"
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "The firing",
+            "heading": "Thirty-six hours of wood",
+            "text": "<p>Stoked in pairs, day and night, to 1,280°C. What the flame does to a glaze on one side of the kiln it will not do on the other, and that is the last ten per cent we do not control.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "A pot being turned on the wheel at the leather-hard stage",
+        "image_position": "left",
+        "image_height": 620,
+        "eyebrow": "The making",
+        "heading": "How a piece is made"
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "Breakages, first year",
+            "text": "<p>Replaced from the next firing, free. Photograph it and write; we do not ask you to post the pieces back.</p>",
+            "link_label": "Use and care",
+            "link": "/pages/care-and-repair"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Completing a set",
+            "text": "<p>Give us the number cut into the foot and we match the glaze as closely as a wood kiln allows — and say honestly how close that is.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "Repairs in gold",
+            "text": "<p>Quoted first. A clean break can be joined with gold rather than hidden, which is the older and better answer.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "What comes with a piece",
+        "columns": 3
+      }
+    },
+    "kept": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "quote": "Through the dishwasher twice a week for two years. The ash glaze has gone softer, not worse.",
+            "name": "Marina A.",
+            "piece": "Bowl no. 12",
+            "year": "2024"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "quote": "I chipped a plate in the first month, wrote to ask about a replacement, and got the potter. Not a form.",
+            "name": "Júlia R.",
+            "piece": "Dinner plate",
+            "year": "2025"
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "quote": "The two cups I bought are visibly different and I would not want them to match. That is the kiln, not a defect.",
+            "name": "Pedro V.",
+            "piece": "Cup, iron black",
+            "year": "2025"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Kept",
+        "columns": 3
+      }
+    }
+  },
+  "order": [
+    "main",
+    "statement",
+    "atelier",
+    "provenance",
+    "services",
+    "kept"
+  ]
+}

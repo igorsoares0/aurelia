@@ -1,0 +1,195 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Questions"
+      }
+    },
+    "ordering": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How long does an order take?",
+            "text": "<p>Everything is cut ahead and in stock. Orders leave São Paulo in five working days; hemming adds four.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I change or cancel an order?",
+            "text": "<p>Any time before it ships, in full. Once a garment has been hemmed to your measurement it is yours.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "What happens when a season ends?",
+            "text": "<p>The cloth runs out and the pattern is retired. A garment that earns it stays in the permanent range; the rest do not return.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Do you make anything to measure?",
+            "text": "<p>Trousers and coats, a few times a year. Write with your measurements and we will say plainly whether it is worth doing.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Ordering",
+        "intro": "<p>Everything here is answered by a person if you would rather ask.</p>",
+        "open_first": true
+      }
+    },
+    "materials": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "Where does the cloth come from?",
+            "text": "<p>Named on the label and on every product page: the mill, the town and the weight. Merino from Biella, linen from Cork, cotton grown in Ceará and woven in São Paulo.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "What is the difference between the three cloths?",
+            "text": "<p>Merino is coating weight and holds its shape. Irish linen creases hard, and is meant to. Organic cotton twill is the mid-weight that takes daily wear.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I see the cloth before I buy?",
+            "text": "<p>Ask and we post a swatch, free, anywhere. It is cheaper for both of us than a return.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Is anything treated or blended?",
+            "text": "<p>No. Every cloth is a single undyed or piece-dyed natural fibre, and the composition on the label is the whole composition.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Cloth",
+        "open_first": false
+      }
+    },
+    "care": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How should I wash it?",
+            "text": "<p>Written on every product page for that cloth. Most of it is a cold machine wash and a line dry; only the coats want dry cleaning, and only once a season.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "My linen creased on the first wear. Is that a fault?",
+            "text": "<p>No, it is what wet-spun linen does. Press it if you like, but the crease is the cloth telling the truth about itself.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Do you repair garments?",
+            "text": "<p>Free for five years — seams, buttons, linings and moth holes. Post it back, or bring it to the counter at the back of the cutting room.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Care and repair",
+        "button_label": "The full care guide",
+        "button_link": "/pages/care-and-repair",
+        "open_first": false
+      }
+    },
+    "shipping": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How is an order sent?",
+            "text": "<p>Insured and signed for, everywhere. Tracking arrives the morning it leaves São Paulo.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Do you ship outside Brazil?",
+            "text": "<p>Yes. Duties and import taxes are the customer’s, and we declare the full value — we will not under-declare a parcel.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "What is the returns window?",
+            "text": "<p>Thirty days, unworn, with the tags on, and we pay the return. Garments hemmed to your measurement are final sale, and we say so before you order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Shipping and returns",
+        "open_first": false
+      }
+    },
+    "write": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Still unanswered?",
+        "intro": "<p>A person reads every message. We reply within two working days.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ordering",
+    "materials",
+    "care",
+    "shipping",
+    "write"
+  ]
+}

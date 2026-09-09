@@ -1,0 +1,200 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Gifting"
+      }
+    },
+    "bands": {
+      "type": "shop-by",
+      "blocks": {
+        "b1": {
+          "type": "attribute",
+          "settings": {
+            "label": "Under R$ 400",
+            "swatch_color": "#efebe2"
+          }
+        },
+        "b2": {
+          "type": "attribute",
+          "settings": {
+            "label": "R$ 400 to 900",
+            "swatch_color": "#d8bd8a"
+          }
+        },
+        "b3": {
+          "type": "attribute",
+          "settings": {
+            "label": "R$ 900 to 1,800",
+            "swatch_color": "#b08d4f"
+          }
+        },
+        "b4": {
+          "type": "attribute",
+          "settings": {
+            "label": "Above R$ 1,800",
+            "swatch_color": "#8d7f6b"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "By what you want to spend",
+        "columns": 4,
+        "columns_mobile": "2",
+        "show_count": false
+      }
+    },
+    "recipients": {
+      "type": "shop-by",
+      "blocks": {
+        "r1": {
+          "type": "attribute",
+          "settings": {
+            "label": "A first garment",
+            "swatch_color": "#c9c9c4"
+          }
+        },
+        "r2": {
+          "type": "attribute",
+          "settings": {
+            "label": "For the cold",
+            "swatch_color": "#b08d4f"
+          }
+        },
+        "r3": {
+          "type": "attribute",
+          "settings": {
+            "label": "Something they will wear out",
+            "swatch_color": "#8d7f6b"
+          }
+        },
+        "r4": {
+          "type": "attribute",
+          "settings": {
+            "label": "For yourself",
+            "swatch_color": "#7f8a93"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "By who it is for",
+        "columns": 4,
+        "columns_mobile": "2",
+        "show_count": false
+      }
+    },
+    "chapter": {
+      "type": "featured-collection",
+      "settings": {
+        "color_scheme": "ground",
+        "collection": "autumn-collection",
+        "heading": "Sent most often",
+        "link_label": "View all",
+        "products_count": 6,
+        "columns": 3,
+        "image_height": 420
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "A note, written by hand",
+            "text": "<p>Add what you want said at checkout and it is written on the card that travels with the garment. No price appears anywhere in the parcel.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Sized after the fact",
+            "text": "<p>Guessing a size is fine. Thirty days to exchange, we pay the return, and hemming is free for as long as they own it.</p>",
+            "link_label": "Care and repair",
+            "link": "/pages/care-and-repair"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "Five days, not two",
+            "text": "<p>Everything is in stock, but it still has to travel. If a date matters, order a week before it, or write and we will say honestly what is possible.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Before you order",
+        "columns": 3
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "Can it be returned if it is wrong?",
+            "text": "<p>Thirty days, unworn, tags on, and we pay the return. Garments hemmed to a measurement are the exception, and we say so before you order.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Will they know what it cost?",
+            "text": "<p>No. Nothing in the parcel carries a price, and the invoice goes to the person who paid.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I have it sent straight to them?",
+            "text": "<p>Yes. Put their address at checkout and the note in the gift message, and tracking still comes to you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--sidebar",
+        "heading": "Gifting questions",
+        "intro": "<p>What people ask before sending a piece to someone else.</p>",
+        "open_first": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "bands",
+    "recipients",
+    "chapter",
+    "services",
+    "questions"
+  ]
+}

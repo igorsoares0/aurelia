@@ -1,0 +1,162 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Dimensions"
+      }
+    },
+    "table": {
+      "type": "comparison",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Bowl",
+            "note": "Everyday, no. 12"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Plate",
+            "note": "Dinner"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Cup",
+            "note": "With or without handle"
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "Vase",
+            "note": "Tall"
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Diameter",
+            "value_1": "16 cm",
+            "value_2": "27 cm",
+            "value_3": "8.5 cm",
+            "value_4": "12 cm"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "Height",
+            "value_1": "7.5 cm",
+            "value_2": "2 cm",
+            "value_3": "9 cm",
+            "value_4": "28 cm"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Holds",
+            "value_1": "600 ml",
+            "value_2": "—",
+            "value_3": "280 ml",
+            "value_4": "1.4 L"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Weight",
+            "value_1": "480 g",
+            "value_2": "610 g",
+            "value_3": "320 g",
+            "value_4": "1.3 kg"
+          }
+        },
+        "r5": {
+          "type": "row",
+          "settings": {
+            "label": "Stacks",
+            "value_1": "Yes, four deep",
+            "value_2": "Yes, six deep",
+            "value_3": "Yes, three deep",
+            "value_4": "No"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "The four forms",
+        "table_caption": "Forms compared on diameter, height, capacity and weight",
+        "note": "<p>Thrown by hand, so read these as within about five millimetres either way. Every product page carries the measured dimensions of the actual piece you are buying.</p>"
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "Why is mine a few millimetres off?",
+            "text": "<p>Because it was thrown on a wheel and then fired, and stoneware shrinks about twelve per cent in the kiln. The number on the product page is the piece, measured after firing.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Will a new bowl stack with an older one?",
+            "text": "<p>Within a form, yes. Across firings the wall thickness varies slightly, so four deep is safe and six is optimistic.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Do the cups fit a standard saucer?",
+            "text": "<p>The 8.5 cm cup sits on our dinner plate and on most saucers. It was not designed to a standard, and we would rather say so.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Are the dimensions on the product page exact?",
+            "text": "<p>Yes — each piece is measured after it comes out of the kiln, not taken from a sample. That is why two of the same form can list different numbers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "About dimensions",
+        "open_first": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "table",
+    "questions"
+  ]
+}

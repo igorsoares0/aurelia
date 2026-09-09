@@ -1,0 +1,200 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Gifting"
+      }
+    },
+    "bands": {
+      "type": "shop-by",
+      "blocks": {
+        "b1": {
+          "type": "attribute",
+          "settings": {
+            "label": "Under R$ 200",
+            "swatch_color": "#efebe2"
+          }
+        },
+        "b2": {
+          "type": "attribute",
+          "settings": {
+            "label": "R$ 200 to 400",
+            "swatch_color": "#d8bd8a"
+          }
+        },
+        "b3": {
+          "type": "attribute",
+          "settings": {
+            "label": "R$ 400 to 800",
+            "swatch_color": "#b08d4f"
+          }
+        },
+        "b4": {
+          "type": "attribute",
+          "settings": {
+            "label": "Above R$ 800",
+            "swatch_color": "#8d7f6b"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "By what you want to spend",
+        "columns": 4,
+        "columns_mobile": "2",
+        "show_count": false
+      }
+    },
+    "recipients": {
+      "type": "shop-by",
+      "blocks": {
+        "r1": {
+          "type": "attribute",
+          "settings": {
+            "label": "A first piece",
+            "swatch_color": "#c9c9c4"
+          }
+        },
+        "r2": {
+          "type": "attribute",
+          "settings": {
+            "label": "For a new kitchen",
+            "swatch_color": "#b08d4f"
+          }
+        },
+        "r3": {
+          "type": "attribute",
+          "settings": {
+            "label": "To build a set",
+            "swatch_color": "#8d7f6b"
+          }
+        },
+        "r4": {
+          "type": "attribute",
+          "settings": {
+            "label": "For yourself",
+            "swatch_color": "#7f8a93"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "By who it is for",
+        "columns": 4,
+        "columns_mobile": "2",
+        "show_count": false
+      }
+    },
+    "chapter": {
+      "type": "featured-collection",
+      "settings": {
+        "color_scheme": "ground",
+        "collection": "winter-firing",
+        "heading": "Sent most often",
+        "link_label": "View all",
+        "products_count": 6,
+        "columns": 3,
+        "image_height": 420
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "A note, written by hand",
+            "text": "<p>Add what you want said at checkout and it is written on the card packed with the piece. No price appears anywhere in the parcel.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Straw-packed, and insured",
+            "text": "<p>Double-boxed by hand. If it arrives broken we replace it from the next firing, and we do not ask for the pieces back.</p>",
+            "link_label": "Use and care",
+            "link": "/pages/care-and-repair"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "A firing, not a warehouse",
+            "text": "<p>What is listed is what came out of the last kiln. If it is gone, the next firing is in June or December — write and we will tell you which.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Before you order",
+        "columns": 3
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "Can it be returned if it is wrong?",
+            "text": "<p>Thirty days, unused, in the original wrapping. A piece that came out of the kiln unlike its photograph is not a fault, and we explain that on the product page before you order.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Will they know what it cost?",
+            "text": "<p>No. Nothing in the parcel carries a price, and the invoice goes to the person who paid.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I have it sent straight to them?",
+            "text": "<p>Yes. Put their address at checkout and the note in the gift message, and tracking still comes to you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--sidebar",
+        "heading": "Gifting questions",
+        "intro": "<p>What people ask before sending a piece to someone else.</p>",
+        "open_first": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "bands",
+    "recipients",
+    "chapter",
+    "services",
+    "questions"
+  ]
+}

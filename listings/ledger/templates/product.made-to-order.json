@@ -1,0 +1,181 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb": {
+          "type": "breadcrumb",
+          "settings": {}
+        },
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Commissioned"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_instalments": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "lead_time": "Thrown for the next firing. Six months, at most.",
+            "reassurance": "Insured shipping, straw-packed. Commissions are final sale.",
+            "commission_url": "/pages/contact"
+          }
+        },
+        "pickup": {
+          "type": "pickup",
+          "settings": {}
+        },
+        "spec_list": {
+          "type": "spec_list",
+          "settings": {
+            "summary_label": "Clay, glaze and dimensions",
+            "label_material": "Clay",
+            "label_face": "Glaze",
+            "label_origin": "Thrown in",
+            "label_lead_time": "Lead time",
+            "label_care": "Care"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb",
+        "eyebrow",
+        "title",
+        "price",
+        "description",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "pickup",
+        "spec_list"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "hero_height": 760,
+        "detail_height": 420,
+        "sticky_panel": true
+      }
+    },
+    "commission": {
+      "type": "collapsible-content",
+      "blocks": {
+        "order": {
+          "type": "row",
+          "settings": {
+            "heading": "What happens after you order",
+            "text": "<p>We write within a week to agree the count and the glaze, then the pieces are thrown for the next kiln. We write again when they are glazed and when the kiln is lit.</p>"
+          }
+        },
+        "changes": {
+          "type": "row",
+          "settings": {
+            "heading": "Changing your mind",
+            "text": "<p>Any time before the pieces are glazed, in full. After that they are committed to a firing and cannot be un-made.</p>"
+          }
+        },
+        "sizing": {
+          "type": "row",
+          "settings": {
+            "heading": "How close a match can you get?",
+            "text": "<p>The form, exactly. The glaze, closely — but a wood kiln decides the last ten per cent, and a commission fired six months apart from your first piece will not be its twin.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "order",
+        "changes",
+        "sizing"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Ordering pieces that do not exist yet",
+        "intro": "<p>Nothing here is thrown in advance. A commission waits for a kiln, and these are its terms.</p>",
+        "button_label": "The dimensions table",
+        "button_link": "/pages/size-guide",
+        "open_first": true
+      }
+    },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Month one",
+            "heading": "Thrown, and turned",
+            "text": "<p>The whole run is thrown in one sitting so the walls match, then turned at the leather-hard stage and numbered on the foot.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Month three",
+            "heading": "Glazed by weight",
+            "text": "<p>Dipped in the glaze you chose, mixed here from raw materials to the recipe published in the journal.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Month six",
+            "heading": "Thirty-six hours of wood",
+            "text": "<p>Stoked in pairs, day and night, to 1,280°C. We photograph the whole run as it comes out, and you see it before it is packed.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "The kiln being stoked at night in Tiradentes",
+        "image_position": "right",
+        "image_height": 620,
+        "eyebrow": "Two firings a year",
+        "heading": "What the wait is for"
+      }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    }
+  },
+  "order": [
+    "main",
+    "commission",
+    "provenance",
+    "related"
+  ]
+}

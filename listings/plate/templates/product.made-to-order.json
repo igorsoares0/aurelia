@@ -1,0 +1,181 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb": {
+          "type": "breadcrumb",
+          "settings": {}
+        },
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Made to measure"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_instalments": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "lead_time": "Cut to your measurements in 21 days, then shipped.",
+            "reassurance": "Free shipping. Made-to-measure garments are final sale.",
+            "commission_url": "/pages/contact"
+          }
+        },
+        "pickup": {
+          "type": "pickup",
+          "settings": {}
+        },
+        "spec_list": {
+          "type": "spec_list",
+          "settings": {
+            "summary_label": "Cloth and measurements",
+            "label_material": "Cloth",
+            "label_face": "Weave",
+            "label_origin": "Woven in",
+            "label_lead_time": "Lead time",
+            "label_care": "Care"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb",
+        "eyebrow",
+        "title",
+        "price",
+        "description",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "pickup",
+        "spec_list"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "hero_height": 760,
+        "detail_height": 420,
+        "sticky_panel": true
+      }
+    },
+    "commission": {
+      "type": "collapsible-content",
+      "blocks": {
+        "order": {
+          "type": "row",
+          "settings": {
+            "heading": "What happens after you order",
+            "text": "<p>We write within two days to book a measuring call, then the cloth is cut to your pattern. We write again when it goes on the machine and when it ships.</p>"
+          }
+        },
+        "changes": {
+          "type": "row",
+          "settings": {
+            "heading": "Changing your mind",
+            "text": "<p>Within three days, in full, no questions. After that the cloth has been cut to your measurements and cannot be sold to anyone else.</p>"
+          }
+        },
+        "sizing": {
+          "type": "row",
+          "settings": {
+            "heading": "If you cannot come in to be measured",
+            "text": "<p>Send the flat measurements of a garment that already fits you well. It is more reliable than measuring yourself, and it is how most of these are ordered.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "order",
+        "changes",
+        "sizing"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Ordering a garment that does not exist yet",
+        "intro": "<p>Nothing here is cut in advance. That is the whole arrangement, and these are its terms.</p>",
+        "button_label": "The measurements table",
+        "button_link": "/pages/size-guide",
+        "open_first": true
+      }
+    },
+    "provenance": {
+      "type": "pinned-story",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Week one",
+            "heading": "The cloth is reserved",
+            "text": "<p>Cut from the same roll as the sample you were shown, and set aside under your name before anything else is done.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Week two",
+            "heading": "The pattern is drafted to you",
+            "text": "<p>Your measurements are drawn as their own pattern, not graded from a block. It is cut, basted and hung before it is sewn.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "Week three",
+            "heading": "Sewn, pressed and labelled",
+            "text": "<p>Sewn by one person start to finish, pressed on the buck, and the pattern filed under your name for the next one.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "image_alt": "A sleeve being basted on the stand",
+        "image_position": "right",
+        "image_height": 620,
+        "eyebrow": "Twenty-one days",
+        "heading": "What the wait is for"
+      }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    }
+  },
+  "order": [
+    "main",
+    "commission",
+    "provenance",
+    "related"
+  ]
+}

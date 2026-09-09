@@ -1,0 +1,141 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb": {
+          "type": "breadcrumb",
+          "settings": {}
+        },
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Firing no. 14"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_instalments": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "lead_time": "In the current firing. Shipped in 3 days.",
+            "reassurance": "Insured shipping, straw-packed. Breakages replaced from the next firing."
+          }
+        },
+        "pickup": {
+          "type": "pickup",
+          "settings": {}
+        },
+        "spec_list": {
+          "type": "spec_list",
+          "settings": {
+            "summary_label": "Clay, glaze and dimensions"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb",
+        "eyebrow",
+        "title",
+        "price",
+        "description",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "pickup",
+        "spec_list"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "hero_height": 760,
+        "detail_height": 420,
+        "sticky_panel": true
+      }
+    },
+    "complementary": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "complementary",
+        "heading": "Set with",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    },
+    "care": {
+      "type": "collapsible-content",
+      "blocks": {
+        "making": {
+          "type": "row",
+          "settings": {
+            "heading": "Why is mine not identical to the photograph?",
+            "text": "<p>Because it was in a different part of a wood kiln. The form repeats, the glaze does not, and that is the reason to buy it.</p>"
+          }
+        },
+        "sizing": {
+          "type": "row",
+          "settings": {
+            "heading": "Everyday use",
+            "text": "<p>Dishwasher safe in all four glazes. Iron black is not for the microwave — the iron in the glaze heats.</p>"
+          }
+        },
+        "shipping": {
+          "type": "row",
+          "settings": {
+            "heading": "Shipping and returns",
+            "text": "<p>Straw-packed and insured worldwide. Thirty days to return an unused piece. If it arrives broken we replace it from the next firing.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "making",
+        "sizing",
+        "shipping"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Use, care and shipping",
+        "intro": "",
+        "open_first": false
+      }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like",
+        "products_count": 3,
+        "columns": 3,
+        "image_height": 320
+      }
+    }
+  },
+  "order": [
+    "main",
+    "complementary",
+    "care",
+    "related"
+  ]
+}

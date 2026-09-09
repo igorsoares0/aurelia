@@ -5,16 +5,16 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "text": "Free shipping and free returns, worldwide",
+        "text": "Straw-packed and insured, worldwide",
         "color_scheme": "ink"
       }
     },
     "header": {
       "type": "header",
       "settings": {
-        "color_scheme": "ink",
+        "color_scheme": "ground",
         "menu": "main-menu",
-        "sticky": true,
+        "sticky": false,
         "show_search": true,
         "show_account": true
       }

@@ -30,17 +30,44 @@ Everything else — `cart_type`, `min_page_margin`, `motion_reveal`,
 `cart_show_note` — is identical across all three and should stay that way
 unless there is a reason tied to the industry.
 
-**Layer 2 — `listings/<preset>/`.** Preset-specific JSON templates and section
-groups. A preset only needs the files it overrides; anything absent is
-inherited from the root `templates/` and `sections/`. Preset folders do not
-need to hold the same number of files. Current state:
+**Layer 2 — `listings/<preset>/`.** This is Shopify's own submission format, not
+a convention of this repo: the Theme Store requires that "if you have more than
+one preset, you need to include a unique set of templates showcasing each
+preset", and `shopify theme package` puts the folder in the ZIP even though
+`.shopifyignore` keeps it out of `theme dev` and `theme push`.
+
+**Whether an omitted template falls back to the root is undocumented.** The
+requirements page says nothing about inheritance, and theme check does not
+enforce completeness. Both possible behaviours are bad — inherit and a preset
+shows another industry's copy, do not inherit and the page is missing — so the
+rule here is to override every template that carries copy, and not to rely on
+the answer. Ask the Partner Dashboard before betting on it.
+
+Current state:
 
 ```
-listings/aurelia/templates/{index,collection}.json
-listings/ledger/templates/{index,collection}.json
-listings/plate/templates/{index,collection}.json
-listings/plate/sections/header-group.json      # dark masthead, Plate only
+listings/aurelia/templates/  index, collection                        (2)
+listings/plate/templates/    16 templates
+listings/plate/sections/     header-group.json    # dark masthead, Plate only
+listings/ledger/templates/   16 templates
+listings/ledger/sections/    header-group.json    # announcement copy
 ```
+
+Aurelia holds two because it *is* the root's voice; the other two override every
+template that carries industry copy. What deliberately stays inherited, because
+it is functional and says nothing about an industry: `article`, `blog.editorial`,
+`page.contact`, `page.json`, `search`, and the seven `customers/*`.
+
+Two templates could not be rewritten by settings alone:
+
+- **`page.size-guide`** is irreducibly a ring sizer — its blocks are `label` plus
+  `circumference`, drawn as circles at 1:1 for printing. Plate and Ledger swap
+  the whole section for `comparison`: a measurements table and a dimensions
+  table. A listing template may change which sections it uses; only the settings
+  of a given section are fixed by its schema.
+- **`product.made-to-order`'s `engraving` block** exposes only `max_characters`;
+  its label comes from the locale and would read "engraving" on any preset. Both
+  presets drop the block rather than mislabel it.
 
 **Layer 3 — the demo store.** Catalogue, photography and copy are not in the
 theme and never will be. Each preset needs its own demo store. Nothing in this
@@ -107,9 +134,9 @@ section schemas.
 - [x] `listings/ledger/templates/index.json` — reordered for ceramics
 - [x] Each preset's home order reads as a distinct story
 - [x] Every section placed exists in `sections/` and validates against its schema
-- [ ] `listings/plate/templates/page.size-guide.json` — garment measurements
-- [ ] `listings/ledger/sections/header-group.json` — only if the 1360 page needs
-      its own masthead proportions; skip if inherited works
+- [x] `listings/plate/templates/page.size-guide.json` — garment measurements
+- [x] `listings/ledger/sections/header-group.json` — needed after all, for copy
+      rather than proportions: the root masthead announces "free resizing"
 - [x] Aurelia: `video-with-text` placed between `pairing` and `atelier`, and
       `edition` between `browse` and `comparison`. Aurelia only, as decided.
 - [ ] **`edition`'s `deadline` is hard-coded to `2026-12-01 18:00`** in

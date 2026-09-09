@@ -1,0 +1,108 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--index",
+        "eyebrow": "Use and care"
+      }
+    },
+    "services": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": {
+          "type": "column",
+          "settings": {
+            "heading": "Breakages, first year",
+            "text": "<p>Replaced from the next firing, free. Photograph it and write; we do not ask you to post the pieces back.</p>"
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "heading": "Completing a set",
+            "text": "<p>Tell us the number cut into the foot and we will match the glaze as closely as a wood kiln allows — and say honestly how close that is.</p>"
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "heading": "Repairs in gold",
+            "text": "<p>Quoted first. A clean break can be joined with gold rather than hidden, which is the older and better answer.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "House services",
+        "columns": 3
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "What does the number on the foot mean?",
+            "text": "<p>The firing, then the piece within it. No. 14/06 is the sixth piece out of the fourteenth firing, and it is recorded against your order.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Can these go in the dishwasher?",
+            "text": "<p>All four glazes, every day. Only iron black stays out of the microwave, because the iron in the glaze heats.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "The glaze has crazed. Is that a fault?",
+            "text": "<p>No. Fine lines in an ash glaze are normal and do not go through the body. A piece that leaks is a fault, and we replace it.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Can you match a piece I bought years ago?",
+            "text": "<p>The form, yes. The glaze, not exactly — it came out of a different kiln. We will show you what the current firing looks like before you decide.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Living with it",
+        "intro": "<p>The practical part. Anything not here, write to us and a person answers.</p>",
+        "open_first": true
+      }
+    },
+    "write": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Ask about a piece",
+        "intro": "<p>Tell us the number on the foot and what happened. We reply within two working days.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "services",
+    "questions",
+    "write"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "This piece has left the kiln.",
+        "body": "The page you asked for is not here. It may have moved, or the firing may have sold out."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "This garment has sold through.",
+        "body": "The page you asked for is not here. It may have moved, or the season may have closed."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

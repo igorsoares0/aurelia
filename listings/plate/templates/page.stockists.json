@@ -1,0 +1,80 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Visiting"
+      }
+    },
+    "places": {
+      "type": "stockists",
+      "blocks": {
+        "p1": {
+          "type": "place",
+          "settings": {
+            "name": "The cutting room",
+            "role": "And the repair counter",
+            "address": "Rua Fidalga 512\nVila Madalena, São Paulo\nSP 05432-070",
+            "phone": "+55 11 3031 7720",
+            "hours": "Tuesday to Friday: 10h to 18h\nSaturday: 10h to 14h\nSunday and Monday: closed",
+            "note": "Bring anything of ours that needs mending. No appointment for repairs.",
+            "directions": "https://maps.google.com/?q=Rua+Fidalga+512+Sao+Paulo",
+            "directions_label": "Directions"
+          }
+        },
+        "p2": {
+          "type": "place",
+          "settings": {
+            "name": "Casa Ipê",
+            "role": "Stockist",
+            "address": "Rua Aspicuelta 288\nVila Madalena, São Paulo\nSP 05433-011",
+            "phone": "+55 11 3031 7720",
+            "hours": "Monday to Saturday: 11h to 19h\nSunday: closed",
+            "note": "Carries the current collection. Not every size is held.",
+            "directions": "https://maps.google.com/?q=Rua+Aspicuelta+288+Sao+Paulo",
+            "directions_label": "Directions"
+          }
+        },
+        "p3": {
+          "type": "place",
+          "settings": {
+            "name": "Ateliê Norte",
+            "role": "Stockist",
+            "address": "Rua Jardim Botânico 674\nJardim Botânico, Rio de Janeiro\nRJ 22461-000",
+            "phone": "+55 21 2274 9050",
+            "hours": "Tuesday to Saturday: 11h to 19h\nSunday and Monday: closed",
+            "note": "Outerwear and knitwear only.",
+            "directions": "https://maps.google.com/?q=Rua+Jardim+Botanico+674+Rio+de+Janeiro",
+            "directions_label": "Directions"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "heading": "Where to find us",
+        "intro": "<p>The cutting room is open six days a week, and the repair counter is at the back of it. Two shops carry the collections.</p>",
+        "columns": 3
+      }
+    },
+    "write": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Book a fitting",
+        "intro": "<p>Tell us roughly when, and what you would like to try. We reply within two working days.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "places",
+    "write"
+  ]
+}

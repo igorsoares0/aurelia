@@ -1,0 +1,195 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "page--plain",
+        "eyebrow": "Questions"
+      }
+    },
+    "ordering": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How long does an order take?",
+            "text": "<p>If it is in the current firing, three working days. If it is not, it waits for the next kiln — we fire in June and December.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I change or cancel an order?",
+            "text": "<p>Any time before it is packed, in full. Nothing is made to order, so nothing is wasted either way.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "What happens when a firing sells out?",
+            "text": "<p>It is not repeated. The forms come back in the next kiln, but the glaze on them will not be the same, and that is the point.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Do you take commissions?",
+            "text": "<p>Dinner services, once or twice a year. Write with the count and the form; a full service takes two firings, so a year.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Ordering",
+        "intro": "<p>Everything here is answered by a person if you would rather ask.</p>",
+        "open_first": true
+      }
+    },
+    "materials": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "What is the clay?",
+            "text": "<p>Two stoneware bodies from the same pit outside São Thomé, blended wet in the yard and rested a month before anything is thrown.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "What are the four glazes?",
+            "text": "<p>Ash, oatmeal, iron black and a clear used only inside cups. All four are mixed here from raw materials, and the recipes are published in the journal.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Why do two of the same piece look different?",
+            "text": "<p>Because they were in different parts of a wood kiln. Thirty-six hours of flame does not treat both sides alike.</p>"
+          }
+        },
+        "q4": {
+          "type": "row",
+          "settings": {
+            "heading": "Is the glaze food safe?",
+            "text": "<p>All four, yes, and tested. Iron black is not for the microwave — the iron in it heats — and that is the only restriction.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Clay and glaze",
+        "open_first": false
+      }
+    },
+    "care": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "Can these go in the dishwasher?",
+            "text": "<p>Yes, all four glazes, every day. Stoneware fired to 1,280°C is harder than the machine.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "The glaze has crazed. Is that a fault?",
+            "text": "<p>No. Fine lines in an ash glaze are normal and do not go through the body. If a piece leaks, that is a fault, and we replace it.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "Something broke. What now?",
+            "text": "<p>Write with the number cut into the foot. Breakages in the first year are replaced from the next firing, and after that we do what we can.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Use and care",
+        "button_label": "The full care guide",
+        "button_link": "/pages/care-and-repair",
+        "open_first": false
+      }
+    },
+    "shipping": {
+      "type": "collapsible-content",
+      "blocks": {
+        "q1": {
+          "type": "row",
+          "settings": {
+            "heading": "How is an order sent?",
+            "text": "<p>Straw-packed by hand, double-boxed, insured and signed for. Tracking arrives the morning it leaves Tiradentes.</p>"
+          }
+        },
+        "q2": {
+          "type": "row",
+          "settings": {
+            "heading": "Do you ship outside Brazil?",
+            "text": "<p>Yes. Duties and import taxes are the customer’s, and we declare the full value — we will not under-declare a parcel.</p>"
+          }
+        },
+        "q3": {
+          "type": "row",
+          "settings": {
+            "heading": "What if it arrives broken?",
+            "text": "<p>Photograph the box and the piece and write the same day. We replace it from the next firing, and we do not ask you to post the pieces back.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "layout": "disclosures--stacked",
+        "heading": "Shipping and returns",
+        "open_first": false
+      }
+    },
+    "write": {
+      "type": "contact-form",
+      "settings": {
+        "color_scheme": "ink",
+        "heading": "Still unanswered?",
+        "intro": "<p>A person reads every message. We reply within two working days.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ordering",
+    "materials",
+    "care",
+    "shipping",
+    "write"
+  ]
+}

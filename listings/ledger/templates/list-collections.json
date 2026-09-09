@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "color_scheme": "ground",
+        "intro": "<p>Each firing is forty pieces, made once and then closed.</p>",
+        "columns": 2,
+        "collections_per_page": 12,
+        "image_height": 300,
+        "show_count": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
