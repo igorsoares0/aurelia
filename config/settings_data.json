@@ -96,22 +96,22 @@
       "color_schemes": {
         "ground": {
           "settings": {
-            "background": "#F3EEE5",
-            "text": "#463F38",
-            "heading": "#191510",
-            "accent": "#6E5A2E",
-            "button": "#191510",
-            "button_label": "#F3EEE5"
+            "background": "#FAF9F5",
+            "text": "#463A2B",
+            "heading": "#1E1609",
+            "accent": "#8A4B28",
+            "button": "#1E1609",
+            "button_label": "#FAF9F5"
           }
         },
         "ink": {
           "settings": {
-            "background": "#191510",
-            "text": "#D8D2C6",
-            "heading": "#F3EEE5",
-            "accent": "#CBAE79",
-            "button": "#F3EEE5",
-            "button_label": "#191510"
+            "background": "#241B12",
+            "text": "#DACDB6",
+            "heading": "#FAF9F5",
+            "accent": "#D89A63",
+            "button": "#FAF9F5",
+            "button_label": "#241B12"
           }
         }
       }
@@ -133,22 +133,22 @@
       "color_schemes": {
         "ground": {
           "settings": {
-            "background": "#F7F5F1",
-            "text": "#463F38",
-            "heading": "#14120F",
-            "accent": "#7A4A3A",
-            "button": "#14120F",
-            "button_label": "#F7F5F1"
+            "background": "#E8EDEF",
+            "text": "#3C4245",
+            "heading": "#0F1416",
+            "accent": "#3A5C69",
+            "button": "#0F1416",
+            "button_label": "#E8EDEF"
           }
         },
         "ink": {
           "settings": {
-            "background": "#14120F",
-            "text": "#D8D2C6",
-            "heading": "#F7F5F1",
-            "accent": "#E0CBA8",
-            "button": "#F7F5F1",
-            "button_label": "#14120F"
+            "background": "#12181B",
+            "text": "#C7CFD2",
+            "heading": "#E8EDEF",
+            "accent": "#93B9C7",
+            "button": "#E8EDEF",
+            "button_label": "#12181B"
           }
         }
       }

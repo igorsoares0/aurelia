@@ -10,15 +10,24 @@
 //
 // It overwrites tracked files. `--restore` puts them back with git.
 
-import { readFileSync, writeFileSync, existsSync, cpSync, readdirSync } from 'node:fs';
+import {
+  readFileSync, writeFileSync, existsSync, cpSync, readdirSync, rmSync,
+} from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
-const TOUCHED = ['templates', 'sections', 'config/settings_data.json'];
+// Whole files this copies over. settings_data.json is deliberately not here:
+// only its `current` key is written, so an edit to `presets` -- a palette being
+// tuned, say -- is neither a conflict nor something --restore may throw away.
+const TOUCHED = ['templates', 'sections'];
 const arg = process.argv[2];
 
 const git = (...a) => execFileSync('git', a, { encoding: 'utf8' });
 const settingsPath = 'config/settings_data.json';
+// Records that a preset is currently applied, so re-applying -- after tuning a
+// palette, say -- is one command instead of restore-then-apply. Lives under
+// scripts/, which .shopifyignore already keeps out of the store.
+const statePath = 'scripts/.preset-applied';
 const presets = JSON.parse(readFileSync(settingsPath, 'utf8')).presets;
 const names = Object.keys(presets);
 
@@ -30,9 +39,17 @@ Then: shopify theme dev --store <your-store>.myshopify.com`);
   process.exit(0);
 }
 
+const headCurrent = () =>
+  JSON.parse(execFileSync('git', ['show', `HEAD:${settingsPath}`], { encoding: 'utf8' })).current;
+
 if (arg === '--restore') {
   git('checkout', '--', ...TOUCHED);
-  console.log(`Restored ${TOUCHED.join(', ')} from git.`);
+  const data = JSON.parse(readFileSync(settingsPath, 'utf8'));
+  data.current = headCurrent();
+  writeFileSync(settingsPath, JSON.stringify(data, null, 2) + '\n');
+  rmSync(statePath, { force: true });
+  console.log(`Restored ${TOUCHED.join(', ')} and the "current" settings from git.
+Anything you changed under "presets" was left alone.`);
   process.exit(0);
 }
 
@@ -42,19 +59,32 @@ if (!name) {
   process.exit(1);
 }
 
-// Refuse to bury edits that are not ours to overwrite.
+// Refuse to bury edits that are not ours to overwrite. Two separate questions:
+// the files that get copied wholesale, and the one key that gets written.
 const dirty = git('status', '--porcelain', '--', ...TOUCHED).trim();
-if (dirty) {
-  console.error(`Uncommitted changes in files this would overwrite:\n${dirty}\n
-Commit or stash them first, or run --restore if they are from an earlier switch.`);
+const live = JSON.parse(readFileSync(settingsPath, 'utf8'));
+const currentEdited =
+  JSON.stringify(live.current) !== JSON.stringify(headCurrent());
+
+// A preset already applied is our own doing, not the user's work: overwrite it.
+const applied = existsSync(statePath)
+  ? readFileSync(statePath, 'utf8').trim()
+  : null;
+
+if (!applied && (dirty || currentEdited)) {
+  console.error('Uncommitted changes this would overwrite:');
+  if (dirty) console.error(dirty);
+  if (currentEdited) console.error(`M  ${settingsPath} ("current" settings)`);
+  console.error(`
+Commit or stash them, or run --restore if they are from an earlier switch.
+Edits under "presets" do not block this and are never overwritten.`);
   process.exit(1);
 }
 
 // Settings: merge, never replace. A preset carries 14 of the 19 keys, and the
 // five it omits would fall back to schema defaults if we assigned wholesale.
-const data = JSON.parse(readFileSync(settingsPath, 'utf8'));
-data.current = { ...data.current, ...presets[name] };
-writeFileSync(settingsPath, JSON.stringify(data, null, 2) + '\n');
+live.current = { ...live.current, ...presets[name] };
+writeFileSync(settingsPath, JSON.stringify(live, null, 2) + '\n');
 
 // Layout: whatever the preset overrides, and only that.
 const root = join('listings', name.toLowerCase());
@@ -68,7 +98,9 @@ for (const dir of ['templates', 'sections']) {
   }
 }
 
-console.log(`${name} applied.
+writeFileSync(statePath, name + '\n');
+
+console.log(`${name} applied${applied ? `, replacing ${applied}` : ''}.
   settings   ${Object.keys(presets[name]).length} keys merged into current
   files      ${copied.join('\n             ') || 'none'}
 
