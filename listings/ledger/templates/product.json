@@ -50,7 +50,13 @@
         "spec_list": {
           "type": "spec_list",
           "settings": {
-            "summary_label": "Clay, glaze and dimensions"
+            "summary_label": "Clay, glaze and dimensions",
+            "label_material": "Clay body",
+            "label_face": "Dimensions",
+            "label_origin": "Made in",
+            "label_maker": "Thrown by",
+            "label_lead_time": "Lead time",
+            "label_care": "Use and care"
           }
         }
       },
@@ -59,12 +65,12 @@
         "eyebrow",
         "title",
         "price",
+        "spec_list",
         "description",
         "variant_picker",
         "quantity",
         "buy_buttons",
-        "pickup",
-        "spec_list"
+        "pickup"
       ],
       "settings": {
         "color_scheme": "ground",

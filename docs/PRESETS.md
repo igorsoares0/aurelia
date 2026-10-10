@@ -46,14 +46,16 @@ the answer. Ask the Partner Dashboard before betting on it.
 Current state:
 
 ```
-listings/aurelia/templates/  index, collection                        (2)
+listings/aurelia/templates/  index                                    (1)
 listings/plate/templates/    16 templates
 listings/plate/sections/     header-group.json    # dark masthead, Plate only
 listings/ledger/templates/   16 templates
 listings/ledger/sections/    header-group.json    # announcement copy
 ```
 
-Aurelia holds two because it *is* the root's voice; the other two override every
+Aurelia holds only its home page because it *is* the root's voice — its
+`collection.json` was byte-identical to root and was deleted, since a preset
+folder holds only preset-unique files. The other two override every
 template that carries industry copy. What deliberately stays inherited, because
 it is functional and says nothing about an industry: `article`, `blog.editorial`,
 `page.contact`, `page.json`, `search`, and the seven `customers/*`.

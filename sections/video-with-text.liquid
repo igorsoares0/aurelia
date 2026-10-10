@@ -65,7 +65,7 @@
 
         <div class="film__body rte measure-lead">{{ section.settings.text }}</div>
 
-        {%- if section.settings.button_label != blank -%}
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
           <a class="button button--secondary" href="{{ section.settings.button_link }}">
             {{- section.settings.button_label | escape -}}
           </a>

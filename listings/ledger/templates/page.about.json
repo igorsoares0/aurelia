@@ -64,8 +64,8 @@
         "button": {
           "type": "button",
           "settings": {
-            "label": "The studio is open four days a week",
-            "link": "/pages/contact"
+            "label": "Meet Teresa",
+            "link": "/pages/makers/teresa"
           }
         }
       },
@@ -171,45 +171,52 @@
         "columns": 3
       }
     },
-    "kept": {
-      "type": "testimonials",
+    "stockists": {
+      "type": "stockists",
       "blocks": {
-        "q1": {
-          "type": "quote",
+        "s1": {
+          "type": "place",
           "settings": {
-            "quote": "Through the dishwasher twice a week for two years. The ash glaze has gone softer, not worse.",
-            "name": "Marina A.",
-            "piece": "Bowl no. 12",
-            "year": "2024"
+            "name": "The studio",
+            "role": "Tiradentes",
+            "address": "Rua do Chafariz 212\nCentro, Tiradentes\nMG 36325-000",
+            "hours": "Thursday to Saturday: 10h to 17h\nSunday: 10h to 13h\nMonday to Wednesday: closed",
+            "note": "The kiln yard is open on firing weekends. Dates are posted in the journal.",
+            "directions_label": "Directions"
           }
         },
-        "q2": {
-          "type": "quote",
+        "s2": {
+          "type": "place",
           "settings": {
-            "quote": "I chipped a plate in the first month, wrote to ask about a replacement, and got the potter. Not a form.",
-            "name": "Júlia R.",
-            "piece": "Dinner plate",
-            "year": "2025"
+            "name": "Casa Mineira",
+            "role": "São Paulo",
+            "address": "Rua Aspicuelta 380\nVila Madalena, São Paulo\nSP 05433-011",
+            "hours": "Monday to Saturday: 11h to 19h\nSunday: closed",
+            "note": "Carries the full winter firing.",
+            "directions_label": "Directions"
           }
         },
-        "q3": {
-          "type": "quote",
+        "s3": {
+          "type": "place",
           "settings": {
-            "quote": "The two cups I bought are visibly different and I would not want them to match. That is the kiln, not a defect.",
-            "name": "Pedro V.",
-            "piece": "Cup, iron black",
-            "year": "2025"
+            "name": "Oficina do Largo",
+            "role": "Belo Horizonte",
+            "address": "Rua Fernandes Tourinho 940\nSavassi, Belo Horizonte\nMG 30112-000",
+            "hours": "Tuesday to Friday: 10h to 18h\nSaturday: 10h to 14h",
+            "note": "Bowls and cups only.",
+            "directions_label": "Directions"
           }
         }
       },
       "block_order": [
-        "q1",
-        "q2",
-        "q3"
+        "s1",
+        "s2",
+        "s3"
       ],
       "settings": {
-        "color_scheme": "ink",
-        "heading": "Kept",
+        "color_scheme": "ground",
+        "heading": "Where the pieces go",
+        "intro": "<p>Three shops carry the firings and get the pieces the same week we do. The studio itself is open four days a week, no appointment needed.</p>",
         "columns": 3
       }
     }
@@ -217,9 +224,9 @@
   "order": [
     "main",
     "statement",
-    "atelier",
     "provenance",
-    "services",
-    "kept"
+    "atelier",
+    "stockists",
+    "services"
   ]
 }

@@ -168,7 +168,8 @@
         "button": {
           "type": "button",
           "settings": {
-            "label": "Meet the maker"
+            "label": "Meet the maker",
+            "link": "/pages/makers/teresa"
           }
         }
       },
@@ -344,7 +345,6 @@
         "color_scheme": "ground",
         "heading": "From the same firing",
         "text": "<p>Pieces that came out of the kiln together, in the same glaze. Bought as a pair they match; bought a firing apart they will not.</p>",
-        "image_height": 440,
         "combined_add": true,
         "show_individual_add": true
       }
@@ -397,7 +397,8 @@
         "heading": "The table, set",
         "hint": "Drag, or use the arrow keys",
         "plate_height": 600,
-        "button_label": "See the whole firing"
+        "button_label": "See the whole firing",
+        "button_link": "/collections/all"
       }
     },
     "kept": {

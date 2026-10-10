@@ -29,7 +29,10 @@
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+            "size_guide_label": "Size guide",
+            "size_guide_link": "/pages/size-guide"
+          }
         },
         "quantity": {
           "type": "quantity",
@@ -50,7 +53,13 @@
         "spec_list": {
           "type": "spec_list",
           "settings": {
-            "summary_label": "Cloth and measurements"
+            "summary_label": "Cloth and measurements",
+            "label_material": "Cloth",
+            "label_face": "Measurements",
+            "label_origin": "Made in",
+            "label_maker": "Cut by",
+            "label_lead_time": "Lead time",
+            "label_care": "Care"
           }
         }
       },
@@ -59,12 +68,12 @@
         "eyebrow",
         "title",
         "price",
-        "description",
         "variant_picker",
+        "description",
+        "spec_list",
         "quantity",
         "buy_buttons",
-        "pickup",
-        "spec_list"
+        "pickup"
       ],
       "settings": {
         "color_scheme": "ground",

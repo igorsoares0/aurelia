@@ -41,7 +41,7 @@
               <div class="atelier__body rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
 
             {%- when 'button' -%}
-              {%- if block.settings.label != blank -%}
+              {%- if block.settings.label != blank and block.settings.link != blank -%}
                 <a
                   class="button button--secondary"
                   href="{{ block.settings.link }}"

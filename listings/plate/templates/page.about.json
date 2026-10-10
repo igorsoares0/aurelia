@@ -82,57 +82,6 @@
         "image_alt": "Shears and a graded pattern on the cutting table in São Paulo"
       }
     },
-    "provenance": {
-      "type": "pinned-story",
-      "blocks": {
-        "s1": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Cloth",
-            "heading": "Every mill is named",
-            "text": "<p>Merino from Biella, linen from Cork, organic cotton grown in Ceará and woven here. The mill, the town and the weight are on the label, and we would rather you asked.</p>"
-          }
-        },
-        "s2": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Pattern",
-            "heading": "Drafted here, graded here",
-            "text": "<p>Nothing is bought in from a block we did not draw. Every size is cut from its own graded pattern, not scaled from a sample.</p>"
-          }
-        },
-        "s3": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Cutting",
-            "heading": "Four days for a coat",
-            "text": "<p>Chalked, cut and sewn by the person who finishes it. A coat passes through two pairs of hands, and both of them are in this room.</p>"
-          }
-        },
-        "s4": {
-          "type": "step",
-          "settings": {
-            "eyebrow": "Finishing",
-            "heading": "Pressed, then labelled",
-            "text": "<p>The label carries the mill and the weight, and the order is recorded against it — which is how a repair five years from now still finds the right cloth.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {
-        "color_scheme": "ground",
-        "image_alt": "A coat sleeve being set on the machine",
-        "image_position": "left",
-        "image_height": 620,
-        "eyebrow": "Provenance",
-        "heading": "How a garment is made"
-      }
-    },
     "services": {
       "type": "multicolumn",
       "blocks": {
@@ -212,14 +161,66 @@
         "heading": "Worn in",
         "columns": 3
       }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "blocks": {
+        "p1": {
+          "type": "plate",
+          "settings": {
+            "width": "large",
+            "caption_left": "Plate 01",
+            "caption_right": "The Overcoat, third winter"
+          }
+        },
+        "p2": {
+          "type": "plate",
+          "settings": {
+            "width": "small",
+            "caption_left": "Plate 02",
+            "caption_right": "Linen, creased"
+          }
+        },
+        "p3": {
+          "type": "plate",
+          "settings": {
+            "width": "medium",
+            "caption_left": "Plate 03",
+            "caption_right": "The cutting table"
+          }
+        },
+        "p4": {
+          "type": "plate",
+          "settings": {
+            "width": "large",
+            "caption_left": "Plate 04",
+            "caption_right": "São Paulo, Saturday"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "color_scheme": "ground",
+        "eyebrow": "Point of view",
+        "heading": "Worn, not styled",
+        "hint": "Drag, or use the arrow keys",
+        "plate_height": 700,
+        "button_label": "See the whole collection",
+        "button_link": "/collections/all"
+      }
     }
   },
   "order": [
     "main",
     "statement",
     "atelier",
-    "provenance",
     "services",
+    "lookbook",
     "kept"
   ]
 }

@@ -97,7 +97,9 @@
               product: product,
               variant: variant,
               section_id: section.id,
-              form_id: form_id
+              form_id: form_id,
+              size_guide_label: block.settings.size_guide_label,
+              size_guide_link: block.settings.size_guide_link
             %}
           </div>
 
@@ -390,7 +392,20 @@
       "type": "variant_picker",
       "name": "t:general.variant_picker",
       "limit": 1,
-      "settings": []
+      "settings": [
+        {
+          "type": "text",
+          "id": "size_guide_label",
+          "label": "t:labels.link_label",
+          "default": "Size guide"
+        },
+        {
+          "type": "url",
+          "id": "size_guide_link",
+          "label": "t:labels.size_guide_link",
+          "info": "t:info.size_guide_link"
+        }
+      ]
     },
     {
       "type": "engraving",

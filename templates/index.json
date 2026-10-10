@@ -253,7 +253,8 @@
         "heading": "The autumn lookbook",
         "hint": "Drag, or use the arrow keys",
         "plate_height": 640,
-        "button_label": "See the whole chapter"
+        "button_label": "See the whole chapter",
+        "button_link": "/collections/all"
       }
     },
     "atelier": {
@@ -280,7 +281,8 @@
         "button": {
           "type": "button",
           "settings": {
-            "label": "How a piece is made"
+            "label": "How a piece is made",
+            "link": "/pages/about"
           }
         }
       },
@@ -616,7 +618,6 @@
         "color_scheme": "ground",
         "heading": "Worn together",
         "text": "<p>Pieces made in the same chapter, in the same gold. Add the set in one go, or take them one at a time.</p>",
-        "image_height": 380,
         "combined_add": true,
         "show_individual_add": true
       }

@@ -140,7 +140,8 @@
         "heading": "The autumn lookbook",
         "hint": "Drag, or use the arrow keys",
         "plate_height": 700,
-        "button_label": "See the whole collection"
+        "button_label": "See the whole collection",
+        "button_link": "/collections/all"
       }
     },
     "chapter": {
@@ -245,7 +246,6 @@
         "color_scheme": "ground",
         "heading": "Complete the look",
         "text": "<p>The pieces photographed together, cut from the same two cloths. Take the look in one go, or one garment at a time.</p>",
-        "image_height": 320,
         "combined_add": true,
         "show_individual_add": true
       }
@@ -260,7 +260,8 @@
         "eyebrow": "The film",
         "heading": "One coat, from cloth to hanger",
         "text": "<p>Filmed over the four days an overcoat takes. No music, no narration, only the table.</p>",
-        "button_label": "How a garment is made"
+        "button_label": "How a garment is made",
+        "button_link": "/blogs/journal/how-a-garment-is-made"
       }
     },
     "comparison": {
@@ -364,7 +365,8 @@
         "button": {
           "type": "button",
           "settings": {
-            "label": "Inside the cutting room"
+            "label": "Inside the cutting room",
+            "link": "/pages/about"
           }
         }
       },
