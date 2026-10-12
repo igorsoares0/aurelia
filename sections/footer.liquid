@@ -42,20 +42,33 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'menu' -%}
-            <nav class="footer__column" aria-label="{{ block.settings.heading | escape }}" {{ block.shopify_attributes }}>
-              <h2 class="footer__column-heading">{{ block.settings.heading | escape }}</h2>
-              <ul class="footer__links">
-                {%- for link in block.settings.menu.links -%}
-                  <li>
-                    <a class="footer__link" href="{{ link.url }}">{{ link.title }}</a>
-                  </li>
-                {%- endfor -%}
-              </ul>
+            {%- liquid
+              comment
+                A blank heading must not leave an empty h2 or an unnamed nav
+                behind; the menu's own title names it instead.
+              endcomment
+              assign nav_label = block.settings.heading | default: block.settings.menu.title
+            -%}
+            <nav class="footer__column" aria-label="{{ nav_label | escape }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__column-heading">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              {%- if block.settings.menu.links.size > 0 -%}
+                <ul class="footer__links">
+                  {%- for link in block.settings.menu.links -%}
+                    <li>
+                      <a class="footer__link" href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
             </nav>
 
           {%- when 'text' -%}
             <div class="footer__column" {{ block.shopify_attributes }}>
-              <h2 class="footer__column-heading">{{ block.settings.heading | escape }}</h2>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__column-heading">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
               <div class="footer__text rte">{{ block.settings.text }}</div>
             </div>
         {%- endcase -%}
@@ -102,7 +115,13 @@
     gap: var(--space-6);
   }
 
+  /* A real tap target, hugging its text: the column would otherwise stretch
+     the link across the whole lead, and a 16px-tall link fails target size. */
   .footer__wordmark {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    min-height: var(--tap-target);
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight);
     font-size: var(--text-body-md);
@@ -145,7 +164,9 @@
     font-weight: var(--font-body--weight-medium);
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
-    white-space: nowrap;
+    /* Wraps: two columns side by side at 320px, or at 200% zoom, leave a long
+       heading no room, and nowrap would push the page into a sideways scroll. */
+    overflow-wrap: break-word;
     color: var(--color-secondary);
   }
 
@@ -331,8 +352,8 @@
     {
       "name": "t:general.footer",
       "blocks": [
-        { "type": "menu" },
-        { "type": "menu" }
+        { "type": "menu", "settings": { "menu": "main-menu" } },
+        { "type": "menu", "settings": { "heading": "House" } }
       ]
     }
   ]

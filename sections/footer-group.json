@@ -7,7 +7,7 @@
       "blocks": {
         "shop": {
           "type": "menu",
-          "settings": { "heading": "Shop", "menu": "footer" }
+          "settings": { "heading": "Shop", "menu": "main-menu" }
         },
         "house": {
           "type": "menu",
