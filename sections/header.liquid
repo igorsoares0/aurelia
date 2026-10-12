@@ -34,6 +34,26 @@
         <span class="header__bars" aria-hidden="true"></span>
       </button>
 
+      {%- if section.settings.show_search -%}
+        {% comment %}
+          The narrow-screen twin of the Search word in the trail. Only one of
+          the two is ever displayed, so only one is ever in the tab order.
+        {% endcomment %}
+        <button
+          class="header__icon header__search-icon"
+          type="button"
+          data-overlay-open="SearchOverlay"
+          aria-expanded="false"
+          aria-controls="SearchOverlay"
+        >
+          <span class="visually-hidden">{{ 'accessibility.open_search' | t }}</span>
+          <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1">
+            <circle cx="8.5" cy="8.5" r="6"/>
+            <path d="M13 13l5.5 5.5"/>
+          </svg>
+        </button>
+      {%- endif -%}
+
       <nav class="header__nav" aria-label="{{ 'general.menu' | t }}">
         <ul class="header__nav-list">
           {%- for link in menu.links -%}
@@ -111,9 +131,9 @@
     -%}
     <{{ wordmark_tag }} class="header__wordmark-wrap">
       <a
-        class="header__wordmark"
+        class="header__wordmark{% if settings.logo == blank %} header__wordmark--text{% endif %}"
         href="{{ routes.root_url }}"
-        style="--logo-width: {{ logo_width }}px;"
+        style="--logo-width: {{ logo_width }}px; --wordmark-chars: {{ shop.name | size | at_least: 1 }};"
       >
         {%- if settings.logo != blank -%}
           <span class="visually-hidden">{{ 'accessibility.home' | t: shop_name: shop.name }}</span>
@@ -136,7 +156,7 @@
     <div class="header__trail">
       {%- if section.settings.show_search -%}
         <button
-          class="header__icon header__action"
+          class="header__icon header__action header__search-word"
           type="button"
           data-overlay-open="SearchOverlay"
           aria-expanded="false"
@@ -148,9 +168,10 @@
 
       {%- if section.settings.show_account -%}
         {% comment %}
-          The account component is required in both the desktop and the mobile
-          header. It renders Shopify's own control, so it is not styled here
-          beyond the space it sits in.
+          The account component is required *visible* in both the desktop and
+          the mobile header, so it is never hidden at a breakpoint and does not
+          move into the mobile menu. It renders Shopify's own control, so it is
+          not styled here beyond the space it sits in.
         {% endcomment %}
         <shopify-account class="header__account"></shopify-account>
       {%- endif -%}
@@ -171,7 +192,10 @@
         {%- endif %}
         data-bag-link
       >
-        <span aria-hidden="true">{{ 'cart.title' | t }} ({{ bag_count }})</span>
+        <span aria-hidden="true">
+          {%- comment -%} The words drop on a narrow screen and leave the count. {%- endcomment -%}
+          <span class="header__bag-word">{{ 'cart.title' | t }} </span>({{ bag_count }})
+        </span>
         <span class="visually-hidden">
           {%- if bag_count == 0 -%}
             {{ 'accessibility.bag_empty' | t }}
@@ -234,9 +258,6 @@
     </nav>
 
     <div class="header__mobile-foot">
-      {%- if section.settings.show_account -%}
-        <shopify-account class="header__account"></shopify-account>
-      {%- endif -%}
       {% render 'localization-form', id: 'MenuLocalization', class: 'localization--stacked' %}
     </div>
   </div>
@@ -300,8 +321,12 @@
     cursor: pointer;
   }
 
+  /* Drawn as an underline rather than a border so it hugs the word; a border
+     sits at the foot of the 44px tap box, a third of the way to the next band. */
   .header__nav-link[aria-current='page'] {
-    border-block-end: 1px solid var(--color-heading);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.6em;
   }
 
   .header__nav-link:hover,
@@ -371,9 +396,13 @@
     color: var(--color-accent);
   }
 
+  /* Flex, not text-align: on the home page this is an h1, and an inline link
+     inside a block h1 sits on a line box sized by the h1's display font, which
+     pushed the wordmark ~20px below the nav on home and nowhere else. */
   .header__wordmark-wrap {
+    display: flex;
+    justify-content: center;
     margin: 0;
-    text-align: center;
   }
 
   .header__wordmark {
@@ -431,6 +460,10 @@
     display: none;
     flex-direction: column;
     gap: 5px;
+  }
+
+  .header__search-icon {
+    display: none;
   }
 
   .header__bars,
@@ -510,26 +543,52 @@
   }
 
   @media screen and (max-width: 989px) {
+    /* Restructured: the words go and the bar becomes two 44px controls a
+       side -- menu and search left, account and bag count right -- so the
+       wordmark sits centred between equal weights. The middle column, not the
+       outer ones, is the one that gives way: before, the outer columns shrank
+       below their content and the words ran over the wordmark. */
     .header__inner {
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-      gap: var(--space-3);
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: var(--space-2);
       padding: var(--space-3) var(--page-margin);
     }
 
-    .header__menu-toggle {
+    .header__lead,
+    .header__trail {
+      min-width: calc(var(--tap-target) * 2);
+      gap: 0;
+    }
+
+    .header__menu-toggle,
+    .header__search-icon {
       display: inline-flex;
     }
 
-    .header__nav {
+    .header__nav,
+    .header__search-word,
+    .header__bag-word {
       display: none;
     }
 
-    .header__account {
-      display: none;
+    /* The wordmark sizes itself to the column: the shop name's length is known
+       in Liquid, so the type is scaled to fit rather than overrunning, between
+       the label size and the desktop size. A name too long even at the floor
+       is cut with an ellipsis, never wrapped through a word. */
+    .header__wordmark-wrap {
+      container-type: inline-size;
     }
 
-    .header__trail {
-      gap: var(--space-3);
+    .header__wordmark--text {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      font-size: clamp(var(--text-label), calc(100cqi / (var(--wordmark-chars) * 0.95)), var(--text-title-lg));
+      line-height: var(--tap-target);
+      letter-spacing: 0.2em;
+      text-indent: 0.2em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
