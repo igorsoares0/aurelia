@@ -689,13 +689,36 @@ main {
   gap: var(--space-9);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
 }
 
 .rail > * {
   scroll-snap-align: start;
   flex: 0 0 auto;
+}
+
+/* The scrollbar is kept, not hidden -- it is the only way across for a mouse
+   with no horizontal wheel -- but drawn as a rule: a hairline track and a
+   heading-colored thumb, square, no arrow buttons. The bar stays 8px tall so
+   the thumb is still a fair drag target. Chromium and Safari take the
+   pseudo-elements; Firefox only has the standard properties. */
+.rail::-webkit-scrollbar {
+  height: var(--space-2);
+}
+
+.rail::-webkit-scrollbar-track {
+  background: linear-gradient(var(--hairline-group), var(--hairline-group)) center / 100% 1px no-repeat;
+}
+
+.rail::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-heading), var(--color-heading)) center / 100% 2px no-repeat;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .rail {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-heading) transparent;
+  }
 }
 
 /* --------------------------------------------------------------------------
